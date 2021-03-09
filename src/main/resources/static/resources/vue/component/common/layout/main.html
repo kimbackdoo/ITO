@@ -67,15 +67,15 @@
             </v-list>
         </v-menu>
     </v-app-bar>
-    <!-- v-content -->
-    <v-content>
+    <!-- v-main -->
+    <v-main>
         <v-breadcrumbs :items="store.state.menu.currentMenuList"></v-breadcrumbs>
         <v-divider></v-divider>
         <v-container fluid>
             <h1 class="title">{{ store.state.menu.currentMenu.name }}</h1>
             <router-view></router-view>
         </v-container>
-    </v-content>
+    </v-main>
     <!-- v-footer -->
     <v-footer app>
     </v-footer>
