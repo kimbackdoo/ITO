@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-167546866-1"></script>
+    <script>
+        window.GA_TRACKING_ID = "UA-167546866-1";
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag("js", new Date());
+        gtag("config", window.GA_TRACKING_ID, {
+            "send_page_view": false
+        });
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M53F9WZ');</script>
+    <!-- End Google Tag Manager -->
+    <!-- meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- title -->
+    <title>Application</title>
+    <!-- favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/resources/common/favicon/favicon-16x16.png">
+    <!-- google roboto font -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+    <!-- materialdesignicons 5.1.45 -->
+    <link rel="stylesheet" type="text/css" href="/resources/lib/materialdesignicons/5.1.45/css/materialdesignicons.min.css">
+    <!-- vuetify 2.2.28 -->
+    <link rel="stylesheet" type="text/css" href="/resources/lib/vuetify/2.2.28/css/vuetify.min.css">
+    <!-- w2ui 1.5.rc1 -->
+    <link rel="stylesheet" type="text/css" href="/resources/lib/w2ui/1.5.rc1/css/w2ui.min.css">
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe title="gtm" src="https://www.googletagmanager.com/ns.html?id=GTM-M53F9WZ"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <v-app id="app">
+        <router-view></router-view>
+        <!-- overlay-main -->
+        <overlay-main-component v-model="store.state.app.overlay"></overlay-main-component>
+        <!-- dialog-alert -->
+        <dialog-alert-component v-model="store.state.app.alert"></dialog-alert-component>
+        <!-- dialog-confirm -->
+        <dialog-confirm-component v-model="store.state.app.confirm"></dialog-confirm-component>
+    </v-app>
+    <!-- vue 2.6.11 -->
+    <script type="text/javascript" src="/resources/lib/vue/2.6.11/js/vue.min.js"></script>
+    <!-- vuex 3.3.0 -->
+    <script type="text/javascript" src="/resources/lib/vuex/3.3.0/js/vuex.min.js"></script>
+    <!-- vue-router 3.1.6 -->
+    <script type="text/javascript" src="/resources/lib/vue-router/3.1.6/js/vue-router.min.js"></script>
+    <!-- vuetify 2.2.28 -->
+    <script type="text/javascript" src="/resources/lib/vuetify/2.2.28/js/vuetify.min.js"></script>
+    <!-- vue-cookies 1.7.0 -->
+    <script type="text/javascript" src="/resources/lib/vue-cookies/1.7.0/js/vue-cookies.js"></script>
+    <!-- jquery 3.5.1 -->
+    <script type="text/javascript" src="/resources/lib/jquery/3.5.1/js/jquery.min.js"></script>
+    <!-- w2ui 1.5.rc1 -->
+    <script type="text/javascript" src="/resources/lib/w2ui/1.5.rc1/js/w2ui.min.js"></script>
+    <!-- lodash 4.17.15 -->
+    <script type="text/javascript" src="/resources/lib/lodash/4.17.15/js/lodash.min.js"></script>
+    <!-- lodash 2.25.3 -->
+    <script type="text/javascript" src="/resources/lib/moment/2.25.3/js/moment-with-locales.min.js"></script>
+    <!-- axios 0.19.2 -->
+    <script type="text/javascript" src="/resources/lib/axios/0.19.2/js/axios.min.js"></script>
+    <!-- sockjs 1.4.0 -->
+    <script type="text/javascript" src="/resources/lib/sockjs/1.4.0/js/sockjs.min.js"></script>
+    <!-- stomp 1.12.6 -->
+    <script type="text/javascript" src="/resources/lib/stomp/1.12.6/js/stomp.min.js"></script>
+    <!-- vue component -->
+    <script type="text/javascript" src="/resources/vue/component/common/overlay/main.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/common/dialog/alert.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/common/dialog/confirm.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/common/picker/date-picker.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/common/layout/main.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/common/layout/sign-in.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/common/layout/sign-up.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/common/layout/status-404.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/app/dashboard/main.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/app/user/main.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/app/person/main.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/app/person/form.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/app/role/main.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/app/role/form.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/app/menu/main.js"></script>
+    <script type="text/javascript" src="/resources/vue/component/app/api/main.js"></script>
+    <!-- vue store -->
+    <script type="text/javascript" src="/resources/vue/store/app.js"></script>
+    <script type="text/javascript" src="/resources/vue/store/api.js"></script>
+    <script type="text/javascript" src="/resources/vue/store/user.js"></script>
+    <script type="text/javascript" src="/resources/vue/store/menu.js"></script>
+    <script type="text/javascript" src="/resources/vue/store/socket.js"></script>
+    <!-- vue config -->
+    <script type="text/javascript" src="/resources/vue/config/store.js"></script>
+    <script type="text/javascript" src="/resources/vue/config/router.js"></script>
+    <script type="text/javascript" src="/resources/vue/config/vuetify.js"></script>
+    <!-- vue index -->
+    <script type="text/javascript" src="/resources/vue/index.js"></script>
+    <!-- common -->
+    <script type="text/javascript" src="/resources/common/util.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<div>
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="person.panels.search"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Search</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-form>
+                            <v-row>
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                >
+                                    <v-text-field
+                                        dense
+                                        label="ID"
+                                        v-model="person.query.id"
+                                        @keydown.enter="search();"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                >
+                                    <date-picker-component
+                                        dense
+                                        label="Birth Date"
+                                        v-model="person.query.birthDate"
+                                    ></date-picker-component>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col
+                                    cols="12"
+                                    sm="4"
+                                >
+                                    <v-text-field
+                                        dense
+                                        label="First Name"
+                                        v-model="person.query.firstName"
+                                        @keydown.enter="search();"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    sm="4"
+                                >
+                                    <v-text-field
+                                        dense
+                                        label="Middle Name"
+                                        v-model="person.query.middleName"
+                                        @keydown.enter="search();"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    sm="4"
+                                >
+                                    <v-text-field
+                                        dense
+                                        label="Last Name"
+                                        v-model="person.query.lastName"
+                                        @keydown.enter="search();"
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col
+                                    cols="12"
+                                    class="text-right"
+                                >
+                                    <v-btn
+                                        class="secondary"
+                                        @click="reset();"
+                                    >Reset</v-btn>
+                                    <v-btn
+                                        class="primary"
+                                        @click="search();"
+                                    >Search</v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-form>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="person.panels.list"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>List</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-data-table
+                            dense
+                            fixed-header
+                            hide-default-footer
+                            height="450px"
+                            :headers="person.dataTable.headers"
+                            :items="person.dataTable.items"
+                            :loading="person.dataTable.loading"
+                            :server-items-length="person.dataTable.serverItemsLength"
+                            :page.sync="person.dataTable.page"
+                            :items-per-page.sync="person.dataTable.itemsPerPage"
+                            @page-count="person.pagination.length = $event;"
+                        >
+                            <template v-slot:top>
+                                <v-toolbar flat>
+                                    <v-select
+                                        hide-details
+                                        dense
+                                        class="shrink"
+                                        label="Items Per Page"
+                                        :items="person.itemsPerPageItems"
+                                        v-model="person.dataTable.itemsPerPage"
+                                    ></v-select>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                        class="primary"
+                                        to="/people/new"
+                                    >New</v-btn>
+                                </v-toolbar>
+                            </template>
+                            <template v-slot:item.id="{ item }">
+                                <v-btn
+                                    text
+                                    :to="'/people/' + item.id"
+                                >{{ item.id }}</v-btn>
+                            </template>
+                        </v-data-table>
+                        <v-pagination
+                            class="mt-2"
+                            :length="person.pagination.length"
+                            :total-visible="person.pagination.totalVisible"
+                            v-model="person.dataTable.page"
+                        ></v-pagination>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+</div>

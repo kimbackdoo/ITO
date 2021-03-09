@@ -1,0 +1,244 @@
+<div>
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="dashboard.panels.test"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Test</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <div id="grid" style="height: 450px;"></div>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="dashboard.panels.dialog"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Dialogs</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-btn @click="customAlert();">Alert</v-btn>
+                        <v-btn @click="customConfirm();">Confirm</v-btn>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="dashboard.panels.googleAnalytics"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Google Analytics</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-btn @click="selectContent();">select_content</v-btn>
+                        <v-btn @click="viewItemList();">view_item_list</v-btn>
+                        <v-btn @click="viewItem();">view_item</v-btn>
+                        <v-btn @click="viewPromotion();">view_promotion</v-btn>
+                        <v-btn @click="addToCart();">add_to_cart</v-btn>
+                        <v-btn @click="removeFromCart();">remove_from_cart</v-btn>
+                        <v-btn @click="beginCheckout();">begin_checkout</v-btn>
+                        <v-btn @click="purchase();">purchase</v-btn>
+                        <v-btn @click="refund();">refund</v-btn>
+
+<!--                         <v-btn id="selectContent">select_content</v-btn> -->
+<!--                         <v-btn id="viewItemList">view_item_list</v-btn> -->
+<!--                         <v-btn id="viewItem">view_item</v-btn> -->
+<!--                         <v-btn id="viewPromotion">view_promotion</v-btn> -->
+<!--                         <v-btn id="addToCart">add_to_cart</v-btn> -->
+<!--                         <v-btn id="removeFromCart">remove_from_cart</v-btn> -->
+<!--                         <v-btn id="purchase">purchase</v-btn> -->
+<!--                         <v-btn id="refund">refund</v-btn> -->
+<!--                         <v-btn id="beginCheckout">begin_checkout</v-btn> -->
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="dashboard.panels.requestMapping"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Request Mappings</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-data-table
+                            fixed-header
+                                hide-default-footer
+                                height="500px"
+                                :headers="requestMapping.dataTable.headers"
+                                :items="requestMapping.dataTable.items"
+                                :page.sync="requestMapping.dataTable.page"
+                                :items-per-page.sync="requestMapping.dataTable.itemsPerPage"
+                                @page-count="requestMapping.pagination.length = $event;"
+                        ></v-data-table>
+                        <v-pagination
+                            :length="requestMapping.pagination.length"
+                            :total-visible="requestMapping.pagination.totalVisible"
+                            v-model="requestMapping.dataTable.page"
+                        ></v-pagination>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col cols="12" lg="4">
+            <v-expansion-panels
+                multiple
+                v-model="dashboard.panels.user"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Users</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-data-table
+                            fixed-header
+                            hide-default-footer
+                            height="300px"
+                            :headers="user.dataTable.headers"
+                            :items="user.dataTable.items"
+                            :loading="user.dataTable.loading"
+                            :server-items-length="user.dataTable.serverItemsLength"
+                            :page.sync="user.dataTable.page"
+                            :items-per-page.sync="user.dataTable.itemsPerPage"
+                            @page-count="user.pagination.length = $event;"
+                        ></v-data-table>
+                        <v-pagination
+                            :length="user.pagination.length"
+                            :total-visible="user.pagination.totalVisible"
+                            v-model="user.dataTable.page"
+                        ></v-pagination>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+        <v-col cols="12" lg="4">
+            <v-expansion-panels
+                multiple
+                v-model="dashboard.panels.person"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>People</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-data-table
+                            fixed-header
+                            hide-default-footer
+                            height="300px"
+                            :headers="person.dataTable.headers"
+                            :items="person.dataTable.items"
+                            :loading="person.dataTable.loading"
+                            :server-items-length="person.dataTable.serverItemsLength"
+                            :page.sync="person.dataTable.page"
+                            :items-per-page.sync="person.dataTable.itemsPerPage"
+                            @page-count="person.pagination.length = $event;"
+                        ></v-data-table>
+                        <v-pagination
+                            :length="person.pagination.length"
+                            :total-visible="person.pagination.totalVisible"
+                            v-model="person.dataTable.page"
+                        ></v-pagination>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+        <v-col cols="12" lg="4">
+            <v-expansion-panels
+                multiple
+                v-model="dashboard.panels.role"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Roles</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-data-table
+                            fixed-header
+                            hide-default-footer
+                            height="300px"
+                            :headers="role.dataTable.headers"
+                            :items="role.dataTable.items"
+                            :loading="role.dataTable.loading"
+                            :server-items-length="role.dataTable.serverItemsLength"
+                            :page.sync="role.dataTable.page"
+                            :items-per-page.sync="role.dataTable.itemsPerPage"
+                            @page-count="role.pagination.length = $event;"
+                        ></v-data-table>
+                        <v-pagination
+                            :length="role.pagination.length"
+                            :total-visible="role.pagination.totalVisible"
+                            v-model="role.dataTable.page"
+                        ></v-pagination>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col cols="12" lg="6">
+            <v-expansion-panels
+                multiple
+                v-model="dashboard.panels.menu"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Menus</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-data-table
+                            fixed-header
+                            hide-default-footer
+                            height="300px"
+                            :headers="menu.dataTable.headers"
+                            :items="menu.dataTable.items"
+                            :loading="menu.dataTable.loading"
+                            :server-items-length="menu.dataTable.serverItemsLength"
+                            :page.sync="menu.dataTable.page"
+                            :items-per-page.sync="menu.dataTable.itemsPerPage"
+                            @page-count="menu.pagination.length = $event;"
+                        ></v-data-table>
+                        <v-pagination
+                            :length="menu.pagination.length"
+                            :total-visible="menu.pagination.totalVisible"
+                            v-model="menu.dataTable.page"
+                        ></v-pagination>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+        <v-col cols="12" lg="6">
+            <v-expansion-panels
+                multiple
+                v-model="dashboard.panels.api"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>APIs</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-data-table
+                            fixed-header
+                            hide-default-footer
+                            height="300px"
+                            :headers="api.dataTable.headers"
+                            :items="api.dataTable.items"
+                            :loading="api.dataTable.loading"
+                            :server-items-length="api.dataTable.serverItemsLength"
+                            :page.sync="api.dataTable.page"
+                            :items-per-page.sync="api.dataTable.itemsPerPage"
+                            @page-count="api.pagination.length = $event;"
+                        ></v-data-table>
+                        <v-pagination
+                            :length="api.pagination.length"
+                            :total-visible="api.pagination.totalVisible"
+                            v-model="api.dataTable.page"
+                        ></v-pagination>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+</div>

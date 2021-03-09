@@ -1,0 +1,149 @@
+<div>
+    <v-row>
+        <v-col
+            cols="12"
+            md="6"
+        >
+            <v-expansion-panels
+                multiple
+                v-model="menu.panels.list"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>List</v-expansion-panel-header>
+                    <v-expansion-panel-content
+                        class="overflow-y-auto"
+                        style="height: 600px; max-height: 600px;"
+                    >
+                        <v-list dense>
+                            <v-list-item-group v-model="menu.list.active">
+                                <template v-for="(item, i) in menu.list.items">
+                                    <v-list-item
+                                        :style="{marginLeft: ((item.depth - 1) * 30) + 'px'}"
+                                        :value="item"
+                                    >
+                                        <template v-slot:default="{ active }">
+                                            <v-list-item-action>
+                                                <v-checkbox
+                                                    v-model="active"
+                                                ></v-checkbox>
+                                            </v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{ item.name }}</v-list-item-title>
+                                                <v-list-item-subtitle>ID : {{ item.id }}, Ranking : {{ item.ranking }}</v-list-item-subtitle>
+                                            </v-list-item-content>
+                                        </template>
+                                    </v-list-item>
+                                </template>
+                            </v-list-item-group>
+                        </v-list>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+        <v-col
+            cols="12"
+            md="6"
+        >
+            <v-expansion-panels
+                multiple
+                v-model="menu.panels.form"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Form</v-expansion-panel-header>
+                    <v-expansion-panel-content
+                        class="overflow-y-auto"
+                        style="max-height: 600px;"
+                    >
+                        <v-form>
+                            <v-container>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-text-field
+                                            dense
+                                            label="ID"
+                                            :readonly="menu.list.active"
+                                            v-model="menu.form.item.id"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-autocomplete
+                                            dense
+                                            clearable
+                                            label="Parent ID"
+                                            :items="autocompleteMenuList"
+                                            v-model="menu.form.item.parentId"
+                                        ></v-autocomplete>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-text-field
+                                            dense
+                                            label="Name"
+                                            v-model="menu.form.item.name"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-textarea
+                                            dense
+                                            label="Description"
+                                            v-model="menu.form.item.description"
+                                        ></v-textarea>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-text-field
+                                            dense
+                                            label="URL"
+                                            v-model="menu.form.item.url"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-text-field
+                                            dense
+                                            label="Icon"
+                                            v-model="menu.form.item.icon"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-text-field
+                                            dense
+                                            label="Ranking"
+                                            v-model="menu.form.item.ranking"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12" class="text-right">
+                                        <v-btn
+                                            v-show="menu.list.active"
+                                            class="red"
+                                            @click="deleteMenu();"
+                                        >Delete</v-btn>
+                                        <v-btn
+                                            class="primary"
+                                            @click="saveMenu();"
+                                        >Save</v-btn>
+                                        <v-btn
+                                            class="secondary"
+                                            @click="resetMenu();"
+                                        >Reset</v-btn>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-form>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+</div>

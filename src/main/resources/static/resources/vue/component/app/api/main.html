@@ -1,0 +1,35 @@
+<div>
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="api.panels.list"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>List</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-data-table
+                            fixed-header
+                            hide-default-footer
+                            height="450px"
+                            :headers="api.dataTable.headers"
+                            :items="api.dataTable.items"
+                            :loading="api.dataTable.loading"
+                            :server-items-length="api.dataTable.serverItemsLength"
+                            :page.sync="api.dataTable.page"
+                            :items-per-page.sync="api.dataTable.itemsPerPage"
+                            @page-count="api.pagination.length = $event;"
+                        ></v-data-table>
+                        <div>
+                            <v-pagination
+                                :length="api.pagination.length"
+                                :total-visible="api.pagination.totalVisible"
+                                v-model="api.dataTable.page"
+                            ></v-pagination>
+                        </div>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+</div>

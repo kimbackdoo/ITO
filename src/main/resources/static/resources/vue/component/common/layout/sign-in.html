@@ -1,0 +1,61 @@
+<v-app id="layout-sign-in">
+    <v-content>
+        <v-container
+            class="fill-height"
+            fluid
+        >
+            <v-row
+                align="center"
+                justify="center"
+            >
+                <v-col
+                    cols="12"
+                    sm="8"
+                    md="4"
+                >
+                    <v-card class="elevation-12">
+                        <v-toolbar
+                            color="primary"
+                            dark
+                            flat
+                        >
+                            <v-toolbar-title>Sign In</v-toolbar-title>
+                            <v-spacer></v-spacer>
+                        </v-toolbar>
+                        <v-card-text>
+                            <v-form>
+                                <v-text-field
+                                    label="Username"
+                                    name="username"
+                                    prepend-icon="mdi-account"
+                                    type="text"
+                                    v-model="username"
+                                ></v-text-field>
+                                <v-text-field
+                                    label="Password"
+                                    name="password"
+                                    prepend-icon="mdi-lock"
+                                    type="password"
+                                    v-model="password"
+                                    @keydown.enter="login(); $event.target.blur();"
+                                ></v-text-field>
+                            </v-form>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                class="text-capitalize"
+                                to="/sign-up"
+                            >Sign Up</v-btn>
+                            <v-btn
+                                class="text-capitalize"
+                                color="primary"
+                                @click="login(); $event.target.blur();"
+                            >Login</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
+    </v-content>
+</v-app>

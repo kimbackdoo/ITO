@@ -1,0 +1,42 @@
+<v-dialog
+    persistent
+    scrollable
+    v-model="value.visible"
+    width="500px"
+>
+    <v-card>
+        <v-card-title
+            primary-title
+        >
+            <span class="headline">{{ value.title }}</span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pb-0" style="max-height: 500px;">
+            <v-container>
+                <v-row
+                    align="center"
+                    justify="center"
+                >
+                    <v-col
+                        class="text-center"
+                        v-html="value.text"
+                    ></v-col>
+                </v-row>
+            </v-container>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+                ref="confirmOk"
+                color="primary"
+                @click="yes();"
+            >OK</v-btn>
+            <v-btn
+                ref="confirmCancel"
+                color="grey lighten-3"
+                @click="no();"
+            >Cancel</v-btn>
+        </v-card-actions>
+    </v-card>
+</v-dialog>

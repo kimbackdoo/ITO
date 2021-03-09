@@ -1,0 +1,83 @@
+<v-app id="layout-sign-up">
+    <v-content>
+        <v-container
+            class="fill-height"
+            fluid
+        >
+            <v-row
+                align="center"
+                justify="center"
+            >
+                <v-col
+                    cols="12"
+                    sm="8"
+                    md="4"
+                >
+                    <v-card class="elevation-12">
+                        <v-toolbar
+                            color="primary"
+                            dark
+                            flat
+                        >
+                            <v-toolbar-title>Sign Up</v-toolbar-title>
+                            <v-spacer></v-spacer>
+                        </v-toolbar>
+                        <v-card-text>
+                            <v-form>
+                                <v-text-field
+                                    label="Username"
+                                    name="username"
+                                    type="text"
+                                    v-model="username"
+                                ></v-text-field>
+                                <v-text-field
+                                    label="Password"
+                                    name="password"
+                                    type="password"
+                                    v-model="password"
+                                ></v-text-field>
+                                <v-text-field
+                                    label="First Name"
+                                    name="firstName"
+                                    type="text"
+                                    v-model="firstName"
+                                ></v-text-field>
+                                <v-text-field
+                                    label="Middle Name"
+                                    name="middleName"
+                                    type="text"
+                                    v-model="middleName"
+                                ></v-text-field>
+                                <v-text-field
+                                    label="Last Name"
+                                    name="lastName"
+                                    type="text"
+                                    v-model="lastName"
+                                ></v-text-field>
+                                <v-menu
+                                    ref="menu">
+                                </v-menu>
+                                <date-picker-component
+                                    label="Birth Date"
+                                    v-model="birthDate"
+                                ></date-picker-component>
+                            </v-form>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                class="text-capitalize"
+                                to="/sign-in"
+                            >Sign In</v-btn>
+                            <v-btn
+                                class="text-capitalize"
+                                color="primary"
+                                @click="signUp(); $event.target.blur();"
+                            >Sign Up</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
+    </v-content>
+</v-app>
