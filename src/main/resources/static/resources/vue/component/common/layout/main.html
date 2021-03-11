@@ -3,31 +3,13 @@
     <v-navigation-drawer app v-model="drawer">
         <v-list-item link to="/">
             <v-list-item-content>
-                <v-list-item-title class="title">Application</v-list-item-title>
-                <v-list-item-subtitle>Description</v-list-item-subtitle>
+                <v-list-item-title class="title">ITO System</v-list-item-title>
+                <v-list-item-subtitle>인력관리시스템</v-list-item-subtitle>
             </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
+        <!-- menu-bar -->
         <v-list dense>
-<!--             <template -->
-<!--                 v-for="menu1 in store.state.menu.menuList" -->
-<!--                 v-if="menu1.depth == 2" -->
-<!--             > -->
-<!--                 <v-list-group> -->
-<!--                     <template v-slot:activator> -->
-<!--                         <v-list-item-icon><v-icon>{{ menu1.icon }}</v-icon></v-list-item-icon> -->
-<!--                         <v-list-item-title>{{ menu1.name }}</v-list-item-title> -->
-<!--                     </template> -->
-<!--                     <template -->
-<!--                         v-for="menu2 in store.state.menu.menuList" -->
-<!--                         v-if="menu1.id == menu2.parentId" -->
-<!--                     > -->
-<!--                         <v-list-item> -->
-<!--                             <v-list-item-title>{{ menu2.name }}</v-list-item-title> -->
-<!--                         </v-list-item> -->
-<!--                     </template> -->
-<!--                 </v-list-group> -->
-<!--             </template> -->
             <template v-for="menu in store.state.menu.menuList">
                 <v-list-item
                     v-if="menu.depth == 2"
@@ -44,10 +26,11 @@
             </template>
         </v-list>
     </v-navigation-drawer>
+
     <!-- v-app-bar -->
     <v-app-bar app>
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-toolbar-title>Application</v-toolbar-title>
+        <v-toolbar-title>ITO System</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-menu>
             <template v-slot:activator="{ on }">

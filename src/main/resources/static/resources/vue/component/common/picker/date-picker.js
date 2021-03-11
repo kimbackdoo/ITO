@@ -3,6 +3,10 @@ var DatePickerComponent = Vue.component('date-picker-component', function (resol
         resolve({
             "template": response.data,
             "props": {
+                "appendIcon": {
+                    "type": String,
+                    "default": undefined
+                },
                 "value": {
                     "type": String,
                     "default": ""
@@ -14,7 +18,13 @@ var DatePickerComponent = Vue.component('date-picker-component', function (resol
                 "dense": {
                     "type": Boolean,
                     "default": false
-                }
+                },
+                "dayFormat": {
+                    "type": Function,
+                    "default": function (value) {
+                        return moment(value, "YYYY-MM-DD").format("D");
+                    }
+                },
             },
             "data": function () {
                 return {

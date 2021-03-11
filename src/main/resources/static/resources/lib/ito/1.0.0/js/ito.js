@@ -94,9 +94,29 @@ ito = {
                 "modifyUserPerson": function (userId, data) { return axios({"url": "/api/common/user-people/" + userId, "method": "put", "data": data}); },
                 "removeUserPersonList": function (data) { return axios({"url": "/api/common/user-people", "method": "delete", "data": data}); },
                 "removeUserPerson": function (userId) { return axios({"url": "/api/common/user-people/"+ userId, "method": "delete"}); }
-            }
+            },
+            "profile": {
+                "getProfileList": function (params) { return axios({"url": "/api/common/profile", "method": "get", "params": params}); },
+                "getProfile": function (id) { return axios({"url": "/api/common/profile/" + id, "method": "get"}); },
+                "createProfileList": function (data) { return axios({"url": "/api/common/profile?bulk", "method": "post", "data": data}); },
+                "createProfile": function (data) { return axios({"url": "/api/common/profile", "method": "post", "data": data}); },
+                "modifyProfileList": function (data) { return axios({"url": "/api/common/profile", "method": "put", "data": data}); },
+                "modifyProfile": function (id, data) { return axios({"url": "/api/common/profile/" + id, "method": "put", "data": data}); },
+                "removeProfileList": function (data) { return axios({"url": "/api/common/profile", "method": "delete", "data": data}); },
+                "removeProfile": function (id) { return axios({"url": "/api/common/profile/"+ id, "method": "delete"}); }
+            },
         }
     },
     "util": {
+        "sort": function (sortBy, sortDesc) {
+            let str;
+            str = [];
+            if(sortBy.length > 0 && sortDesc.length > 0) {
+                for (var i = 0;  i < sortBy.length; i++) {
+                    str.push(sortBy[i] + "," + (sortDesc[i] ? "desc" : "asc"));
+                }
+            }
+            return str;
+        }
     }
 };

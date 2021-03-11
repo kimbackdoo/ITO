@@ -17,7 +17,9 @@ router = new VueRouter({
                 {"name": "Roles Form", "path": "roles/new", "component": RoleFormComponent},
                 {"name": "Roles Form", "path": "roles/:id", "component": RoleFormComponent},
                 {"name": "Menus", "path": "menus", "component": MenuMainComponent},
-                {"name": "APIs", "path": "apis", "component": ApiMainComponent}
+                {"name": "APIs", "path": "apis", "component": ApiMainComponent},
+                {"name": "Profile", "path": "profile", "component": ProfileMainComponent},
+                {"name": "InputProfile", "path": "input-profile", "component": InputProfileMainComponent},
             ],
             "beforeEnter": function (to, from, next) {
                 if (!store.state.app.authenticated) {
