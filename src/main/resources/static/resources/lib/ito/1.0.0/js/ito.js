@@ -224,6 +224,17 @@ ito = {
                 "removeProfile": function (id) { return axios({"url": "/api/common/profile/"+ id, "method": "delete"}); }
             },
         },
+        "app": {
+            "account": {
+                "createAccount": function (data) { return axios({"url": "/api/app/accounts", "method": "post", "data": data}); },
+                "modifyAccount": function (data) { return axios({"url": "/api/app/accounts", "method": "put", "data": data}); },
+                "removeAccount": function (data) { return axios({"url": "/api/app/accounts", "method": "delete", "data": data}); },
+            },
+            "RoleAndRoleMenuAndRoleApi": {
+                "createRoleAndRoleMenuAndRoleApi": function (data) { return axios({"url": "/api/app/role-menu-apis", "method": "post", "data": data}); },
+                "modifyRoleAndRoleMenuAndRoleApi": function (data) { return axios({"url": "/api/app/role-menu-apis", "method": "put", "data": data}); },
+            }
+        },
         "util": {
             "menu": {
                 "getTreeMenuList": function (params) { return axios({"url": "/api/util/menus/tree-menus", "method": "get", "params": params}); }
