@@ -1,6 +1,124 @@
 var ito;
 ito = {
     "version": "1.0.0",
+    "init": function () {
+        axios.defaults.paramsSerializer = function (params) {
+            return Qs.stringify(params, {"indices": false});
+        }
+    },
+    "alert": function (message) {
+        return new Promise(function (resolve, reject) {
+            store.commit("app/SET_ALERT", {
+                "value": true,
+                "message": message,
+                "callback": function () {
+                    resolve();
+                }
+            });
+        });
+    },
+    "confirm": function (message, oktext = '예', canceltext = '아니오') {
+        return new Promise(function (resolve, reject) {
+            store.commit("app/SET_CONFIRM", {
+                "value": true,
+                "message": message,
+                "oktext" : oktext,
+                "canceltext" : canceltext,
+                "callback": function (result) {
+                    resolve(result);
+                }
+            });
+        });
+    },
+    "auth": {
+        "login": async function (username, password) {
+            var authorization,
+                token;
+            token = Basil.localStorage.get("token");
+            if (token && await ito.auth.authenticated(token)) {
+                authorization = "Bearer " + token;
+            } else {
+                authorization = (await axios({
+                    "url": "/api/login",
+                    "method": "post",
+                    "data": {
+                        "username": username,
+                        "password": password
+                    }
+                })).headers.authorization;
+                token = authorization.replace("Bearer ", "");
+                Basil.localStorage.set("token", token);
+            }
+            axios.defaults.headers.Authorization = authorization;
+        },
+        "logout": async function (token) {
+            await axios({
+                "url": "/api/logout",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer " + token
+                }
+            });
+            Basil.localStorage.remove("token");
+            delete axios.defaults.headers.Authorization;
+        },
+        "signUp": async function (data) {
+             return await axios({
+                "url": "/api/sign-up",
+                "method": "post",
+                "data": data,
+            });
+        },
+        "idExists": async function (data) {
+            return await axios({
+                "url": "/api/id-exists",
+                "method": "post",
+                "data": data,
+            });
+        },
+        "authenticated": async function (token) {
+            if (token) {
+                try {
+                    await axios({
+                        "url": "/api",
+                        "method": "get",
+                        "headers": {
+                            "Authorization": token
+                        }
+                    });
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        },
+        "authorize": async function (token) {
+            var authentication, user;
+            authentication = jwt_decode(token);
+            store.commit("app/SET_TOKEN", token);
+            store.commit("app/SET_USER", authentication.user);
+            store.commit("app/SET_PERSON", authentication.person);
+            store.commit("app/SET_ROLE_LIST", authentication.roleList);
+            store.commit("app/SET_MENU_LIST", authentication.menuList);
+            store.commit("app/SET_TREE_MENU_LIST", authentication.treeMenuList);
+            axios.defaults.headers.Authorization = "Bearer " + token;
+        },
+        "unauthorize": function () {
+            store.commit("app/SET_TOKEN", null);
+            store.commit("app/SET_USER", null);
+            store.commit("app/SET_PERSON", null);
+            store.commit("app/SET_ROLE_LIST", null);
+            store.commit("app/SET_MENU_LIST", null);
+            store.commit("app/SET_TREE_MENU_LIST", null);
+            delete axios.defaults.headers.Authorization;
+            Basil.localStorage.remove("token");
+        },
+        "getToken": function () {
+            return Basil.localStorage.get("token");
+        }
+    },
     "api": {
         "common": {
             "api": {
@@ -105,6 +223,11 @@ ito = {
                 "removeProfileList": function (data) { return axios({"url": "/api/common/profile", "method": "delete", "data": data}); },
                 "removeProfile": function (id) { return axios({"url": "/api/common/profile/"+ id, "method": "delete"}); }
             },
+        },
+        "util": {
+            "menu": {
+                "getTreeMenuList": function (params) { return axios({"url": "/api/util/menus/tree-menus", "method": "get", "params": params}); }
+            }
         }
     },
     "util": {
@@ -120,3 +243,4 @@ ito = {
         }
     }
 };
+ito.init();
