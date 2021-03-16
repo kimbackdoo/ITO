@@ -1,0 +1,68 @@
+<div>
+    <v-row>
+        <v-expansion-panels
+                multiple
+                v-model=""
+        >
+            <v-expansion-panel>
+                <v-expansion-panel-header>프로젝트 현황</v-expansion-panel-header>
+                <v-expansion-panel-content
+                        class="overflow-y-auto"
+                        style="max-height: 600px;"
+                >
+                    <v-form>
+                        <v-container>
+                            <v-row>
+                                <v-col cols="6">
+                                    <v-text-field
+                                            dense
+                                            label="프로젝트명"
+                                            v-model=""
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6">
+                                    <v-select
+                                            dense
+                                            outlined
+                                            :items=""
+                                            label="직종"
+                                    ></v-select>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6">
+                                    <v-select
+                                            dense
+                                            outlined
+                                            :items=""
+                                            label="경력"
+                                    ></v-select>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6">
+                                    <v-select
+                                            dense
+                                            outlined
+                                            :items=""
+                                            label="학위"
+                                    ></v-select>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6">
+                                    <date-picker-component
+                                            dense
+                                            hide-details
+                                            label="시작기간"
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-form>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-expansion-panels>
+    </v-row>
+</div>

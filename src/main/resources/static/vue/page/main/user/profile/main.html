@@ -1,0 +1,68 @@
+<div>
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                    multiple
+                    v-model="profile.panels.list"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>나의 프로필 목록</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-row class="my-1">
+                            <v-col class="d-flex justify-start align-center">
+                                <div style="width: 200px;">
+                                    <h3>전체 {{profile.dataTable.totalRows}}건</h3>
+                                </div>
+                                <div style="width: 130px;" class="ml-auto">
+                                    <v-select
+                                        dense
+                                        outlined
+                                        hide-details="auto"
+                                        v-model="profile.dataTable.options.itemsPerPage"
+                                        :items="data.paginationList"
+                                    >
+                                    </v-select>
+                                </div>
+                            </v-col>
+                        </v-row>
+                        <v-data-table
+                            fixed-header
+                            hide-default-footer
+                            height="auto"
+                            show-select
+                            v-model="profile.dataTable.selected"
+                            :headers="profile.dataTable.headers"
+                            :items="profile.dataTable.items"
+                            :server-items-length="profile.dataTable.options.itemsPerPage"
+                            :page.sync="profile.dataTable.options.itemsPerPage"
+                            :items-per-page.sync="profile.dataTable.itemsPerPage"
+                            :sortBy.sync="profile.dataTable.options.sortBy"
+                            :sortDesc.sync="profile.dataTable.options.sortDesc"
+                            :loading="profile.dataTable.loading"
+                            @click:row="handleClick"
+                        ></v-data-table>
+                        <div class="text-center my-2">
+                            <v-pagination
+                                    class="d-inline-block"
+                                    :length="Math.ceil(profile.dataTable.totalRows / profile.dataTable.options.itemsPerPage)"
+                                    :total-visible="10"
+                                    v-model="profile.dataTable.options.page"
+                            ></v-pagination>
+                            <div class="text-right">
+                                <v-btn
+                                        class="primary"
+                                        @click="handleClick"
+                                >추가</v-btn>
+                                <v-btn
+                                        color="error"
+                                        @click="deleteProfile"
+                                        class="ml-3"
+                                >삭제</v-btn>
+                            </div>
+                        </div>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+</div>
