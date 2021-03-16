@@ -9,9 +9,28 @@ router = new VueRouter({
             "component": MainLayout,
             "children": [
                 {
-                    "name": "메인화면",
+                    "name": "Main",
                     "path": "/main",
-                    "component": MainPage
+                },
+                {
+                    "name": "user",
+                    "path": "/main/user",
+                    "redirect": "/main/user/profiles"
+                },
+                {
+                    "name": "Profile",
+                    "path": "/main/user/profiles",
+                    "component": ProfileMainComponent
+                },
+                {
+                    "name": "InputProfile",
+                    "path": "/main/user/input-profile",
+                    "component": InputProfileMainComponent
+                },
+                {
+                    "name": "ApplyProject",
+                    "path": "/main/user/apply-project",
+                    "component": ApplyProjectMainComponent
                 },
                 {
                     "name": "Settings",
