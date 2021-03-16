@@ -32,6 +32,21 @@ router = new VueRouter({
                     "path": "/main/user/apply-project",
                     "component": ApplyProjectMainComponent
                 },
+
+                //관리자 메뉴
+
+                {
+                    "name": "adminMenu",
+                    "path": "/main/admin",
+                    "redirect": "/main/admin/user-info"
+                },
+
+                {
+                    "name": "사용자현황",
+                    "path": "/main/admin/user-info",
+                    "component": MainAdminPage
+                },
+
                 {
                     "name": "Settings",
                     "path": "/settings",

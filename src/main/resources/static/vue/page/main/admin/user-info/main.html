@@ -1,0 +1,199 @@
+<v-container fluid>
+
+
+   <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="user.panels.search"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>사용자 검색</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-form>
+                            <v-row>
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                >
+                                    <v-text-field
+                                        dense
+                                        outlined
+                                        label="이름"
+                                        v-model="user.query.name"
+                                        @keydown.enter="search();"
+                                    ></v-text-field>
+                                </v-col>
+                          </v-row>
+                           <v-row>
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                >
+<!--                                     <date-picker-component
+                                        dense
+                                        label="직종"
+                                        v-model="user.query.jobtype"
+                                    ></date-picker-component>
+ -->
+                                  <v-select
+                                      dense
+                                      outlined
+                                      :items="user.dataTable.jobtypeItems"
+                                      label="직종"
+                                    v-model="user.query.job_type"
+                                    @keydown.enter="search();"
+                                 ></v-select>
+                                 </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                >
+                                    <v-select
+                                        outlined
+                                        dense
+                                        menu-props="auto"
+                                        :items="user.dataTable.career"
+                                        label="경력"
+                                        v-model="user.query.career"
+                                        @keydown.enter="search();"
+                                    ></v-select>
+                                </v-col>
+                              </v-row>
+                               <v-row>
+                                <v-col
+                                    cols="12"
+                                    sm="6"
+                                >
+                                    <v-text-field
+                                        dense
+                                        outlined
+                                        label="희망 월급여"
+                                        v-model="user.query.pay"
+                                        @keydown.enter="search();"
+                                    ></v-text-field>
+                                </v-col>
+                              </v-row>
+                               <v-row>
+                                <v-col
+                                    cols="3"
+                                    sm="6"
+                                >
+                                    <v-select
+                                        dense
+                                        outlined
+                                        label="시"
+                                        :itenms="user.dataTable.address"
+                                        v-model="user.query.address1"
+                                        @keydown.enter="search();"
+                                    ></v-select>
+                                </v-col>
+                                <v-col
+                                    cols="3"
+                                    sm="6"
+                                >
+                                <!-- :items="user.dataTable.addressSelect(user.query.address1)" -->
+
+                                    <v-select
+                                        dense
+                                        outlined
+                                        label="구"
+                                        :items="user.dataTable.ad1"
+                                        v-model="user.query.address"
+                                        @keydown.enter="search();"
+                                    ></v-select>
+                                </v-col>
+
+                            </v-row>
+                            <v-row>
+                                <v-col
+                                    cols="12"
+                                    class="text-right"
+                                >
+                                    <v-checkbox
+                                      v-model="user.dataTable.checkbox1"
+                                      label="투입중인 사람 제외"
+                                      color="success"
+                                      value="success"
+                                      hide-details
+                                    >
+                                    </v-checkbox>
+                                    <v-btn
+                                        class="secondary"
+                                        @click="reset();"
+                                    >초기화</v-btn>
+                                    <v-btn
+                                        class="primary"
+                                        @click="search();"
+                                    >검색</v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-form>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+     <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="user.panels.list"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>목록</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-data-table
+
+                            fixed-header
+                            hide-default-footer
+                            height="450px"
+                            :headers="user.dataTable.headers"
+                            :items="user.dataTable.items"
+                            :loading="user.dataTable.loading"
+                            :items-per-page.sync="user.dataTable.itemsPerPage"
+                            :page.sync="user.dataTable.page"
+
+                            >
+                            <template v-slot:top>
+                                <v-toolbar flat>
+                                   <v-select
+                                       hide-details
+                                       dense
+                                       class="shrink"
+                                       label="items Per Page"
+                                       :items="user.itemsPerPageItems"
+                                       v-model="user.dataTable.itemsPerPage"
+                                       ></v-select>
+                                       <v-spacer></v-spacer>
+                                       <v-btn
+                                           class="primary"
+                                           to="/user/new"
+                                       >추가하기</v-btn>
+                                </v-toolbar>
+
+                            </template>
+                              <template v-slot:item.name="{ item }">
+                                <v-btn
+                                text
+                                >{{item.name}}</v-btn>
+                            </template>
+                        </v-data-table>
+                        <v-pagination
+                            class="mt-2"
+                            v-model="user.dataTable.page"
+                            :length="user.pagination.length"
+                            :total-visible="user.pagination.totalVisible"
+                        ></v-pagination>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+
+
+
+
+</v-container>
