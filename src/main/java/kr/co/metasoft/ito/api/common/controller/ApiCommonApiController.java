@@ -35,6 +35,9 @@ public class ApiCommonApiController {
         return apiService.getApiList(apiParamDto, pageRequest);
     }
 
+    
+    
+    
     @GetMapping (path = "{id}")
     public ApiEntity getApi(
             @PathVariable (name = "id") Long id) {
