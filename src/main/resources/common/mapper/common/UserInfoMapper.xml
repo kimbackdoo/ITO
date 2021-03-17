@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.metasoft.ito.api.common.mapper.UserInfoMapper">
+
+    <sql id="selectFrom">
+        SELECT
+            `userInfo`.`id`,
+            `userInfo`.`name`,
+            `userInfo`.`number`,
+            `userInfo`.`job_type`,
+            `userInfo`.`skill`,
+            `userInfo`.`birth_date`,
+            `userInfo`.`career`,
+            `userInfo`.`pay`,
+            `userInfo`.`input_status`,
+            `userInfo`.`workable_day`,
+            `userInfo`.`address`
+        FROM
+            `tb_userinfo` `userInfo`
+    </sql>
+
+    <sql id="where">
+        <where>
+        </where>
+    </sql>
+
+    <resultMap id="userInfoResultMap" type="kr.co.metasoft.ito.api.common.entity.UserInfoEntity">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="number" column="number"/>
+        <result property="jobType" column="job_type"/>
+        <result property="skill" column="skill" />
+        <result property="birthDate" column="birth_date"/>
+        <result property="career" column="career" />
+        <result property="pay" column="pay" />
+        <result property="inputStatus" column="input_status"/>
+        <result property="workableDay" column="workable_day"/>
+        <result property="address" column="address"/>
+    </resultMap>
+
+    <select
+        id="selectUserInfoList"
+        parameterType="java.util.Map"
+        resultMap="userInfoResultMap"
+    >
+        <include refid="PageFragment.sortStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.sortEnd"/>
+        <include refid="PageFragment.limitOffset"/>
+    </select>
+
+    <select
+        id="selectUserInfoListCount"
+        parameterType="java.util.Map"
+        resultType="java.lang.Integer"
+    >
+        <include refid="PageFragment.countStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.countEnd"/>
+    </select>
+
+    <select
+        id="selectUserInfo"
+        parameterType="java.util.Map"
+        resultMap="userInfoResultMap"
+    >
+        <include refid="selectFrom"/>
+        WHERE
+            `userInfo`.`id` = #{id}
+    </select>
+
+</mapper>

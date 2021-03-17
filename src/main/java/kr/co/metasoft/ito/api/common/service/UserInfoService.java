@@ -110,30 +110,4 @@ public class UserInfoService {
 
 
 
-       //-----------------------------------------------------------------------------------------
-
-//        @Transactional
-//        public Page<UserInfoEntity> getUserInfoList(
-//                UserInfoEntity userInfoEntity,
-//                Pageable pageable) {
-//            return userInfoRepository.findAll(Example.of(userInfoEntity) , pageable);
-//        }
-
-
-        /*
-         * @Transactional public UserInfoEntity getUserInfo(Long id) { return
-         * userInfoRepository.findById(id).orElse(null); }
-         *
-         *
-         * @Transactional public UserInfoEntity createUserInfo(UserInfoEntity userInfo)
-         * { return userInfoRepository.save(userInfo); }
-         *
-         * @Transactional public UserInfoEntity modifyUserInfo(UserInfoEntity userInfo)
-         * { return userInfoRepository.save(userInfo); }
-         *
-         *
-         * @Transactional public void removeUserInfo(Long id) {
-         * userInfoRepository.deleteById(id); }
-         */
-
 }

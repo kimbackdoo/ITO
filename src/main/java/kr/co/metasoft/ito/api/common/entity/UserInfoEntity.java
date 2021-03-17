@@ -63,10 +63,16 @@ public class UserInfoEntity {
   private String skill;
 
 
+    /*
+     * @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+     *
+     * @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+     *
+     * @Column(name = "'birth_date'", columnDefinition = "datetime", nullable
+     * =false, updatable = false) private LocalDateTime birthDate;
+     */
 
-  @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Column(name = "'birth_date'", columnDefinition = "datetime", nullable =false, updatable = false)
+  @Column(name = "'birth_date'")
   private LocalDate birthDate;
 
 
@@ -80,12 +86,20 @@ public class UserInfoEntity {
   private String inputStatus;
 
 
-  @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Column(name = "'workable_day'", columnDefinition = "datetime", nullable =false, updatable = false)
+    /*
+     * @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+     *
+     * @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+     *
+     * @Column(name = "'workable_day'", columnDefinition = "datetime", nullable
+     * =false, updatable = false) private LocalDateTime workableDay;
+     */
+
+  @Column(name = "'workable_day'")
   private LocalDate workableDay;
 
 
-
+  @Column(name = "'address'")
+  private String address;
 
 }

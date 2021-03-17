@@ -1,6 +1,7 @@
 package kr.co.metasoft.ito.api.common.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,13 +13,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+
+
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class UserInfoParamDto {
-
 
     private Long id;
 
@@ -30,9 +32,7 @@ public class UserInfoParamDto {
 
     private String skill;
 
-    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDate birthDate;
+    private LocalDate birhtDate;
 
     private String career;
 
@@ -40,9 +40,8 @@ public class UserInfoParamDto {
 
     private String inputStatus;
 
-    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDate workableDay;
 
+    private String address;
 
 }

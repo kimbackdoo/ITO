@@ -35,6 +35,12 @@ public class ApiCommonUserInfoController {
         public PageResponse<UserInfoEntity> getUserInfoList(
                 @ModelAttribute UserInfoParamDto userInfoParamDto,
                 @ModelAttribute PageRequest pageRequest) {
+//            System.out.println(userInfoParamDto.getName());
+//            System.out.println(userInfoParamDto.getJobType());
+//            System.out.println(userInfoParamDto.getCareer());
+//            System.out.println(userInfoParamDto.getPay());
+//            System.out.println(userInfoParamDto.getInputStatus());
+//            System.out.println(pageRequest.toString());
             return userInfoService.getUserInfoList(userInfoParamDto, pageRequest);
         }
 
@@ -55,11 +61,11 @@ public class ApiCommonUserInfoController {
                         .number(userInfoDto.getNumber())
                         .jobType(userInfoDto.getJobType())
                         .skill(userInfoDto.getSkill())
-//                        .birthDate(userInfoDto.getBirthDate())
+                        .birthDate(userInfoDto.getBirhtDate())
                         .career(userInfoDto.getCareer())
                         .pay(userInfoDto.getPay())
                         .inputStatus(userInfoDto.getInputStatus())
- //                       .workableDay(userInfoDto.getWorkableDay())
+                        .workableDay(userInfoDto.getWorkableDay())
                         .build();
                 userInfoList.add(userInfoEntity);
             }
@@ -74,11 +80,11 @@ public class ApiCommonUserInfoController {
                     .number(userInfoDto.getNumber())
                     .jobType(userInfoDto.getJobType())
                     .skill(userInfoDto.getSkill())
-//                    .birthDate(userInfoDto.getBirthDate())
+                    .birthDate(userInfoDto.getBirhtDate())
                     .career(userInfoDto.getCareer())
                     .pay(userInfoDto.getPay())
                     .inputStatus(userInfoDto.getInputStatus())
-  //                  .workableDay(userInfoDto.getWorkableDay())
+                    .workableDay(userInfoDto.getWorkableDay())
                     .build();
             return userInfoService.createUserInfo(userInfoEntity);
         }
@@ -95,11 +101,11 @@ public class ApiCommonUserInfoController {
                         .number(userInfoDto.getNumber())
                         .jobType(userInfoDto.getJobType())
                         .skill(userInfoDto.getSkill())
-//                        .birthDate(userInfoDto.getBirthDate())
+                        .birthDate(userInfoDto.getBirhtDate())
                         .career(userInfoDto.getCareer())
                         .pay(userInfoDto.getPay())
                         .inputStatus(userInfoDto.getInputStatus())
-  //                      .workableDay(userInfoDto.getWorkableDay())
+                        .workableDay(userInfoDto.getWorkableDay())
                         .build();
                 userInfoList.add(userInfoEntity);
             }
@@ -117,11 +123,11 @@ public class ApiCommonUserInfoController {
                     .number(userInfoDto.getNumber())
                     .jobType(userInfoDto.getJobType())
                     .skill(userInfoDto.getSkill())
-//                    .birthDate(userInfoDto.getBirthDate())
+                    .birthDate(userInfoDto.getBirhtDate())
                     .career(userInfoDto.getCareer())
                     .pay(userInfoDto.getPay())
                     .inputStatus(userInfoDto.getInputStatus())
-//                    .workableDay(userInfoDto.getWorkableDay())
+                    .workableDay(userInfoDto.getWorkableDay())
                     .build();
             return userInfoService.modifyUserInfo(userInfoEntity);
         }
@@ -139,7 +145,6 @@ public class ApiCommonUserInfoController {
         }
 
 
-        //--------------------------------------------------------------------------------------
 
 
 

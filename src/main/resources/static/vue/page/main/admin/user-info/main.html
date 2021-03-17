@@ -39,9 +39,9 @@
                                   <v-select
                                       dense
                                       outlined
-                                      :items="user.dataTable.jobtypeItems"
+                                      :items="user.dataTable.jobTypeItems"
                                       label="직종"
-                                    v-model="user.query.job_type"
+                                    v-model="user.query.jobType"
                                     @keydown.enter="search();"
                                  ></v-select>
                                  </v-col>
@@ -113,10 +113,10 @@
                                     class="text-right"
                                 >
                                     <v-checkbox
-                                      v-model="user.dataTable.checkbox1"
+                                      v-model="user.query.inputStatus"
                                       label="투입중인 사람 제외"
                                       color="success"
-                                      value="success"
+                                      value="투입중"
                                       hide-details
                                     >
                                     </v-checkbox>
@@ -146,17 +146,19 @@
                     <v-expansion-panel-header>목록</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-data-table
-
+                            dense
                             fixed-header
                             hide-default-footer
                             height="450px"
                             :headers="user.dataTable.headers"
                             :items="user.dataTable.items"
                             :loading="user.dataTable.loading"
-                            :items-per-page.sync="user.dataTable.itemsPerPage"
+                            :server-itmes-length="user.dataTable.serverItemsLength"
                             :page.sync="user.dataTable.page"
-
+                            :items-per-page.sync="user.dataTable.itemsPerPage"
+                            @page-count="user.pagination.length = $event"
                             >
+
                             <template v-slot:top>
                                 <v-toolbar flat>
                                    <v-select
@@ -186,7 +188,8 @@
                             v-model="user.dataTable.page"
                             :length="user.pagination.length"
                             :total-visible="user.pagination.totalVisible"
-                        ></v-pagination>
+                             ></v-pagination>
+<!--                             @input="handlePageChange"-->
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
