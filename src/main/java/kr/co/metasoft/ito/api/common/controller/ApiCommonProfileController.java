@@ -24,10 +24,10 @@ public class ApiCommonProfileController {
         return profileService.getProfileList(profileDto, pageRequest);
     }
 
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "{userProfId}")
     public ProfileEntity getProfile(
-            @PathVariable(name = "id") Long id) {
-        return profileService.getProfile(id);
+            @PathVariable(name = "userProfId") Long userProfId) {
+        return profileService.getProfile(userProfId);
     }
 
     @PostMapping(path = "")
@@ -36,17 +36,18 @@ public class ApiCommonProfileController {
         return profileService.createProfile(profileEntity);
     }
 
-    @PutMapping(path = "{id}")
+    @PutMapping(path = "{userProfId}")
     public ProfileEntity modifyProfile(
-            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "id") Long userProfId,
             @RequestBody ProfileEntity profileEntity) {
-        profileEntity.setId(id);
+        profileEntity.setUserProfId(userProfId);
         return profileService.modifyProfile(profileEntity);
     }
 
     @DeleteMapping(path = "")
-    public void removeProfile(
+    public void removeProfileList(
             @RequestBody List<Long> idList) {
         profileService.removeProfileList(idList);
+        System.out.println(idList);
     }
 }

@@ -12,6 +12,8 @@ router = new VueRouter({
                     "name": "Main",
                     "path": "/main",
                 },
+
+                // 사용자 메뉴
                 {
                     "name": "user",
                     "path": "/main/user",

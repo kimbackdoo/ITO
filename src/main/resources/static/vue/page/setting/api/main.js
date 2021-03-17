@@ -76,7 +76,6 @@ SettingApiMainPage = Vue.component("setting-api-main-page", async function (reso
                 if (await ito.confirm("삭제 하시겠습니까?")) {
                     var selectedApi = self.api.selected;
 
-
                     var idList = [];
                     for(var i = 0; i< selectedApi.length; i++)
                     {

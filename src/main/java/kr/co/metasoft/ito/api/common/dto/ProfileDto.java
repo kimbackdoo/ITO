@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfileDto {
-    private Long id;
+    private Long userProfId;
 
     private String address;
 

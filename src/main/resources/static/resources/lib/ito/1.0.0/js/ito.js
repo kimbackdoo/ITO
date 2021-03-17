@@ -215,13 +215,13 @@ ito = {
             },
             "profile": {
                 "getProfileList": function (params) { return axios({"url": "/api/common/profiles", "method": "get", "params": params}); },
-                "getProfile": function (id) { return axios({"url": "/api/common/profiles/" + id, "method": "get"}); },
+                "getProfile": function (userProfId) { return axios({"url": "/api/common/profiles/" + userProfId, "method": "get"}); },
                 "createProfileList": function (data) { return axios({"url": "/api/common/profiles?bulk", "method": "post", "data": data}); },
                 "createProfile": function (data) { return axios({"url": "/api/common/profiles", "method": "post", "data": data}); },
                 "modifyProfileList": function (data) { return axios({"url": "/api/common/profiles", "method": "put", "data": data}); },
-                "modifyProfile": function (id, data) { return axios({"url": "/api/common/profiles/" + id, "method": "put", "data": data}); },
+                "modifyProfile": function (userProfId, data) { return axios({"url": "/api/common/profiles/" + userProfId, "method": "put", "data": data}); },
                 "removeProfileList": function (data) { return axios({"url": "/api/common/profiles", "method": "delete", "data": data}); },
-                "removeProfile": function (id) { return axios({"url": "/api/common/profiles/"+ id, "method": "delete"}); }
+                "removeProfile": function (userProfId) { return axios({"url": "/api/common/profiles/"+ userProfId, "method": "delete"}); }
             },
         },
         "app": {

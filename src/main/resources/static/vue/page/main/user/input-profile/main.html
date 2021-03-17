@@ -28,7 +28,7 @@
                                                 dense
                                                 label="생년월일"
                                                 append-icon="mdi-calendar"
-                                                v-model="inputProfile.form.item.birth"
+                                                v-model="inputProfile.form.item.birthDate"
                                         ></date-picker-component>
                                     </v-col>
                                 </v-row>
@@ -109,6 +109,7 @@
                                         <v-text-field
                                                 label="희망월급여"
                                                 suffix="만원"
+                                                v-model="inputProfile.form.item.pay"
                                         ></v-text-field>
 
                                     </v-col>
@@ -121,13 +122,19 @@
                                                 label="이력서 공개여부"
                                                 hide-details="auto"
                                                 :items="[{'text': '선택', 'value': null},{'text': '공개', 'value': 'T'},{'text': '비공개', 'value': 'F'}]"
-                                                v-model="inputProfile.open.show"
+                                                v-model="inputProfile.form.item.status"
                                         ></v-select>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col cols="12" class="text-right">
                                         <v-btn
+                                                v-if="inputProfile.form.item.userProfId != undefined && inputProfile.form.item.userProfId != null"
+                                                class="primary"
+                                                @click="saveProfile"
+                                        >수정</v-btn>
+                                        <v-btn
+                                                v-else
                                                 class="primary"
                                                 @click="saveProfile"
                                         >저장</v-btn>

@@ -4,6 +4,7 @@ import kr.co.metasoft.ito.api.common.dto.ProfileDto;
 import kr.co.metasoft.ito.api.common.mapper.ProfileMapper;
 import kr.co.metasoft.ito.common.util.PageRequest;
 import kr.co.metasoft.ito.common.util.PageResponse;
+import kr.co.metasoft.ito.common.validation.group.RemoveValidationGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.metasoft.ito.api.common.entity.ProfileEntity;
 import kr.co.metasoft.ito.api.common.repository.ProfileRepository;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -37,8 +39,8 @@ public class ProfileService {
     }
 
     @Transactional
-    public ProfileEntity getProfile(Long id) {
-        return profileRepository.findById(id).orElse(null);
+    public ProfileEntity getProfile(Long userProfId) {
+        return profileRepository.findById(userProfId).orElse(null);
     }
 
     @Transactional
