@@ -30,7 +30,8 @@
                             hide-default-footer
                             height="auto"
                             show-select
-                            v-model="profile.dataTable.selected"
+                            item-key="name"
+                            v-model="profile.selected"
                             :headers="profile.dataTable.headers"
                             :items="profile.dataTable.items"
                             :server-items-length="profile.dataTable.options.itemsPerPage"
@@ -55,7 +56,7 @@
                                 >추가</v-btn>
                                 <v-btn
                                         color="error"
-                                        @click="deleteProfile"
+                                        @click="deleteProfileList"
                                         class="ml-3"
                                 >삭제</v-btn>
                             </div>

@@ -16,7 +16,7 @@ public class ProfileEntity {
     @Id
     @Column(name = "user_prof_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userProfId;
 
     @Column(name = "address")
     private String address;

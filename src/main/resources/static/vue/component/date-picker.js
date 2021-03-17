@@ -1,4 +1,4 @@
-var PickerDatePickerComponent = Vue.component('picker-date-picker-component', function (resolve, reject) {
+var PickerDatePickerComponent = Vue.component('date-picker-component', function (resolve, reject) {
     axios.get("/vue/component/date-picker.html").then(function (response) {
         resolve({
             "template": response.data,

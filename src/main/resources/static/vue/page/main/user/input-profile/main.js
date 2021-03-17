@@ -10,16 +10,17 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                     },
                     "form": {
                         "item": {
+                            "userProfId": null,
                             "name": null,
-                            "birth": null,
+                            "birthDate": null,
                             "email": null,
                             "career": null,
                             "job": null,
                             "skill": null,
+                            "pay": null,
+                            "status": null,
                         },
                     },
-                    "skill": ["test1", "test2", "test3", "test4", "test5"],
-                    "open": { "show": null }
                 },
                 "postcode": '',
                 "address": '',
@@ -52,12 +53,26 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                     "data": data
                 });
             },
+            "modifyProfile": function(data) {
+                return axios({
+                    "url": "/api/common/profiles",
+                    "method": "put",
+                    "data": data
+                });
+            },
             "saveProfile": async function () {
                 var self = this;
-                if(await util.confirm({"text": "저장하시겠습니까?"})) {
+                var queryId = self.$route.query.id;
+
+                if(await ito.confirm("저장하시겠습니까?")) {
                     var data = self.inputProfile.form.item;
-                    self.createProfile(data);
-                    await util.alert({"text": "저장되었습니다."});
+
+                    if(queryId != undefined && queryId != null)
+                        self.modifyProfile(queryId, data);
+                    else
+                        self.createProfile(data);
+
+                    await ito.alert("저장되었습니다.");
                 }
             },
             "execDaumPostcode": function() {

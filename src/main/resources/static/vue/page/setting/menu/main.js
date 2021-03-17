@@ -40,6 +40,7 @@ SettingMenuMainPage = Vue.component("setting-menu-main-page", async function (re
         },
         "treeview.menuList.active": {
             "handler": function (newValue, oldValue) {
+                this.data.menu.
                 this.data.menu = newValue[0] ? _.cloneDeep(newValue[0]) : {"show": null};
             }
         }

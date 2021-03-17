@@ -19,5 +19,5 @@ public interface ProfileMapper {
             @Param(value = "profileDto") ProfileDto profileDto,
             @Param(value = "pageRequest") PageRequest pageRequest);
 
-    public void deleteProfileList(@Param(value = "list") List<Long> profileDtoList);
+    void deleteProfileList(@Param(value = "list") List<Long> profileDtoList);
 }
