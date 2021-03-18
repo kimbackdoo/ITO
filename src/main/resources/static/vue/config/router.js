@@ -50,6 +50,11 @@ router = new VueRouter({
                 },
 
                 {
+                    "name": "사용자정보 입력하기",
+                    "path": "/main/admin/user-info-form",
+                    "component": MainAdminFormPage
+                },
+                {
                     "name": "Settings",
                     "path": "/settings",
                     "redirect": "/settings/apis",

@@ -35,12 +35,12 @@ public class ApiCommonUserInfoController {
         public PageResponse<UserInfoEntity> getUserInfoList(
                 @ModelAttribute UserInfoParamDto userInfoParamDto,
                 @ModelAttribute PageRequest pageRequest) {
-//            System.out.println(userInfoParamDto.getName());
-//            System.out.println(userInfoParamDto.getJobType());
-//            System.out.println(userInfoParamDto.getCareer());
-//            System.out.println(userInfoParamDto.getPay());
-//            System.out.println(userInfoParamDto.getInputStatus());
-//            System.out.println(pageRequest.toString());
+            System.out.println(userInfoParamDto.getName());
+            System.out.println(userInfoParamDto.getJobType());
+            System.out.println(userInfoParamDto.getCareer());
+            System.out.println(userInfoParamDto.getPay());
+            System.out.println(userInfoParamDto.getInputStatus());
+            System.out.println(pageRequest.toString());
             return userInfoService.getUserInfoList(userInfoParamDto, pageRequest);
         }
 

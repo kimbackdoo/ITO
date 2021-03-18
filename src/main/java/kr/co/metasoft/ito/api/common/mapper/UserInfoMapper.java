@@ -26,7 +26,7 @@ public interface UserInfoMapper {
 
 
     public Integer selectUserInfoListCount(
-            @Param (value = "userInfoDto") UserInfoParamDto userInfoParamDto);
+            @Param (value = "userInfoParamDto") UserInfoParamDto userInfoParamDto);
 
 
     public UserInfoEntity selectUserInfo(

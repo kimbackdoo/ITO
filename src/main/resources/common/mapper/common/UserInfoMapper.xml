@@ -20,8 +20,28 @@
     </sql>
 
     <sql id="where">
-        <where>
-        </where>
+         <where>
+            <if test="userInfoParamDto.name != null and userInfoParamDto.name != ''">
+                AND `name` LIKE CONCAT('%', #{userInfoParamDto.name} , '%')
+            </if>
+           <if test="userInfoParamDto.jobType != null and userInfoParamDto.jobType != ''">
+                AND `job_type` LIKE CONCAT('%',#{userInfoParamDto.jobType},'%')
+            </if>
+            <if test="userInfoParamDto.career != null and userInfoParamDto.career != ''">
+                AND `career` LIKE CONCAT('%', #{userInfoParamDto.career} ,'%')
+            </if>
+            <if test="userInfoParamDto.pay != null and userInfoParamDto.pay != ''">
+                AND `pay` LIKE CONCAT('%', #{userInfoParamDto.pay} ,'%')
+            </if>
+            <if test="userInfoParamDto.address != null and !userInfoParamDto.address != ''">
+                AND `address` LIKE CONCAT('%', #{userInfoParamDto.address}, '%')
+            </if>
+            <if test="userInfoParamDto.inputStatus != null and !userInfoParamDto.inputStatus != ''">
+                AND NOT (`input_status` LIKE #{userInfoParamDto.inputStatus})
+            </if>
+
+         </where>
+
     </sql>
 
     <resultMap id="userInfoResultMap" type="kr.co.metasoft.ito.api.common.entity.UserInfoEntity">
