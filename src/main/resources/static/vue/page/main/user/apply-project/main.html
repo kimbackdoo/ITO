@@ -5,11 +5,8 @@
                 v-model=""
         >
             <v-expansion-panel>
-                <v-expansion-panel-header>프로젝트 현황</v-expansion-panel-header>
-                <v-expansion-panel-content
-                        class="overflow-y-auto"
-                        style="max-height: 600px;"
-                >
+                <v-expansion-panel-header>프로젝트 검색</v-expansion-panel-header>
+                <v-expansion-panel-content>
                     <v-form>
                         <v-container>
                             <v-row>
@@ -57,10 +54,70 @@
                                             dense
                                             hide-details
                                             label="시작기간"
-                                ></v-col>
+                                    ></date-picker-component>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6">
+                                    <v-select
+                                            dense
+                                            outlined
+                                            :items=""
+                                            label="지역"
+                                    ></v-select>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6">
+                                    <v-select
+                                            dense
+                                            outlined
+                                            :items=""
+                                            label="필요인원수"
+                                    ></v-select>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6">
+                                    <v-select
+                                            dense
+                                            outlined
+                                            :items=""
+                                            label="현황"
+                                    ></v-select>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6">
+                                    <v-select
+                                            dense
+                                            outlined
+                                            :items=""
+                                            label="월급여"
+                                    ></v-select>
+                                </v-col>
                             </v-row>
                         </v-container>
                     </v-form>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+
+            <v-expansion-panel>
+                <v-expansion-panel-header>프로젝트 현황</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <v-data-table
+                            fixed-header
+                            hide-default-footer
+                            height="auto"
+                            :headers=""
+                            :items=""
+                            :server-items-length=""
+                            :page.sync=""
+                            :items-per-page.sync=""
+                            :sortBy.sync=""
+                            :sortDesc.sync=""
+                            :loading=""
+                    ></v-data-table>
                 </v-expansion-panel-content>
             </v-expansion-panel>
         </v-expansion-panels>

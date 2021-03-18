@@ -34,11 +34,6 @@
                             v-model="profile.selected"
                             :headers="profile.dataTable.headers"
                             :items="profile.dataTable.items"
-                            :server-items-length="profile.dataTable.options.itemsPerPage"
-                            :page.sync="profile.dataTable.options.itemsPerPage"
-                            :items-per-page.sync="profile.dataTable.itemsPerPage"
-                            :sortBy.sync="profile.dataTable.options.sortBy"
-                            :sortDesc.sync="profile.dataTable.options.sortDesc"
                             :loading="profile.dataTable.loading"
                             @click:row="handleClick"
                         ></v-data-table>

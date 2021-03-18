@@ -29,7 +29,7 @@ public class ProfileDto {
 
     private String name;
 
-    private LocalDate birth;
+    private LocalDate birthDate;
 
     private String job;
 }

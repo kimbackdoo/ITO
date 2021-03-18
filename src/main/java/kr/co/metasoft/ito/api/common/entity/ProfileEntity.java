@@ -1,5 +1,6 @@
 package kr.co.metasoft.ito.api.common.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @EntityListeners(value = {AuditingEntityListener.class})
 @Getter
 @Setter
+//@Builder
 public class ProfileEntity {
     @Id
     @Column(name = "user_prof_id")

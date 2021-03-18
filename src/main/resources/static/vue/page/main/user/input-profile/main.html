@@ -81,27 +81,10 @@
                                 </v-row>
                                 <v-row>
                                     <v-col cols="4">
-                                        <v-text-field
-                                                dense
-                                                label="경력 // v-data-table 사용"
-                                                v-model="inputProfile.form.item.career"
-                                        ></v-text-field>
                                         <v-btn
-                                                class=""
-                                                @click=""
-                                        >EXCEL로 일괄 업로드하기</v-btn>
-                                    </v-col>
-                                    <v-col cols="2">
-                                        <v-btn
-                                                small
-                                                class=""
-                                                @click=""
-                                        >+</v-btn>
-                                        <v-btn
-                                                small
-                                                class=""
-                                                @click=""
-                                        >-</v-btn>
+                                            class=""
+                                            @click=""
+                                        ></v-btn>
                                     </v-col>
                                 </v-row>
                                 <v-row>
@@ -140,7 +123,7 @@
                                         >저장</v-btn>
                                         <v-btn
                                                 class="secondary"
-                                                @click="profileList"
+                                                @click="handleClick"
                                         >목록</v-btn>
                                     </v-col>
                                 </v-row>

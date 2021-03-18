@@ -22,13 +22,13 @@ ProfileMainComponent = Vue.component('profile-main-component', async function (r
                     "selected": [],
                     "dataTable": {
                         "headers": [
-                            {"text": "이름", "sortable": true, "value": "name",},
-                            {"text": "직업", "sortable": true, "value": "job",},
-                            {"text": "기술", "sortable": true, "value": "skill",},
-                            {"text": "생년월일(나이)", "sortable": true, "value": "birthDate",},
-                            {"text": "경력기간", "sortable": true, "value": "career",},
-                            {"text": "희망월급여", "sortable": true, "value": "pay",},
-                            {"text": "공개여부", "sortable": true, "value": "status",},
+                            {"text": "이름", "value": "name",},
+                            {"text": "직업", "value": "job",},
+                            {"text": "기술", "value": "skill",},
+                            {"text": "생년월일(나이)", "value": "birthDate",},
+                            {"text": "경력기간", "value": "career",},
+                            {"text": "희망월급여", "value": "pay",},
+                            {"text": "공개여부", "value": "status",},
                         ],
                         "items": [],
                         "options": {
@@ -94,6 +94,7 @@ ProfileMainComponent = Vue.component('profile-main-component', async function (r
 
                 self.profile.dataTable.totalRows = profileList.totalRows;
                 self.profile.dataTable.items = profileList.items;
+
                 self.profile.dataTable.loading = false;
             },
             "deleteProfileList": async function() {

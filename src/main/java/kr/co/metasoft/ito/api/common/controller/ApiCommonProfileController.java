@@ -38,7 +38,7 @@ public class ApiCommonProfileController {
 
     @PutMapping(path = "{userProfId}")
     public ProfileEntity modifyProfile(
-            @PathVariable(name = "id") Long userProfId,
+            @PathVariable(name = "userProfId") Long userProfId,
             @RequestBody ProfileEntity profileEntity) {
         profileEntity.setUserProfId(userProfId);
         return profileService.modifyProfile(profileEntity);

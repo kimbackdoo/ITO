@@ -26,11 +26,20 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                 "address": '',
                 "detailAddress": '',
                 "extraAddress": '',
+                "career": {
+                    "dataTable": {
+                        "headers": [
+                            {"text": "프로젝트명", "value": "projectName"},
+                            {"text": "기간", "value": "period"},
+                            {"text": "직급", "value": "position"},
+                            {"text": "담당업무", "value": "task"},
+                            {"text": "월급여", "value": "pay"}
+
+                        ],
+                        "items": [],
+                    },
+                },
             };
-        },
-        "computed": {
-        },
-        "watch": {
         },
         "methods": {
             "setProfile": async function(queryId) {
@@ -46,34 +55,25 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                         .then(function() { resolve(); });
                 });
             },
-            "createProfile": function (data) {
-                return axios({
-                    "url": "/api/common/profiles",
-                    "method": "post",
-                    "data": data
-                });
-            },
-            "modifyProfile": function(data) {
-                return axios({
-                    "url": "/api/common/profiles",
-                    "method": "put",
-                    "data": data
-                });
-            },
             "saveProfile": async function () {
-                var self = this;
-                var queryId = self.$route.query.id;
+                var self = this,
+                    data = self.inputProfile.form.item;
 
-                if(await ito.confirm("저장하시겠습니까?")) {
-                    var data = self.inputProfile.form.item;
-
-                    if(queryId != undefined && queryId != null)
-                        self.modifyProfile(queryId, data);
-                    else
-                        self.createProfile(data);
-
-                    await ito.alert("저장되었습니다.");
+                if(data.userProfId != undefined && data.userProfId != null) {
+                    if(await ito.confirm("수정하시겠습니까?")) {
+                        ito.api.common.profile.modifyProfile(data.userProfId, data);
+                        await ito.alert("수정되었습니다.");
+                    }
                 }
+                else {
+                    if(await ito.confirm("등록하시겠습니까?")) {
+                        ito.api.common.profile.createProfile(data);
+                        await ito.alert("등록되었습니다.");
+                    }
+                }
+                self.$router.push({
+                    "path": "/main/user/profiles",
+                });
             },
             "execDaumPostcode": function() {
                 var self = this;
@@ -100,7 +100,7 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                     },
                 }).open();
             },
-            "profileList": function() {
+            "handleClick": function() {
                 this.$router.push({
                     "path": "/main/user/profiles",
                 });
