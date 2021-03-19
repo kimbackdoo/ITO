@@ -10,9 +10,11 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             "search": [0],
                             "list": [0]
                         },
+                        "selected": [],
+                        "valid": true,
                         "dialog": false,
                         "dialogDelete": false,
-                        "user": {
+                        "userData": {
                             "id":"",
                             "name": "",
                             "jobType": "",
@@ -23,6 +25,24 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             "birthDate":"",
                             "workableDay":"",
                          },
+                        "pagination": {
+                            "length": 10,
+                            "totalVisible": 10
+                        },
+                        "formRule":{
+                            "name": [
+                                (v) =>
+                                    !!v || this.$vuetify.lang.t('$vuetify.rule.required', ['name'])
+                            ],
+                            "number": [
+                                (v) =>
+                                    !!v || this.$vuetify.lang.t('$vuetify.rule.required', ['number'])
+                            ],
+                            "jobType": [
+                                (v) =>
+                                    !!v || this.$vuetify.lang.t('$vuetify.rule.required', ['jobType'])
+                            ],
+                        },
                         "dataTable": {
                             "headers": [
                                 {"text": "이름", "sortable": false, "value": "name"},
@@ -37,29 +57,7 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                 {"text": "업무 가능일", "sortable": false, "value": "workableDay"},
                                 {"text": "수정 / 삭제", "sortable":false, "value": "actions"}
                             ],
-                            "items": [
-                                {name: '유수민', number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "김희민", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈1", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈2", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈3", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈4", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈5", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈6", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈7", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈8", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈9", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈10", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈11", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈12", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈13", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈14", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈15", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈16", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈17", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈18", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"}
-
-                            ],
+                            "items": [],
                             "loading": false,
                             "serverItemsLength": 0,
                             "page": 1,
@@ -70,8 +68,8 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                  {"text":"퍼블리셔", "value":"퍼블리셔"},
                                  {"text":"디자이너", "value":"디자이너"}
                              ],
-                            "address": ["서울특별시",'대전광역시'],
-                            "ad1": ["강서구","은평구","광진구","서초구","구로구"],
+                            "addr1": ["서울특별시",'대전광역시'],
+                            "address": ["강서구","은평구","광진구","서초구","구로구"],
                             "ad2": ["중구","서구","대덕구","유성구","동구"],
                             "career": [
                                 {"text":"신입", "value": "0"},
@@ -82,6 +80,10 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                 {"text":"5년", "value": "5"},
                                 {"text":"6년", "value": "6"},
                                 {"text":"7년", "value": "7"},
+                            ],
+                            "inputStatus": [
+                                {"text":"투입중", "value": "투입중"},
+                                {"text":"섭외중", "value": "섭외중"},
                             ],
                             "checkbox:": [],
                             "editedIndex": -1,
@@ -122,15 +124,16 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
             },
             "computed": {
                 formTitle() {
-                    return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+                    return this.user.dataTable.editedIndex === -1 ? 'New Item' : '정보 수정하기'
                 },
+
             },
             "watch": {
                 dialog (val){
-                    val || this.close()
+                    return val || this.close()
                 },
                 dialogDelete(val){
-                    val || this.closeDelete()
+                    return val || this.closeDelete()
                 },
             },
             "methods": {
@@ -237,43 +240,79 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                 }
 */
             //메소드
+            "handleClick": function() {
+
+            },
             "editItem": function(item){
-                this.editedIndex = this.items.indexOf(item)
-                this.editedItem = Object.assign({}, item)
-                this.dialog = true
+                this.user.dataTable.editedIndex = this.user.dataTable.items.indexOf(item)
+                this.user.dataTable.editedItem = Object.assign({}, item)
+//                this.user.dialog = true
             },
 
             "deleteItem": function(item){
-                this.editedIndex = this.items.indexOf(item)
-                this.editItem = Object.assign({}, item)
+                this.user.dataTable.editedIndex = this.user.dataTable.items.indexOf(item)
+                this.user.dataTable.editItem = Object.assign({}, item)
+                this.user.dialogDelete = true
             },
 
+            //삭제하기
             "deleteItemConfirm": function() {
-                this.items.splice(this.editedIndex, 1)
+                this.user.dataTable.items.splice(this.user.dataTable.editedIndex, 1)
                 this.closeDelete()
             },
             "close": function(){
-                this.dialog = false
+                this.user.dialog = false
                 this.$nextTick(() => {
-                    this.editedItem = Object.assign({}, this.defaultItem)
-                    this.editedIndex = -1
+                    this.user.dataTable.editedItem = Object.assign({}, this.user.dataTable.defaultItem)
+                    this.user.dataTable.editedIndex = -1
                 })
             },
+
+            //삭제 취소
             "closeDelete": function() {
-                this.dialogDelete = false
+                this.user.dialogDelete = false
                 this.$nextTick(() => {
-                    this.editedItem = Object.assign({}, this.defaultItem)
-                    this.editedIndex = -1
+                    this.user.dataTable.editedItem = Object.assign({}, this.user.dataTable.defaultItem)
+                    this.user.dataTable.editedIndex = -1
                 })
+            },
+            "validate": function() {
+                this.$refs.form.validate()
+            },
+            "resetValidation": function () {
+                this.$refs.form.resetValidation()
             },
             "save": function() {
-                if(this.editedIndex > -1){
-                    Object.assign(this.items[this.editedIndex], this.editedItem)
-                }else{
-                    this.items.push(this.editedItem)
+                if(this.$refs.form.validate()){
+                    if(this.user.dataTable.editedIndex > -1){
+                            Object.assign(this.user.dataTable.items[this.user.dataTable.editedIndex], this.user.dataTable.editedItem)
+                    }else{
+                        this.user.dataTable.items.push(this.user.dataTable.editedItem)
+                    }
+                    this.close();
                 }
-                this.close()
             },
+            "reset": function () {
+                var self = this;
+                self.$refs.form.resetValidation()
+                   return new Promise(function (resolve, reject) {
+                       Promise.resolve()
+                           .then(function () {
+                           })
+                           .then(function () {
+                               self.user.dataTable.editedItem.name = "";
+                               self.user.dataTable.editedItem.number = "";
+                               self.user.dataTable.editedItem.jobType = "";
+                               self.user.dataTable.editedItem.skill = "";
+                               self.user.dataTable.editedItem.birthDate = "";
+                               self.user.dataTable.editedItem.career = "";
+                               self.user.dataTable.editedItem.pay = "";
+                               self.user.dataTable.editedItem.inputStatus = "";
+                               self.user.dataTable.editedItem.workableDay = "";
+                           })
+                           .then(function () { resolve(); });
+                    });
+             }
 
 
 /*            "mounted": function () {

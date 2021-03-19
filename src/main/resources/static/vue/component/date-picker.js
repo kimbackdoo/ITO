@@ -76,14 +76,6 @@ var PickerDatePickerComponent = Vue.component('date-picker-component', function 
                 "value": {
                     "type": String,
                     "default": ""
-                },
-                "max": {
-                    "type": String,
-                    "default": moment().format("YYYY-MM-DD")
-                },
-                "min": {
-                    "type": String,
-                    "default": ""
                 }
             },
             "data": function () {
