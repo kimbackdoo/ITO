@@ -48,6 +48,5 @@ public class ApiCommonProfileController {
     public void removeProfileList(
             @RequestBody List<Long> idList) {
         profileService.removeProfileList(idList);
-        System.out.println(idList);
     }
 }

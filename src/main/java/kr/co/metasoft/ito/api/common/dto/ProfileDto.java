@@ -2,7 +2,6 @@ package kr.co.metasoft.ito.api.common.dto;
 
 import lombok.*;
 
-import javax.persistence.Column;
 import java.time.LocalDate;
 
 @Getter
@@ -14,6 +13,10 @@ public class ProfileDto {
     private Long userProfId;
 
     private String address;
+
+    private Long postcode;
+
+    private String detailAddress;
 
     private String number;
 

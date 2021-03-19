@@ -19,13 +19,13 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                             "skill": null,
                             "pay": null,
                             "status": null,
+                            "postcode": null,
+                            "address": null,
+                            "detailAddress": null,
+                            "extraAddress": null
                         },
                     },
                 },
-                "postcode": '',
-                "address": '',
-                "detailAddress": '',
-                "extraAddress": '',
                 "career": {
                     "dataTable": {
                         "headers": [
@@ -79,23 +79,23 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                 var self = this;
                 new daum.Postcode({
                     "onComplete": function(data) {
-                        if (data.userSelectedType === 'R') self.address = data.roadAddress;
-                        else self.address = data.jibunAddress;
+                        if (data.userSelectedType === 'R') self.inputProfile.form.item.address = data.roadAddress;
+                        else self.inputProfile.form.item.address = data.jibunAddress;
 
                         if (data.userSelectedType === 'R') {
                             if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-                                self.extraAddress += data.bname;
+                                self.inputProfile.form.item.extraAddress += data.bname;
                             }
                             if (data.buildingName !== '' && data.apartment === 'Y') {
-                                self.extraAddress += (self.extraAddress !== '' ? ', ' + data.buildingName : data.buildingName);
+                                self.inputProfile.form.item.extraAddress += (self.inputProfile.form.item.extraAddress !== '' ? ', ' + data.buildingName : data.buildingName);
                             }
-                            if (self.extraAddress !== '') {
-                                self.extraAddress =  ' (' + self.extraAddress + ')';
+                            if (self.inputProfile.form.item.extraAddress !== '') {
+                                self.inputProfile.form.item.extraAddress =  ' (' + self.inputProfile.form.item.extraAddress + ')';
                             }
                         } else {
-                            self.extraAddress = '';
+                            self.inputProfile.form.item.extraAddress = '';
                         }
-                        self.postcode = data.zonecode;
+                        self.inputProfile.form.item.postcode = data.zonecode;
                         self.$refs.detailAddress.focus();
                     },
                 }).open();

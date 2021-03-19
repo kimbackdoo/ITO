@@ -23,6 +23,12 @@ public class ProfileEntity {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "postcode")
+    private Long postcode;
+
+    @Column(name = "detail_address")
+    private String detailAddress;
+
     @Column(name = "number")
     private String number;
 
