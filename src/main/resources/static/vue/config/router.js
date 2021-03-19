@@ -55,6 +55,11 @@ router = new VueRouter({
                     "component": MainAdminFormPage
                 },
                 {
+                    "name": "프로젝트 목록",
+                    "path": "/main/admin/project-lists",
+                    "component": MainAdminProjectListPage
+                },
+                {
                     "name": "Settings",
                     "path": "/settings",
                     "redirect": "/settings/apis",
