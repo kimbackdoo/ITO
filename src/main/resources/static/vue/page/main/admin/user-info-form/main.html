@@ -1,3 +1,4 @@
+
 <v-container fluid>
 
 
@@ -10,7 +11,11 @@
                 <v-expansion-panel>
                     <v-expansion-panel-header>사용자 정보 입력하기</v-expansion-panel-header>
                     <v-expansion-panel-content>
-                    <v-form>
+                    <v-form
+                          ref="form"
+                          v-model="user.valid"
+                          lazy-validation
+                    >
                       <v-row>
                            <v-col
                               cols="12"
@@ -18,7 +23,9 @@
                            >
                             <v-text-field
                                 label="이름"
-                                    v-model="user.name"
+                                v-model="user.dataTable.editedItem.name"
+                                :rules= "[v=> !!v || '필수 입니다']"
+                                required
                             ></v-text-field>
                             </v-col>
                            <v-col
@@ -26,18 +33,25 @@
                               sm="2"
                            >
                             <v-text-field
+                                class="required"
                                 label="전화번호"
-                                    v-model="user.number"
+                                v-model="user.dataTable.editedItem.number"
+                                :rules= "[v=> !!v || '필수 입니다']"
+                                required
                             ></v-text-field>
                             </v-col>
                            <v-col
                               cols="12"
                               sm="2"
                            >
-                            <v-text-field
+                            <v-select
+                                menu-props="auto"
                                 label="직종"
-                                    v-model="user.jobType"
-                            ></v-text-field>
+                                v-model="user.dataTable.editedItem.jobType"
+                                :items="user.dataTable.jobTypeItems"
+                                :rules= "[v=> !!v || '필수 입니다']"
+                                required
+                            ></v-select>
                             </v-col>
                            <v-col
                               cols="12"
@@ -45,7 +59,7 @@
                            >
                             <v-text-field
                                 label="기술"
-                                    v-model="user.skill"
+                                v-model="user.dataTable.editedItem.skill"
                             ></v-text-field>
                             </v-col>
                            <v-col
@@ -53,8 +67,9 @@
                               sm="2"
                            >
                         <date-picker-component
+                              class="required"
                             label="생년월일"
-                            v-model="user.birthDate"
+                            v-model="user.dataTable.editedItem.birthDate"
                         ></date-picker-component>
                             </v-col>
                       </v-row>
@@ -63,10 +78,12 @@
                               cols="12"
                               sm="2"
                            >
-                            <v-text-field
+                            <v-select
+                                menu-props="auto"
                                 label="경력기간"
-                                    v-model="user.career"
-                            ></v-text-field>
+                                :items="user.dataTable.career"
+                                v-model="user.dataTable.editedItem.career"
+                            ></v-select>
                            </v-col>
                            <v-col
                               cols="12"
@@ -74,17 +91,29 @@
                            >
                             <v-text-field
                                 label="희망급여"
-                                    v-model="user.pay"
+                                v-model="user.dataTable.editedItem.pay"
                             ></v-text-field>
                            </v-col>
                            <v-col
                               cols="12"
                               sm="2"
                            >
-                            <v-text-field
+                            <v-select
+                                label="지역"
+                                v-model="user.dataTable.editedItem.address"
+                                :items="user.dataTable.address"
+                            ></v-select>
+                           </v-col>
+                           <v-col
+                              cols="12"
+                              sm="2"
+                           >
+                            <v-select
+                                menu-props="auto"
                                 label="투입여부"
-                                    v-model="user.inputStatus"
-                            ></v-text-field>
+                                v-model="user.dataTable.editedItem.inputStatus"
+                                :items="user.dataTable.inputStatus"
+                            ></v-select>
                            </v-col>
                            <v-col
                               cols="12"
@@ -92,37 +121,73 @@
                            >
                         <date-picker-component
                             label="업무 가능일"
-                            v-model="user.workableDay"
+                            v-model="user.dataTable.editedItem.workableDay"
                         ></date-picker-component>
                            </v-col>
+                       </v-row>
+                       <v-row>
                          <v-spacer></v-spacer>
                         <v-card-actions>
                             <v-btn
                             class="primary"
-                                @click=""
-                            >+</v-btn>
+                            :disabled="!(user.valid)"
+                             @click="save"
+                            >추가하기</v-btn>
                             <v-btn
-                            class="red"
-                            @click=""
-                         >-</v-btn>
+                            class="secondary"
+                             @click="reset"
+                            >초기화 하기</v-btn>
+
                         </v-card-actions>
                      </v-row>
-            <!-- --------------------------------------------------------------------------->
+
+                     </v-form>
+                   </v-expansion-panel-content>
+
+             </v-expansion-panel>
+      </v-expansion-panels>
+      <v-expansion-panels
+              multiple
+              v-model="user.panels.list"
+       >
+           <v-expansion-panel>
+            <v-expansion-panel-header>사용자 입력 목록</v-expansion-panel-header>
+              <v-expansion-panel-content>
+
+            <v-dialog v-model="user.dialogDelete" max-width="500px">
+              <v-card>
+                <v-card-title class="headline">삭제할 겁니까???</v-card-title>
+                  <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="blue darken-1" text @click="closeDelete">취소</v-btn>
+                      <v-btn color="blue darken-1" text @click="deleteItemConfirm">삭제</v-btn>
+                      <v-spacer></v-spacer>
+                  </v-card-actions>
+                </v-card>
+            </v-dialog>
+
               <v-row>
                 <v-col cols="12" >
                         <v-data-table
                             dense
+                            fixed-header
+                            hide-default-footer
                             :headers="user.dataTable.headers"
                             :items="user.dataTable.items"
-                            class="elevation-1"
-                            hide-default-footer
+                            :page="user.dataTable.page"
+                            :items-per-page="user.dataTable.itemsPerPage"
+                            @page-count="user.pagination.length = $event"
+                            show-select
+                            v-model="user.selected"
+                            item-key="name"
+                            @click:row="handleClick"
                             >
 
                             <template v-slot:top>
                                 <v-toolbar flat>
                                    <v-select
-                                       hide-details
-                                       dense
+                                        fixed-header
+                                         hide-default-footer
                                        class="shrink"
                                        label="items Per Page"
                                        :items="user.dataTable.itemsPerPageItems"
@@ -132,23 +197,10 @@
                                        <v-btn
                                            class="primary"
                                            to="/main/admin/user-info-form"
-                                       >저장하기</v-btn>
+                                       >DB 저장</v-btn>
                                 </v-toolbar>
-
-
-<!--                             <v-dialog v-model="dialogDelete" max-width="500px">
-                                  <v-card>
-                                    <v-card-title class="headline">삭제할 겁니까???</v-card-title>
-                                    <v-card-actions>
-                                      <v-spacer></v-spacer>
-                                      <v-btn color="blue darken-1" text @click="closeDelete">취소</v-btn>
-                                      <v-btn color="blue darken-1" text @click="deleteItemConfirm">삭제</v-btn>
-                                    <v-spacer></v-spacer>
-                                       </v-card-actions>
-                                </v-card>
-                               </v-dialog>
- -->
                              </template>
+
                               <template v-slot:item.name="{ item }">
                                 <v-btn
                                 text
@@ -169,10 +221,23 @@
                                 mdi-delete
                                 </v-icon>
                             </template>
-                         </v-data-table>
+                          </v-data-table>
+
+                         <v-pagination
+                            class="mt-2"
+                            v-model="user.dataTable.page"
+                            :length="user.pagination.length"
+                            :total-visible="user.pagination.totalVisible"
+
+                          ></v-pagination>
+                         <v-spacer></v-spacer>
+                         <v-btn
+                            class="red"
+                            @click="deleteItem(item)"
+                         >삭제하기</v-btn>
+
                         </v-col>
                       </v-row>
-                    </v-form>
                    </v-expansion-panel-content>
                  </v-expansion-panel>
               </v-expansion-panels>

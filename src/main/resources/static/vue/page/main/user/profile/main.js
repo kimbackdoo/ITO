@@ -40,10 +40,6 @@ ProfileMainComponent = Vue.component('profile-main-component', async function (r
                         "loading": false,
                         "totalRows": 0,
                     },
-                    "pagination": {
-                        "length": 10,
-                        "totalVisible": 10
-                    },
                 }
             };
         },
@@ -94,6 +90,11 @@ ProfileMainComponent = Vue.component('profile-main-component', async function (r
 
                 self.profile.dataTable.totalRows = profileList.totalRows;
                 self.profile.dataTable.items = profileList.items;
+
+                for(let i=0; i<self.profile.dataTable.items.length; i++) {
+                    if(self.profile.dataTable.items[i].status==='T') self.profile.dataTable.items[i].status = '공개';
+                    else self.profile.dataTable.items[i].status = '비공개';
+                }
 
                 self.profile.dataTable.loading = false;
             },

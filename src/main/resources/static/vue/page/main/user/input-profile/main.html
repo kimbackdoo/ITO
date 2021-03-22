@@ -47,7 +47,7 @@
                                                     outlined
                                                     dense
                                                     label="우편번호"
-                                                    v-model="postcode"
+                                                    v-model="inputProfile.form.item.postcode"
                                                     @click="execDaumPostcode"
                                             ></v-text-field>
                                         </div>
@@ -56,7 +56,7 @@
                                                     outlined
                                                     dense
                                                     label="주소"
-                                                    v-model="address"
+                                                    v-model="inputProfile.form.item.address"
                                             ></v-text-field>
                                             <v-text-field
                                                     outlined
@@ -64,7 +64,7 @@
                                                     class="ml-2"
                                                     label="상세주소"
                                                     ref="detailAddress"
-                                                    v-model="detailAddress"
+                                                    v-model="inputProfile.form.item.detailAddress"
                                             ></v-text-field>
                                         </div>
                                     </v-col>

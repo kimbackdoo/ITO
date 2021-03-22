@@ -1,0 +1,122 @@
+<v-main>
+    <v-container class="fill-height">
+        <v-row>
+            <v-col align="center">
+                <v-card max-width="800">
+                    <v-card-title>현대해상 인프라 회원가입</v-card-title>
+                    <v-card-text>
+                        <v-stepper>
+                            <v-stepper-header>
+                                <template v-for="(category, i) in stepper.category">
+                                    <v-stepper-step
+                                        :key="`${category}-step`"
+                                        :step="i+1"
+                                        editable
+                                    >{{category}}</v-stepper-step>
+                                    <v-divider
+                                        v-if="i !== stepper.category.length-1"
+                                    ></v-divider>
+                                </template>
+                            </v-stepper-header>
+                            <v-stepper-items>
+                                <v-stepper-content
+                                    :key="`${stepper.category[0]}-content`"
+                                    :step="1"
+                                >
+                                {{1}}
+                                </v-stepper-content>
+                                <v-stepper-content
+                                    :key="`${stepper.category[1]}-content`"
+                                    :step="2"
+                                >
+                                    <v-form ref="form">
+                                        <v-row dense>
+                                            <v-col cols="12">
+                                                <v-text-field
+                                                    autocomplete="off"
+                                                    dense
+                                                    outlined
+                                                    clearable
+                                                    label="아이디(필수)"
+                                                    :rules="[rules.required]"
+                                                    hide-details="auto"
+                                                    v-model="data.user.username"
+                                                ></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12">
+                                                <v-text-field
+                                                    v-if="!data.user.id"
+                                                    autocomplete="new-password"
+                                                    dense
+                                                    outlined
+                                                    clearable
+                                                    :type="text.type"
+                                                    :append-icon="text.icon"
+                                                    label="비밀번호(필수)"
+                                                    @click:append="showPassword();"
+                                                    :rules="[rules.required, rules.password]"
+                                                    hide-details="auto"
+                                                    v-model="data.user.password"
+                                                ></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12">
+                                                <v-text-field
+                                                    autocomplete="off"
+                                                    dense
+                                                    outlined
+                                                    clearable
+                                                    label="이메일(필수)"
+                                                    :rules="[rules.required, rules.email]"
+                                                    hide-details="auto"
+                                                    v-model="data.user.email"
+                                                ></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12">
+                                                <v-text-field
+                                                    dense
+                                                    outlined
+                                                    clearable
+                                                    label="이름(필수)"
+                                                    :rules="[rules.required]"
+                                                    hide-details="auto"
+                                                    v-model="data.person.name"
+                                                ></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row dense>
+                                            <v-col cols="12" class="text-right">
+                                                <v-btn
+                                                    color="primary"
+                                                    :loading="btn.saveAccount.loading"
+                                                    @click="saveAccount();"
+                                                >회원가입</v-btn>
+                                            </v-col>
+                                        </v-row>
+                                    </v-form>
+                                </v-stepper-content>
+                                <v-stepper-content
+                                    :key="`${stepper.category[2]}-content`"
+                                    :step="3"
+                                >
+                                {{3}}
+                                </v-stepper-content>
+                                <v-stepper-content
+                                    :key="`${stepper.category[3]}-content`"
+                                    :step="4"
+                                >
+                                {{4}}
+                                </v-stepper-content>
+                                <v-stepper-content
+                                    :key="`${stepper.category[4]}-content`"
+                                    :step="5"
+                                >
+                                {{5}}
+                                </v-stepper-content>
+                            </v-stepper-items>
+                        </v-stepper>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
+</v-main>

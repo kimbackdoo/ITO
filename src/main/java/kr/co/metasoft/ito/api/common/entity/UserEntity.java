@@ -61,10 +61,6 @@ public class UserEntity {
     @Column (name = "`password`", columnDefinition = "varchar(100)", nullable = false)
     private String password;
 
-    @NotNull (groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
-    @Column (name = "`email`", columnDefinition = "varchar(100)", nullable = false)
-    private String email;
-
     @JsonFormat (pattern = "yyyy-MM-dd")
     @DateTimeFormat (pattern = "yyyy-MM-dd")
     @NotNull (groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
