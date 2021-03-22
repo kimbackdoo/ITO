@@ -1,5 +1,6 @@
 package kr.co.metasoft.ito.api.common.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -48,6 +49,55 @@ public class PersonEntity {
 
     @Column (name = "`name`", columnDefinition = "varchar(100)", nullable = true)
     private String name;
+
+    @Column (name = "`phone_number`", columnDefinition = "varchar(13)", nullable = true)
+    private String phoneNumber;
+
+    @Column (name = "`job_type`", columnDefinition = "varchar(100)", nullable = true)
+    private String jobType;
+
+    @Column (name = "`input_status`", columnDefinition = "char(1)", nullable = true)
+    private String inputStatus;
+
+    @Column (name = "`certificate_status`", columnDefinition = "char(1)", nullable = true)
+    private String certificateStatus;
+
+    @Column (name = "`skill`", columnDefinition = "varchar(100)", nullable = true)
+    private String skill;
+
+    @Column (name = "`career`", columnDefinition = "varchar(10)", nullable = true)
+    private String career;
+
+    @Column (name = "`pay`", columnDefinition = "bigint(20)", nullable = true)
+    private Long pay;
+
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
+    @Column (name = "`workable_day`", columnDefinition = "date", nullable = true)
+    private LocalDate workableDay;
+
+    @Column (name = "`postcode`", columnDefinition = "bigint(20)", nullable = true)
+    private Long postcode;
+
+    @Column (name = "`address`", columnDefinition = "varchar(100)", nullable = true)
+    private String address;
+
+    @Column (name = "`detail_address`", columnDefinition = "varchar(100)", nullable = true)
+    private String detailAddress;
+
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
+    @Column (name = "`birth_date`", columnDefinition = "date", nullable = true)
+    private LocalDate birthDate;
+
+    @Column (name = "`email`", columnDefinition = "varchar(100)", nullable = true)
+    private String email;
+
+    @Column (name = "`website`", columnDefinition = "varchar(100)", nullable = true)
+    private String website;
+
+    @Column (name = "`education`", columnDefinition = "varchar(100)", nullable = true)
+    private String education;
 
     @CreatedDate
     @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")

@@ -1,7 +1,6 @@
 package kr.co.metasoft.ito.api.app.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -48,21 +47,30 @@ public class AccountService {
     public AccountDto createAccount (
             @Valid @NotNull (groups = {CreateValidationGroup.class}) AccountDto accountDto) {
         AccountDto result = new AccountDto();
-        UserEntity userEntity = new UserEntity(
-                accountDto.getUserDto().getId(),
-                accountDto.getUserDto().getUsername(),
-                accountDto.getUserDto().getPassword(),
-                accountDto.getUserDto().getEmail(),
-                LocalDate.now(),
-                accountDto.getUserDto().getStatus(),
-                accountDto.getUserDto().getCreatedDate(),
-                accountDto.getUserDto().getLastModifiedDate());
+        UserEntity userEntity = UserEntity.builder()
+                .username(accountDto.getUserDto().getUsername())
+                .password(accountDto.getUserDto().getPassword())
+                .lastModifiedPasswordDate(LocalDate.now())
+                .status(accountDto.getUserDto().getStatus())
+                .build();
 
-        PersonEntity personEntity = new PersonEntity(
-                accountDto.getPersonDto().getId(),
-                accountDto.getPersonDto().getName(),
-                accountDto.getPersonDto().getCreatedDate(),
-                accountDto.getPersonDto().getLastModifiedDate());
+        PersonEntity personEntity = PersonEntity.builder()
+                .name(accountDto.getPersonDto().getName())
+                .phoneNumber(accountDto.getPersonDto().getPhoneNumber())
+                .jobType(accountDto.getPersonDto().getJobType())
+                .inputStatus(accountDto.getPersonDto().getInputStatus())
+                .certificateStatus(accountDto.getPersonDto().getCertificateStatus())
+                .skill(accountDto.getPersonDto().getSkill())
+                .career(accountDto.getPersonDto().getCareer())
+                .pay(accountDto.getPersonDto().getPay())
+                .workableDay(accountDto.getPersonDto().getWorkableDay())
+                .postcode(accountDto.getPersonDto().getPostcode())
+                .address(accountDto.getPersonDto().getAddress())
+                .detailAddress(accountDto.getPersonDto().getDetailAddress())
+                .email(accountDto.getPersonDto().getEmail())
+                .website(accountDto.getPersonDto().getWebsite())
+                .education(accountDto.getPersonDto().getEducation())
+                .build();
 
         userEntity.setPassword(passwordEncoder.encode((userEntity.getPassword())));
         Long userId = userRepository.save(userEntity).getId();
@@ -82,20 +90,31 @@ public class AccountService {
     @Transactional
     public void modifyAccount(
             @Valid @NotNull (groups = {ModifyValidationGroup.class}) AccountDto accountDto) {
-        UserEntity userEntity = new UserEntity(
-                accountDto.getUserDto().getId(),
-                accountDto.getUserDto().getUsername(),
-                accountDto.getUserDto().getPassword(),
-                accountDto.getUserDto().getEmail(),
-                accountDto.getUserDto().getLastModifiedPasswordDate(),
-                accountDto.getUserDto().getStatus(),
-                accountDto.getUserDto().getCreatedDate(),
-                accountDto.getUserDto().getLastModifiedDate());
-        PersonEntity personEntity = new PersonEntity(
-                accountDto.getPersonDto().getId(),
-                accountDto.getPersonDto().getName(),
-                accountDto.getPersonDto().getCreatedDate(),
-                accountDto.getPersonDto().getLastModifiedDate());
+        UserEntity userEntity = UserEntity.builder()
+                .id(accountDto.getUserDto().getId())
+                .username(accountDto.getUserDto().getUsername())
+                .password(accountDto.getUserDto().getPassword())
+                .lastModifiedPasswordDate(accountDto.getUserDto().getLastModifiedPasswordDate())
+                .status(accountDto.getUserDto().getStatus())
+                .build();
+
+        PersonEntity personEntity = PersonEntity.builder()
+                .name(accountDto.getPersonDto().getName())
+                .phoneNumber(accountDto.getPersonDto().getPhoneNumber())
+                .jobType(accountDto.getPersonDto().getJobType())
+                .inputStatus(accountDto.getPersonDto().getInputStatus())
+                .certificateStatus(accountDto.getPersonDto().getCertificateStatus())
+                .skill(accountDto.getPersonDto().getSkill())
+                .career(accountDto.getPersonDto().getCareer())
+                .pay(accountDto.getPersonDto().getPay())
+                .workableDay(accountDto.getPersonDto().getWorkableDay())
+                .postcode(accountDto.getPersonDto().getPostcode())
+                .address(accountDto.getPersonDto().getAddress())
+                .detailAddress(accountDto.getPersonDto().getDetailAddress())
+                .email(accountDto.getPersonDto().getEmail())
+                .website(accountDto.getPersonDto().getWebsite())
+                .education(accountDto.getPersonDto().getEducation())
+                .build();
 
         Long userId = userRepository.save(userEntity).getId();
         Long personId = personRepository.save(personEntity).getId();
@@ -110,23 +129,31 @@ public class AccountService {
     public void userSignUp (
             @Valid @NotNull (groups = {CreateValidationGroup.class}) AccountDto accountDto) {
 
-        UserEntity userEntity = new UserEntity();
+        UserEntity userEntity = UserEntity.builder()
+                .id(accountDto.getUserDto().getId())
+                .username(accountDto.getUserDto().getUsername())
+                .password(accountDto.getUserDto().getPassword())
+                .lastModifiedPasswordDate(LocalDate.now())
+                .status("F")
+                .build();
 
-        userEntity.setId(accountDto.getUserDto().getId());
-        userEntity.setUsername(accountDto.getUserDto().getUsername());
-        userEntity.setPassword(accountDto.getUserDto().getPassword());
-        userEntity.setEmail(accountDto.getUserDto().getEmail());
-        userEntity.setLastModifiedPasswordDate(LocalDate.now());
-        userEntity.setStatus("F");
-        userEntity.setCreatedDate(LocalDateTime.now());
-        userEntity.setLastModifiedDate(LocalDateTime.now());
-
-        PersonEntity personEntity = new PersonEntity();
-
-        personEntity.setId(accountDto.getPersonDto().getId());
-        personEntity.setName(accountDto.getPersonDto().getName());
-        personEntity.setCreatedDate(LocalDateTime.now());
-        personEntity.setLastModifiedDate(LocalDateTime.now());
+        PersonEntity personEntity = PersonEntity.builder()
+                .name(accountDto.getPersonDto().getName())
+                .phoneNumber(accountDto.getPersonDto().getPhoneNumber())
+                .jobType(accountDto.getPersonDto().getJobType())
+                .inputStatus(accountDto.getPersonDto().getInputStatus())
+                .certificateStatus(accountDto.getPersonDto().getCertificateStatus())
+                .skill(accountDto.getPersonDto().getSkill())
+                .career(accountDto.getPersonDto().getCareer())
+                .pay(accountDto.getPersonDto().getPay())
+                .workableDay(accountDto.getPersonDto().getWorkableDay())
+                .postcode(accountDto.getPersonDto().getPostcode())
+                .address(accountDto.getPersonDto().getAddress())
+                .detailAddress(accountDto.getPersonDto().getDetailAddress())
+                .email(accountDto.getPersonDto().getEmail())
+                .website(accountDto.getPersonDto().getWebsite())
+                .education(accountDto.getPersonDto().getEducation())
+                .build();
 
         userEntity.setPassword(passwordEncoder.encode((userEntity.getPassword())));
         Long userId = userRepository.save(userEntity).getId();

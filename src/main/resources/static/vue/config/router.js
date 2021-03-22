@@ -106,11 +106,11 @@ router = new VueRouter({
                     "path": "/sign-in",
                     "component": SignInMainPage,
                 },
-//                {
-//                    "name": "Sign Up",
-//                    "path": "/sign-up",
-//                    "component": SignUpMainPage
-//                }
+                {
+                    "name": "Sign Up",
+                    "path": "/sign-up",
+                    "component": SignUpMainPage
+                }
             ]
         }
     ]

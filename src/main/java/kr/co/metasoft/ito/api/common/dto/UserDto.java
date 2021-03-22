@@ -28,8 +28,6 @@ public class UserDto {
 
     private String password;
 
-    private String email;
-
     @JsonFormat (pattern = "yyyy-MM-dd")
     @DateTimeFormat (pattern = "yyyy-MM-dd")
     private LocalDate lastModifiedPasswordDate;
