@@ -54,7 +54,6 @@ public class ApiCommonUserController {
             UserEntity userEntity = UserEntity.builder()
                     .username(userDto.getUsername())
                     .password(userDto.getPassword())
-                    .email(userDto.getEmail())
                     .lastModifiedPasswordDate(userDto.getLastModifiedPasswordDate())
                     .status(userDto.getStatus())
                     .build();
@@ -69,7 +68,6 @@ public class ApiCommonUserController {
         UserEntity userEntity = UserEntity.builder()
                 .username(userDto.getUsername())
                 .password(userDto.getPassword())
-                .email(userDto.getEmail())
                 .lastModifiedPasswordDate(userDto.getLastModifiedPasswordDate())
                 .status(userDto.getStatus())
                 .build();
@@ -86,7 +84,6 @@ public class ApiCommonUserController {
                     .id(userDto.getId())
                     .username(userDto.getUsername())
                     .password(userDto.getPassword())
-                    .email(userDto.getEmail())
                     .lastModifiedPasswordDate(userDto.getLastModifiedPasswordDate())
                     .status(userDto.getStatus())
                     .build();
@@ -103,7 +100,6 @@ public class ApiCommonUserController {
                 .id(id)
                 .username(userDto.getUsername())
                 .password(userDto.getPassword())
-                .email(userDto.getEmail())
                 .lastModifiedPasswordDate(userDto.getLastModifiedPasswordDate())
                 .status(userDto.getStatus())
                 .build();

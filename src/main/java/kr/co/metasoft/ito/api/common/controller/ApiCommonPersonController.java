@@ -49,6 +49,20 @@ public class ApiCommonPersonController {
             PersonDto personDto = personDtoList.get(i);
             PersonEntity personEntity = PersonEntity.builder()
                     .name(personDto.getName())
+                    .phoneNumber(personDto.getPhoneNumber())
+                    .jobType(personDto.getJobType())
+                    .inputStatus(personDto.getInputStatus())
+                    .certificateStatus(personDto.getCertificateStatus())
+                    .skill(personDto.getSkill())
+                    .career(personDto.getCareer())
+                    .pay(personDto.getPay())
+                    .workableDay(personDto.getWorkableDay())
+                    .postcode(personDto.getPostcode())
+                    .address(personDto.getAddress())
+                    .detailAddress(personDto.getDetailAddress())
+                    .email(personDto.getEmail())
+                    .website(personDto.getWebsite())
+                    .education(personDto.getEducation())
                     .build();
             personList.add(personEntity);
         }
@@ -60,6 +74,20 @@ public class ApiCommonPersonController {
             @RequestBody PersonDto personDto) {
         PersonEntity personEntity = PersonEntity.builder()
                 .name(personDto.getName())
+                .phoneNumber(personDto.getPhoneNumber())
+                .jobType(personDto.getJobType())
+                .inputStatus(personDto.getInputStatus())
+                .certificateStatus(personDto.getCertificateStatus())
+                .skill(personDto.getSkill())
+                .career(personDto.getCareer())
+                .pay(personDto.getPay())
+                .workableDay(personDto.getWorkableDay())
+                .postcode(personDto.getPostcode())
+                .address(personDto.getAddress())
+                .detailAddress(personDto.getDetailAddress())
+                .email(personDto.getEmail())
+                .website(personDto.getWebsite())
+                .education(personDto.getEducation())
                 .build();
         return personService.createPerson(personEntity);
     }
@@ -73,6 +101,20 @@ public class ApiCommonPersonController {
             PersonEntity personEntity = PersonEntity.builder()
                     .id(personDto.getId())
                     .name(personDto.getName())
+                    .phoneNumber(personDto.getPhoneNumber())
+                    .jobType(personDto.getJobType())
+                    .inputStatus(personDto.getInputStatus())
+                    .certificateStatus(personDto.getCertificateStatus())
+                    .skill(personDto.getSkill())
+                    .career(personDto.getCareer())
+                    .pay(personDto.getPay())
+                    .workableDay(personDto.getWorkableDay())
+                    .postcode(personDto.getPostcode())
+                    .address(personDto.getAddress())
+                    .detailAddress(personDto.getDetailAddress())
+                    .email(personDto.getEmail())
+                    .website(personDto.getWebsite())
+                    .education(personDto.getEducation())
                     .build();
             personList.add(personEntity);
         }
@@ -86,6 +128,20 @@ public class ApiCommonPersonController {
         PersonEntity personEntity = PersonEntity.builder()
                 .id(id)
                 .name(personDto.getName())
+                .phoneNumber(personDto.getPhoneNumber())
+                .jobType(personDto.getJobType())
+                .inputStatus(personDto.getInputStatus())
+                .certificateStatus(personDto.getCertificateStatus())
+                .skill(personDto.getSkill())
+                .career(personDto.getCareer())
+                .pay(personDto.getPay())
+                .workableDay(personDto.getWorkableDay())
+                .postcode(personDto.getPostcode())
+                .address(personDto.getAddress())
+                .detailAddress(personDto.getDetailAddress())
+                .email(personDto.getEmail())
+                .website(personDto.getWebsite())
+                .education(personDto.getEducation())
                 .build();
         return personService.modifyPerson(personEntity);
     }

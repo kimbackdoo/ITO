@@ -2,13 +2,8 @@
 
     <v-row>
         <v-col cols="12">
-
-            <v-expansion-panels
-                multiple
-                v-model="project.panels.search"
-            >
             <v-expansion-panel>
-                <v-expansion-panel-header>프로젝트 목록</v-expansion-panel-header>
+                <v-expansion-panel-header>프로젝트 입력하기</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-form>
                         <v-row>
@@ -153,47 +148,6 @@
                     </v-form>
                 </v-expansion-panel-content>
             </v-expansion-panel>
-        </v-expansion-panels>
-
-    <v-row>
-        <v-col cols="12">
-            <v-expansion-panels
-                multiple
-                v-model="project.panels.list"
-            >
-            <v-expansion-panel>
-                <v-expansion-panel-header></v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                        <v-data-table
-                            dense
-                            fixed-header
-                            hide-default-footer
-                            height="450px"
-                            :headers="project.dataTable.headers"
-                            :items="project.items"
-                            :loading="project.loading"
-                            :server-itmes-length="project.serverItemsLength"
-                            :page.sync="project.page"
-                            :items-per-page.sync="project.itemsPerPage"
-                            @page-count="project.pagination.length = $event"
-                            @dbclick:row="projectDetail()"
-                            >
-                        </v-data-table>
-                        <v-col cols="12" class="text-right">
-                        <v-btn
-                            class="primary"
-                            to="/main/admin/project-info-form"
-                        >추가하기</v-btn>
-                        </v-col>
-                        <v-pagination
-                            class="mt-2"
-                            v-model="project.page"
-                            :length="project.pagination.length"
-                            :total-visible="project.totalVisible"
-                        ></v-pagination>
-                    </v-expansion-panel-content>
-                </v-expansion-panel>
-            </v-expansion-panels>
         </v-col>
     </v-row>
 </v-container>

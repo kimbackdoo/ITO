@@ -70,6 +70,11 @@ router = new VueRouter({
                     "component": MainAdminProjectListPage
                 },
                 {
+                     "name": "프로젝트 입력하기",
+                      "path": "/main/admin/project-info-form",
+                      "component": MainAdminProjectFormPage
+                },
+                {
                     "name": "Settings",
                     "path": "/settings",
                     "redirect": "/settings/apis",
@@ -116,11 +121,11 @@ router = new VueRouter({
                     "path": "/sign-in",
                     "component": SignInMainPage,
                 },
-//                {
-//                    "name": "Sign Up",
-//                    "path": "/sign-up",
-//                    "component": SignUpMainPage
-//                }
+                {
+                    "name": "Sign Up",
+                    "path": "/sign-up",
+                    "component": SignUpMainPage
+                }
             ]
         }
     ]
