@@ -64,6 +64,7 @@ public class ApiCommonUserInfoController {
                         .birthDate(userInfoDto.getBirhtDate())
                         .career(userInfoDto.getCareer())
                         .pay(userInfoDto.getPay())
+                        .address(userInfoDto.getAddress())
                         .inputStatus(userInfoDto.getInputStatus())
                         .workableDay(userInfoDto.getWorkableDay())
                         .build();
@@ -83,6 +84,7 @@ public class ApiCommonUserInfoController {
                     .birthDate(userInfoDto.getBirhtDate())
                     .career(userInfoDto.getCareer())
                     .pay(userInfoDto.getPay())
+                    .address(userInfoDto.getAddress())
                     .inputStatus(userInfoDto.getInputStatus())
                     .workableDay(userInfoDto.getWorkableDay())
                     .build();
@@ -104,6 +106,7 @@ public class ApiCommonUserInfoController {
                         .birthDate(userInfoDto.getBirhtDate())
                         .career(userInfoDto.getCareer())
                         .pay(userInfoDto.getPay())
+                        .address(userInfoDto.getAddress())
                         .inputStatus(userInfoDto.getInputStatus())
                         .workableDay(userInfoDto.getWorkableDay())
                         .build();
@@ -126,6 +129,7 @@ public class ApiCommonUserInfoController {
                     .birthDate(userInfoDto.getBirhtDate())
                     .career(userInfoDto.getCareer())
                     .pay(userInfoDto.getPay())
+                    .address(userInfoDto.getAddress())
                     .inputStatus(userInfoDto.getInputStatus())
                     .workableDay(userInfoDto.getWorkableDay())
                     .build();

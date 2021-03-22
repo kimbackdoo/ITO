@@ -78,9 +78,9 @@
                                     <v-select
                                         dense
                                         outlined
-                                        label="시"
-                                        :itenms="user.dataTable.address"
-                                        v-model="user.query.address1"
+                                        label="지역(시)"
+                                        v-model="user.dataTable.addressValue"
+                                        :items="user.dataTable.address"
                                         @keydown.enter="search();"
                                     ></v-select>
                                 </v-col>
@@ -88,14 +88,12 @@
                                     cols="3"
                                     sm="6"
                                 >
-                                <!-- :items="user.dataTable.addressSelect(user.query.address1)" -->
-
                                     <v-select
                                         dense
                                         outlined
-                                        label="구"
-                                        :items="user.dataTable.ad1"
+                                        label="지역(구)"
                                         v-model="user.query.address"
+                                        :items="user.dataTable.addressSelect"
                                         @keydown.enter="search();"
                                     ></v-select>
                                 </v-col>
@@ -151,6 +149,7 @@
                             :page.sync="user.dataTable.page"
                             :items-per-page.sync="user.dataTable.itemsPerPage"
                             @page-count="user.pagination.length = $event"
+                            show-select
                             >
 
                             <template v-slot:top>
@@ -164,18 +163,16 @@
                                        v-model="user.dataTable.itemsPerPage"
                                        ></v-select>
                                        <v-spacer></v-spacer>
-                                       <v-btn
-                                           class="primary"
-                                           to="/main/admin/user-info-form"
-                                       >추가하기</v-btn>
                                 </v-toolbar>
 
                             </template>
-                              <template v-slot:item.name="{ item }">
+                           <template v-slot:item.name="{ item }">
                                 <v-btn
-                                text
-                                >{{item.name}}</v-btn>
+                                    text
+                                    @click="editUserInfo(item)"
+                                >{{ item.name }}</v-btn>
                             </template>
+
                         </v-data-table>
                         <v-pagination
                             class="mt-2"
@@ -183,7 +180,22 @@
                             :length="user.pagination.length"
                             :total-visible="user.pagination.totalVisible"
                              ></v-pagination>
-<!--                             @input="handlePageChange"-->
+
+                        <v-row>
+                            <v-col
+                                    cols="12"
+                                    class="text-right"
+                            >
+                            <v-spacer></v-spacer>
+                            <v-btn
+                              class="primary"
+                              to="/main/admin/user-info-form"
+                            >추가하기</v-btn>
+                            <v-btn
+                              class="error"
+                            >삭제하기</v-btn>
+                            </v-col>
+                        </v-row>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>

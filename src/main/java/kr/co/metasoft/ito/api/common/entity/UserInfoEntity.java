@@ -53,13 +53,13 @@ public class UserInfoEntity {
   @Column(name = "`name`", columnDefinition = "varchar(100)", nullable = true)
   private String name;
 
-  @Column(name = "'number'", columnDefinition = "varchar(100)", nullable = true)
+  @Column(name = "`number`", columnDefinition = "varchar(100)", nullable = true)
   private String number;
 
-  @Column(name = "'job_type'", columnDefinition = "varchar(100)", nullable = true)
+  @Column(name = "`job_type`", columnDefinition = "varchar(100)", nullable = true)
   private String jobType;
 
-  @Column(name = "'skill'", columnDefinition = "varchar(100)", nullable = true)
+  @Column(name = "`skill`", columnDefinition = "varchar(100)", nullable = true)
   private String skill;
 
 
@@ -72,17 +72,17 @@ public class UserInfoEntity {
      * =false, updatable = false) private LocalDateTime birthDate;
      */
 
-  @Column(name = "'birth_date'")
+  @Column(name = "`birth_date`")
   private LocalDate birthDate;
 
 
-  @Column (name = "'career'", columnDefinition = "varchar(100)", nullable = true)
+  @Column (name = "`career`", columnDefinition = "varchar(100)", nullable = true)
   private String career;
 
-  @Column(name = "'pay'", columnDefinition = "varchar(100)", nullable = true)
+  @Column(name = "`pay`", columnDefinition = "varchar(100)", nullable = true)
   private String pay;
 
-  @Column(name = "'input_status'", columnDefinition = "varchar(100)", nullable = true)
+  @Column(name = "`input_status`", columnDefinition = "varchar(100)", nullable = true)
   private String inputStatus;
 
 
@@ -95,11 +95,11 @@ public class UserInfoEntity {
      * =false, updatable = false) private LocalDateTime workableDay;
      */
 
-  @Column(name = "'workable_day'")
+  @Column(name = "`workable_day`")
   private LocalDate workableDay;
 
 
-  @Column(name = "'address'")
+  @Column(name = "`address`")
   private String address;
 
 }

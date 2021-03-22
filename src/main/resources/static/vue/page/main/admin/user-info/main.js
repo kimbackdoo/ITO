@@ -12,16 +12,16 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         },
                         "dataTable": {
                             "headers": [
-                                {"text": "이름", "sortable": false, "value": "name"},
-                                {"text": "전화번호", "sortable": false, "value": "number"},
-                                {"text": "직종", "sortable": false, "value": "jobType"},
-                                {"text": "기술", "sortable": false, "value": "skill"},
-                                {"text": "생년월일(나이)", "sortable": false, "value": "birthDate"},
-                                {"text": "경력", "sortable": false, "value": "career"},
-                                {"text": "희망 급여", "sortable": false, "value": "pay"},
-                                {"text": "지역", "sortable": false, "value": "address"},
-                                {"text": "투입여부", "sortable": false, "value": "inputStatus"},
-                                {"text": "업무 가능일", "sortable": false, "value": "workableDay"}
+                                {"text": "이름", "value": "name"},
+                                {"text": "전화번호", "value": "number"},
+                                {"text": "직종",  "value": "jobType"},
+                                {"text": "기술",  "value": "skill"},
+                                {"text": "생년월일(나이)",  "value": "birthDate"},
+                                {"text": "경력",  "value": "career"},
+                                {"text": "희망 급여",  "value": "pay"},
+                                {"text": "지역",  "value": "address"},
+                                {"text": "투입여부",  "value": "inputStatus"},
+                                {"text": "업무 가능일",  "value": "workableDay"}
 
                             ],
 /*                            "items": [
@@ -60,9 +60,18 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                  {"text":"퍼블리셔", "value":"퍼블리셔"},
                                  {"text":"디자이너", "value":"디자이너"}
                              ],
-                            "address": ["서울특별시",'대전광역시'],
-                            "ad1": ["강서구","은평구","광진구","서초구","구로구"],
-                            "ad2": ["중구","서구","대덕구","유성구","동구"],
+                            "address": [
+                                {"text":"서울특별시", "value":0},
+                                {"text":"경기도", "value":1},
+                                {"text":"대전광역시", "value":2},
+                            ],
+                            "addressValue": "",
+                            "addressIndex": [
+                                ["강서구","은평구","광진구","서초구","구로구"],
+                                ["김포시","부천","광명","시흥","안양","과천","성남","하남","수원","광주"],
+                                ["중구","서구","대덕구","유성구","동구"],
+                            ],
+                            "addressSelect": [],
                             "career": [
                                 {"text":"신입", "value": "0"},
                                 {"text":"1년", "value": "1"},
@@ -87,7 +96,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "pay": "",
                             "address": "",
                             "inputStatus":"",
-
                             "birthDate":"",
                             "workableDay":"",
                         },
@@ -105,6 +113,11 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
             },
 
             "watch": {
+                "user.dataTable.addressValue":{
+                    "handler": function(value){
+                        this.user.dataTable.addressSelect=this.user.dataTable.addressIndex[value];
+                    }
+                },
 
 /*                "user.dataTable.page": {
                     "handler": function (newValue, oldValue){
@@ -133,6 +146,14 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     }
                 },
 */
+                "editUserInfo": function(value){
+                    this.$router.push({
+                        "path": "/main/admin/user-info-form",
+                        "query": {
+                            "id": value.id
+                        }
+                       });
+                },
                 "handlePageChange": function (value){
                     return this.currentPage=value;
                 },
@@ -174,6 +195,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 "getQuery": function () {
                     var query = {},
                     routeQuery = this.$route.query;
+                    query.id = routeQuery.id ? routeQuery.id : String(this.user.query.id);
                     query.page = routeQuery.page ? routeQuery.page : String(this.user.dataTable.page);
                     query.size = routeQuery.size ? routeQuery.size : String(this.user.dataTable.itemsPerPage);
                     query.name = routeQuery.name ? routeQuery.name : this.user.query.name;
@@ -186,6 +208,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 },
                 "setQuery": function () {
                     var query = this.getQuery();
+                    this.user.query.id = Number(query.id);
                     this.user.dataTable.page = Number(query.page);
                     this.user.dataTable.itemsPerPage = Number(query.size);
                     this.user.query.name = query.name;
@@ -198,6 +221,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 "replaceQuery": function () {
                     var query = {},
                     routeQuery = this.$route.query;
+                    query.id = String(this.user.query.id);
                     query.page = String(this.user.dataTable.page);
                     query.size = String(this.user.dataTable.itemsPerPage);
                     query.name = String(this.user.query.name);

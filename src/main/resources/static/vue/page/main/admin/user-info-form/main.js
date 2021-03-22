@@ -14,17 +14,6 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         "valid": true,
                         "dialog": false,
                         "dialogDelete": false,
-                        "userData": {
-                            "id":"",
-                            "name": "",
-                            "jobType": "",
-                            "career": "",
-                            "pay": "",
-                            "address": "",
-                            "inputStatus":"",
-                            "birthDate":"",
-                            "workableDay":"",
-                         },
                         "pagination": {
                             "length": 10,
                             "totalVisible": 10
@@ -44,18 +33,19 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             ],
                         },
                         "dataTable": {
+                            "loading": false,
                             "headers": [
-                                {"text": "이름", "sortable": false, "value": "name"},
-                                {"text": "전화번호", "sortable": false, "value": "number"},
-                                {"text": "직종", "sortable": false, "value": "jobType"},
-                                {"text": "기술", "sortable": false, "value": "skill"},
-                                {"text": "생년월일(나이)", "sortable": false, "value": "birthDate"},
-                                {"text": "경력", "sortable": false, "value": "career"},
-                                {"text": "희망 급여", "sortable": false, "value": "pay"},
-                                {"text": "지역", "sortable": false, "value": "address"},
-                                {"text": "투입여부", "sortable": false, "value": "inputStatus"},
-                                {"text": "업무 가능일", "sortable": false, "value": "workableDay"},
-                                {"text": "수정 / 삭제", "sortable":false, "value": "actions"}
+                                {"text": "이름", "value": "name",},
+                                {"text": "전화번호", "value": "number",},
+                                {"text": "직종",  "value": "jobType",},
+                                {"text": "기술", "value": "skill",},
+                                {"text": "생년월일(나이)",  "value": "birthDate",},
+                                {"text": "경력", "value": "career",},
+                                {"text": "희망 급여",  "value": "pay",},
+                                {"text": "지역",  "value": "address",},
+                                {"text": "투입여부",  "value": "inputStatus",},
+                                {"text": "업무 가능일",  "value": "workableDay",},
+                                {"text": "수정 / 삭제", "sortable":false, "value": "actions",},
                             ],
                             "items": [],
                             "loading": false,
@@ -68,9 +58,18 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                  {"text":"퍼블리셔", "value":"퍼블리셔"},
                                  {"text":"디자이너", "value":"디자이너"}
                              ],
-                            "addr1": ["서울특별시",'대전광역시'],
-                            "address": ["강서구","은평구","광진구","서초구","구로구"],
-                            "ad2": ["중구","서구","대덕구","유성구","동구"],
+                            "address": [
+                                {"text":"서울특별시", "value":0},
+                                {"text":"경기도", "value":1},
+                                {"text":"대전광역시", "value":2},
+                            ],
+                            "addressValue": "",
+                            "addressIndex": [
+                                ["강서구","은평구","광진구","서초구","구로구"],
+                                ["김포시","부천","광명","시흥","안양","과천","성남","하남","수원","광주"],
+                                ["중구","서구","대덕구","유성구","동구"],
+                            ],
+                            "addressSelect": [],
                             "career": [
                                 {"text":"신입", "value": "0"},
                                 {"text":"1년", "value": "1"},
@@ -118,7 +117,18 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             {"text": "40", "value": 40},
                             {"text": "50", "value": 50}
                         ]
-                    }
+                    },
+                    "query": {
+                        "id":"",
+                        "name": "",
+                        "jobType": "",
+                        "career": "",
+                        "pay": "",
+                        "address": "",
+                        "inputStatus":"",
+                        "birthDate":"",
+                        "workableDay":"",
+                    },
                   }
                };
             },
@@ -135,31 +145,33 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                 dialogDelete(val){
                     return val || this.closeDelete()
                 },
+                "user.dataTable.addressValue":{
+                    "handler": function(value){
+                        this.user.dataTable.addressSelect=this.user.dataTable.addressIndex[value];
+                    }
+                },
+
             },
             "methods": {
-/*                "createUserInfo": function (data) {
+
+               "createUserInfo": function (data) {
                     return axios({
-                        "url": "/api/common/people",
+                        "url": "/api/common/user-info",
                         "method": "post",
                         "data": data
                     });
                 },
+
                 "modifyUserInfo": function (id, data) {
                     return axios({
-                        "url": "/api/common/people/" + id,
+                        "url": "/api/common/user-info/" + id,
                         "method": "put",
                         "data": data
                     });
                 },
-                "removeUserInfo": function (id) {
-                    return axios({
-                        "url": "/api/common/people/" + id,
-                        "method": "delete"
-                    });
-                },
                 "getUserInfo": function (id) {
                     return axios({
-                        "url": "/api/common/people/" + id,
+                        "url": "/api/common/user-info/" + id,
                         "method": "get"
                     });
                 },
@@ -168,34 +180,34 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                     return new Promise(function (resolve, reject) {
                         Promise.resolve()
                             .then(function () {
-                                var id = self.$route.params.id;
-                                return id ? self.getPerson(id) : null;
+                                var id = self.$route.query.id;
+                                console.log("파라미터 id"+id);
+                                return id ? self.getUserInfo(id) : null;
                             })
                             .then(function (response) {
                                 if (response && response.data) {
-                                    self.person = response.data;
+                                    self.user.dataTable.editedItem = response.data;
                                 }
                             })
                             .then(function () { resolve(); });
                     });
                 },
+
                 "saveUserInfo": function () {
                     var self = this;
+                  if(this.$refs.form.validate()){
                     return new Promise(function (resolve, reject) {
                         Promise.resolve()
                             .then(function () {
-                                return util.confirm({"text": "Are you sure want to save person?"});
-                            })
-                            .then(function (isConfirmed) {
-                                if (isConfirmed) {
                                     return new Promise(function (resolve, reject) {
                                         Promise.resolve()
                                             .then(function () {
-                                                var data = self.person;
+                                                var data = self.user.dataTable.editedItem;
                                                 if (!data.id) {
-                                                    return self.createPerson(data);
+                                                    return self.createUserInfo(data);
                                                 } else {
-                                                    return self.modifyPerson(data.id, data);
+                                                    console.log("수정되는 id 값     "+ data.id);
+                                                    return self.modifyUserInfo(data.id, data);
                                                 }
                                             })
                                             .then(function () {
@@ -206,30 +218,44 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                             })
                                             .then(function () { resolve(); });
                                     });
-                                }
                             })
                             .then(function () { resolve(); });
                     });
+                   }
                 },
-                "deletePerson": function () {
+
+
+
+               //------------------삭제 관련 -----------------------------------------
+
+                "removeUserInfo": function (id) {
+                    return axios({
+                        "url": "/api/common/user-info/" + id,
+                        "method": "delete"
+                    });
+                },
+
+
+
+                "deleteUserInfo": function () {
                     var self = this;
                     return new Promise(function (resolve, reject) {
                         Promise.resolve()
                             .then(function () {
-                                return util.confirm({"text": "Are you sure want to delete person?"});
+                                return util.confirm({"text": "삭제하시겠습니까?"});
                             })
                             .then(function (isConfirmed) {
                                 if (isConfirmed) {
                                     return new Promise(function (resolve, reject) {
                                         Promise.resolve()
                                             .then(function () {
-                                                return self.removePerson(self.person.id);
+                                                return self.removeUserInfo(self.user.dataTable.editedItem.id);
                                             })
                                             .then(function () {
                                                 return util.alert({"text": "Deleted successfully!"});
                                             })
                                             .then(function () {
-                                                self.$router.replace("/people");
+                                                self.$router.replace("/user-info");
                                             })
                                             .then(function () { resolve(); });
                                     });
@@ -237,13 +263,26 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             })
                             .then(function () { resolve(); });
                     });
-                }
-*/
+                },
+
             //메소드
-            "handleClick": function() {
+
+            //항목 선택 후 -> 삭제하기
+             // 보류
+/*            "handleClick": function() {
 
             },
-            "editItem": function(item){
+*/
+            //DB에 저장
+
+
+/*           "alert": function(option) {
+                  return Vuex.store.dispatch("app/alert", option);
+            },
+           "confirm": function(option) {
+                  return Vuex.store.dispatch("app/confirm", option);
+            },
+*/            "editItem": function(item){
                 this.user.dataTable.editedIndex = this.user.dataTable.items.indexOf(item)
                 this.user.dataTable.editedItem = Object.assign({}, item)
 //                this.user.dialog = true
@@ -312,18 +351,14 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                            })
                            .then(function () { resolve(); });
                     });
-             }
-
-
-/*            "mounted": function () {
+             },
+         },
+         "mounted": function () {
                 var self = this;
                 Promise.resolve()
-                    .then(self.setPerson);
-            }
-*/
+                    .then(self.setUserInfo);
          }
+
        });
-
     });
-
 });

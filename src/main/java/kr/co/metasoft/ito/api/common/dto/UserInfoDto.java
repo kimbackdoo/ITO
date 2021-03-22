@@ -38,7 +38,8 @@ public class UserInfoDto {
      * @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss") private LocalDateTime
      * birthDate;
      */
-
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
     private LocalDate birhtDate;
 
     private String career;
@@ -52,6 +53,9 @@ public class UserInfoDto {
 //    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
 //    private LocalDateTime workableDay;
 
+
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
     private LocalDate workableDay;
 
     private String address;

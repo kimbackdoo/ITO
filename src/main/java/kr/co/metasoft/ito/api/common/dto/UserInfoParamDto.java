@@ -32,6 +32,8 @@ public class UserInfoParamDto {
 
     private String skill;
 
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
     private LocalDate birhtDate;
 
     private String career;
@@ -40,6 +42,8 @@ public class UserInfoParamDto {
 
     private String inputStatus;
 
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
     private LocalDate workableDay;
 
     private String address;
