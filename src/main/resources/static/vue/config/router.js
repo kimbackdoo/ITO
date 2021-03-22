@@ -30,9 +30,19 @@ router = new VueRouter({
                     "component": InputProfileMainComponent
                 },
                 {
+                    "name": "InputProfileCareer",
+                    "path": "/main/user/input-profile/career",
+                    "component": InputProfileCareerMainComponent
+                },
+                {
                     "name": "ApplyProject",
                     "path": "/main/user/apply-project",
                     "component": ApplyProjectMainComponent
+                },
+                {
+                    "name": "ApplyProjectDetail",
+                    "path": "/main/user/apply-project/detail",
+                    "component": ApplyProjectDetailMainComponent
                 },
 
                 //관리자 메뉴

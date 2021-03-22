@@ -100,9 +100,14 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                     },
                 }).open();
             },
-            "handleClick": function() {
+            "goToProfiles": function() {
                 this.$router.push({
                     "path": "/main/user/profiles",
+                });
+            },
+            "goToCareer": function() {
+                this.$router.push({
+                    "path": "/main/user/input-profile/career"
                 });
             },
         },

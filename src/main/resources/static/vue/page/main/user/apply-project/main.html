@@ -15,7 +15,8 @@
                                         <v-text-field
                                                 dense
                                                 label="프로젝트명"
-                                                v-model="applyProject.form.item.name"
+                                                v-model="project.dataTable.query.projectName"
+                                                @keyup.enter="loadProjectList()"
                                         ></v-text-field>
                                     </v-col>
                                 </v-row>
@@ -250,6 +251,7 @@
                             :headers="project.dataTable.headers"
                             :items="project.dataTable.items"
                             :loading="project.dataTable.loading"
+                            @click:row="handleClick"
                         ></v-data-table>
                         <div class="text-center my-2">
                             <v-pagination

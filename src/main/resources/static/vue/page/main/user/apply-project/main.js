@@ -15,6 +15,9 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                         {"text": "전체 보기", "value": null}
                     ],
                 },
+                "select": {
+
+                },
                 "dialog": false,
                 "applyProject": {
                     "panels": {
@@ -53,6 +56,9 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                             {"text": "현황", "value": "status"},
                             {"text": "모집마감일", "value": "salary"},
                         ],
+                        "query": {
+                            "projectName": null,
+                        },
                         "items": [],
                         "options": {
                             "page": 1,
@@ -80,6 +86,14 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
             },
         },
         "methods": {
+            "handleClick": function(value) {
+                this.$router.push({
+                    "path": "/main/user/apply-project/detail",
+                    "query": {
+                        "id": value.adminProjId
+                    }
+                });
+            },
             "init": async function() {
                 await this.loadProjectList();
             },
@@ -90,7 +104,9 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
 
                 projectList = (await ito.api.common.project.getProjectList({
                     "page": self.project.dataTable.options.page,
-                    "rowSize": self.project.dataTable.options.itemsPerPage
+                    "rowSize": self.project.dataTable.options.itemsPerPage,
+
+                    "nameLike": self.project.dataTable.query.projectName,
                 })).data;
 
                 console.log(projectList);

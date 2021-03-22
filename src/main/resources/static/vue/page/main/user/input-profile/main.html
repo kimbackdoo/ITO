@@ -13,8 +13,8 @@
                     >
                         <v-form>
                             <v-container>
-                                <v-row>
-                                    <v-col cols="4">
+                                <v-row class="ma-0">
+                                    <v-col cols="4" class="pa-2">
                                         <v-text-field
                                                 dense
                                                 label="이름"
@@ -22,8 +22,8 @@
                                         ></v-text-field>
                                     </v-col>
                                 </v-row>
-                                <v-row>
-                                    <v-col cols="4">
+                                <v-row class="ma-0">
+                                    <v-col cols="4" class="pa-2">
                                         <date-picker-component
                                                 dense
                                                 label="생년월일"
@@ -32,15 +32,15 @@
                                         ></date-picker-component>
                                     </v-col>
                                 </v-row>
-                                <v-row>
-                                    <v-col cols="4">
+                                <v-row class="ma-0">
+                                    <v-col cols="4" class="pa-2">
                                         <v-text-field
                                                 label="E-mail"
                                                 v-model="inputProfile.form.item.email"
                                         ></v-text-field>
                                     </v-col>
                                 </v-row>
-                                <v-row>
+                                <v-row class="ma-0">
                                     <v-col cols="8">
                                         <div style="width: 100px; height:55px;">
                                             <v-text-field
@@ -69,7 +69,7 @@
                                         </div>
                                     </v-col>
                                 </v-row>
-                                <v-row>
+                                <v-row class="ma-0">
                                     <v-col cols="4">
                                         <v-select
                                                 dense
@@ -79,15 +79,17 @@
                                         ></v-select>
                                     </v-col>
                                 </v-row>
-                                <v-row>
+                                <v-row class="ma-0">
                                     <v-col cols="4">
                                         <v-btn
-                                            class=""
-                                            @click=""
-                                        ></v-btn>
+                                            outlined
+                                            class="ml-auto"
+                                            color="grey darken-3"
+                                            @click="goToCareer"
+                                        >경력 추가하기</v-btn>
                                     </v-col>
                                 </v-row>
-                                <v-row>
+                                <v-row class="ma-0">
                                     <v-col cols="4">
                                         <v-text-field
                                                 label="희망월급여"
@@ -97,7 +99,7 @@
 
                                     </v-col>
                                 </v-row>
-                                <v-row>
+                                <v-row class="ma-0">
                                     <v-col cols="4">
                                         <v-select
                                                 dense
@@ -123,7 +125,7 @@
                                         >저장</v-btn>
                                         <v-btn
                                                 class="secondary"
-                                                @click="handleClick"
+                                                @click="goToProfiles"
                                         >목록</v-btn>
                                     </v-col>
                                 </v-row>

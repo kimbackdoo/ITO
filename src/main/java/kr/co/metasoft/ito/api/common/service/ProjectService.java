@@ -1,12 +1,12 @@
 package kr.co.metasoft.ito.api.common.service;
 
-import kr.co.metasoft.ito.api.common.dto.ProjectDto;
+import kr.co.metasoft.ito.api.common.dto.ProjectParamDto;
 import kr.co.metasoft.ito.api.common.entity.ProjectEntity;
 import kr.co.metasoft.ito.api.common.mapper.ProjectMapper;
 import kr.co.metasoft.ito.api.common.repository.ProjectRepository;
 import kr.co.metasoft.ito.common.util.PageRequest;
 import kr.co.metasoft.ito.common.util.PageResponse;
-import org.apache.tools.ant.Project;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +24,15 @@ public class ProjectService {
 
     @Transactional
     public PageResponse<ProjectEntity> getProjectList(
-            @Valid ProjectDto projectDto,
+            @Valid ProjectParamDto projectParamDto,
             PageRequest pageRequest) {
-        Integer projectListCount = projectMapper.selectProjectListCount(projectDto);
-        List<ProjectEntity> projectList = projectMapper.selectProjectList(projectDto, pageRequest);
+        Integer projectListCount = projectMapper.selectProjectListCount(projectParamDto);
+        List<ProjectEntity> projectList = projectMapper.selectProjectList(projectParamDto, pageRequest);
         PageResponse<ProjectEntity> pageResponse = new PageResponse<>(pageRequest, projectListCount);
         pageResponse.setItems(projectList);
+
+        System.out.println("=====================================" + projectParamDto.getNameLike() + "==========================================");
+
         return pageResponse;
     }
 

@@ -1,0 +1,21 @@
+<div>
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels>
+                <v-expansion-panel>
+                    <v-expansion-panel-header>경력 보기</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-data-table
+                            fixed-header
+                            hide-default-footer
+                            show-select
+                            height="auto"
+                            v-model="career.selected"
+                            :headers="career.dataTable.headers"
+                        ></v-data-table>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+</div>

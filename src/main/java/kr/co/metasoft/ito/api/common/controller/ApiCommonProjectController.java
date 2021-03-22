@@ -1,10 +1,11 @@
 package kr.co.metasoft.ito.api.common.controller;
 
-import kr.co.metasoft.ito.api.common.dto.ProjectDto;
+import kr.co.metasoft.ito.api.common.dto.ProjectParamDto;
 import kr.co.metasoft.ito.api.common.entity.ProjectEntity;
 import kr.co.metasoft.ito.api.common.service.ProjectService;
 import kr.co.metasoft.ito.common.util.PageRequest;
 import kr.co.metasoft.ito.common.util.PageResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +19,9 @@ public class ApiCommonProjectController {
 
     @GetMapping(path = "")
     public PageResponse<ProjectEntity> getProjectList(
-            @ModelAttribute ProjectDto projectDto,
+            @ModelAttribute ProjectParamDto projectParamDto,
             @ModelAttribute PageRequest pageRequest) {
-        return projectService.getProjectList(projectDto, pageRequest);
+        return projectService.getProjectList(projectParamDto, pageRequest);
     }
 
     @GetMapping(path = "{adminProjectId}")

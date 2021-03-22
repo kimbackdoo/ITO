@@ -18,6 +18,14 @@
             `tb_proj` `proj`
     </sql>
 
+    <sql id="where">
+        <where>
+            <if test="projectParamDto.nameLike != null and projectParamDto.nameLike != ''">
+                AND `name` LIKE CONCAT('%', #{projectParamDto.nameLike}, '%')
+            </if>
+        </where>
+    </sql>
+
     <resultMap id="projectResultMap" type="kr.co.metasoft.ito.api.common.entity.ProjectEntity">
         <result property="adminProjId" column="admin_proj_id" />
         <result property="name" column="name" />
@@ -39,6 +47,7 @@
     >
         <include refid="PageFragment.sortStart" />
         <include refid="selectFrom" />
+        <include refid="where"/>
         <include refid="PageFragment.sortEnd" />
         <include refid="PageFragment.limitOffset" />
     </select>
@@ -50,6 +59,7 @@
     >
         <include refid="PageFragment.countStart" />
         <include refid="selectFrom" />
+        <include refid="where"/>
         <include refid="PageFragment.countEnd" />
     </select>
 </mapper>
