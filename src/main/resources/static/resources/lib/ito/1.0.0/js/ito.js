@@ -223,6 +223,16 @@ ito = {
                 "removeProfileList": function (data) { return axios({"url": "/api/common/profiles", "method": "delete", "data": data}); },
                 "removeProfile": function (userProfId) { return axios({"url": "/api/common/profiles/"+ userProfId, "method": "delete"}); }
             },
+            "career": {
+                "getCareerList": function (params) { return axios({"url": "/api/common/career", "method": "get", "params": params}); },
+                "getCareer": function (personcareerId) { return axios({"url": "/api/common/career/" + personcareerId, "method": "get"}); },
+                "createCareerList": function (data) { return axios({"url": "/api/common/career?bulk", "method": "post", "data": data}); },
+                "createCareer": function (data) { return axios({"url": "/api/common/career", "method": "post", "data": data}); },
+                "modifyCareerList": function (data) { return axios({"url": "/api/common/career", "method": "put", "data": data}); },
+                "modifyCareer": function (personcareerId, data) { return axios({"url": "/api/common/career/" + personcareerId, "method": "put", "data": data}); },
+                "removeCareerList": function (data) { return axios({"url": "/api/common/career", "method": "delete", "data": data}); },
+                "removeCareer": function (personcareerId) { return axios({"url": "/api/common/career/"+ personcareerId, "method": "delete"}); }
+            },
             "project": {
                 "getProjectList": function (params) { return axios({"url": "/api/common/apply-profile", "method": "get", "params": params}); },
                 "getProject": function (adminProjId) { return axios({"url": "/api/common/apply-profile/" + adminProjId, "method": "get"}); },

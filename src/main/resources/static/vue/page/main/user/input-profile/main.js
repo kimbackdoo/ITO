@@ -26,19 +26,6 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                         },
                     },
                 },
-                "career": {
-                    "dataTable": {
-                        "headers": [
-                            {"text": "프로젝트명", "value": "projectName"},
-                            {"text": "기간", "value": "period"},
-                            {"text": "직급", "value": "position"},
-                            {"text": "담당업무", "value": "task"},
-                            {"text": "월급여", "value": "pay"}
-
-                        ],
-                        "items": [],
-                    },
-                },
             };
         },
         "methods": {
@@ -103,11 +90,6 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
             "goToProfiles": function() {
                 this.$router.push({
                     "path": "/main/user/profiles",
-                });
-            },
-            "goToCareer": function() {
-                this.$router.push({
-                    "path": "/main/user/input-profile/career"
                 });
             },
         },

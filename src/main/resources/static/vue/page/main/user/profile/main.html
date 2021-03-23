@@ -35,6 +35,8 @@
                             :headers="profile.dataTable.headers"
                             :items="profile.dataTable.items"
                             :loading="profile.dataTable.loading"
+                            :page.sync="profile.dataTable.page"
+                            :items-per-page.sync="profile.dataTable.itemsPerPage"
                             @click:row="handleClick"
                         ></v-data-table>
                         <div class="text-center my-2">

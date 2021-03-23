@@ -26,7 +26,7 @@ ProfileMainComponent = Vue.component('profile-main-component', async function (r
                             {"text": "직업", "value": "job",},
                             {"text": "기술", "value": "skill",},
                             {"text": "생년월일(나이)", "value": "birthDate",},
-                            {"text": "경력기간", "value": "career",},
+                            {"text": "총 경력", "value": "totalCareer",},
                             {"text": "희망월급여", "value": "pay",},
                             {"text": "공개여부", "value": "status",},
                         ],

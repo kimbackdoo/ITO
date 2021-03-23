@@ -25,14 +25,14 @@ router = new VueRouter({
                     "component": ProfileMainComponent
                 },
                 {
+                    "name": "InputProfileCareer",
+                    "path": "/main/user/career",
+                    "component": CareerMainComponent
+                },
+                {
                     "name": "InputProfile",
                     "path": "/main/user/input-profile",
                     "component": InputProfileMainComponent
-                },
-                {
-                    "name": "InputProfileCareer",
-                    "path": "/main/user/input-profile/career",
-                    "component": InputProfileCareerMainComponent
                 },
                 {
                     "name": "ApplyProject",
@@ -69,11 +69,11 @@ router = new VueRouter({
                     "path": "/main/admin/project-lists",
                     "component": MainAdminProjectListPage
                 },
-                {
-                     "name": "프로젝트 입력하기",
-                      "path": "/main/admin/project-info-form",
-                      "component": MainAdminProjectFormPage
-                },
+                // {
+                //      "name": "프로젝트 입력하기",
+                //       "path": "/main/admin/project-info-form",
+                //       "component": MainAdminProjectFormPage
+                // },
                 {
                     "name": "Settings",
                     "path": "/settings",
