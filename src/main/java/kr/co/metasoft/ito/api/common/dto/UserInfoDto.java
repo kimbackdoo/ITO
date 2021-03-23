@@ -32,26 +32,15 @@ public class UserInfoDto {
 
     private String skill;
 
-    /*
-     * @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-     *
-     * @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss") private LocalDateTime
-     * birthDate;
-     */
     @JsonFormat (pattern = "yyyy-MM-dd")
     @DateTimeFormat (pattern = "yyyy-MM-dd")
-    private LocalDate birhtDate;
+    private LocalDate birthDate;
 
     private String career;
 
     private String pay;
 
     private String inputStatus;
-
-
-//    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-//    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-//    private LocalDateTime workableDay;
 
 
     @JsonFormat (pattern = "yyyy-MM-dd")

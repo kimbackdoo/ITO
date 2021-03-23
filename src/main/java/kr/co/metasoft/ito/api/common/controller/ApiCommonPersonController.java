@@ -25,6 +25,8 @@ import kr.co.metasoft.ito.common.util.PageResponse;
 @RequestMapping (path = "api/common/people")
 public class ApiCommonPersonController {
 
+
+
     @Autowired
     private PersonService personService;
 
@@ -63,6 +65,7 @@ public class ApiCommonPersonController {
                     .email(personDto.getEmail())
                     .website(personDto.getWebsite())
                     .education(personDto.getEducation())
+                    .birthDate(personDto.getBirthDate())
                     .build();
             personList.add(personEntity);
         }
@@ -88,6 +91,7 @@ public class ApiCommonPersonController {
                 .email(personDto.getEmail())
                 .website(personDto.getWebsite())
                 .education(personDto.getEducation())
+                .birthDate(personDto.getBirthDate())
                 .build();
         return personService.createPerson(personEntity);
     }
@@ -115,6 +119,7 @@ public class ApiCommonPersonController {
                     .email(personDto.getEmail())
                     .website(personDto.getWebsite())
                     .education(personDto.getEducation())
+                    .birthDate(personDto.getBirthDate())
                     .build();
             personList.add(personEntity);
         }
@@ -142,6 +147,7 @@ public class ApiCommonPersonController {
                 .email(personDto.getEmail())
                 .website(personDto.getWebsite())
                 .education(personDto.getEducation())
+                .birthDate(personDto.getBirthDate())
                 .build();
         return personService.modifyPerson(personEntity);
     }

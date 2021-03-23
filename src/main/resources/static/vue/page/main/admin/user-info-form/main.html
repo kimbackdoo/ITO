@@ -35,7 +35,7 @@
                             <v-text-field
                                 class="required"
                                 label="전화번호"
-                                v-model="user.dataTable.editedItem.number"
+                                v-model="user.dataTable.editedItem.phoneNumber"
                                 :rules= "[v=> !!v || '필수 입니다']"
                                 required
                             ></v-text-field>
@@ -62,6 +62,8 @@
                                 v-model="user.dataTable.editedItem.skill"
                             ></v-text-field>
                             </v-col>
+                    </v-row>
+                    <v-row>
                            <v-col
                               cols="12"
                               sm="2"
@@ -72,8 +74,18 @@
                             v-model="user.dataTable.editedItem.birthDate"
                         ></date-picker-component>
                             </v-col>
-                      </v-row>
-                      <v-row>
+                           <v-col
+                              cols="12"
+                              sm="2"
+                           >
+                            <v-select
+                                menu-props="auto"
+                                label="최종 학력"
+                                v-model="user.dataTable.editedItem.education"
+                                :items="user.dataTable.education"
+                                required
+                            ></v-select>
+                            </v-col>
                            <v-col
                               cols="12"
                               sm="2"
@@ -85,6 +97,20 @@
                                 v-model="user.dataTable.editedItem.career"
                             ></v-select>
                            </v-col>
+                           <v-col
+                              cols="12"
+                              sm="2"
+                           >
+                            <v-select
+                                menu-props="auto"
+                                label="필수자격증 여부"
+                                v-model="user.dataTable.editedItem.certificateStatus"
+                                :items="user.dataTable.certificateStatus"
+                                required
+                            ></v-select>
+                            </v-col>
+                    </v-row>
+                    <v-row>
                            <v-col
                               cols="12"
                               sm="2"
@@ -142,7 +168,7 @@
                             class="primary"
                             :disabled="!(user.valid)"
                              @click="saveUserInfo()"
-                            >추가하기</v-btn>
+                            >저장하기</v-btn>
                             <v-btn
                             class="secondary"
                              @click="reset"
@@ -153,13 +179,13 @@
 
                      </v-form>
                    </v-expansion-panel-content>
-
              </v-expansion-panel>
-      </v-expansion-panels>
-      <v-expansion-panels
+
+<!--    <v-expansion-panels
+          </v-expansion-panels>
               multiple
               v-model="user.panels.list"
-       >
+          >
            <v-expansion-panel>
             <v-expansion-panel-header>사용자 입력 목록</v-expansion-panel-header>
               <v-expansion-panel-content>
@@ -250,7 +276,8 @@
                       </v-row>
                    </v-expansion-panel-content>
                  </v-expansion-panel>
-              </v-expansion-panels>
+               </v-expansion-panels>
+ -->
         </v-col>
     </v-row>
 

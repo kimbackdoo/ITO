@@ -41,8 +41,8 @@
             </if>
 
          </where>
-
     </sql>
+    <sql id="where1"></sql>
 
     <resultMap id="userInfoResultMap" type="kr.co.metasoft.ito.api.common.entity.UserInfoEntity">
         <result property="id" column="id"/>
@@ -77,7 +77,7 @@
     >
         <include refid="PageFragment.countStart"/>
         <include refid="selectFrom"/>
-        <include refid="where"/>
+        <include refid="where1"/>
         <include refid="PageFragment.countEnd"/>
     </select>
 

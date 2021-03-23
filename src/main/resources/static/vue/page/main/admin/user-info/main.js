@@ -6,6 +6,8 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
             "data": function () {
                 return {
                     "user": {
+                        "dialog": false,
+                        "userSelected":[],
                         "panels": {
                             "search": [0],
                             "list": [0]
@@ -13,47 +15,34 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         "dataTable": {
                             "headers": [
                                 {"text": "이름", "value": "name"},
-                                {"text": "전화번호", "value": "number"},
+                                {"text": "전화번호", "value": "phoneNumber"},
                                 {"text": "직종",  "value": "jobType"},
                                 {"text": "기술",  "value": "skill"},
-                                {"text": "생년월일(나이)",  "value": "birthDate"},
+                                {"text": "학력", "value": "education"},
                                 {"text": "경력",  "value": "career"},
+                                {"text": "자격증 유무", "value": "certificateStatus"},
+                                {"text": "생년월일(나이)",  "value": "birthDate"},
                                 {"text": "희망 급여",  "value": "pay"},
                                 {"text": "지역",  "value": "address"},
                                 {"text": "투입여부",  "value": "inputStatus"},
                                 {"text": "업무 가능일",  "value": "workableDay"}
 
                             ],
-/*                            "items": [
-                                {name: '유수민', number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "김희민", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈1", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈2", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈3", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈4", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈5", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈6", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈7", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈8", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈9", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈10", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈11", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈12", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈13", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈14", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈15", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈16", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈17", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"},
-                                {name: "새대갈18", number:"01010101010",job_type:"개발자",skill:"JAVA",birthDate:"11111",career:"1",pay:"1",address:"주우소",inputStatus:"투입중",workableDate:"3"}
-
-
-                            ],
-*/
+                            "totalRows":0,
                             "items": [],
                             "loading": false,
                             "serverItemsLength": 0,
                             "page": 1,
                             "itemsPerPage": 10,
+                            "education": [
+                                 {"text":"2년제", "value":"2년제"},
+                                 {"text":"3년제", "value":"3년제"},
+                                 {"text":"4년제", "value":"4년제"},
+                            ],
+                            "certificateStatus": [
+                                 {"text":"보유", "value":"T"},
+                                 {"text":"없음", "value":"F"},
+                            ],
                             "jobTypeItems": [
                                  {"text":"개발자", "value":"개발자"},
                                  {"text":"기획자", "value":"기획자"},
@@ -89,10 +78,13 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "totalVisible": 10
                         },
                         "query": {
-                            "id":"",
+                            "id":0,
                             "name": "",
                             "jobType": "",
                             "career": "",
+                            "phoneNumber":"",
+                            "education":"",
+                            "certificateStatus": "",
                             "pay": "",
                             "address": "",
                             "inputStatus":"",
@@ -100,13 +92,13 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "workableDay":"",
                         },
                         "itemsPerPageItems": [
-                            {"text":"3", "value":3},
-                            {"text":"5", "value": 5},
-                            {"text": "10", "value": 10},
-                            {"text": "20", "value": 20},
-                            {"text": "30", "value": 30},
-                            {"text": "40", "value": 40},
-                            {"text": "50", "value": 50}
+                            {"text":"3개 보기", "value":3},
+                            {"text":"5개 보기", "value": 5},
+                            {"text": "10개 보기", "value": 10},
+                            {"text": "20개 보기", "value": 20},
+                            {"text": "30개 보기", "value": 30},
+                            {"text": "40개 보기", "value": 40},
+                            {"text": "50개 보기", "value": 50}
                         ]
                     }
                 };
@@ -119,33 +111,24 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     }
                 },
 
-/*                "user.dataTable.page": {
+                "user.dataTable.page": {
                     "handler": function (newValue, oldValue){
                         Promise.resolve()
                             .then(this.setUserInfoList)
                             .then(this.replaceQuery);
                     }
                 },
-*/
-/*                 "user.dataTable.itemsPerPage": {
+
+                 "user.dataTable.itemsPerPage": {
                     "handler": function (newValue, oldValue) {
                         Promise.resolve()
                             .then(this.setUserInfoList)
                             .then(this.replaceQuery)
                     }
                 }
-*/
+
             },
             "methods": {
-/*                "addressSelect": function(address){
-                    var self = this;
-                    if(address.isEqual(self.user.dataTable.address[0])){
-                        return "ad1"
-                    }else{
-                        return "ad2"
-                    }
-                },
-*/
                 "editUserInfo": function(value){
                     this.$router.push({
                         "path": "/main/admin/user-info-form",
@@ -157,14 +140,45 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 "handlePageChange": function (value){
                     return this.currentPage=value;
                 },
-                "getUserInfoList": function (params) {
+
+/*                "getUserInfoList": function (params) {
                     return axios({
                         "url": "/api/common/user-info",
                         "method": "get",
                         "params": params
                     });
                 },
+*/
 
+/*                "removeUserInfoList": function(data){
+                    return axios({
+                        "url": "/api/common/user-info/",
+                        "method": "delete",
+                        "data": data
+                    });
+                },
+*/
+                "deleteUserInfoList": async function(){
+                    var self = this;
+                    deleteList = [];
+
+                    self.user.userSelected.forEach(e => {
+                        deleteList.push(e.id);
+                    });
+                    if(self.user.userSelected.length == 0){
+                        await ito.alert("삭제할 항목이 없습니다.")
+                    }else{
+                        if(await ito.confirm("삭제하시겠습니까?")){
+//                           await self.removeUserInfoList(deleteList);
+                           await ito.api.common.person.removePersonList(deleteList);
+                           await ito.alert("삭제되었습니다.")
+                        }
+                        self.setUserInfoList();
+                    }
+
+                },
+
+//------------------------------------------------------------------------------------------------------------------
                 "setUserInfoList": function () {
                     var self = this;
                     return new Promise(function (resolve, reject) {
@@ -173,19 +187,26 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 var params = {};
                                 params.page = self.user.dataTable.page;
                                 params.size = self.user.dataTable.itemsPerPage;
-                                params.id = !_.isEmpty(self.user.query.id) ? self.user.query.id : null;
                                 params.name = !_.isEmpty(self.user.query.name) ? self.user.query.name : null;
                                 params.jobType = !_.isEmpty(self.user.query.jobType) ? self.user.query.jobType : null;
                                 params.career = !_.isEmpty(self.user.query.career) ? self.user.query.career : null;
                                 params.pay = !_.isEmpty(self.user.query.pay) ? self.user.query.pay : null;
                                 params.address = !_.isEmpty(self.user.query.address) ? self.user.query.address : null;
                                 params.inputStatus = !_.isEmpty(self.user.query.inputStatus) ? self.user.query.inputStatus : null;
+                                params.education = !_.isEmpty(self.user.query.education) ? self.user.query.education : null;
+                                params.certificateStatus = !_.isEmpty(self.user.query.certificateStatus) ? self.user.query.certificateStatus : null;
                                 self.user.dataTable.loading = true;
-                                return self.getUserInfoList(params);
+                                return ito.api.common.person.getPersonList(params);
                             })
                             .then(function (response) {
                                 var data = response.data;
                                 self.user.dataTable.items = data.items;
+                                self.user.dataTable.items.forEach(e => {
+                                    e.inputStatus = (e.inputStatus == "T") ? "투입중" : "섭외중"
+                                    e.certificateStatus = (e.certificateStatus == "T") ? "있음" : "없음"
+                                    e.career = e.career+"년"
+                                });
+                                self.user.dataTable.totalRows = data.items.length;
                                 self.user.dataTable.serverItemsLength = data.totalElements;
                                 self.user.dataTable.loading = false;
                             })
@@ -195,7 +216,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 "getQuery": function () {
                     var query = {},
                     routeQuery = this.$route.query;
-                    query.id = routeQuery.id ? routeQuery.id : String(this.user.query.id);
+                    query.id = routeQuery.id ? routeQuery.id : this.user.query.id;
                     query.page = routeQuery.page ? routeQuery.page : String(this.user.dataTable.page);
                     query.size = routeQuery.size ? routeQuery.size : String(this.user.dataTable.itemsPerPage);
                     query.name = routeQuery.name ? routeQuery.name : this.user.query.name;
@@ -204,11 +225,13 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     query.pay = routeQuery.pay ? routeQuery.pay : this.user.query.pay;
                     query.address = routeQuery.address ? routeQuery.address : this.user.query.address;
                     query.inputStatus=routeQuery.inputStatus ? routeQuery.inputStatus : this.user.query.inputStatus;
+                    query.education = routeQuery.education ? routeQuery.education : this.user.query.education;
+                    query.certificateStatus=routeQuery.certificateStatus ? routeQuery.certificateStatus : this.user.query.certificateStatus;
                     return query;
                 },
                 "setQuery": function () {
                     var query = this.getQuery();
-                    this.user.query.id = Number(query.id);
+                    this.user.query.id = query.id;
                     this.user.dataTable.page = Number(query.page);
                     this.user.dataTable.itemsPerPage = Number(query.size);
                     this.user.query.name = query.name;
@@ -217,11 +240,13 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     this.user.query.pay = query.pay;
                     this.user.query.address = query.address;
                     this.user.query.inputStatus = query.inputStatus;
+                    this.user.query.birthDate=query.birthDate;
+                    this.user.query.education = query.education;
+                    this.user.query.certificateStatus = query.certificateStatus;
                 },
                 "replaceQuery": function () {
                     var query = {},
                     routeQuery = this.$route.query;
-                    query.id = String(this.user.query.id);
                     query.page = String(this.user.dataTable.page);
                     query.size = String(this.user.dataTable.itemsPerPage);
                     query.name = String(this.user.query.name);
@@ -231,6 +256,9 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     query.address = String(this.user.query.address);
                     query.inputStatus = String(this.user.query.inputStatus);
                     query.workableDay = String(this.user.query.workableDay);
+                    query.birthDate = String(this.user.query.birthDate);
+                    query.education = String(this.user.query.education);
+                    query.certificateStatus = String(this.user.query.certificateStatus);
                     if (!_.isEqual(query, routeQuery)) {
                         this.$router.replace({"query": query});
                     }
@@ -263,6 +291,8 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 self.user.query.pay = "";
                                 self.user.query.address = "";
                                 self.user.query.inputStatus = "";
+                                self.user.query.education = "";
+                                self.user.query.certificateStatus = "";
                             })
                             .then(function () {
                                 return self.search();

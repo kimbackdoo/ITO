@@ -29,6 +29,32 @@
 
     <sql id="where">
         <where>
+
+            <if test="personParamDto.name != null and personParamDto.name != ''">
+                AND `name` LIKE CONCAT('%', #{personParamDto.name} , '%')
+            </if>
+           <if test="personParamDto.jobType != null and personParamDto.jobType != ''">
+                AND `job_type` LIKE CONCAT('%',#{personParamDto.jobType},'%')
+            </if>
+            <if test="personParamDto.education != null and personParamDto.education != ''">
+                AND `education` LIKE CONCAT('%', #{personParamDto.education} ,'%')
+            </if>
+            <if test="personParamDto.career != null and personParamDto.career != ''">
+                AND `` LIKE CONCAT('%', #{personParamDto.career} ,'%')
+            </if>
+            <if test="personParamDto.certificateStatus != null and personParamDto.certificateStatus != ''">
+                AND `certificate_status` LIKE CONCAT('%', #{personParamDto.certificateStatus} ,'%')
+            </if>
+            <if test="personParamDto.pay != null and personParamDto.pay != ''">
+                AND `pay` LIKE CONCAT('%', #{personParamDto.pay} ,'%')
+            </if>
+            <if test="personParamDto.address != null and personParamDto.address != ''">
+                AND `address` LIKE CONCAT('%', #{personParamDto.address}, '%')
+            </if>
+            <if test="personParamDto.inputStatus != null and personParamDto.inputStatus != ''">
+                AND NOT (`input_status` LIKE #{personParamDto.inputStatus})
+            </if>
+
         </where>
     </sql>
 

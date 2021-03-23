@@ -34,7 +34,7 @@ public class UserInfoParamDto {
 
     @JsonFormat (pattern = "yyyy-MM-dd")
     @DateTimeFormat (pattern = "yyyy-MM-dd")
-    private LocalDate birhtDate;
+    private LocalDate birthDate;
 
     private String career;
 
