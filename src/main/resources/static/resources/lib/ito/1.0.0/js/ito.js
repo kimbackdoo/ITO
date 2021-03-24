@@ -76,6 +76,12 @@ ito = {
                 "data": data,
             });
         },
+        "code": async function (type) {
+            return await axios({
+                "url": "/api/codes/"+type,
+                "method": "post"
+            });
+        },
         "authenticated": async function (token) {
             if (token) {
                 try {
@@ -213,6 +219,16 @@ ito = {
                 "removeUserPersonList": function (data) { return axios({"url": "/api/common/user-people", "method": "delete", "data": data}); },
                 "removeUserPerson": function (userId) { return axios({"url": "/api/common/user-people/"+ userId, "method": "delete"}); }
             },
+            "code": {
+                "getCodeList": function (params) { return axios({"url": "/api/common/codes", "method": "get", "params": params}); },
+                "getCode": function (id) { return axios({"url": "/api/common/codes/" + id, "method": "get"}); },
+                "createCodeList": function (data) { return axios({"url": "/api/common/codes?bulk", "method": "post", "data": data}); },
+                "createCode": function (data) { return axios({"url": "/api/common/codes", "method": "post", "data": data}); },
+                "modifyCodeList": function (data) { return axios({"url": "/api/common/codes", "method": "put", "data": data}); },
+                "modifyCode": function (id, data) { return axios({"url": "/api/common/codes/" + id, "method": "put", "data": data}); },
+                "removeCodeList": function (data) { return axios({"url": "/api/common/codes", "method": "delete", "data": data}); },
+                "removeCode": function (id) { return axios({"url": "/api/common/codes/"+ id, "method": "delete"}); },
+            },
             "profile": {
                 "getProfileList": function (params) { return axios({"url": "/api/common/profiles", "method": "get", "params": params}); },
                 "getProfile": function (userProfId) { return axios({"url": "/api/common/profiles/" + userProfId, "method": "get"}); },
@@ -222,6 +238,16 @@ ito = {
                 "modifyProfile": function (userProfId, data) { return axios({"url": "/api/common/profiles/" + userProfId, "method": "put", "data": data}); },
                 "removeProfileList": function (data) { return axios({"url": "/api/common/profiles", "method": "delete", "data": data}); },
                 "removeProfile": function (userProfId) { return axios({"url": "/api/common/profiles/"+ userProfId, "method": "delete"}); }
+            },
+            "personCareer": {
+                "getPersonCareerList": function (params) { return axios({"url": "/api/common/person-career", "method": "get", "params": params}); },
+                "getPersonCareer": function (personId, careerId) { return axios({"url": "/api/common/person-career/" + personId + "," + careerId, "method": "get"}); },
+                "createPersonCareerList": function (data) { return axios({"url": "/api/common/person-career?bulk", "method": "post", "data": data}); },
+                "createPersonCareer": function (data) { return axios({"url": "/api/common/person-career", "method": "post", "data": data}); },
+                "modifyPersonCareerList": function (data) { return axios({"url": "/api/common/person-career", "method": "put", "data": data}); },
+                "modifyPersonCareer": function (personId, careerId, data) { return axios({"url": "/api/common/person-career/" + personId + "," + careerId, "method": "put", "data": data}); },
+                "removePersonCareerList": function (data) { return axios({"url": "/api/common/person-career", "method": "delete", "data": data}); },
+                "removePersonCareer": function (personId, careerId) { return axios({"url": "/api/common/person-career/"+ personId + "," + careerId, "method": "delete"}); }
             },
             "career": {
                 "getCareerList": function (params) { return axios({"url": "/api/common/career", "method": "get", "params": params}); },
@@ -234,14 +260,14 @@ ito = {
                 "removeCareer": function (personcareerId) { return axios({"url": "/api/common/career/"+ personcareerId, "method": "delete"}); }
             },
             "project": {
-                "getProjectList": function (params) { return axios({"url": "/api/common/apply-profile", "method": "get", "params": params}); },
-                "getProject": function (adminProjId) { return axios({"url": "/api/common/apply-profile/" + adminProjId, "method": "get"}); },
-                "createProjectList": function (data) { return axios({"url": "/api/common/apply-profile?bulk", "method": "post", "data": data}); },
-                "createProject": function (data) { return axios({"url": "/api/common/apply-profile", "method": "post", "data": data}); },
-                "modifyProjectList": function (data) { return axios({"url": "/api/common/apply-profile", "method": "put", "data": data}); },
-                "modifyProject": function (adminProjId, data) { return axios({"url": "/api/common/apply-profile/" + adminProjId, "method": "put", "data": data}); },
-                "removeProjectList": function (data) { return axios({"url": "/api/common/apply-profile", "method": "delete", "data": data}); },
-                "removeProject": function (adminProjId) { return axios({"url": "/api/common/apply-profile/"+ adminProjId, "method": "delete"}); }
+                "getProjectList": function (params) { return axios({"url": "/api/common/projects", "method": "get", "params": params}); },
+                "getProject": function (adminProjId) { return axios({"url": "/api/common/projects/" + adminProjId, "method": "get"}); },
+                "createProjectList": function (data) { return axios({"url": "/api/common/projects?bulk", "method": "post", "data": data}); },
+                "createProject": function (data) { return axios({"url": "/api/common/projects", "method": "post", "data": data}); },
+                "modifyProjectList": function (data) { return axios({"url": "/api/common/projects", "method": "put", "data": data}); },
+                "modifyProject": function (adminProjId, data) { return axios({"url": "/api/common/projects/" + adminProjId, "method": "put", "data": data}); },
+                "removeProjectList": function (data) { return axios({"url": "/api/common/projects", "method": "delete", "data": data}); },
+                "removeProject": function (adminProjId) { return axios({"url": "/api/common/projects/"+ adminProjId, "method": "delete"}); }
             },
         },
         "app": {
@@ -276,6 +302,18 @@ ito = {
                 }
             }
             return str;
+        },
+        "getPostcode": function () {
+            return new Promise(function (resolve, reject) {
+                new daum.Postcode({
+                    "oncomplete": function (data) {
+                        resolve(data);
+                    },
+                    "onclose": function (state) {
+                        resolve();
+                    }
+                }).open();
+            });
         }
     }
 };

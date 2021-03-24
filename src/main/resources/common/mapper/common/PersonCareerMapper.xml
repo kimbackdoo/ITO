@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.metasoft.ito.api.common.mapper.PersonCareerMapper">
+    <sql id="selectFrom">
+        SELECT
+            `person_career`.`person_id`,
+            `person_career`.`career_id`,
+            `person_career_person`.`id` AS `person_career_person_id`,
+            `person_career_person`.`name` AS `person_career_person_name`,
+            `person_career_person`.`phone_number` AS `person_career_person_phone_number`,
+            `person_career_person`.`job_type` AS `person_career_person_job_type`,
+            `person_career_person`.`input_status` AS `person_career_person_input_status`,
+            `person_career_person`.`certificate_status` AS `person_career_person_certificate_status`,
+            `person_career_person`.`skill` AS `person_career_person_skill`,
+            `person_career_person`.`career` AS `person_career_person_career`,
+            `person_career_person`.`pay` AS `person_career_person_pay`,
+            `person_career_person`.`workable_day` AS `person_career_person_workable_day`,
+            `person_career_person`.`postcode` AS `person_career_person_postcode`,
+            `person_career_person`.`address` AS `person_career_person_address`,
+            `person_career_person`.`detail_address` AS `person_career_person_detail_address`,
+            `person_career_person`.`email` AS `person_career_person_email`,
+            `person_career_person`.`website` AS `person_career_person_website`,
+            `person_career_person`.`education` AS `person_career_person_education`,
+            `person_career_person`.`birth_date` AS `person_career_person_birth_date`,
+            `person_career_person`.`status` AS `person_career_person_status`,
+            `person_career_person`.`created_date` AS `person_career_person_created_date`,
+            `person_career_person`.`last_modified_date` AS `person_career_person_last_modified_date`,
+            `person_career_career`.`person_career_id` AS `person_career_career_person_career_id`,
+            `person_career_career`.`name` AS `person_career_career_name`,
+            `person_career_career`.`start_period` AS `person_career_career_start_period`,
+            `person_career_career`.`end_period` AS `person_career_career_end_period`,
+            `person_career_career`.`position` AS `person_career_career_position`,
+            `person_career_career`.`task` AS `person_career_career_task`,
+            `person_career_career`.`pay` AS `person_career_career_pay`,
+            `person_career_career`.`create_dt` AS `person_career_career_create_dt`,
+            `person_career_career`.`modify_dt` AS `person_career_career_modify_dt`
+        FROM
+            `tb_person_career` `person_career`
+        LEFT OUTER JOIN
+            `tb_person` `person_career_person`
+        ON
+            `person_career`.`person_id` = `person_career_person`.`id`
+        LEFT OUTER JOIN
+            `tb_career` `person_career_career`
+        ON
+            `person_career`.`career_id` = `person_career_career`.`person_career_id`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="personCareerParamDto.personId != null">
+                AND `person_career`.`person_id` = #{personCareerParamDto.personId}
+            </if>
+            <if test="personCareerParamDto.careerId != null">
+                AND `person_career`.`career_id` = #{personCareerParamDto.careerId}
+            </if>
+        </where>
+    </sql>
+
+    <resultMap id="personCareerResultMap" type="kr.co.metasoft.ito.api.common.entity.PersonCareerEntity">
+        <result property="personId" column="person_id"/>
+        <result property="careerId" column="career_id"/>
+        <association property="person" columnPrefix="person_career_person_">
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="phoneNumber" column="phone_number"/>
+            <result property="jobType" column="job_type"/>
+            <result property="inputStatus" column="input_status"/>
+            <result property="certificateStatus" column="certificate_status"/>
+            <result property="skill" column="skill"/>
+            <result property="career" column="career"/>
+            <result property="pay" column="pay"/>
+            <result property="workableDay" column="workable_day"/>
+            <result property="postcode" column="postcode"/>
+            <result property="address" column="address"/>
+            <result property="detailAddress" column="detail_address"/>
+            <result property="email" column="email"/>
+            <result property="website" column="website"/>
+            <result property="education" column="education"/>
+            <result property="birthDate" column="birth_date"/>
+            <result property="status" column="status"/>
+            <result property="createdDate" column="created_date"/>
+            <result property="lastModifiedDate" column="last_modified_date"/>
+        </association>
+        <association property="career" columnPrefix="person_career_career_">
+            <result property="personCareerId" column="person_career_id" />
+            <result property="name" column="name" />
+            <result property="startPeriod" column="start_period" />
+            <result property="endPeriod" column="end_period" />
+            <result property="position" column="position" />
+            <result property="task" column="task" />
+            <result property="pay" column="pay" />
+            <result property="createDt" column="create_dt" />
+            <result property="modifyDt" column="modify_dt" />
+        </association>
+    </resultMap>
+
+    <select
+        id="selectPersonCareerList"
+        parameterType="java.util.Map"
+        resultMap="personCareerResultMap"
+    >
+        <include refid="PageFragment.sortStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.sortEnd"/>
+        <include refid="PageFragment.limitOffset"/>
+    </select>
+
+    <select
+        id="selectPersonCareerListCount"
+        parameterType="java.util.Map"
+        resultType="java.lang.Integer"
+    >
+        <include refid="PageFragment.countStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.countEnd"/>
+    </select>
+
+    <select
+        id="selectPersonCareer"
+        parameterType="java.util.Map"
+        resultMap="personCareerResultMap"
+    >
+        <include refid="selectFrom"/>
+        WHERE
+            `person_career`.`person_id` = #{personId}
+            AND `person_career`.`career_id` = #{careerId}
+    </select>
+</mapper>

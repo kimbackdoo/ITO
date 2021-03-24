@@ -1,6 +1,5 @@
 package kr.co.metasoft.ito.api.common.dto;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,47 +19,17 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PersonDto {
+public class CodeDto {
 
-    private Long id;
+    private String id;
+
+    private String parentId;
 
     private String name;
 
-    private String phoneNumber;
-
-    private String jobType;
-
-    private String inputStatus;
-
-    private String certificateStatus;
-
-    private String skill;
-
-    private String career;
-
-    private Long pay;
+    private Integer ranking;
 
     private String status;
-
-    @JsonFormat (pattern = "yyyy-MM-dd")
-    @DateTimeFormat (pattern = "yyyy-MM-dd")
-    private LocalDate workableDay;
-
-    private Long postcode;
-
-    private String address;
-
-    private String detailAddress;
-
-    private String email;
-
-    private String website;
-
-    private String education;
-
-    @JsonFormat (pattern = "yyyy-MM-dd")
-    @DateTimeFormat (pattern = "yyyy-MM-dd")
-    private LocalDate birthDate;
 
     @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
@@ -69,5 +38,4 @@ public class PersonDto {
     @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastModifiedDate;
-
 }

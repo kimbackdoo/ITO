@@ -109,8 +109,6 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     "nameLike": self.project.dataTable.query.projectName,
                 })).data;
 
-                console.log(projectList);
-
                 self.project.dataTable.totalRows = projectList.totalRows;
                 self.project.dataTable.items = projectList.items;
                 self.project.dataTable.loading = false;
