@@ -76,6 +76,12 @@ ito = {
                 "data": data,
             });
         },
+        "code": async function (type) {
+            return await axios({
+                "url": "/api/codes/"+type,
+                "method": "post"
+            });
+        },
         "authenticated": async function (token) {
             if (token) {
                 try {
@@ -213,6 +219,16 @@ ito = {
                 "removeUserPersonList": function (data) { return axios({"url": "/api/common/user-people", "method": "delete", "data": data}); },
                 "removeUserPerson": function (userId) { return axios({"url": "/api/common/user-people/"+ userId, "method": "delete"}); }
             },
+            "code": {
+                "getCodeList": function (params) { return axios({"url": "/api/common/codes", "method": "get", "params": params}); },
+                "getCode": function (id) { return axios({"url": "/api/common/codes/" + id, "method": "get"}); },
+                "createCodeList": function (data) { return axios({"url": "/api/common/codes?bulk", "method": "post", "data": data}); },
+                "createCode": function (data) { return axios({"url": "/api/common/codes", "method": "post", "data": data}); },
+                "modifyCodeList": function (data) { return axios({"url": "/api/common/codes", "method": "put", "data": data}); },
+                "modifyCode": function (id, data) { return axios({"url": "/api/common/codes/" + id, "method": "put", "data": data}); },
+                "removeCodeList": function (data) { return axios({"url": "/api/common/codes", "method": "delete", "data": data}); },
+                "removeCode": function (id) { return axios({"url": "/api/common/codes/"+ id, "method": "delete"}); },
+            },
             "profile": {
                 "getProfileList": function (params) { return axios({"url": "/api/common/profiles", "method": "get", "params": params}); },
                 "getProfile": function (userProfId) { return axios({"url": "/api/common/profiles/" + userProfId, "method": "get"}); },
@@ -271,6 +287,18 @@ ito = {
                 }
             }
             return str;
+        },
+        "getPostcode": function () {
+            return new Promise(function (resolve, reject) {
+                new daum.Postcode({
+                    "oncomplete": function (data) {
+                        resolve(data);
+                    },
+                    "onclose": function (state) {
+                        resolve();
+                    }
+                }).open();
+            });
         }
     }
 };
