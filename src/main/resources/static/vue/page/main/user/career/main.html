@@ -1,4 +1,4 @@
-<div>
+<div class="pa-3">
     <v-row>
         <v-col cols="12">
             <v-expansion-panels
@@ -58,13 +58,17 @@
                                 v-model="career.dataTable.options.page"
                             ></v-pagination>
                             <div class="text-right">
+                                <v-btn
+                                    class="grey"
+                                    @click=""
+                                >EXCEL로 일괄 업로드하기</v-btn>
                                 <v-dialog
                                     v-model="dialog"
                                     max-width="600px"
                                 >
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn
-                                            class="primary"
+                                            class="primary ml-6"
                                             v-bind="attrs"
                                             v-on="on"
                                         >추가</v-btn>
@@ -94,11 +98,13 @@
                                                     <v-col cols="2" md="auto" class="d-flex align-center">~</v-col>
                                                     <v-col cols="12" sm="7" md="5">
                                                         <date-picker-component
-                                                                dense
-                                                                label="종료일"
-                                                                append-icon="mdi-calendar"
-                                                                hide-details="auto"
-                                                                v-model="career.form.item.endPeriod"
+                                                            dense
+                                                            label="종료일"
+                                                            append-icon="mdi-calendar"
+                                                            hide-details="auto"
+                                                            :min="career.form.item.startPeriod"
+                                                            :max="data.query.maxDate"
+                                                            v-model="career.form.item.endPeriod"
                                                         ></date-picker-component>
                                                     </v-col>
                                                     <v-col cols="12" sm="6" md="4">
@@ -142,7 +148,7 @@
 
                                 <v-btn
                                     color="error"
-                                    class="ml-2"
+                                    class="ml-1"
                                     @click="deleteCareerList"
                                 >삭제</v-btn>
                             </div>

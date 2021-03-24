@@ -40,6 +40,8 @@ public class PersonDto {
 
     private Long pay;
 
+    private String status;
+
     @JsonFormat (pattern = "yyyy-MM-dd")
     @DateTimeFormat (pattern = "yyyy-MM-dd")
     private LocalDate workableDay;

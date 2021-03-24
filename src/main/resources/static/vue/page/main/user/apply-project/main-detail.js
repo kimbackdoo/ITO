@@ -38,6 +38,11 @@ ApplyProjectDetailMainComponent = Vue.component('applyProject-detail-main-compon
                        .then(function() { resolve(); });
                });
            },
+           "applyProject": async function() {
+               if(await ito.confirm("지원하시겠습니까?")) {
+                   await ito.alert("지원되었습니다.");
+               }
+           }
        },
        "mounted": function() {
            let queryId = this.$route.query.id;

@@ -10,12 +10,12 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                     },
                     "form": {
                         "item": {
-                            "userProfId": null,
+                            "id": null,
                             "name": null,
                             "birthDate": null,
                             "email": null,
                             "career": null,
-                            "job": null,
+                            "jobType": null,
                             "skill": null,
                             "pay": null,
                             "status": null,
@@ -29,32 +29,25 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
             };
         },
         "methods": {
-            "setProfile": async function(queryId) {
-                var self = this;
-                return new Promise(function (resolve, reject) {
-                    Promise.resolve()
-                        .then(function() {
-                            return ito.api.common.profile.getProfile(queryId);
-                        })
-                        .then(function (response) {
-                            self.inputProfile.form.item = response.data;
-                        })
-                        .then(function() { resolve(); });
-                });
+            "setProfile": function() {
+                let self = this,
+                    person = _.cloneDeep(store.state.app.person);
+
+                self.inputProfile.form.item = person;
             },
             "saveProfile": async function () {
                 var self = this,
                     data = self.inputProfile.form.item;
 
-                if(data.userProfId != undefined && data.userProfId != null) {
+                if(data.id != undefined && data.id != null) {
                     if(await ito.confirm("수정하시겠습니까?")) {
-                        ito.api.common.profile.modifyProfile(data.userProfId, data);
+                        ito.api.common.person.modifyPerson(data.id, data);
                         await ito.alert("수정되었습니다.");
                     }
                 }
                 else {
                     if(await ito.confirm("등록하시겠습니까?")) {
-                        ito.api.common.profile.createProfile(data);
+                        ito.api.common.person.createPerson(data);
                         await ito.alert("등록되었습니다.");
                     }
                 }
@@ -87,19 +80,9 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                     },
                 }).open();
             },
-            "goToProfiles": function() {
-                this.$router.push({
-                    "path": "/main/user/profiles",
-                });
-            },
         },
         "mounted": function() {
-            var queryId = this.$route.query.id;
-            if(queryId != undefined && queryId != null) {
-                Promise.resolve()
-                    .then(this.setProfile(queryId),
-                    );
-            }
+            this.setProfile();
         }
     });
 });

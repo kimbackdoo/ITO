@@ -5,6 +5,9 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
         "data": function() {
             return {
                 "data": {
+                    "query": {
+                        "maxDate": moment().format("YYYY-MM-DD")
+                    },
                     "paginationList": [
                         {"text": "5개 보기", "value": 5},
                         {"text": "10개 보기", "value": 10},
@@ -50,6 +53,7 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                         },
                         "loading": false,
                         "totalRows": 0,
+                        "totalCareer": 0,
                     },
                 },
             }
@@ -88,6 +92,7 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                 let start, end;
                 start = moment(careerList.items[0].startPeriod);
                 end = moment(careerList.items[0].endPeriod);
+                self.career.totalCareer = end.diff(start, 'days');
                 console.log(end.diff(start, 'days'));
 
                 self.career.dataTable.loading = false;

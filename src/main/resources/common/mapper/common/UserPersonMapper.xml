@@ -30,6 +30,7 @@
             `user_person_person`.`website` AS `user_person_person_website`,
             `user_person_person`.`education` AS `user_person_person_education`,
             `user_person_person`.`birth_date` AS `user_person_person_birth_date`,
+            `user_person_person`.`status` AS `user_person_person_status`,
             `user_person_person`.`created_date` AS `user_person_person_created_date`,
             `user_person_person`.`last_modified_date` AS `user_person_person_last_modified_date`
         FROM
@@ -79,6 +80,7 @@
             <result property="website" column="website"/>
             <result property="education" column="education"/>
             <result property="birthDate" column="birth_date"/>
+            <result property="status" column="status"/>
             <result property="createdDate" column="created_date"/>
             <result property="lastModifiedDate" column="last_modified_date"/>
         </association>
