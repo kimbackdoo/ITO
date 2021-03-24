@@ -247,6 +247,7 @@
                                                 outlined
                                                 hide-details="auto"
                                                 readonly
+                                                v-model="dataUpload.selectedFileName"
                                             >
                                             </v-text-field>
                                         </v-col>
@@ -255,11 +256,13 @@
                                                color="primary"
                                                class="text-none ml-auto"
                                                depressed
+                                               @click="onButtonClick()"
                                             >파일찾기</v-btn>
                                             <v-btn
                                                color="primary"
                                                class="text-none ml-1"
                                                depressed
+                                               @click="onFileUpload()"
                                                >업로드</v-btn>
                                             <v-btn
                                                depressed
@@ -274,6 +277,7 @@
                                                class="d-none"
                                                id="hiddenFile"
                                                type="file"
+                                               @change="onFileChanged"
                                                >
                                          </v-col>
                                     </v-row>
