@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/common/apply-profile")
+@RequestMapping(path = "api/common/apply-project")
 public class ApiCommonProjectController {
     @Autowired
     private ProjectService projectService;
