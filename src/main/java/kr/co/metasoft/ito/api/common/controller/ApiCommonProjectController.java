@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/common/apply-project")
+@RequestMapping(path = "api/common/projects")
 public class ApiCommonProjectController {
     @Autowired
     private ProjectService projectService;
