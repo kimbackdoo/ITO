@@ -253,7 +253,12 @@ ito = {
             "RoleAndRoleMenuAndRoleApi": {
                 "createRoleAndRoleMenuAndRoleApi": function (data) { return axios({"url": "/api/app/role-menu-apis", "method": "post", "data": data}); },
                 "modifyRoleAndRoleMenuAndRoleApi": function (data) { return axios({"url": "/api/app/role-menu-apis", "method": "put", "data": data}); },
-            }
+            },
+            "dataUpload" : {
+                "uploadDataFile" : function (data) { return axios({"url": "/api/app/settings/excel-file-upload","enctype": "multipart/form-data", "contentType" : false, "cache" : false, "processData" : false, "method": "post", "data": data});},
+                "getUploadFileLog" : function (params) { return axios({"url": "/api/app/settings/upload-file-log", "method": "get", "params": params}); },
+            },
+
         },
         "util": {
             "menu": {
