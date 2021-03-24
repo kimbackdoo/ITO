@@ -1,0 +1,173 @@
+<div>
+    <v-form ref="userForm">
+        <v-row dense>
+            <v-col cols="12">
+                <v-text-field
+                    dense
+                    outlined
+                    clearable
+                    label="이름(필수)"
+                    :rules="[rules.required]"
+                    validate-on-blur
+                    hide-details="auto"
+                    v-model="data.person.name"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+                <v-text-field
+                    autocomplete="off"
+                    dense
+                    outlined
+                    clearable
+                    label="아이디(필수)"
+                    :rules="[rules.required]"
+                    validate-on-blur
+                    hide-details="auto"
+                    v-model="data.user.username"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+                <v-text-field
+                    autocomplete="new-password"
+                    dense
+                    outlined
+                    clearable
+                    :type="text.type"
+                    :append-icon="text.icon"
+                    label="비밀번호(필수)"
+                    @click:append="showPassword();"
+                    :rules="[rules.required, rules.password]"
+                    validate-on-blur
+                    hide-details="auto"
+                    v-model="data.user.password"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+                <v-text-field
+                    autocomplete="new-password"
+                    dense
+                    outlined
+                    clearable
+                    :type="text.type"
+                    :append-icon="text.icon"
+                    label="비밀번호 확인"
+                    @click:append="showPassword();"
+                    :rules="[rules.samePassword]"
+                    validate-on-blur
+                    hide-details="auto"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+                <date-picker-component
+                    dense
+                    outlined
+                    hide-details
+                    label="생일(필수)"
+                    append-icon="mdi-calendar"
+                    v-model="data.person.birthDate"
+                    :rules="[rules.required]"
+                ></date-picker-component>
+            </v-col>
+            <v-col cols="12">
+                <v-text-field
+                    autocomplete="off"
+                    dense
+                    outlined
+                    clearable
+                    label="휴대폰(필수)"
+                    :rules="[rules.required, rules.phone]"
+                    validate-on-blur
+                    hide-details="auto"
+                    v-model="data.person.phoneNumber"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+                <v-text-field
+                    autocomplete="off"
+                    dense
+                    outlined
+                    clearable
+                    label="이메일(필수)"
+                    :rules="[rules.required, rules.email]"
+                    validate-on-blur
+                    hide-details="auto"
+                    v-model="data.person.email"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+                <v-text-field
+                    autocomplete="off"
+                    dense
+                    outlined
+                    clearable
+                    label="웹사이트"
+                    hide-details="auto"
+                    v-model="data.person.website"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+                <v-row dense>
+                    <v-col cols="4" md="2">
+                        <v-text-field
+                            :value="data.person.postcode"
+                            background-color="#e9ecef"
+                            dense
+                            outlined
+                            label="우편번호"
+                            readonly
+                            hide-details="auto"
+                            @click="setAddress"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="8" md ="10">
+                        <v-text-field
+                            :value="data.person.address"
+                            background-color="#e9ecef"
+                            outlined
+                            dense
+                            readonly
+                            hide-details="auto"
+                            label="기본주소"
+                            @click="setAddress"
+                        ></v-text-field>
+                    </v-col>
+                </v-row>
+            </v-col>
+            <v-col cols="12">
+                <v-text-field
+                    :value="data.person.detailAddress"
+                    outlined
+                    hide-details="auto"
+                    dense
+                    label="상세주소"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+                <v-card outlined style="border-color: rgba(0, 0, 0, 0.42) !important;">
+                    <v-card-text>
+                        <v-row>
+                            <v-col cols="auto">
+                                <span>직종</span>
+                            </v-col>
+                            <v-col class="py-0 d-flex justify-center align-center">
+                                <v-radio-group
+                                    :rules="[rules.required]"
+                                    style="margin: 5px 0 !important;"
+                                    v-model="data.person.jobType"
+                                    row
+                                    hide-details
+                                >
+                                    <v-radio
+                                        v-for="t in radio.job.items"
+                                        :label="t.name"
+                                        :value="t.id"
+                                    ></v-radio>
+                                </v-radio-group>
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-form>
+</div>

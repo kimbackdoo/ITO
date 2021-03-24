@@ -69,11 +69,11 @@ router = new VueRouter({
                     "path": "/main/admin/project-lists",
                     "component": MainAdminProjectListPage
                 },
-                {
-                     "name": "프로젝트 입력하기",
-                      "path": "/main/admin/project-info-form",
-                      "component": MainAdminProjectFormPage
-                },
+//                {
+//                     "name": "프로젝트 입력하기",
+//                      "path": "/main/admin/project-info-form",
+//                      "component": MainAdminProjectFormPage
+//                },
                 {
                     "name": "Settings",
                     "path": "/settings",
@@ -108,6 +108,11 @@ router = new VueRouter({
                     "name": "Users",
                     "path": "/settings/users",
                     "component": SettingUserMainPage
+                },
+                {
+                    "name": "Codes",
+                    "path": "/settings/codes",
+                    "component": SettingCodeMainPage
                 },
             ]
         },

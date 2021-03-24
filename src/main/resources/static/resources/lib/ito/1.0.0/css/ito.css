@@ -1,3 +1,10 @@
 * {
     font-family: "Spoqa Han Sans"
 }
+
+/*
+ * cursor event
+ */
+.cursor--pointer {
+    cursor: pointer !important;
+}
