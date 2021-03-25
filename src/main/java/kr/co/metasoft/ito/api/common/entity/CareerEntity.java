@@ -2,11 +2,14 @@ package kr.co.metasoft.ito.api.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -23,6 +26,10 @@ public class CareerEntity {
     @Column(name = "person_career_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long personCareerId;
+
+    @NotNull
+    @Column(name = "`person_id`", columnDefinition = "bigint(20)")
+    private Long personId;
 
     @Column(name = "name")
     private String name;
@@ -53,4 +60,9 @@ public class CareerEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "modify_dt", columnDefinition = "datetime", nullable = false)
     private LocalDateTime modifyDt;
+
+    @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "`person_id`", referencedColumnName = "`id`", insertable = false, updatable = false)
+    private PersonEntity person;
 }
