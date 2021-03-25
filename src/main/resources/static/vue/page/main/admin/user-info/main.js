@@ -138,6 +138,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     }
                 },
 
+/*
                 "user.dataTable.page": {
                     "handler": function (newValue, oldValue){
                         Promise.resolve()
@@ -145,7 +146,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             .then(this.replaceQuery);
                     }
                 },
-
+*/
                  "user.dataTable.itemsPerPage": {
                     "handler": function (newValue, oldValue) {
                         Promise.resolve()
@@ -153,7 +154,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             .then(this.replaceQuery)
                     }
                 }
-
             },
             "methods": {
     //-----------------파일 업로드 -------------------------
@@ -209,8 +209,11 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     this.dataUpload.selectedFileName = null;
                     this.dataUpload.selectedFile = null;
                 },
-
-
+                "clear": function() {
+                    this.user.dialog = false;
+                    this.fileClear();
+                    self.setUserInfoList();
+                },
     //------------------------------------------------------
                 "editUserInfo": function(value){
                     this.$router.push({
@@ -234,7 +237,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         await ito.alert("삭제할 항목이 없습니다.")
                     }else{
                         if(await ito.confirm("삭제하시겠습니까?")){
-//                           await self.removeUserInfoList(deleteList);
                            await ito.api.common.person.removePersonList(deleteList);
                            await ito.alert("삭제되었습니다.")
                         }
@@ -264,13 +266,13 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             .then(function (response) {
                                 var data = response.data;
                                 self.user.dataTable.items = data.items;
+                                console.log(data.items.length);
                                 self.user.dataTable.items.forEach(e => {
                                     e.inputStatus = (e.inputStatus == "T") ? "투입중" : "섭외중"
                                     e.certificateStatus = (e.certificateStatus == "T") ? "있음" : "없음"
                                     e.career = e.career+"년"
                                 });
                                 self.user.dataTable.totalRows = data.items.length;
-                                self.user.dataTable.serverItemsLength = data.totalElements;
                                 self.user.dataTable.loading = false;
                             })
                             .then(function () { resolve(); });
