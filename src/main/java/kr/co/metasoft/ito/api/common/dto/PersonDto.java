@@ -46,7 +46,7 @@ public class PersonDto {
     @DateTimeFormat (pattern = "yyyy-MM-dd")
     private LocalDate workableDay;
 
-    private Long postcode;
+    private String postcode;
 
     private String address;
 

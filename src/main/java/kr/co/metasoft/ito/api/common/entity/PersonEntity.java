@@ -3,12 +3,16 @@ package kr.co.metasoft.ito.api.common.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -73,7 +77,7 @@ public class PersonEntity {
     private LocalDate workableDay;
 
     @Column (name = "`postcode`", columnDefinition = "bigint(20)", nullable = true)
-    private Long postcode;
+    private String postcode;
 
     @Column (name = "`address`", columnDefinition = "varchar(100)", nullable = true)
     private String address;
