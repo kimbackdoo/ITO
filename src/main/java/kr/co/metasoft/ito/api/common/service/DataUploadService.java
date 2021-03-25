@@ -123,17 +123,28 @@ public class DataUploadService {
             if(excelFile.getOriginalFilename().endsWith(".xlsx") || excelFile.getOriginalFilename().endsWith(".XLSX")) {
                 List<PersonEntity> list = new ArrayList<>();
 
+
+                //여기서 파일을 제대로 못 붙러오는듯한데....
                 try (
                     OPCPackage opcPackage = OPCPackage.open(excelFile.getInputStream());
                     XSSFWorkbook workbook = new XSSFWorkbook(opcPackage);
-                ) {
+                    ) {
+
                     // 첫번째 시트 불러오기
                     XSSFSheet sheet = workbook.getSheetAt(0);
 
+                    //한개의 시트에 몇개의 로우가 있는지 체크
                     XSSFRow row = sheet.getRow(0);
                     HashMap<String,Integer> columnKeyNumberList = new HashMap<>();
 
-                    for(int i = 0; i < row.getPhysicalNumberOfCells(); i++) {
+                    System.out.println("row ");
+                    System.out.println(" row.getPysicalNumberCells");
+                    System.out.println(" row 값 " + row);
+                    System.out.println(" row.getPysicalNumberCells 값  "+ row.getPhysicalNumberOfCells());
+
+                    //row.getPysicalNumberCells() 한개의 로우마다 몇개의 cell 수
+                    int cols= row.getPhysicalNumberOfCells();
+                    for(int i = 0; i < cols; i++) {
                         XSSFCell cell = row.getCell(i);
                         cell.setCellType(Cell.CELL_TYPE_STRING);
 
@@ -142,16 +153,20 @@ public class DataUploadService {
                         }
                     }
 
+
+                    System.out.println("엑셀 양식 확인 검사");
                     // 엑셀 양식 확인
                     if(columnKeyNumberList.size() == columnKeyList.size()) {
 
 
+                        System.out.println("엑셀 양식 확인 통과");
+
                         for(int i=1; i<sheet.getLastRowNum() + 1; i++) {
                             PersonEntity dataUploadEntity = new PersonEntity();
                             dataUploadEntity.setId(uploadFileOrder);   //id값만 있으면 된다 더 필요하다 싶으면 추가
-//                          dataUploadEntity.setOrginFileNm(excelOriginFileName);
-//                          dataUploadEntity.setFileRowNum(Long.valueOf(i));
                             row = sheet.getRow(i);
+
+                            System.out.println(" sheet.getLastRowNum 에서 for문 검사중 문제  : " + i);
 
                             // 행이 존재하기 않으면 패스
                             if(null == row) {
@@ -165,6 +180,7 @@ public class DataUploadService {
                                 cell.setCellType(Cell.CELL_TYPE_STRING);
                                 dataUploadEntity.setName(cell.getStringCellValue());
                             }
+                            System.out.println("breakPoint :  " + "이름");
 
                             // (휴대폰 번호)
                             cell = row.getCell(columnKeyNumberList.get("휴대폰 번호"));
@@ -172,6 +188,7 @@ public class DataUploadService {
                             if(null != cell) {
                                 dataUploadEntity.setPhoneNumber(cell.getStringCellValue());
                             }
+                            System.out.println("breakPoint :  " + "휴대폰 번호");
 
                             // (직업 종류)
                             cell = row.getCell(columnKeyNumberList.get("직업종류"));
@@ -179,6 +196,7 @@ public class DataUploadService {
                             if(null != cell) {
                                 dataUploadEntity.setJobType(cell.getStringCellValue());
                             }
+                            System.out.println("breakPoint :  " + "직업종류");
 
                             // (투입여부)
                             cell = row.getCell(columnKeyNumberList.get("투입여부"));
@@ -186,6 +204,8 @@ public class DataUploadService {
                             if(null != cell) {
                                 dataUploadEntity.setInputStatus(cell.getStringCellValue());
                             }
+                            System.out.println("breakPoint :  " + "투입여부");
+
 
                             // (필수 자격증 여부)
                             cell = row.getCell(columnKeyNumberList.get("필수 자격증 여부"));
@@ -193,6 +213,8 @@ public class DataUploadService {
                             if(null != cell) {
                                 dataUploadEntity.setCertificateStatus(cell.getStringCellValue());
                             }
+                            System.out.println("breakPoint :  " + "필수 자격증 여부");
+
 
                             // (보유 스킬)
                             cell = row.getCell(columnKeyNumberList.get("보유 스킬"));
@@ -200,6 +222,7 @@ public class DataUploadService {
                             if(null != cell) {
                                 dataUploadEntity.setSkill(cell.getStringCellValue());
                             }
+                            System.out.println("breakPoint :  " + "보유 스킬");
 
                             // (경력)
                             cell = row.getCell(columnKeyNumberList.get("경력"));
@@ -207,6 +230,8 @@ public class DataUploadService {
                             if(null != cell) {
                                 dataUploadEntity.setCareer(cell.getStringCellValue());
                             }
+                            System.out.println("breakPoint :  " + "경력");
+
 
                             // (급여)
                             cell = row.getCell(columnKeyNumberList.get("급여"));
@@ -215,23 +240,31 @@ public class DataUploadService {
                                 Long pay = Long.parseLong(cell.getStringCellValue());
                                 dataUploadEntity.setPay(pay);
                             }
+                            System.out.println("breakPoint :  " + "급여");
+
 
                             // (투입가능 시작 가능일) - localDate 형 변환
                             cell = row.getCell(columnKeyNumberList.get("투입 가능 시작일"));
-                            cell.setCellType(Cell.CELL_TYPE_STRING);
+//                            cell.setCellType(Cell.CELL_TYPE_STRING);
                             if(null != cell) {
 
-                                LocalDate workDay = LocalDate.parse(cell.getStringCellValue(), DateTimeFormatter.ISO_DATE);
+                                String s = new SimpleDateFormat("yyyy-MM-dd").format(cell.getDateCellValue());
+                                System.out.println(s);
+                                LocalDate workDay = LocalDate.parse(s, DateTimeFormatter.ISO_LOCAL_DATE);
                                 dataUploadEntity.setWorkableDay(workDay);
                             }
+                            System.out.println("breakPoint :  " + "투입 가능 시작일");
+
 
                             // (우편번호)
                             cell = row.getCell(columnKeyNumberList.get("우편번호"));
                             cell.setCellType(Cell.CELL_TYPE_STRING);
                             if(null != cell) {
-                                Long pc = Long.parseLong(cell.getStringCellValue());
-                                dataUploadEntity.setPostcode(pc);
+//                              Long pc = cell.getStringCellValue().isEmpty() || cell.getStringCellValue() == null ? null : Long.parseLong(cell.getStringCellValue());
+                                dataUploadEntity.setPostcode(cell.getStringCellValue());
                             }
+                            System.out.println("breakPoint :  " + "우편번호");
+
 
                             // (주소)
                             cell = row.getCell(columnKeyNumberList.get("주소"));
@@ -239,6 +272,8 @@ public class DataUploadService {
                             if(null != cell) {
                                 dataUploadEntity.setAddress(cell.getStringCellValue());
                             }
+                            System.out.println("breakPoint :  " + "주소");
+
 
                             // (상세주소)
                             cell = row.getCell(columnKeyNumberList.get("상세주소"));
@@ -246,6 +281,8 @@ public class DataUploadService {
                             if(null != cell) {
                                 dataUploadEntity.setDetailAddress(cell.getStringCellValue());
                             }
+                            System.out.println("breakPoint :  " + "상세주소");
+
 
                             // (이메일)
                             cell = row.getCell(columnKeyNumberList.get("이메일"));
@@ -253,6 +290,8 @@ public class DataUploadService {
                             if(null != cell) {
                                 dataUploadEntity.setEmail(cell.getStringCellValue());
                             }
+                            System.out.println("breakPoint :  " + "이메일");
+
 
                             // (웹사이트)
                             cell = row.getCell(columnKeyNumberList.get("웹사이트"));
@@ -260,6 +299,8 @@ public class DataUploadService {
                             if(null != cell) {
                                 dataUploadEntity.setEmail(cell.getStringCellValue());
                             }
+                            System.out.println("breakPoint :  " + "웹사이트");
+
 
                             // (최종학력)
                             cell = row.getCell(columnKeyNumberList.get("최종학력"));
@@ -267,14 +308,21 @@ public class DataUploadService {
                             if(null != cell) {
                                 dataUploadEntity.setEducation(cell.getStringCellValue());
                             }
+                            System.out.println("breakPoint :  " + "최종학력");
+
 
                             // (생일)
                             cell = row.getCell(columnKeyNumberList.get("생일"));
-                            cell.setCellType(Cell.CELL_TYPE_STRING);
+//                            cell.setCellType(Cell.CELL_TYPE_STRING);
                             if(null != cell) {
-                                LocalDate birth = LocalDate.parse(cell.getStringCellValue(), DateTimeFormatter.ISO_DATE);
+                                String s = new SimpleDateFormat("yyyy-MM-dd").format(cell.getDateCellValue());
+                                System.out.println(s);
+                                LocalDate birth = LocalDate.parse(s, DateTimeFormatter.ISO_LOCAL_DATE);
                                 dataUploadEntity.setBirthDate(birth);
+
                             }
+                            System.out.println("breakPoint :  " + "생일");
+
 
                             //만든 personEntity를 list에 저장한다.
                             list.add(dataUploadEntity);
@@ -284,7 +332,6 @@ public class DataUploadService {
                         {
                             dataUploadMapper.insertUploadFileOrder(new ArrayList<>( list.subList(i, Math.min((i + 100) , list.size()))));
                         }
-//                        dataUploadMapper.insertUploadFileOrderByCmdb(uploadFileOrder);
 
                         returnVal = "SUCCESS";
                         returnMsg = "업로드에 성공했습니다.";
@@ -312,15 +359,5 @@ public class DataUploadService {
         return returnMap;
     }
 
-    /*
-     * @Validated (value = {ReadValidationGroup.class}) public
-     * PageResponse<UploadFileLogDto> selectCMDBUploadFileLog( PageRequest
-     * pageRequest) { Integer sosanBackupResultListCount =
-     * dataUploadCMDBMapper.selectCmdbLogListCount(); List<UploadFileLogDto>
-     * sosanBackupResultList = dataUploadCMDBMapper.selectCmdbLogList(pageRequest);
-     * PageResponse<UploadFileLogDto> pageResponse = new PageResponse<>(pageRequest,
-     * sosanBackupResultListCount); pageResponse.setItems(sosanBackupResultList);
-     * return pageResponse; }
-     */
 
 }
