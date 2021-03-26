@@ -109,6 +109,11 @@ router = new VueRouter({
                     "path": "/settings/users",
                     "component": SettingUserMainPage
                 },
+                {
+                    "name": "Codes",
+                    "path": "/settings/codes",
+                    "component": SettingCodeMainPage
+                },
             ]
         },
         {
