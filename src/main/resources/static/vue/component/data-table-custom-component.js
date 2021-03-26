@@ -61,7 +61,15 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
             "type": Boolean,
             "default": false
         },
-        "downloadHide": {
+        "importHide": {
+            "type": Boolean,
+            "default": false
+        },
+        "addHide": {
+            "type": Boolean,
+            "default": false
+        },
+        "removeHide": {
             "type": Boolean,
             "default": false
         },
@@ -72,7 +80,7 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
         "itemKey": {
             "type": String,
             "default": "id"
-        }
+        },
     },
     "data": function () {
         return {
@@ -85,7 +93,7 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
                 {"text": "30개 보기", "value": 30},
                 {"text": "전체 보기", "value": null}
             ],
-            "deleteItems": []
+            "data": []
         };
     },
     "watch": {
@@ -136,8 +144,14 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
         "clickRow": function (e) {
             this.$emit("click:row", e);
         },
-        "download": function () {
-            this.$emit("download");
+        "excelImport": function () {
+            this.$emit("import");
+        },
+        "remove": function () {
+            this.$emit("remove", this.data);
+        },
+        "add": function () {
+            this.$emit("add");
         }
     },
 }); });

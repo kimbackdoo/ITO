@@ -1,5 +1,5 @@
 <v-data-table
-    v-model="deleteItems"
+    v-model="data"
     :show-select="showSelect"
     :item-key="itemKey"
     :headers="headers"
@@ -22,10 +22,9 @@
     <v-row class="my-1">
         <v-col class="d-flex justify-start align-center">
             <div style="width: 200px;">
-                <h3>전체 {{totalRows}}건</h3>
+                <h3 class="text-left">전체 {{totalRows}}건</h3>
             </div>
-            <v-btn v-if="!downloadHide" depressed color="primary" class="ml-auto" @click="download">다운로드</v-btn>
-            <div style="width: 130px;" :class="downloadHide ? 'ml-auto' : 'ml-3'">
+            <div style="width: 130px;" class="ml-auto">
                 <v-select
                     dense
                     outlined
@@ -41,16 +40,16 @@
     </template>
     <template v-if="items.length !== 0" v-slot:body="props">
             <tbody>
-                <tr v-for="item in props.items" @click="clickRow(item)" :key="item[itemKey]">
+                <tr v-for="item in props.items" :key="item[itemKey]">
                     <td v-if="showSelect">
                         <v-checkbox
-                            v-model="deleteItems"
+                            v-model="data"
                             :value="item"
                             style="margin:0px;padding:0px"
                             hide-details
                         />
                     </td>
-                    <td :class="'text-'+header.align + ' ' + header.cellClass" v-for="header in headers">
+                    <td :class="'text-'+header.align + ' ' + header.cellClass" v-for="header in headers"  @click="clickRow(item)">
                         <template v-if="header.cellClass != null && header.cellClass.indexOf('truncate') !== -1">
                             <template v-if="header.value.toUpperCase().indexOf('TARGET') !== -1">
                                 <v-tooltip top>
@@ -81,10 +80,10 @@
     <template v-else v-slot:body>
         <tbody>
             <tr>
-                <td v-if="loading" :colspan="headers.length" class="text-center">
+                <td v-if="loading" :colspan="headers.length + (showSelect ? 1 : 0)" class="text-center">
                     <h4 style="opacity: 0.4;">데이터 가져오는 중...</h4>
                 </td>
-                <td v-else :colspan="headers.length" class="text-center">
+                <td v-else :colspan="headers.length + (showSelect ? 1 : 0)" class="text-center">
                     <div class="py-3">
                         <v-icon size="200" style="opacity: 0.12;">
                             mdi-database-remove-outline
@@ -97,14 +96,35 @@
         </tbody>
     </template>
     <template v-slot:footer >
-        <div class="text-center my-2" >
-            <v-pagination
-                class="d-inline-block"
-                :length="Math.ceil(totalRows / itemsPerPage)"
-                :total-visible="10"
-                v-model="page"
-                :disabled="disabled"
-            ></v-pagination>
-        </div>
+        <v-row dense>
+            <v-col cols="12" class="pa-0">
+                <div class="text-center my-2" >
+                    <v-pagination
+                        class="d-inline-block"
+                        :length="Math.ceil(totalRows / itemsPerPage)"
+                        :total-visible="10"
+                        v-model="page"
+                        :disabled="disabled"
+                    ></v-pagination>
+                </div>
+            </v-col>
+            <v-col cols="12" class="pa-0 d-flex justify-end align-center">
+                <v-btn
+                    v-if="!importHide"
+                    color="primary"
+                    @click="excelImport"
+                >업로드</v-btn>
+                <v-btn
+                    v-if="!addHide"
+                    class="ml-3"
+                    @click="add"
+                >추가</v-btn>
+                <v-btn
+                    v-if="!removeHide"
+                    class="ml-3"
+                    @click="remove"
+                >삭제</v-btn>
+            </v-col>
+        </v-row>
     </template>
  </v-data-table>
