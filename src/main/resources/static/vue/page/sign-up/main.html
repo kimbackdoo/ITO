@@ -62,6 +62,9 @@
                                             <template v-if="data.person.jobType">
                                                 <sign-up-main-technic-fragment
                                                     :jobName="code.job.items.find(e=>e.id === data.person.jobType).name"
+                                                    @update:language="(e)=>{data.language = e;}"
+                                                    @update:sector="(e)=>{data.sector = e;}"
+                                                    @update:role="(e)=>{data.role = e;}"
                                                     @update:skill="(e)=>{data.skill = e;}"
                                                 ></sign-up-main-technic-fragment>
                                             </template>
@@ -81,7 +84,7 @@
                                     <v-row dense>
                                         <v-col>
                                             <sign-up-main-career-fragment
-                                                    @update:career="(e)=>{data.skill = e;}"
+                                                    @update:career="(e)=>{data.career = e;}"
                                             ></sign-up-main-career-fragment>
                                         </v-col>
                                         <v-col cols="12" class="text-right">

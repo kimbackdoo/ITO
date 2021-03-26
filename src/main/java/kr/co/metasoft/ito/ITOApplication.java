@@ -62,7 +62,7 @@ class ApiController {
             case "jobs":      idStartLike = "001"; break;
             case "languages": idStartLike = "002"; break;
             case "roles":     idStartLike = "003"; break;
-            case "technics":  idStartLike = "004"; break;
+            case "skills":  idStartLike = "004"; break;
             case "sectors":   idStartLike = "005"; break;
             default:          idStartLike = "-";
         }

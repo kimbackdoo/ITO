@@ -100,7 +100,7 @@
                 </v-card>
             </v-col>
         </template>
-        <template v-if="check.technic.items.length > 0">
+        <template v-if="check.skill.items.length > 0">
             <v-col cols="12">
                 <v-card outlined style="border-color: rgba(0, 0, 0, 0.42) !important;">
                     <v-card-text>
@@ -111,7 +111,7 @@
                             <v-col class="py-0 d-inline justify-center align-center">
                                 <table>
                                     <tbody>
-                                        <tr style="border: 1px solid black;" v-for="(item, i) in check.technic.items">
+                                        <tr style="border: 1px solid black;" v-for="(item, i) in check.skill.items">
                                             <template v-if="item.parent !== undefined">
                                                 <td class="text-center" style="border-right: 1px solid black;" scope="row">{{item.parent.name}}</td>
                                                 <td scope="row">
@@ -120,7 +120,7 @@
                                                         v-for="t in item.children"
                                                         :value="t.id"
                                                         :label="t.name"
-                                                        v-model="data.technic[i]"
+                                                        v-model="data.skill[i]"
                                                         style="margin: 0 5px !important;"
                                                         :rules="[rules.required]"
                                                         hide-details="auto"
@@ -134,7 +134,7 @@
                                                         v-for="t in item.children"
                                                         :value="t.id"
                                                         :label="t.name"
-                                                        v-model="data.technic"
+                                                        v-model="data.skill"
                                                         style="margin: 0 5px !important;"
                                                         :rules="[rules.required]"
                                                         hide-details="auto"

@@ -61,6 +61,9 @@ public class AccountService {
                 .inputStatus(accountDto.getPersonDto().getInputStatus())
                 .certificateStatus(accountDto.getPersonDto().getCertificateStatus())
                 .skill(accountDto.getPersonDto().getSkill())
+                .language(accountDto.getPersonDto().getLanguage())
+                .sector(accountDto.getPersonDto().getSector())
+                .role(accountDto.getPersonDto().getRole())
                 .career(accountDto.getPersonDto().getCareer())
                 .pay(accountDto.getPersonDto().getPay())
                 .workableDay(accountDto.getPersonDto().getWorkableDay())
@@ -70,6 +73,7 @@ public class AccountService {
                 .email(accountDto.getPersonDto().getEmail())
                 .website(accountDto.getPersonDto().getWebsite())
                 .education(accountDto.getPersonDto().getEducation())
+                .birthDate(accountDto.getPersonDto().getBirthDate())
                 .build();
 
         userEntity.setPassword(passwordEncoder.encode((userEntity.getPassword())));
@@ -105,6 +109,9 @@ public class AccountService {
                 .inputStatus(accountDto.getPersonDto().getInputStatus())
                 .certificateStatus(accountDto.getPersonDto().getCertificateStatus())
                 .skill(accountDto.getPersonDto().getSkill())
+                .language(accountDto.getPersonDto().getLanguage())
+                .sector(accountDto.getPersonDto().getSector())
+                .role(accountDto.getPersonDto().getRole())
                 .career(accountDto.getPersonDto().getCareer())
                 .pay(accountDto.getPersonDto().getPay())
                 .workableDay(accountDto.getPersonDto().getWorkableDay())
@@ -114,6 +121,7 @@ public class AccountService {
                 .email(accountDto.getPersonDto().getEmail())
                 .website(accountDto.getPersonDto().getWebsite())
                 .education(accountDto.getPersonDto().getEducation())
+                .birthDate(accountDto.getPersonDto().getBirthDate())
                 .build();
 
         Long userId = userRepository.save(userEntity).getId();
@@ -144,6 +152,9 @@ public class AccountService {
                 .inputStatus(accountDto.getPersonDto().getInputStatus())
                 .certificateStatus(accountDto.getPersonDto().getCertificateStatus())
                 .skill(accountDto.getPersonDto().getSkill())
+                .language(accountDto.getPersonDto().getLanguage())
+                .sector(accountDto.getPersonDto().getSector())
+                .role(accountDto.getPersonDto().getRole())
                 .career(accountDto.getPersonDto().getCareer())
                 .pay(accountDto.getPersonDto().getPay())
                 .workableDay(accountDto.getPersonDto().getWorkableDay())
@@ -153,6 +164,7 @@ public class AccountService {
                 .email(accountDto.getPersonDto().getEmail())
                 .website(accountDto.getPersonDto().getWebsite())
                 .education(accountDto.getPersonDto().getEducation())
+                .birthDate(accountDto.getPersonDto().getBirthDate())
                 .build();
 
         userEntity.setPassword(passwordEncoder.encode((userEntity.getPassword())));

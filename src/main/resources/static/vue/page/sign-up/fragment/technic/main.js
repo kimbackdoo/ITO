@@ -12,7 +12,7 @@ SignUpMainTechnicFragment = Vue.component("sign-up-main-technic-fragment", async
             "data": {
                 "language":[],
                 "role":[],
-                "technic":[],
+                "skill":[],
                 "sector":[]
             },
             "code": {
@@ -22,7 +22,7 @@ SignUpMainTechnicFragment = Vue.component("sign-up-main-technic-fragment", async
                 "role": {
                     "items": []
                 },
-                "technic": {
+                "skill": {
                     "items": []
                 },
                 "sector": {
@@ -36,7 +36,7 @@ SignUpMainTechnicFragment = Vue.component("sign-up-main-technic-fragment", async
                 "role": {
                     "items": []
                 },
-                "technic": {
+                "skill": {
                     "items": []
                 },
                 "sector": {
@@ -74,7 +74,6 @@ SignUpMainTechnicFragment = Vue.component("sign-up-main-technic-fragment", async
                         languageList[languageList.length-1].children.push(e);
                     }
                 });
-                console.log(this.data.language);
                 this.check.language.items = languageList;
             },
             "deep": true
@@ -104,38 +103,36 @@ SignUpMainTechnicFragment = Vue.component("sign-up-main-technic-fragment", async
                         roleList[roleList.length-1].children.push(e);
                     }
                 });
-                console.log(this.data.role);
                 this.check.role.items = roleList;
             },
             "deep": true
         },
-        "code.technic.items":{
+        "code.skill.items":{
             "handler":  function () {
                 let items,
-                    technicList,
-                    startsWith = this.code.technic.items.find(e=>e.name == this.jobName).id;
-                items = this.code.technic.items.filter(e=> e.id.startsWith(startsWith) && startsWith !== e.id);
-                technicList= [];
+                    skillList,
+                    startsWith = this.code.skill.items.find(e=>e.name == this.jobName).id;
+                items = this.code.skill.items.filter(e=> e.id.startsWith(startsWith) && startsWith !== e.id);
+                skillList= [];
                 items.forEach((e,i)=> {
                     if (i === items.length-1) {
-                        technicList[technicList.length-1].children.push(e);
+                        skillList[skillList.length-1].children.push(e);
                     }else if (e.id.length < items[i+1].id.length) {
-                        technicList.push({
+                        skillList.push({
                             "parent": e,
                             "children": []
                         });
-                        this.data.technic.push([]);
+                        this.data.skill.push([]);
                     }else {
-                        if(technicList.length === 0) {
-                            technicList.push({
+                        if(skillList.length === 0) {
+                            skillList.push({
                                 "children": []
                             });
                         }
-                        technicList[technicList.length-1].children.push(e);
+                        skillList[skillList.length-1].children.push(e);
                     }
                 });
-                console.log(this.data.technic);
-                this.check.technic.items = technicList;
+                this.check.skill.items = skillList;
             },
             "deep": true
         },
@@ -164,7 +161,6 @@ SignUpMainTechnicFragment = Vue.component("sign-up-main-technic-fragment", async
                         sectorList[sectorList.length-1].children.push(e);
                     }
                 });
-                console.log(this.data.sector);
                 this.check.sector.items = sectorList;
             },
             "deep": true
@@ -184,6 +180,7 @@ SignUpMainTechnicFragment = Vue.component("sign-up-main-technic-fragment", async
                         this.data.language = _.cloneDeep(o);
                     }
                 }
+                this.$emit("update:language", this.data.language);
             }
         },
         "data.role": {
@@ -201,26 +198,28 @@ SignUpMainTechnicFragment = Vue.component("sign-up-main-technic-fragment", async
                         this.data.role = _.cloneDeep(o);
                     }
                 }
+                this.$emit("update:role", this.data.role);
             }
         },
-        "data.technic": {
+        "data.skill": {
             "handler": function (n, o) {
-                console.log(n, o);
                 if(typeof(n[0])==="object") {
                     n.forEach(e=>{
                         if(e.length > 3) {
                             ito.alert("3개 이하만 가능합니다.");
                             e.pop();
-                            this.data.technic = _.cloneDeep(n);
+                            this.data.skill = _.cloneDeep(n);
                             return;
                         }
                     });
                 } else {
                     if(n.length > 3) {
                         ito.alert("3개 이하만 가능합니다.");
-                        this.data.technic = _.cloneDeep(o);
+                        this.data.skill = _.cloneDeep(o);
                     }
                 }
+                console.log(this.data.skill);
+                this.$emit("update:skill", this.data.skill);
             }
         },
         "data.sector": {
@@ -238,8 +237,9 @@ SignUpMainTechnicFragment = Vue.component("sign-up-main-technic-fragment", async
                         this.data.sector = _.cloneDeep(o);
                     }
                 }
+                this.$emit("update:sector", this.data.sector);
             }
-        }
+        },
     },
     "methods": {
         "init": async function () {
@@ -255,7 +255,7 @@ SignUpMainTechnicFragment = Vue.component("sign-up-main-technic-fragment", async
             this.code.role.items = (await ito.auth.code("roles")).data.items;
         },
         "getTechnicList": async function () {
-            this.code.technic.items = (await ito.auth.code("technics")).data.items;
+            this.code.skill.items = (await ito.auth.code("skills")).data.items;
         },
         "getSectorList": async function () {
             this.code.sector.items = (await ito.auth.code("sectors")).data.items;

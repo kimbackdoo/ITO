@@ -5,16 +5,16 @@ SignUpMainPage = Vue.component("sign-up-main-page", async function (resolve) { r
         return {
             "stepper": {
                 "category": ["약관", "개인정보","보유기술","경력","완료"],
-                "complete": 3
+                "complete": 1
             },
             "data": {
                 "person":{},
                 "user": {},
-                "skill": {},
-                "career": {},
-                "role": {
-                    "id": 2
-                }
+                "skill": [],
+                "role": [],
+                "sector": [],
+                "language": [],
+                "career": {}
             },
             "code": {
                 "job": {
@@ -72,13 +72,47 @@ SignUpMainPage = Vue.component("sign-up-main-page", async function (resolve) { r
                     }
                     break;
                 case 3:
-                case 4:
-                case 5:
                     this.stepper.complete = index + 1;
                     break;
+                case 4:
+                    this.saveAccount();
+                    break;
+                case 5:
+
                 default:
                     break;
                 }
+            }
+        },
+        "saveAccount": async function () {
+            let self = this, person, user, skill, language, role, sector, career;
+            person = _.cloneDeep(self.data.person);
+            user = _.cloneDeep(self.data.user);
+            skill = _.cloneDeep(self.data.skill);
+            role = _.cloneDeep(self.data.role);
+            language = _.cloneDeep(self.data.language);
+            sector = _.cloneDeep(self.data.sector);
+            career = _.cloneDeep(self.data.career);
+
+            if(await ito.confirm("저장하시겠습니까?")) {
+                person["skill"] = skill.join(",");
+                person["role"] = role.join(",");
+                person["language"] = language.join(",");
+                person["sector"] = sector.join(",");
+                for(let c in career) {
+                    if(Array.isArray(career[c])) {
+                        person[c] = career[c].join(",");
+                    }else {
+                        person[c] = career[c];
+                    }
+                }
+                console.log(person, user);
+                await ito.auth.signUp({
+                    "personDto": person,
+                    "userDto": user
+                });
+                this.stepper.complete = index + 1;
+                await ito.alert("완료");
             }
         }
     },
