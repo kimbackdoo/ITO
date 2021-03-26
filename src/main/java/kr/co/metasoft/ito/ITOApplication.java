@@ -57,23 +57,22 @@ class ApiController {
     @PostMapping (path = "/codes/{type}")
     public PageResponse<CodeEntity> getCodeByJobList(
             @PathVariable (name = "type") String type) {
-        String parentId = "";
+        String idStartLike = "";
         switch (type) {
-            case "jobs": parentId = "001"; break;
-            case "lenguages": parentId = "002"; break;
-            case "roles": parentId = "003"; break;
-            case "technics": parentId = "004"; break;
-            case "sectors": parentId = "005"; break;
-            case "skills": parentId = "006"; break;
-            default: parentId = "-";
+            case "jobs":      idStartLike = "001"; break;
+            case "languages": idStartLike = "002"; break;
+            case "roles":     idStartLike = "003"; break;
+            case "technics":  idStartLike = "004"; break;
+            case "sectors":   idStartLike = "005"; break;
+            default:          idStartLike = "-";
         }
         CodeParamDto codeParamDto = CodeParamDto.builder()
                 .status("T")
-                .parentId(parentId)
+                .idStartLike(idStartLike)
                 .build();
         PageRequest pageRequest = new PageRequest();
         List<String> sort = new ArrayList<>();
-        sort.add("ranking,asc");
+        sort.add("id,asc");
         pageRequest.setSort(sort);
         pageRequest.setRowSize(10000000);
         return codeService.getCodeList(codeParamDto, pageRequest);

@@ -27,6 +27,8 @@ public class CodeDto {
 
     private String name;
 
+    private String value;
+
     private Integer ranking;
 
     private String status;

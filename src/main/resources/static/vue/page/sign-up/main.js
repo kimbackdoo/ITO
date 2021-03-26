@@ -5,13 +5,19 @@ SignUpMainPage = Vue.component("sign-up-main-page", async function (resolve) { r
         return {
             "stepper": {
                 "category": ["약관", "개인정보","보유기술","경력","완료"],
-                "complete": 1
+                "complete": 4
             },
             "data": {
                 "person":{},
                 "user": {},
+                "skill": {},
                 "role": {
-                    "id": null
+                    "id": 2
+                }
+            },
+            "code": {
+                "job": {
+                    "items": []
                 }
             },
             "form": [
@@ -24,14 +30,14 @@ SignUpMainPage = Vue.component("sign-up-main-page", async function (resolve) { r
         };
     },
     "watch": {
-        "data": {
-            "handler": function (n){
-                console.log(n);
-            },
-            "deep": true
-        }
     },
     "methods": {
+        "init": async function () {
+            await this.getJobTypeList();
+        },
+        "getJobTypeList": async function () {
+            this.code.job.items = (await ito.auth.code("jobs")).data.items;
+        },
         "existUsername": async function (username) {
             return (await ito.auth.idExists({"username": username})).data > 0 ? true : false;
         },
@@ -54,6 +60,7 @@ SignUpMainPage = Vue.component("sign-up-main-page", async function (resolve) { r
                     this.stepper.complete = index + 1;
                     break;
                 case 2:
+                    console.log(this.$refs[this.form[index-1]]);
                     validate = this.$refs[this.form[index-1]].$refs[this.form[index-1]].validate();
                     if(!validate) {
                         await ito.alert("유효한 값을 작성해주세요.");
@@ -75,6 +82,6 @@ SignUpMainPage = Vue.component("sign-up-main-page", async function (resolve) { r
         }
     },
     "mounted": async function () {
-
+        this.init();
     }
 }); });

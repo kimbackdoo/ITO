@@ -57,6 +57,10 @@ public class CodeEntity {
     private String name;
 
     @NotNull (groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
+    @Column (name = "`value`", columnDefinition = "varchar(50)", nullable = false)
+    private String value;
+
+    @NotNull (groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
     @Column (name = "`ranking`", columnDefinition = "int(11)", nullable = false)
     private Integer ranking;
 

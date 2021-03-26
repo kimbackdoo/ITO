@@ -15,9 +15,6 @@ SignUpMainJoinFragment = Vue.component("sign-up-main-join-fragment", async funct
                     "items": []
                 }
             },
-            "check": {
-
-            },
             "idExists": true,
             "text": {
                 "icon": "mdi-eye-off-outline",
@@ -73,9 +70,15 @@ SignUpMainJoinFragment = Vue.component("sign-up-main-join-fragment", async funct
         };
     },
     "watch": {
-        "data.user.phoneNumber": {
+        "data.person": {
             "handler": function(n , o) {
-                this.$emit("update", n);
+                this.$emit("update:person", n);
+            },
+            "deep": true
+        },
+        "data.user": {
+            "handler": function(n , o) {
+                this.$emit("update:user", n);
             },
             "deep": true
         }
@@ -86,6 +89,7 @@ SignUpMainJoinFragment = Vue.component("sign-up-main-join-fragment", async funct
         },
         "getJobTypeList": async function () {
             this.radio.job.items = (await ito.auth.code("jobs")).data.items;
+            this.radio.job.items.shift();
         },
         "stck": function (str, limit) {
             var o, d, p, n = 0, l = limit == null ? 4 : limit;

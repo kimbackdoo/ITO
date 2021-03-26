@@ -50,6 +50,7 @@ public class ApiCommonCodeController {
             CodeEntity codeEntity = CodeEntity.builder()
                     .parentId(codeDto.getParentId())
                     .name(codeDto.getName())
+                    .value(codeDto.getValue())
                     .ranking(codeDto.getRanking())
                     .status(codeDto.getStatus())
                     .build();
@@ -64,6 +65,7 @@ public class ApiCommonCodeController {
         CodeEntity codeEntity = CodeEntity.builder()
                 .parentId(codeDto.getParentId())
                 .name(codeDto.getName())
+                .value(codeDto.getValue())
                 .ranking(codeDto.getRanking())
                 .status(codeDto.getStatus())
                 .build();
@@ -80,6 +82,7 @@ public class ApiCommonCodeController {
                     .id(codeDto.getId())
                     .parentId(codeDto.getParentId())
                     .name(codeDto.getName())
+                    .value(codeDto.getValue())
                     .ranking(codeDto.getRanking())
                     .status(codeDto.getStatus())
                     .build();
@@ -96,6 +99,7 @@ public class ApiCommonCodeController {
                 .id(id)
                 .parentId(codeDto.getParentId())
                 .name(codeDto.getName())
+                .value(codeDto.getValue())
                 .ranking(codeDto.getRanking())
                 .status(codeDto.getStatus())
                 .build();
