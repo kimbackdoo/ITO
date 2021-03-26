@@ -19,28 +19,9 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
 
                 },
                 "dialog": false,
-                "applyProject": {
-                    "panels": {
-                        "form": [0]
-                    },
-                    "form": {
-                        "item": {
-                            "adminProjId": null,
-                            "name": null,
-                            "skill": null,
-                            "career": null,
-                            "degree": null,
-                            "term": null,
-                            "place": null,
-                            "prsnl": null,
-                            "status": null,
-                            "salary": null
-                        },
-                    },
-                },
                 "project": {
                     "panels": {
-                        "list": [0]
+                        "list": [0, 1]
                     },
                     "selected": [],
                     "dataTable": {
@@ -50,14 +31,27 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                             {"text": "기술", "value": "skill"},
                             {"text": "경력요건", "value": "career"},
                             {"text": "학위요건", "value": "degree"},
-                            {"text": "기간", "value": "term"},
+                            {"text": "시작기간", "value": "sterm"},
+                            {"text": "종료기간", "value": "eterm"},
                             {"text": "장소", "value": "place"},
                             {"text": "필요인원", "value": "prsnl"},
                             {"text": "현황", "value": "status"},
-                            {"text": "모집마감일", "value": "salary"},
+                            {"text": "월급여", "value": "salary"},
+                            {"text": "모집마감일", "value": "calc"},
                         ],
                         "query": {
                             "projectName": null,
+                            "skill": null,
+                            "careerLike": null,
+                            "degree": null,
+                            "stermStart": null,
+                            "stermEnd": null,
+                            "etermStart": null,
+                            "etermEnd": null,
+                            "place": null,
+                            "prsnl": null,
+                            "status": null,
+                            "salary": null
                         },
                         "items": [],
                         "options": {
@@ -107,11 +101,30 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     "rowSize": self.project.dataTable.options.itemsPerPage,
 
                     "nameLike": self.project.dataTable.query.projectName,
+                    "stermStart": self.project.dataTable.query.stermStart,
+                    "prsnl": self.project.dataTable.query.prsnl,
+                    "salary": self.project.dataTable.query.salary,
                 })).data;
 
                 self.project.dataTable.totalRows = projectList.totalRows;
                 self.project.dataTable.items = projectList.items;
                 self.project.dataTable.loading = false;
+            },
+            "searchProjectList": async function() {
+                this.loadProjectList();
+            },
+            "initialize": async function() {
+                let self = this;
+
+                self.project.dataTable.query.projectName = null;
+                self.project.dataTable.query.skill = null;
+                self.project.dataTable.query.careerLike = null;
+                self.project.dataTable.query.degree = null;
+                self.project.dataTable.query.stermStart = null;
+                self.project.dataTable.query.place = null;
+                self.project.dataTable.query.prsnl = null;
+                self.project.dataTable.query.status = null;
+                self.project.dataTable.query.salary = null;
             },
         },
         "mounted": function() {

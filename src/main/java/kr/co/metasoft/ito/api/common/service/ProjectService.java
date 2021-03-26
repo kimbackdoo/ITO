@@ -31,7 +31,12 @@ public class ProjectService {
         PageResponse<ProjectEntity> pageResponse = new PageResponse<>(pageRequest, projectListCount);
         pageResponse.setItems(projectList);
 
-        System.out.println("=====================================" + projectParamDto.getNameLike() + "==========================================");
+        System.out.println("===========================================================================");
+        System.out.println("NameLike: " + projectParamDto.getNameLike());
+        System.out.println("stermStart: " + projectParamDto.getStermStart());
+        System.out.println("prsnl: " + projectParamDto.getPrsnl());
+        System.out.println("salary: " + projectParamDto.getSalary());
+        System.out.println("===========================================================================");
 
         return pageResponse;
     }

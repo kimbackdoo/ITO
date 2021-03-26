@@ -9,11 +9,13 @@
             `proj`.`skill`,
             `proj`.`career`,
             `proj`.`degree`,
-            `proj`.`term`,
+            `proj`.`sterm`,
+            `proj`.`eterm`,
             `proj`.`place`,
             `proj`.`prsnl`,
             `proj`.`status`,
-            `proj`.`salary`
+            `proj`.`salary`,
+            `proj`.`term`
         FROM
             `tb_proj` `proj`
     </sql>
@@ -22,6 +24,24 @@
         <where>
             <if test="projectParamDto.nameLike != null and projectParamDto.nameLike != ''">
                 AND `name` LIKE CONCAT('%', #{projectParamDto.nameLike}, '%')
+            </if>
+            <if test="projectParamDto.stermStart != null">
+                AND `sterm` &gt;= #{projectParamDto.stermStart}
+            </if>
+            <if test="projectParamDto.stermEnd != null">
+                AND `sterm` &lt;= #{projectParamDto.stermEnd}
+            </if>
+            <if test="projectParamDto.etermStart != null">
+                AND `eterm` &gt;= #{projectParamDto.etermStart}
+            </if>
+            <if test="projectParamDto.etermEnd != null">
+                AND `eterm` &lt;= #{projectParamDto.etermEnd}
+            </if>
+            <if test="projectParamDto.prsnl != null">
+                AND `prsnl` &gt;= #{projectParamDto.prsnl}
+            </if>
+            <if test="projectParamDto.salary != null">
+                AND `salary` &gt;= #{projectParamDto.salary}
             </if>
         </where>
     </sql>
@@ -33,11 +53,13 @@
         <result property="skill" column="skill" />
         <result property="career" column="career" />
         <result property="degree" column="degree" />
-        <result property="term" column="term" />
+        <result property="sterm" column="sterm" />
+        <result property="eterm" column="eterm" />
         <result property="place" column="place" />
         <result property="prsnl" column="prsnl" />
         <result property="status" column="status" />
         <result property="salary" column="salary" />
+        <result property="term" column="term" />
     </resultMap>
 
     <select

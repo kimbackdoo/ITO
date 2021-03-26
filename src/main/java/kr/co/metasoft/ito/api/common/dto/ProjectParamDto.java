@@ -1,6 +1,10 @@
 package kr.co.metasoft.ito.api.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -13,17 +17,33 @@ public class ProjectParamDto {
 
     private String job;
 
-    private String career;
+    private String careerLike;
 
     private String degree;
 
-    private String termLike;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate stermStart;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate stermEnd;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate etermStart;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate etermEnd;
 
     private String place;
 
-    private String prsnl;
+    private Integer prsnl;
 
     private String status;
 
-    private String salary;
+    private Long salary;
+
+    private String termLike;
 }

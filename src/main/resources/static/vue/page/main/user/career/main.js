@@ -27,6 +27,7 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                     "form": {
                         "item": {
                             "personCareerId": null,
+                            "personId": null,
                             "name": null,
                             "startPeriod": null,
                             "endPeriod": null,
@@ -43,8 +44,7 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                             {"text": "종료 기간", "value": "endPeriod"},
                             {"text": "직급", "value": "position"},
                             {"text": "담당업무", "value": "task"},
-                            {"text": "월급여", "value": "pay"},
-                            {"value": "actions"},
+                            {"text": "월급여", "value": "pay"}
                         ],
                         "items": [],
                         "options": {
@@ -56,6 +56,11 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                         "totalCareer": 0,
                     },
                 },
+                "dialog": {
+                    "visible": false,
+                    "title": "경력 등록",
+                    "data": {}
+                }
             }
         },
         "watch": {
@@ -88,13 +93,6 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
 
                 self.career.dataTable.totalRows = careerList.totalRows;
                 self.career.dataTable.items = careerList.items;
-
-                let start, end;
-                start = moment(careerList.items[0].startPeriod);
-                end = moment(careerList.items[0].endPeriod);
-                self.career.totalCareer = end.diff(start, 'days');
-                console.log(end.diff(start, 'days'));
-
                 self.career.dataTable.loading = false;
             },
             "initialize": async function() {
@@ -136,22 +134,26 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                     await ito.api.common.career.removeCareerList(deleteList);
                     await ito.alert("삭제되었습니다.");
 
-                    self.career.dataTable.options.page = 1;
-                    self.loadCareerList();
+                    if(self.career.dataTable.options.page === 1) {
+                        self.loadCareerList();
+                    }else {
+                        self.career.dataTable.options.page = 1;
+                    }
                 }
             },
-            "deleteCareer": async function(queryId) {
+            "deleteCareer": async function(data) {
                 if(await ito.confirm("삭제하시겠습니까?")) {
-                    ito.api.common.career.removeCareer(queryId);
+                    ito.api.common.career.removeCareer(data.personCareerId);
                     await ito.alert("삭제되었습니다.");
 
                     this.career.dataTable.options.page = 1;
                     this.loadCareerList();
                 }
             },
-            "saveCareer": async function() {
-                let self = this,
-                    data = self.career.form.item;
+            "saveCareer": async function(data) {
+                let self = this;
+
+                data.personId = store.state.app.person.id;
 
                 if(await ito.confirm("저장하시겠습니까?")) {
                     if(data.personCareerId != undefined && data.personCareerId != null)
@@ -164,6 +166,15 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                     self.career.dataTable.options.page = 1;
                     self.loadCareerList();
                 }
+            },
+            "openNewCareerDialog": function () {
+                this.dialog.data = {};
+                this.dialog.visible = true;
+            },
+            "openCareerDialog": function (data) {
+                this.dialog.title = "경력 수정";
+                this.dialog.data = data;
+                this.dialog.visible = true;
             }
         },
         "mounted": function() {

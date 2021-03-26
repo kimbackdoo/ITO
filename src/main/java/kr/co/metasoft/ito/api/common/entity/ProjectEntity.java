@@ -1,9 +1,12 @@
 package kr.co.metasoft.ito.api.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_proj")
@@ -30,18 +33,28 @@ public class ProjectEntity {
     @Column(name = "degree")
     private String degree;
 
-    @Column(name = "term")
-    private String term;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column (name = "`sterm`", columnDefinition = "date", nullable = true)
+    private LocalDate sterm;
+
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
+    @Column (name = "`eterm`", columnDefinition = "date", nullable = true)
+    private LocalDate eterm;
 
     @Column(name = "place")
     private String place;
 
     @Column(name = "prsnl")
-    private int prsnl;
+    private Integer prsnl;
 
     @Column(name = "status")
     private String status;
 
     @Column(name = "salary")
     private Long salary;
+
+    @Column(name = "term")
+    private String term;
 }

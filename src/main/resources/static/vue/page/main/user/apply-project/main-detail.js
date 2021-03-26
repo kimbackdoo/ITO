@@ -5,6 +5,9 @@ ApplyProjectDetailMainComponent = Vue.component('applyProject-detail-main-compon
         "data": function() {
            return {
                "project": {
+                   "panels": {
+                       "list": [0],
+                   },
                    "dataTable": {
                        "headers": [
                            {"text": "이름", "value": "name"},

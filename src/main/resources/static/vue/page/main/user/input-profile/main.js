@@ -29,12 +29,13 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
             };
         },
         "methods": {
-            "setProfile": function() {
+            "setProfile": async function() {
                 let self = this,
-                    person = _.cloneDeep(store.state.app.person);
+                    person;
+
+                person = (await ito.api.common.person.getPerson(store.state.app.person.id)).data;
 
                 self.inputProfile.form.item = person;
-                console.log(self.inputProfile.form.item.career);
             },
             "saveProfile": async function () {
                 var self = this,
@@ -46,12 +47,7 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                         await ito.alert("수정되었습니다.");
                     }
                 }
-                else {
-                    if(await ito.confirm("등록하시겠습니까?")) {
-                        ito.api.common.person.createPerson(data);
-                        await ito.alert("등록되었습니다.");
-                    }
-                }
+
                 self.$router.push({
                     "path": "/main/user/profiles",
                 });

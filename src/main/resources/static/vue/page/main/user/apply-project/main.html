@@ -1,7 +1,10 @@
 <div class="pa-3">
     <v-row>
         <v-col cols="12">
-            <v-expansion-panels multiple>
+            <v-expansion-panels
+                multiple
+                v-model="project.panels.list"
+            >
                 <v-expansion-panel>
                     <v-expansion-panel-header>프로젝트 검색</v-expansion-panel-header>
                     <v-expansion-panel-content
@@ -11,7 +14,7 @@
                         <v-form>
                             <v-container>
                                 <v-row>
-                                    <v-col cols="4">
+                                    <v-col cols="6">
                                         <v-text-field
                                             dense
                                             label="프로젝트명"
@@ -19,64 +22,88 @@
                                             @keyup.enter="loadProjectList()"
                                         ></v-text-field>
                                     </v-col>
-                                    <v-col cols="4">
+                                    <v-col cols="3">
                                         <date-picker-component
                                             dense
                                             hide-details
                                             append-icon="mdi-calendar"
                                             label="시작기간"
+                                            v-model="project.dataTable.query.stermStart"
                                         ></date-picker-component>
                                     </v-col>
-                                    <v-col cols="4">
+                                    <v-col cols="3">
                                         <v-select
                                             dense
                                             label="지역"
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="4">
+                                    <v-col cols="3">
                                         <v-select
                                             dense
                                             label="직종"
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="4">
+                                    <v-col cols="3">
                                         <v-select
                                             dense
-                                            label="경력"
+                                            label="기술"
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="4">
+
+                                    <v-col cols="3">
                                         <v-select
                                             dense
                                             label="학위"
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="4">
+                                    <v-col cols="3">
                                         <v-select
+                                                dense
+                                                label="현황"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <v-select
+                                            dense
+                                            label="경력"
+                                            suffix="년"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <v-select
+                                            dense
+                                            label="경력"
+                                            suffix="월"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field
                                             dense
                                             label="필요인원수"
-                                        ></v-select>
+                                            suffix="명"
+                                            v-model="project.dataTable.query.prsnl"
+                                            @keyup.enter="loadProjectList()"
+                                        ></v-text-field>
                                     </v-col>
                                     <v-col cols="4">
-                                        <v-select
+                                        <v-text-field
                                             dense
-                                            label="현황"
-                                        ></v-select>
-                                    </v-col>
-                                    <v-col cols="4">
-                                        <v-select
-                                            dense
-                                            label="월급여"
-                                        ></v-select>
+                                            label="월 급여"
+                                            suffix="만원"
+                                            v-model="project.dataTable.query.salary"
+                                            @keyup.enter="loadProjectList()"
+                                        ></v-text-field>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col cols="12" class="text-right">
                                         <v-btn
                                             class="primary"
+                                            @click="searchProjectList"
                                         >검색</v-btn>
                                         <v-btn
                                             class="error"
+                                            @click="initialize"
                                         >초기화</v-btn>
                                     </v-col>
                                 </v-row>
