@@ -1,6 +1,7 @@
 package kr.co.metasoft.ito.api.common.controller;
 
 import kr.co.metasoft.ito.api.common.dto.CareerDto;
+import kr.co.metasoft.ito.api.common.dto.CareerParamDto;
 import kr.co.metasoft.ito.api.common.entity.CareerEntity;
 import kr.co.metasoft.ito.api.common.service.CareerService;
 import kr.co.metasoft.ito.common.util.PageRequest;
@@ -19,9 +20,9 @@ public class ApiCommonCareerController {
 
     @GetMapping(path = "")
     public PageResponse<CareerEntity> getCareerList(
-            @ModelAttribute CareerDto careerDto,
+            @ModelAttribute CareerParamDto careerParamDto,
             @ModelAttribute PageRequest pageRequest) {
-        return careerService.getCareerList(careerDto, pageRequest);
+        return careerService.getCareerList(careerParamDto, pageRequest);
     }
 
     @GetMapping(path = "{personCareerId}")

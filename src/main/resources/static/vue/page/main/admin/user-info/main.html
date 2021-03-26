@@ -234,7 +234,7 @@
                                 color="indigo"
                                 v-bind="attrs"
                                 v-on="on"
-                              >일괄등록</v-btn>
+                              >EXCEL 일괄 등록</v-btn>
                             </template>
                             <v-card>
                                 <v-card-title>
@@ -266,11 +266,11 @@
                                                >업로드</v-btn>
                                             <v-btn
                                                depressed
-                                               @click="user.dialog = false"
-                                               class="text-none ml-1"
                                                color="primary"
+                                               class="text-none ml-1"
+                                               @click="clear()"
                                              >
-                                            Close
+                                            취소
                                             </v-btn>
                                             <input
                                                ref="uploader"

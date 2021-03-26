@@ -4,6 +4,7 @@
     <sql id="selectFrom">
         SELECT
             `career`.`person_career_id`,
+            `career`.`person_id`,
             `career`.`name`,
             `career`.`start_period`,
             `career`.`end_period`,
@@ -14,6 +15,14 @@
             `career`.`modify_dt`
         FROM
             `tb_career` `career`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="careerParamDto.personId != null">
+                AND `person_id` = #{careerParamDto.personId}
+            </if>
+        </where>
     </sql>
 
     <resultMap id="careerResultMap" type="kr.co.metasoft.ito.api.common.entity.CareerEntity">
@@ -35,6 +44,7 @@
     >
         <include refid="PageFragment.sortStart" />
         <include refid="selectFrom" />
+        <include refid="where"/>
         <include refid="PageFragment.sortEnd" />
         <include refid="PageFragment.limitOffset" />
     </select>
@@ -46,6 +56,7 @@
     >
         <include refid="PageFragment.countStart" />
         <include refid="selectFrom" />
+        <include refid="where"/>
         <include refid="PageFragment.countEnd" />
     </select>
 

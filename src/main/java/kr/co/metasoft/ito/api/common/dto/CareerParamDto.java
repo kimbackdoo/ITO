@@ -7,13 +7,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@ToString
 @Getter
 @Setter
-@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CareerDto {
+public class CareerParamDto {
     private Long personCareerId;
 
     private Long personId;

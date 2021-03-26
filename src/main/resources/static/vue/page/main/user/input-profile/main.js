@@ -34,6 +34,7 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                     person = _.cloneDeep(store.state.app.person);
 
                 self.inputProfile.form.item = person;
+                console.log(self.inputProfile.form.item.career);
             },
             "saveProfile": async function () {
                 var self = this,
