@@ -1,17 +1,90 @@
 <div>
-    <data-table-custom-component
-        :show-select="true"
-        :headers="career.dataTable.headers"
-        :items="career.dataTable.items"
-        :totalRows="career.dataTable.totalRows"
-        :page.sync="career.dataTable.options.page"
-        :itemsPerPage.sync="career.dataTable.options.itemsPerPage"
-        :sortBy.sync="career.dataTable.options.sortBy"
-        :sortDesc.sync="career.dataTable.options.sortDesc"
-        :groupBy.sync="career.dataTable.options.groupBy"
-        :groupDesc.sync="career.dataTable.options.groupDesc"
-        :multiSort.sync="career.dataTable.options.multiSort"
-        :mustSort.sync="career.dataTable.options.mustSort"
-        :loading="career.dataTable.loading"
-    ></data-table-custom-component>
+    <v-row dense>
+        <v-col cols="12">
+            <v-card outlined style="border-color: rgba(0, 0, 0, 0.42) !important;">
+                <v-card-text>
+                    <v-row>
+                        <v-col cols="auto" class="d-flex justify-center align-center">
+                            <span>경력</span>
+                        </v-col>
+                        <v-col>
+                            <data-table-custom-component
+                                :show-select="true"
+                                item-key="id"
+                                :headers="career.dataTable.headers"
+                                :items="career.dataTable.items"
+                                :totalRows="career.dataTable.totalRows"
+                                :page.sync="career.dataTable.options.page"
+                                :itemsPerPage.sync="career.dataTable.options.itemsPerPage"
+                                :sortBy.sync="career.dataTable.options.sortBy"
+                                :sortDesc.sync="career.dataTable.options.sortDesc"
+                                :groupBy.sync="career.dataTable.options.groupBy"
+                                :groupDesc.sync="career.dataTable.options.groupDesc"
+                                :multiSort.sync="career.dataTable.options.multiSort"
+                                :mustSort.sync="career.dataTable.options.mustSort"
+                                :loading="career.dataTable.loading"
+                                @click:row="modifyCareer"
+                                @remove="e=>{console.log('asdasd');}"
+                                @add="openCareerDialog"
+                            ></data-table-custom-component>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+            </v-card>
+        </v-col>
+        <v-col cols="12">
+            <v-text-field
+                autocomplete="off"
+                dense
+                outlined
+                clearable
+                label="급여"
+                hide-details="auto"
+                v-model="data.career.pay"
+            ></v-text-field>
+        </v-col>
+        <v-col cols="12">
+            <v-card outlined style="border-color: rgba(0, 0, 0, 0.42) !important;">
+                <v-card-text>
+                    <v-row>
+                        <v-col cols="auto" class="d-flex justify-center align-center">
+                            <span>업무가능여부</span>
+                        </v-col>
+                        <v-col class="py-0 d-flex justify-center align-center">
+                            <v-radio-group
+                                :rules="[rules.required]"
+                                style="margin: 5px 0 !important;"
+                                v-model="data.career.inputStatus"
+                                row
+                                hide-details
+                            >
+                                <v-radio
+                                    label="가능"
+                                    value="T"
+                                ></v-radio>
+                                <v-radio
+                                    label="불가능"
+                                    value="F"
+                                ></v-radio>
+                            </v-radio-group>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+            </v-card>
+        </v-col>
+        <v-col cols="12">
+            <date-picker-component
+                dense
+                outlined
+                hide-details
+                label="투입가능일"
+                append-icon="mdi-calendar"
+                v-model="data.career.workableDay"
+            ></date-picker-component>
+        </v-col>
+    </v-row>
+    <career-dialog-component
+        :dialog="dialog"
+        @save="saveCareer"
+    ></career-dialog-component>
 </div>

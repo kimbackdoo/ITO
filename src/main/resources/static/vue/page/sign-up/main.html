@@ -81,6 +81,7 @@
                                     <v-row dense>
                                         <v-col>
                                             <sign-up-main-career-fragment
+                                                    @update:career="(e)=>{data.skill = e;}"
                                             ></sign-up-main-career-fragment>
                                         </v-col>
                                         <v-col cols="12" class="text-right">

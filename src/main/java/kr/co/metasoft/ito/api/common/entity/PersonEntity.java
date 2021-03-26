@@ -65,6 +65,15 @@ public class PersonEntity {
     @Column (name = "`skill`", columnDefinition = "varchar(100)", nullable = true)
     private String skill;
 
+    @Column (name = "`role`", columnDefinition = "varchar(100)", nullable = true)
+    private String role;
+
+    @Column (name = "`sector`", columnDefinition = "varchar(100)", nullable = true)
+    private String sector;
+
+    @Column (name = "`language`", columnDefinition = "varchar(100)", nullable = true)
+    private String language;
+
     @Column (name = "`career`", columnDefinition = "varchar(10)", nullable = true)
     private String career;
 

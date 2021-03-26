@@ -3,6 +3,8 @@ package kr.co.metasoft.ito.api.common.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -35,6 +37,12 @@ public class PersonDto {
     private String certificateStatus;
 
     private String skill;
+
+    private String role;
+
+    private String sector;
+
+    private String language;
 
     private String career;
 

@@ -5,12 +5,13 @@ SignUpMainPage = Vue.component("sign-up-main-page", async function (resolve) { r
         return {
             "stepper": {
                 "category": ["약관", "개인정보","보유기술","경력","완료"],
-                "complete": 4
+                "complete": 3
             },
             "data": {
                 "person":{},
                 "user": {},
                 "skill": {},
+                "career": {},
                 "role": {
                     "id": 2
                 }
@@ -72,12 +73,22 @@ SignUpMainPage = Vue.component("sign-up-main-page", async function (resolve) { r
                     break;
                 case 3:
                 case 4:
-                case 5:
-                    this.stepper.complete = index + 1;
+                    this.saveAccount();
                     break;
+                case 5:
+
                 default:
                     break;
                 }
+            }
+        },
+        "saveAccount": async function () {
+            let self = this;
+
+
+            await ito.confirm("저장하시겠습니까?") {
+                await ito.api.app.account.createAccount()
+                this.stepper.complete = index + 1;
             }
         }
     },
