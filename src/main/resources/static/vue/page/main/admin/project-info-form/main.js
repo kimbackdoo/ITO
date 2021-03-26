@@ -58,7 +58,22 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                             {"text":"9명", "value": 9},
                         ],
                         "query": {
-                            "admin_proj_id":0,
+                            "adminProjId":null,
+                            "name": "",
+                            "job": "",
+                            "skill": "",
+                            "career":"",
+                            "degree":"",
+                            "sterm": "",
+                            "eterm": "",
+                            "place": "",
+                            "prsnl":"",
+                            "status":"",
+                            "slary":"",
+                            "term":"",
+                        },
+                        "default": {
+                            "adminProjId":null,
                             "name": "",
                             "job": "",
                             "skill": "",
@@ -92,8 +107,48 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                 },
             },
             "methods": {
+                //저장  , 수정
+                "saveProject": async function() {
+                    var self = this;
+                    var data = self.project.query;
+                    console.log("save 함수 실행 ")
+                    if(data.adminProjId == null){
+                        await ito.api.common.project.createProject(data);
+                        console.log("create 실행 완료")
+                    } else {
+                        await ito.api.common.project.modifyProject(data.adminProjId, data);
+                    }
+                    await ito.alert("저장 성공!!");
+                    await self.$router.back();
+                },
+
+                //set 설정 id 값 존재시 그 값들에 대한 값들 불러오기
+                "setProjectInfo": async function(){
+                    var self =this;
+
+                    var id = await self.$route.query.adminProjId;
+                    console.log("파라미터 id 값 출력 :  " +id);
+                        return new Promise(function (resolve, reject) {
+                            Promise.resolve()
+                                .then(function () {
+                                    return ito.api.common.project.getProject(id);
+                                })
+                                .then(function (response) {
+                                    self.project.query = response.data;
+                                })
+                                .then(function () { resolve(); });
+                        });
+                },
+                "reset":function() {
+                    var self = this;
+                    self.project.addressValue="";
+                    self.project.query = self.project.default;
+                }
+
             },
-            "mounted": function () {
+            "mounted": async function () {
+                var self = this;
+                await self.setProjectInfo();
             }
         });
     });

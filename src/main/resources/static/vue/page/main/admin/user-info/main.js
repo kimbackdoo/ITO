@@ -350,6 +350,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             .then(function () {
                             })
                             .then(function () {
+                                self.user.dataTable.addressValue=""
                                 self.user.query.name = "";
                                 self.user.query.jobType = "";
                                 self.user.query.career = "";

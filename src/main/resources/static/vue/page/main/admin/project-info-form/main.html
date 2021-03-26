@@ -32,8 +32,20 @@
                                 outlined
                                 :items="project.jobTypeItems"
                                 label="직종"
-                                v-model="project.query.jobType"
+                                v-model="project.query.job"
                             ></v-select>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col
+                                cols="12"
+                                sm="5"
+                            >
+                            <v-text-field
+                                dense
+                                label="기술"
+                                v-model="project.query.skill"
+                            ></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row>
@@ -71,8 +83,8 @@
                             >
                         <date-picker-component
                                 dense
-                                outlined
                                 label="시작 기간"
+                                append-icon="mdi-calendar"
                                 v-model="project.query.sterm"
                             ></date-picker-component>
                             </v-col>
@@ -82,8 +94,8 @@
                             >
                         <date-picker-component
                                 dense
-                                outlined
                                 label="종료 기간"
+                                append-icon="mdi-calendar"
                                 v-model="project.query.eterm"
                             ></date-picker-component>
                             </v-col>
@@ -134,6 +146,19 @@
                                 cols="12"
                                 sm="5"
                             >
+                            <v-text-field
+                                dense
+                                suffix="만원"
+                                label="월 급여"
+                                v-model="project.query.salary"
+                            ></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col
+                                cols="12"
+                                sm="5"
+                            >
                             <v-select
                                 dense
                                 outlined
@@ -147,12 +172,12 @@
                             <v-col cols="12" class="text-right">
                             <v-btn
                                 class="secondary"
-                                @click=""
+                                @click="reset"
                             >초기화</v-btn>
                             <v-btn
                                 class="primary"
-                                @click=""
-                            >프로젝트 추가하기</v-btn>
+                                @click="saveProject"
+                            >저장하기</v-btn>
                             </v-col>
                         </v-row>
                     </v-form>

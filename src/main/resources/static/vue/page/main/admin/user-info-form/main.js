@@ -33,7 +33,6 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             ],
                         },
                         "dataTable": {
-                            "loading": false,
                             "headers": [
                                 {"text": "이름", "value": "name",},
                                 {"text": "전화번호", "value": "phoneNumber",},
@@ -102,7 +101,7 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                 "phoneNumber":"",
                                 "career": "",
                                 "education": "",
-                                "ccertificateStatus": "",
+                                "certificateStatus": "",
                                 "pay": "",
                                 "address": "",
                                 "inputStatus":"",
@@ -118,9 +117,9 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             {"text": "40", "value": 40},
                             {"text": "50", "value": 50}
                         ]
-                    },
-                    "query": {
-                        "id":"",
+                      },
+                      "query": {
+                         "id":"",
                     },
                   }
                };
@@ -204,6 +203,8 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                            .then(function () {
                            })
                            .then(function () {
+                               self.user.dataTable.addressValue="";
+                               self.user.dataTable.editedItem.address="";
                                self.user.dataTable.editedItem.name = "";
                                self.user.dataTable.editedItem.phoneNumber = "";
                                self.user.dataTable.editedItem.jobType = "";
