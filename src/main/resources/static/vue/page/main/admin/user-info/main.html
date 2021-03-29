@@ -167,143 +167,28 @@
                 <v-expansion-panel>
                     <v-expansion-panel-header>목록</v-expansion-panel-header>
                     <v-expansion-panel-content>
-                       <v-row class="my-1">
-                            <v-col class="d-flex justify-start align-center">
-                                <div style="width: 200px;">
-                                    <h3>전체{{user.dataTable.totalRows}}건</h3>
-                                </div>
-                                <div style="width: 140px;" class="ml-auto">
-                                    <v-select
-                                        dense
-                                        font-size="5px"
-                                        outlined
-                                        hide-details="auto"
-                                        v-model="user.dataTable.itemsPerPage"
-                                        :items="user.itemsPerPageItems"
-                                    >
-                                    </v-select>
-                                </div>
-                            </v-col>
-                        </v-row>
-                        <v-data-table
-                            fixed-header
-                            hide-default-footer
-                            height="450px"
+                        <data-table-custom-component
+                            :show-select="true"
+                            item-key="id"
                             :headers="user.dataTable.headers"
                             :items="user.dataTable.items"
+                            :totalRows="user.dataTable.totalRows"
+                            :page.sync="user.dataTable.options.page"
+                            :itemsPerPage.sync="user.dataTable.options.itemsPerPage"
+                            :sortBy.sync="user.dataTable.options.sortBy"
+                            :sortDesc.sync="user.dataTable.options.sortDesc"
+                            :groupBy.sync="user.dataTable.options.groupBy"
+                            :groupDesc.sync="user.dataTable.options.groupDesc"
+                            :multiSort.sync="user.dataTable.options.multiSort"
+                            :mustSort.sync="user.dataTable.options.mustSort"
                             :loading="user.dataTable.loading"
-                            :server-itmes-length="user.dataTable.serverItemsLength"
-                            :page.sync="user.dataTable.page"
-                            :items-per-page.sync="user.dataTable.itemsPerPage"
-                            @page-count="user.pagination.length = $event"
-                            show-select
-                            v-model=user.userSelected
-                            >
-                           <template v-slot:item.name="{ item }">
-                                <v-btn
-                                    text
-                                    @click="editUserInfo(item)"
-                                >{{ item.name }}</v-btn>
-                            </template>
-
-                        </v-data-table>
-                        <v-pagination
-                            class="mt-2"
-                            v-model="user.dataTable.page"
-                            :length="user.pagination.length"
-                            :total-visible="user.pagination.totalVisible"
-                             ></v-pagination>
-                        <v-row>
-                            <v-col
-                                    cols="12"
-                                    class="text-right"
-                            >
-                            <v-spacer></v-spacer>
-
-                            <!--  파일 업로드 -->
-                            <v-dialog
-                                v-model="user.dialog"
-                                persistent
-                                max-width="700px"
-                            >
-                            <template v-slot:activator="{ on , attrs }">
-                              <v-btn
-                                outlined
-                                class="ma-2"
-                                color="indigo"
-                                v-bind="attrs"
-                                v-on="on"
-                              >EXCEL 일괄 등록</v-btn>
-                            </template>
-                            <v-card>
-                                <v-card-title>
-                                    <span class="headline">파일 업로드</span>
-                                </v-card-title>
-                                <v-container>
-                                    <v-row>
-                                        <v-col cols="7">
-                                            <v-text-field
-                                                outlined
-                                                hide-details="auto"
-                                                readonly
-                                                v-model="dataUpload.selectedFileName"
-                                            >
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="5" class="text-right">
-                                            <v-btn
-                                               color="primary"
-                                               class="text-none ml-auto"
-                                               depressed
-                                               @click="onButtonClick()"
-                                            >파일찾기</v-btn>
-                                            <v-btn
-                                               color="primary"
-                                               class="text-none ml-1"
-                                               depressed
-                                               @click="onFileUpload()"
-                                               >업로드</v-btn>
-                                            <v-btn
-                                               depressed
-                                               color="primary"
-                                               class="text-none ml-1"
-                                               @click="clear()"
-                                             >
-                                            취소
-                                            </v-btn>
-                                            <input
-                                               ref="uploader"
-                                               class="d-none"
-                                               id="hiddenFile"
-                                               type="file"
-                                               @change="onFileChanged"
-                                               >
-                                         </v-col>
-                                    </v-row>
-                                </v-container>
-                              </v-card>
-                            </v-dialog>
-                            <v-btn
-                              outlined
-                              class="ma-2"
-                              color="primary"
-                              to="/main/admin/user-info-form"
-                            >추가하기</v-btn>
-                            <v-btn
-                              outlined
-                              class="ma-2"
-                              color="error"
-                              @click="deleteUserInfoList"
-                            >삭제하기</v-btn>
-                            </v-col>
-                        </v-row>
+                            @click:row="editUserInfo"
+                            @remove="deleteUserInfoList"
+                            @add="editUserInfo"
+                        ></data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
         </v-col>
     </v-row>
-
-
-
-
 </v-container>

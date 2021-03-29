@@ -26,20 +26,6 @@ public interface PersonMapper {
     public PersonEntity selectPerson(
             @Param (value = "id") Long id);
 
-    //=----------------------------------------------------------------
-
-    /*
-     * public List<PersonEntity> selectCmdbList(
-     *
-     * @Param (value = "cmdbParamDto") CmdbParamDto cmdbParamDto,
-     *
-     * @Param (value = "pageRequest") PageRequest pageRequest);
-     *
-     * public Integer selectCmdbListCount(
-     *
-     * @Param (value = "cmdbParamDto") CmdbParamDto cmdbParamDto);
-     */
-
     public PersonEntity selectCmdb(
             @Param (value = "uploadFileOrder") Long uploadFileOrder,
             @Param (value = "fileRowNum") Long fileRowNum);

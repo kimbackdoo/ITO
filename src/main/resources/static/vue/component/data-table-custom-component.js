@@ -30,7 +30,7 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
             "default": 1
         },
         "itemsPerPage": {
-            "type": 10,
+            "type": Number,
             "default": 10
         },
         "sortBy": {
@@ -133,7 +133,13 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
                 this.paginationList[this.paginationList.length - 1].value = n;
             },
             "deep": true
-        }
+        },
+        "loading": {
+            "handler": function (n,o) {
+                this.data = [];
+            },
+            "deep": true
+        },
     },
     "computed": {
         "disabled": function () {

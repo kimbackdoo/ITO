@@ -1,4 +1,3 @@
-
 var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve, reject) {
     axios.get("/vue/page/main/admin/user-info/main.html").then(function (response) {
         resolve({
@@ -26,7 +25,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "label" : "백업구성도",
                             "value" : 4,
                         },
-                        ],
+                    ],
                     "selectedFile" : null,
                     "selectedFileName" : null,
                     "seletedType" : 1,
@@ -34,7 +33,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     },
                     "user": {
                         "dialog": false,
-                        "userSelected":[],
                         "panels": {
                             "search": [0],
                             "list": [0]
@@ -58,9 +56,16 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "totalRows":0,
                             "items": [],
                             "loading": false,
-                            "serverItemsLength": 0,
-                            "page": 1,
-                            "itemsPerPage": 10,
+                            "options": {
+                                "page": 1,
+                                "itemsPerPage": 10,
+                                "sortBy": [],
+                                "sortDesc": [],
+                                "groupBy": [],
+                                "groupDesc": [],
+                                "multiSort": true,
+                                "mustSort": false
+                            },
                             "education": [
                                  {"text":"2년제", "value":"2년제"},
                                  {"text":"3년제", "value":"3년제"},
@@ -100,10 +105,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             ],
                             "checkbox:": [],
                         },
-                        "pagination": {
-                            "length": 10,
-                            "totalVisible": 10
-                        },
                         "query": {
                             "id":0,
                             "name": "",
@@ -118,41 +119,27 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "birthDate":"",
                             "workableDay":"",
                         },
-                        "itemsPerPageItems": [
-                            {"text":"3개 보기", "value":3},
-                            {"text":"5개 보기", "value": 5},
-                            {"text": "10개 보기", "value": 10},
-                            {"text": "20개 보기", "value": 20},
-                            {"text": "30개 보기", "value": 30},
-                            {"text": "40개 보기", "value": 40},
-                            {"text": "50개 보기", "value": 50}
-                        ]
                     }
                 };
             },
-
             "watch": {
-                "user.dataTable.addressValue":{
-                    "handler": function(value){
-                        this.user.dataTable.addressSelect=this.user.dataTable.addressIndex[value];
-                    }
+                "user.dataTable.options.page": {
+                    "handler": async function(n, o) {
+                        await this.setUserInfoList();
+                    },
+                    "deep": true
                 },
-
-/*
-                "user.dataTable.page": {
-                    "handler": function (newValue, oldValue){
-                        Promise.resolve()
-                            .then(this.setUserInfoList)
-                            .then(this.replaceQuery);
-                    }
+                "user.dataTable.options.itemsPerPage": {
+                    "handler": async function(n, o) {
+                        await this.setUserInfoList();
+                    },
+                    "deep": true
                 },
-*/
-                 "user.dataTable.itemsPerPage": {
-                    "handler": function (newValue, oldValue) {
-                        Promise.resolve()
-                            .then(this.setUserInfoList)
-                            .then(this.replaceQuery)
-                    }
+                "user.dataTable.options.sortDesc": {
+                    "handler": async function (n, o) {
+                        await this.setUserInfoList();
+                    },
+                    "deep": true
                 }
             },
             "methods": {
@@ -226,122 +213,48 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 "handlePageChange": function (value){
                     return this.currentPage=value;
                 },
-                "deleteUserInfoList": async function(){
+                "deleteUserInfoList": async function(items){
                     var self = this;
-                    deleteList = [];
 
-                    self.user.userSelected.forEach(e => {
-                        deleteList.push(e.id);
-                    });
-                    if(self.user.userSelected.length == 0){
+                    if(items.length == 0){
                         await ito.alert("삭제할 항목이 없습니다.")
                     }else{
                         if(await ito.confirm("삭제하시겠습니까?")){
-                           await ito.api.common.person.removePersonList(deleteList);
+                           await ito.api.common.person.removePersonList(items.map(e=>e.id));
                            await ito.alert("삭제되었습니다.")
                         }
                         self.setUserInfoList();
                     }
 
                 },
-                "setUserInfoList": function () {
-                    var self = this;
-                    return new Promise(function (resolve, reject) {
-                        Promise.resolve()
-                            .then(function () {
-                                var params = {};
-                                params.page = self.user.dataTable.page;
-                                params.size = self.user.dataTable.itemsPerPage;
-                                params.name = !_.isEmpty(self.user.query.name) ? self.user.query.name : null;
-                                params.jobType = !_.isEmpty(self.user.query.jobType) ? self.user.query.jobType : null;
-                                params.career = !_.isEmpty(self.user.query.career) ? self.user.query.career : null;
-                                params.pay = !_.isEmpty(self.user.query.pay) ? self.user.query.pay : null;
-                                params.address = !_.isEmpty(self.user.query.address) ? self.user.query.address : null;
-                                params.inputStatus = !_.isEmpty(self.user.query.inputStatus) ? self.user.query.inputStatus : null;
-                                params.education = !_.isEmpty(self.user.query.education) ? self.user.query.education : null;
-                                params.certificateStatus = !_.isEmpty(self.user.query.certificateStatus) ? self.user.query.certificateStatus : null;
-                                self.user.dataTable.loading = true;
-                                return ito.api.common.person.getPersonList(params);
-                            })
-                            .then(function (response) {
-                                var data = response.data;
-                                self.user.dataTable.items = data.items;
-                                console.log(data.items.length);
-                                self.user.dataTable.items.forEach(e => {
-                                    e.inputStatus = (e.inputStatus == "T") ? "투입중" : "섭외중"
-                                    e.certificateStatus = (e.certificateStatus == "T") ? "있음" : "없음"
-                                    e.career = e.career+"년"
-                                });
-                                self.user.dataTable.totalRows = data.items.length;
-                                self.user.dataTable.loading = false;
-                            })
-                            .then(function () { resolve(); });
+                "setUserInfoList": async function () {
+                    var self = this,
+                        params = {}, data;
+                    params.page = self.user.dataTable.options.page;
+                    params.rowSize = self.user.dataTable.options.itemsPerPage;
+                    params.name = !_.isEmpty(self.user.query.name) ? self.user.query.name : null;
+                    params.jobType = !_.isEmpty(self.user.query.jobType) ? self.user.query.jobType : null;
+                    params.career = !_.isEmpty(self.user.query.career) ? self.user.query.career : null;
+                    params.pay = !_.isEmpty(self.user.query.pay) ? self.user.query.pay : null;
+                    params.address = !_.isEmpty(self.user.query.address) ? self.user.query.address : null;
+                    params.inputStatus = !_.isEmpty(self.user.query.inputStatus) ? self.user.query.inputStatus : null;
+                    params.education = !_.isEmpty(self.user.query.education) ? self.user.query.education : null;
+                    params.certificateStatus = !_.isEmpty(self.user.query.certificateStatus) ? self.user.query.certificateStatus : null;
+                    self.user.dataTable.loading = true;
+                    data = (await ito.api.common.person.getPersonList(params)).data;
+                    console.log(data);
+                    self.user.dataTable.items = data.items;
+                    self.user.dataTable.totalRows = data.totalRows;
+                    self.user.dataTable.items.forEach(e => {
+                        e.inputStatus = (e.inputStatus == "T") ? "투입중" : "섭외중"
+                        e.certificateStatus = (e.certificateStatus == "T") ? "있음" : "없음"
+                        e.career = e.career+"년"
                     });
+                    self.user.dataTable.loading = false;
                 },
-                "getQuery": function () {
-                    var query = {},
-                    routeQuery = this.$route.query;
-                    query.id = routeQuery.id ? routeQuery.id : this.user.query.id;
-                    query.page = routeQuery.page ? routeQuery.page : String(this.user.dataTable.page);
-                    query.size = routeQuery.size ? routeQuery.size : String(this.user.dataTable.itemsPerPage);
-                    query.name = routeQuery.name ? routeQuery.name : this.user.query.name;
-                    query.jobType = routeQuery.jobType ? routeQuery.jobType : this.user.query.jobType;
-                    query.career = routeQuery.career ? routeQuery.career : this.user.query.career;
-                    query.pay = routeQuery.pay ? routeQuery.pay : this.user.query.pay;
-                    query.address = routeQuery.address ? routeQuery.address : this.user.query.address;
-                    query.inputStatus=routeQuery.inputStatus ? routeQuery.inputStatus : this.user.query.inputStatus;
-                    query.education = routeQuery.education ? routeQuery.education : this.user.query.education;
-                    query.certificateStatus=routeQuery.certificateStatus ? routeQuery.certificateStatus : this.user.query.certificateStatus;
-                    return query;
-                },
-                "setQuery": function () {
-                    var query = this.getQuery();
-                    this.user.query.id = query.id;
-                    this.user.dataTable.page = Number(query.page);
-                    this.user.dataTable.itemsPerPage = Number(query.size);
-                    this.user.query.name = query.name;
-                    this.user.query.jobType = query.jobType;
-                    this.user.query.career = query.career;
-                    this.user.query.pay = query.pay;
-                    this.user.query.address = query.address;
-                    this.user.query.inputStatus = query.inputStatus;
-                    this.user.query.birthDate=query.birthDate;
-                    this.user.query.education = query.education;
-                    this.user.query.certificateStatus = query.certificateStatus;
-                },
-                "replaceQuery": function () {
-                    var query = {},
-                    routeQuery = this.$route.query;
-                    query.page = String(this.user.dataTable.page);
-                    query.size = String(this.user.dataTable.itemsPerPage);
-                    query.name = String(this.user.query.name);
-                    query.jobType = String(this.user.query.jobType);
-                    query.career = String(this.user.query.career);
-                    query.pay = String(this.user.query.pay);
-                    query.address = String(this.user.query.address);
-                    query.inputStatus = String(this.user.query.inputStatus);
-                    query.workableDay = String(this.user.query.workableDay);
-                    query.birthDate = String(this.user.query.birthDate);
-                    query.education = String(this.user.query.education);
-                    query.certificateStatus = String(this.user.query.certificateStatus);
-                    if (!_.isEqual(query, routeQuery)) {
-                        this.$router.replace({"query": query});
-                    }
-                },
-                "search": function () {
+                "search": async function () {
                     var self = this;
-                    return new Promise(function (resolve, reject) {
-                        Promise.resolve()
-                            .then(function () {
-                                return self.setUserInfoList();
-                            })
-                            .then(function () {
-                                self.replaceQuery();
-                            })
-                            .then(function () {
-                             resolve();
-                         });
-                    });
+                    await self.setUserInfoList();
                 },
                 "reset": function () {
                     var self = this;
@@ -367,11 +280,10 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     });
                 }
             },
-            "mounted": function () {
-                Promise.resolve()
-                    .then(this.setQuery)
-                    .then(this.replaceQuery)
-                    .then(this.setUserInfoList);
+            "mounted": async function () {
+                Promise.all([
+                    this.setUserInfoList()
+                ]);
             }
         });
     });

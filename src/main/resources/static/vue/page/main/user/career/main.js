@@ -76,9 +76,14 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                 },
                 "deep": true
             },
-            "career.dataTable.options.itemPerPage": {
+            "career.dataTable.options.itemsPerPage": {
                 "handler": async function(n, o) {
-                    this.career.dataTable.options.page = 1;
+                    await this.loadCareerList();
+                },
+                "deep": true
+            },
+            "career.dataTable.options.sortDesc": {
+                "handler": async function (n, o) {
                     await this.loadCareerList();
                 },
                 "deep": true
