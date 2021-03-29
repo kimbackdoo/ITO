@@ -50,6 +50,12 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                         "options": {
                             "page": 1,
                             "itemsPerPage": 10,
+                            "sortBy": [],
+                            "sortDesc": [],
+                            "groupBy": [],
+                            "groupDesc": [],
+                            "multiSort": true,
+                            "mustSort": false
                         },
                         "loading": false,
                         "totalRows": 0,
