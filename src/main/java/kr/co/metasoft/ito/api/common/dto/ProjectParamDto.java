@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,6 +17,8 @@ public class ProjectParamDto {
     private String nameLike;
 
     private String job;
+
+    private String skillList;
 
     private String careerLike;
 
@@ -41,7 +44,7 @@ public class ProjectParamDto {
 
     private Integer prsnl;
 
-    private String status;
+    private Character status;
 
     private Long salary;
 

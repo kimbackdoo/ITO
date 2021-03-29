@@ -69,7 +69,7 @@ public class ProjectEntity {
     private Integer prsnl;
 
     @Column(name = "status", columnDefinition = "varchar(100)", nullable = true)
-    private String status;
+    private Character status;
 
     @Column(name = "salary", columnDefinition = "bigint(20)", nullable = true)
     private Long salary;

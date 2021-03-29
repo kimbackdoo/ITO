@@ -4,6 +4,11 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
         "template": (await axios.get("/vue/page/main/user/input-profile/main.html")).data,
         "data": function () {
             return {
+                "select": {
+                    "job": {
+                        "items": []
+                    },
+                },
                 "inputProfile": {
                     "panels": {
                         "form": [0]
@@ -28,7 +33,27 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                 },
             };
         },
+        "watch": {
+            "inputProfile.form.item.jobType": {
+                "handler": async function () {
+                    console.log(this.inputProfile.form.item.jobType);
+                }
+            }
+        },
         "methods": {
+            "init": async function() {
+                await this.loadJobItems();
+                await this.setProfile();
+            },
+            "loadJobItems": async function() {
+                let items;
+                items = (await ito.api.common.code.getCodeList({
+                    "parentId": "001",
+                    "sort": ["ranking, asc"],
+                    "rowSize": 1000000
+                })).data.items.map(e=>({"text": e.name, "value": e.id}));
+                this.select.job.items.push(...items);
+            },
             "setProfile": async function() {
                 let self = this,
                     person;
@@ -79,7 +104,7 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
             },
         },
         "mounted": function() {
-            this.setProfile();
+            this.init();
         }
     });
 });

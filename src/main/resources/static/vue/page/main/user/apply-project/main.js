@@ -16,7 +16,24 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     ],
                 },
                 "select": {
-
+                    "job": {
+                        "items": [
+                            {"text": "전체", "value": null}
+                        ]
+                    },
+                    "skill": {
+                        "items": [
+                            {"text": "전체", "value": null}
+                        ]
+                    },
+                    "status": {
+                        "items": [
+                            {"text": "섭외", "value": "A"},
+                            {"text": "완료", "value": "C"},
+                            {"text": "면접", "value": "I"},
+                            {"text": "투입", "value": "P"}
+                        ]
+                    },
                 },
                 "dialog": false,
                 "project": {
@@ -41,6 +58,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                         ],
                         "query": {
                             "projectName": null,
+                            "job": null,
                             "skill": null,
                             "careerLike": null,
                             "degree": null,
@@ -78,6 +96,29 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 },
                 "deep": true
             },
+            "project.dataTable.query.job": {
+                "handler": async function () {
+                    let items,
+                        skill = this.select.job.items.find(e=>e.value == this.project.dataTable.query.job);
+
+                    this.select.skill.items = [];
+                    items = (await ito.api.common.code.getCodeList({
+                        "idStartLike": "004",
+                        "status": "T",
+                        "skill": skill !== undefined ? skill.text : null,
+                        "rowSize": 1000000
+                    })).data.items.map(e=>({"text": e.name, "value": e.id}));
+                    items = items.filter(e=> {
+                        if(e.value.startsWith("00401")) return e.value.length > 7;
+                        else return e.value.length > 5;
+                    });
+                    this.select.skill.items.push(
+                        {"text": "전체", "value": null},
+                        ...items
+                    );
+                    this.project.dataTable.query.skill = [];
+                }
+            },
         },
         "methods": {
             "handleClick": function(value) {
@@ -89,7 +130,17 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 });
             },
             "init": async function() {
+                await this.loadJobItems();
                 await this.loadProjectList();
+            },
+            "loadJobItems": async function() {
+                let items;
+                items = (await ito.api.common.code.getCodeList({
+                    "parentId": "001",
+                    "sort": ["ranking, asc"],
+                    "rowSize": 1000000
+                })).data.items.map(e=>({"text": e.name, "value": e.id}));
+                this.select.job.items.push(...items);
             },
             "loadProjectList": async function() {
                 let self = this, projectList;
@@ -101,8 +152,11 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     "rowSize": self.project.dataTable.options.itemsPerPage,
 
                     "nameLike": self.project.dataTable.query.projectName,
+                    "job": self.project.dataTable.query.job,
+                    "skillList": self.project.dataTable.query.skill,
                     "stermStart": self.project.dataTable.query.stermStart,
                     "prsnl": self.project.dataTable.query.prsnl,
+                    "status": self.project.dataTable.query.status,
                     "salary": self.project.dataTable.query.salary,
                 })).data;
 
@@ -111,12 +165,17 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 self.project.dataTable.loading = false;
             },
             "searchProjectList": async function() {
-                this.loadProjectList();
+                if(this.project.dataTable.options.page !== 1) {
+                    this.project.dataTable.options.page = 1;
+                }else {
+                    this.loadProjectList();
+                }
             },
             "initialize": async function() {
                 let self = this;
 
                 self.project.dataTable.query.projectName = null;
+                self.project.dataTable.query.job = null;
                 self.project.dataTable.query.skill = null;
                 self.project.dataTable.query.careerLike = null;
                 self.project.dataTable.query.degree = null;

@@ -20,4 +20,6 @@ public class CodeParamDto {
     private String idStartLike;
 
     private String status;
+
+    private String skill;
 }

@@ -36,7 +36,7 @@ public class ProjectDto {
 
     private Integer prsnl;
 
-    private String status;
+    private Character status;
 
     private Long salary;
 

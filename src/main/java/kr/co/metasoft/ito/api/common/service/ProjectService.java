@@ -40,8 +40,11 @@ public class ProjectService {
 
         System.out.println("===========================================================================");
         System.out.println("NameLike: " + projectParamDto.getNameLike());
+        System.out.println("Job: " + projectParamDto.getJob());
+        System.out.println("skillList: " + projectParamDto.getSkillList());
         System.out.println("stermStart: " + projectParamDto.getStermStart());
         System.out.println("prsnl: " + projectParamDto.getPrsnl());
+        System.out.println("status: " + projectParamDto.getStatus());
         System.out.println("salary: " + projectParamDto.getSalary());
         System.out.println("===========================================================================");
 

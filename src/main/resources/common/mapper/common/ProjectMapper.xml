@@ -25,6 +25,12 @@
             <if test="projectParamDto.nameLike != null and projectParamDto.nameLike != ''">
                 AND `name` LIKE CONCAT('%', #{projectParamDto.nameLike}, '%')
             </if>
+            <if test="projectParamDto.job != null and projectParamDto.job != ''">
+                AND `job` = #{projectParamDto.job}
+            </if>
+            <if test="projectParamDto.skillList != null and projectParamDto.skillList != ''">
+                AND `skill` = #{projectParamDto.skillList}
+            </if>
             <if test="projectParamDto.stermStart != null">
                 AND `sterm` &gt;= #{projectParamDto.stermStart}
             </if>
@@ -39,6 +45,9 @@
             </if>
             <if test="projectParamDto.prsnl != null">
                 AND `prsnl` &gt;= #{projectParamDto.prsnl}
+            </if>
+            <if test="projectParamDto.status != null">
+                AND `status` = #{projectParamDto.status}
             </if>
             <if test="projectParamDto.salary != null">
                 AND `salary` &gt;= #{projectParamDto.salary}

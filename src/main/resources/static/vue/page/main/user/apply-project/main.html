@@ -41,12 +41,19 @@
                                         <v-select
                                             dense
                                             label="직종"
+                                            hide-details="auto"
+                                            :items="select.job.items"
+                                            v-model="project.dataTable.query.job"
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="3">
                                         <v-select
                                             dense
                                             label="기술"
+                                            multiple
+                                            hide-details="auto"
+                                            :items="select.skill.items"
+                                            v-model="project.dataTable.query.skill"
                                         ></v-select>
                                     </v-col>
 
@@ -60,6 +67,8 @@
                                         <v-select
                                                 dense
                                                 label="현황"
+                                                :items="select.status.items"
+                                                v-model="project.dataTable.query.status"
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="2">

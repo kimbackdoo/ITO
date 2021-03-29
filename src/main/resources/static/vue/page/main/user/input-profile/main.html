@@ -74,11 +74,44 @@
                                         <v-select
                                             dense
                                             outlined
-                                            :items="inputProfile.jobType"
                                             label="직종"
+                                            :items="select.job.items"
+                                            v-model="inputProfile.form.item.jobType"
                                         ></v-select>
                                     </v-col>
                                 </v-row>
+
+                                <v-row v-if="inputProfile.form.item.jobType !== null">
+                                    <template>
+                                        <v-col cols="12">
+                                            <v-card oulined>
+                                                <v-card-text>
+                                                    <v-row dense>
+                                                        <v-col cols="auto">
+                                                            <span>스킬&경험<br/>(3개선택)</span>
+                                                        </v-col>
+                                                        <v-col>
+                                                            <table>
+                                                                <tr>
+                                                                    <template >
+                                                                        <td scope="row">{{  }}</td>
+                                                                        <td scope="row">
+                                                                            <v-checkbox
+
+                                                                            ></v-checkbox>
+                                                                        </td>
+                                                                    </template>
+
+                                                                </tr>
+                                                            </table>
+                                                        </v-col>
+                                                    </v-row>
+                                                </v-card-text>
+                                            </v-card>
+                                        </v-col>
+                                    </template>
+                                </v-row>
+
                                 <v-row class="ma-0">
                                     <v-col cols="4">
                                         <v-text-field

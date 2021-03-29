@@ -27,6 +27,10 @@
             <if test="codeParamDto.idStartLike != null and codeParamDto.idStartLike != ''">
                 AND `code`.`id` LIKE CONCAT (#{codeParamDto.idStartLike}, '%')
             </if>
+            <if test="codeParamDto.skill != null and codeParamDto.skill != ''">
+                AND `code`.`id` LIKE
+                    CONCAT ((SELECT id FROM `tb_code` WHERE `name` = #{codeParamDto.skill} AND `parent_id` = '004' LIMIT 1), '%')
+            </if>
         </where>
     </sql>
 
