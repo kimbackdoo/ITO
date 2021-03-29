@@ -1,0 +1,92 @@
+<v-container fluid>
+
+<div class="pa-3">
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="project.panels.list"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>프로젝트 현황</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-row>
+                            <table class="ma-auto">
+                                <tb>
+                                    <tr>
+                                        <td class="pr-15">프로젝트명</td>
+                                        <td>{{ project.items.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">필요기술</td>
+                                        <td>{{ project.items.skill }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">학위요건</td>
+                                        <td>{{ project.items.degree }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">경력요건</td>
+                                        <td>{{ project.items.career }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15" >기간</td>
+                                        <td>{{ project.items.sterm }} ~ {{ project.items.eterm }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">장소</td>
+                                        <td>{{ project.items.address }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">필요인원수</td>
+                                        <td>{{ project.items.prsnl }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">현황</td>
+                                        <td>{{ project.items.status }}</td>
+                                    </tr>
+                                    <br />
+                                    <br />
+                                    <br />
+                                 </tb>
+                            </table>
+                        </v-row>
+                        <v-row>
+                            <div>
+                                  <div style="width: 200px;">
+                                      <h3>지원자 수 : {{person.dataTable.totalRows}}명</h3>
+                                  </div>
+                                    <br />
+                                    <v-data-table
+                                        fixed-header
+                                        hide-default-footer
+                                        :headers="project.dataTable.headers"
+                                        :items="person.dataTable.items"
+                                        :items-per-page.sync="person.dataTable.itemsPerPage"
+                                    >
+                                   <template v-slot:item.name="{ item }">
+                                        <v-btn
+                                            text
+                                            @click=""
+                                        >{{ item.name }}</v-btn>
+                                    </template>
+                                </v-data-table>
+                                <v-pagination
+                                    class="mt-2"
+                                    v-model="person.dataTable.page"
+                                    :length="person.pagination.length"
+                                    :total-visible="person.pagination.totalVisible"
+                                ></v-pagination>
+                            </div>
+                        </v-row>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+
+
+
+
+        </v-col>
+    </v-row>
+</div>
+</v-container>

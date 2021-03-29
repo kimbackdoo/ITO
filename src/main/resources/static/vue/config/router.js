@@ -70,6 +70,12 @@ router = new VueRouter({
                     "component": MainAdminProjectListPage
                 },
                 {
+                    "name": "AdminProjectDetail",
+                    "path": "/main/admin/project-list/detail",
+                    "component": MainAdminProjectDetailPage
+                },
+
+                {
                       "name": "프로젝트 입력하기",
                       "path": "/main/admin/project-info-form",
                       "component": MainAdminProjectFormPage

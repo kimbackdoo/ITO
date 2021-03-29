@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.metasoft.ito.api.common.mapper.ProjectPersonMapper">
+
+    <sql id="selectFrom">
+        SELECT
+            `project_person`.`person_id`,
+            `project_person_person`.`name`,
+            `project_person_person`.`phone_number`,
+            `project_person_person`.`job_type`,
+            `project_person_person`.`input_status`,
+            `project_person_person`.`certificate_status`,
+            `project_person_person`.`skill`,
+            `project_person_person`.`career`,
+            `project_person_person`.`pay`,
+            `project_person_person`.`workable_day`,
+            `project_person_person`.`postcode`,
+            `project_person_person`.`address`,
+            `project_person_person`.`detail_address`,
+            `project_person_person`.`email`,
+            `project_person_person`.`website`,
+            `project_person_person`.`education`,
+            `project_person_person`.`birth_date`,
+            `project_person_person`.`status`
+        FROM
+            `tb_proj_person` `project_person`
+        LEFT OUTER JOIN
+            `tb_person` `project_person_person`
+        ON
+            `project_person`.`person_id` = `project_person_person`.`id`
+        LEFT OUTER JOIN
+            `tb_proj` `project_person_proj`
+        ON
+            `project_person`.`project_id` = `project_person_project`.`admin_proj_id`
+
+    </sql>
+
+    <sql id="where">
+        <where>
+        </where>
+    </sql>
+
+
+    <resultMap id="personResultMap" type="kr.co.metasoft.ito.api.common.entity.PersonEntity">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="jobType" column="job_type"/>
+        <result property="inputStatus" column="input_status"/>
+        <result property="certificateStatus" column="certificate_status"/>
+        <result property="skill" column="skill"/>
+        <result property="career" column="career"/>
+        <result property="pay" column="pay"/>
+        <result property="workableDay" column="workable_day"/>
+        <result property="postcode" column="postcode"/>
+        <result property="address" column="address"/>
+        <result property="detailAddress" column="detail_address"/>
+        <result property="email" column="email"/>
+        <result property="website" column="website"/>
+        <result property="education" column="education"/>
+        <result property="birthDate" column="birth_date"/>
+        <result property="status" column="status"/>
+        <result property="createdDate" column="created_date"/>
+        <result property="lastModifiedDate" column="last_modified_date"/>
+    </resultMap>
+
+    <select
+        id="selectProjectPersonList"
+        parameterType="java.util.Map"
+        resultMap="personResultMap"
+    >
+        <include refid="PageFragment.sortStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.sortEnd"/>
+        <include refid="PageFragment.limitOffset"/>
+    </select>
+
+    <select
+        id="selectProjectPersonListCount"
+        parameterType="java.util.Map"
+        resultType="java.lang.Integer"
+    >
+        <include refid="PageFragment.countStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.countEnd"/>
+    </select>
+
+
+
+</mapper>

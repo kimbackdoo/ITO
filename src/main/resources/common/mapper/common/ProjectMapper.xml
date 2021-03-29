@@ -62,6 +62,7 @@
         <result property="term" column="term" />
     </resultMap>
 
+
     <select
         id="selectProjectList"
         parameterType="java.util.Map"

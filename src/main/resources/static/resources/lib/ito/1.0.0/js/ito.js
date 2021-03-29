@@ -299,6 +299,10 @@ ito = {
                 "removePersonLanguageList": function (data) { return axios({"url": "/api/common/person-languages", "method": "delete", "data": data}); },
                 "removePersonLanguage": function (personId, language) { return axios({"url": "/api/common/person-languages/"+ personId + "," + language, "method": "delete"}); }
             },
+            "projectPerson": {
+                "getProjectPersonList": function(params) {return axios({"url": "/api/common/project-person", "method": "get", "params": params}); }
+            }
+
         },
         "app": {
             "account": {

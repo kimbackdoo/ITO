@@ -6,7 +6,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                 return {
                     "project": {
                         "dialog": false,
-                        "projectSelected":[],
+                        "selected":[],
                         "panels": {
                             "search": [0],
                             "list": [0]
@@ -138,25 +138,33 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                         }
                       });
                 },
-
-                "handlePageChange": function (value){
-                    return this.currentPage=value;
+                "DetailProjectInfo": function(value){
+                    console.log("id값 호출   "+value.adminProjId)
+                    this.$router.push({
+                        "path": "/main/admin/project-list/detail",
+                        "query": {
+                            "adminProjId": value.adminProjId
+                        }
+                    });
                 },
-                "deleteUserInfoList": async function(){
+               "deleteProjectInfoList": async function(){
                     var self = this;
                     deleteList = [];
 
-                    self.user.userSelected.forEach(e => {
-                        deleteList.push(e.id);
+
+                    self.project.selected.forEach(e => {
+                        deleteList.push(e.adminProjId);
                     });
-                    if(self.user.userSelected.length == 0){
+                    console.log("삭제할 리스트 id 값들  "+deleteList);
+
+                    if(self.project.selected.length == 0){
                         await ito.alert("삭제할 항목이 없습니다.")
                     }else{
                         if(await ito.confirm("삭제하시겠습니까?")){
-                           await ito.api.common.person.removePersonList(deleteList);
+                           await ito.api.common.project.removeProjectList(deleteList);
                            await ito.alert("삭제되었습니다.")
                         }
-                        self.setUserInfoList();
+                        self.setProjectInfoList();
                     }
 
                 },
@@ -185,7 +193,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             .then(function (response) {
                                 var data = response.data;
                                 self.project.dataTable.items = data.items;
-                                console.log(data.items.length);
+                                self.project.dataTable.serverItemsLength = data.totalElements;
                                 self.project.dataTable.items.forEach(e => {
                                     e.career = e.career+"년"
                                 });
