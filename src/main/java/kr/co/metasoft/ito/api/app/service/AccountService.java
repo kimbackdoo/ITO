@@ -1,6 +1,8 @@
 package kr.co.metasoft.ito.api.app.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -12,11 +14,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import kr.co.metasoft.ito.api.app.dto.AccountDto;
+import kr.co.metasoft.ito.api.common.dto.PersonLanguageDto;
+import kr.co.metasoft.ito.api.common.dto.PersonSectorDto;
+import kr.co.metasoft.ito.api.common.dto.PersonSkillDto;
 import kr.co.metasoft.ito.api.common.entity.PersonEntity;
+import kr.co.metasoft.ito.api.common.entity.PersonLanguageEntity;
+import kr.co.metasoft.ito.api.common.entity.PersonSectorEntity;
+import kr.co.metasoft.ito.api.common.entity.PersonSkillEntity;
 import kr.co.metasoft.ito.api.common.entity.RoleUserEntity;
 import kr.co.metasoft.ito.api.common.entity.UserEntity;
 import kr.co.metasoft.ito.api.common.entity.UserPersonEntity;
+import kr.co.metasoft.ito.api.common.repository.PersonLanguageRepository;
 import kr.co.metasoft.ito.api.common.repository.PersonRepository;
+import kr.co.metasoft.ito.api.common.repository.PersonSectorRepository;
+import kr.co.metasoft.ito.api.common.repository.PersonSkillRepository;
 import kr.co.metasoft.ito.api.common.repository.RoleUserRepository;
 import kr.co.metasoft.ito.api.common.repository.UserPersonRepository;
 import kr.co.metasoft.ito.api.common.repository.UserRepository;
@@ -40,6 +51,15 @@ public class AccountService {
     private PersonRepository personRepository;
 
     @Autowired
+    PersonSectorRepository personSectorRepository;
+
+    @Autowired
+    PersonSkillRepository personSkillRepository;
+
+    @Autowired
+    PersonLanguageRepository personLanguageRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Validated (value = {CreateValidationGroup.class})
@@ -60,9 +80,6 @@ public class AccountService {
                 .jobType(accountDto.getPersonDto().getJobType())
                 .inputStatus(accountDto.getPersonDto().getInputStatus())
                 .certificateStatus(accountDto.getPersonDto().getCertificateStatus())
-                .skill(accountDto.getPersonDto().getSkill())
-                .language(accountDto.getPersonDto().getLanguage())
-                .sector(accountDto.getPersonDto().getSector())
                 .role(accountDto.getPersonDto().getRole())
                 .career(accountDto.getPersonDto().getCareer())
                 .pay(accountDto.getPersonDto().getPay())
@@ -81,11 +98,49 @@ public class AccountService {
         Long personId = personRepository.save(personEntity).getId();
         result.setUserId(userId);
         result.setPersonId(personId);
+
+        List<PersonSectorEntity> personSectorEntityList = new ArrayList<>();
+        List<PersonSkillEntity> personSkillEntityList = new ArrayList<>();
+        List<PersonLanguageEntity> personLanguageEntityList = new ArrayList<>();
+
+        for(PersonSectorDto dto : accountDto.getPersonSectorDtoList()) {
+            dto.setPersonId(personId);
+            personSectorEntityList.add(PersonSectorEntity.builder()
+                    .sector(dto.getSector())
+                    .personId(personId)
+                    .build()
+            );
+        }
+        result.setPersonSectorDtoList(accountDto.getPersonSectorDtoList());
+
+        for(PersonSkillDto dto : accountDto.getPersonSkillDtoList()) {
+            dto.setPersonId(personId);
+            personSkillEntityList.add(PersonSkillEntity.builder()
+                    .skill(dto.getSkill())
+                    .personId(personId)
+                    .build()
+            );
+        }
+        result.setPersonSkillDtoList(accountDto.getPersonSkillDtoList());
+
+        for(PersonLanguageDto dto : accountDto.getPersonLanguageDtoList()) {
+            dto.setPersonId(personId);
+            personLanguageEntityList.add(PersonLanguageEntity.builder()
+                    .language(dto.getLanguage())
+                    .personId(personId)
+                    .build()
+            );
+        }
+        result.setPersonLanguageDtoList(accountDto.getPersonLanguageDtoList());
+
         UserPersonEntity userPersonEntity = new UserPersonEntity(userId, personId, null, null);
         RoleUserEntity roleUserEntity = new RoleUserEntity(userId, accountDto.getRoleId(), null, null);
 
         roleUserRepository.save(roleUserEntity);
         userPersonRepository.save(userPersonEntity);
+        personSectorRepository.saveAll(personSectorEntityList);
+        personSkillRepository.saveAll(personSkillEntityList);
+        personLanguageRepository.saveAll(personLanguageEntityList);
         return result;
     }
 
@@ -108,9 +163,6 @@ public class AccountService {
                 .jobType(accountDto.getPersonDto().getJobType())
                 .inputStatus(accountDto.getPersonDto().getInputStatus())
                 .certificateStatus(accountDto.getPersonDto().getCertificateStatus())
-                .skill(accountDto.getPersonDto().getSkill())
-                .language(accountDto.getPersonDto().getLanguage())
-                .sector(accountDto.getPersonDto().getSector())
                 .role(accountDto.getPersonDto().getRole())
                 .career(accountDto.getPersonDto().getCareer())
                 .pay(accountDto.getPersonDto().getPay())
@@ -126,10 +178,45 @@ public class AccountService {
 
         Long userId = userRepository.save(userEntity).getId();
         Long personId = personRepository.save(personEntity).getId();
+
+        List<PersonSectorEntity> personSectorEntityList = new ArrayList<>();
+        List<PersonSkillEntity> personSkillEntityList = new ArrayList<>();
+        List<PersonLanguageEntity> personLanguageEntityList = new ArrayList<>();
+
+        for(PersonSectorDto dto : accountDto.getPersonSectorDtoList()) {
+            dto.setPersonId(personId);
+            personSectorEntityList.add(PersonSectorEntity.builder()
+                    .sector(dto.getSector())
+                    .personId(personId)
+                    .build()
+            );
+        }
+
+        for(PersonSkillDto dto : accountDto.getPersonSkillDtoList()) {
+            dto.setPersonId(personId);
+            personSkillEntityList.add(PersonSkillEntity.builder()
+                    .skill(dto.getSkill())
+                    .personId(personId)
+                    .build()
+            );
+        }
+
+        for(PersonLanguageDto dto : accountDto.getPersonLanguageDtoList()) {
+            dto.setPersonId(personId);
+            personLanguageEntityList.add(PersonLanguageEntity.builder()
+                    .language(dto.getLanguage())
+                    .personId(personId)
+                    .build()
+            );
+        }
+
         UserPersonEntity userPersonEntity = new UserPersonEntity(userId, personId, null, null);
         RoleUserEntity roleUserEntity = new RoleUserEntity(userId, accountDto.getRoleId(), null, null);
         roleUserRepository.save(roleUserEntity);
         userPersonRepository.save(userPersonEntity);
+        personSectorRepository.saveAll(personSectorEntityList);
+        personSkillRepository.saveAll(personSkillEntityList);
+        personLanguageRepository.saveAll(personLanguageEntityList);
     }
 
     @Validated (value = {CreateValidationGroup.class})
@@ -151,9 +238,6 @@ public class AccountService {
                 .jobType(accountDto.getPersonDto().getJobType())
                 .inputStatus(accountDto.getPersonDto().getInputStatus())
                 .certificateStatus(accountDto.getPersonDto().getCertificateStatus())
-                .skill(accountDto.getPersonDto().getSkill())
-                .language(accountDto.getPersonDto().getLanguage())
-                .sector(accountDto.getPersonDto().getSector())
                 .role(accountDto.getPersonDto().getRole())
                 .career(accountDto.getPersonDto().getCareer())
                 .pay(accountDto.getPersonDto().getPay())
@@ -171,6 +255,37 @@ public class AccountService {
         Long userId = userRepository.save(userEntity).getId();
         Long personId = personRepository.save(personEntity).getId();
 
+        List<PersonSectorEntity> personSectorEntityList = new ArrayList<>();
+        List<PersonSkillEntity> personSkillEntityList = new ArrayList<>();
+        List<PersonLanguageEntity> personLanguageEntityList = new ArrayList<>();
+
+        for(PersonSectorDto dto : accountDto.getPersonSectorDtoList()) {
+            dto.setPersonId(personId);
+            personSectorEntityList.add(PersonSectorEntity.builder()
+                    .sector(dto.getSector())
+                    .personId(personId)
+                    .build()
+            );
+        }
+
+        for(PersonSkillDto dto : accountDto.getPersonSkillDtoList()) {
+            dto.setPersonId(personId);
+            personSkillEntityList.add(PersonSkillEntity.builder()
+                    .skill(dto.getSkill())
+                    .personId(personId)
+                    .build()
+            );
+        }
+
+        for(PersonLanguageDto dto : accountDto.getPersonLanguageDtoList()) {
+            dto.setPersonId(personId);
+            personLanguageEntityList.add(PersonLanguageEntity.builder()
+                    .language(dto.getLanguage())
+                    .personId(personId)
+                    .build()
+            );
+        }
+
         UserPersonEntity userPersonEntity = new UserPersonEntity();
 
         userPersonEntity.setUserId(userId);
@@ -183,6 +298,9 @@ public class AccountService {
 
         roleUserRepository.save(roleUserEntity);
         userPersonRepository.save(userPersonEntity);
+        personSectorRepository.saveAll(personSectorEntityList);
+        personSkillRepository.saveAll(personSkillEntityList);
+        personLanguageRepository.saveAll(personLanguageEntityList);
 
     }
 
@@ -194,6 +312,9 @@ public class AccountService {
         userRepository.delete(UserEntity.builder().id(accountDto.getUserId()).build());
         personRepository.delete(PersonEntity.builder().id(accountDto.getPersonId()).build());
         roleUserRepository.delete(RoleUserEntity.builder().userId(accountDto.getUserId()).build());
+        personSectorRepository.delete(PersonSectorEntity.builder().personId(accountDto.getPersonId()).build());
+        personSkillRepository.delete(PersonSkillEntity.builder().personId(accountDto.getPersonId()).build());
+        personLanguageRepository.delete(PersonLanguageEntity.builder().personId(accountDto.getPersonId()).build());
     }
 
 }

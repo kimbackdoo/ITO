@@ -95,10 +95,7 @@ SignUpMainPage = Vue.component("sign-up-main-page", async function (resolve) { r
             career = _.cloneDeep(self.data.career);
 
             if(await ito.confirm("저장하시겠습니까?")) {
-                person["skill"] = skill.join(",");
                 person["role"] = role.join(",");
-                person["language"] = language.join(",");
-                person["sector"] = sector.join(",");
                 for(let c in career) {
                     if(Array.isArray(career[c])) {
                         person[c] = career[c].join(",");
@@ -106,10 +103,12 @@ SignUpMainPage = Vue.component("sign-up-main-page", async function (resolve) { r
                         person[c] = career[c];
                     }
                 }
-                console.log(person, user);
                 await ito.auth.signUp({
                     "personDto": person,
-                    "userDto": user
+                    "userDto": user,
+                    "personSectorDtoList": sector.join(",").split(",").map(e=>({"sector": e})),
+                    "personSkillDtoList": skill.join(",").split(",").map(e=>({"skill": e})),
+                    "personLanguageDtoList": language.join(",").split(",").map(e=>({"language": e}))
                 });
                 this.stepper.complete = index + 1;
                 await ito.alert("완료");

@@ -1,6 +1,11 @@
 package kr.co.metasoft.ito.api.app.dto;
 
+import java.util.List;
+
 import kr.co.metasoft.ito.api.common.dto.PersonDto;
+import kr.co.metasoft.ito.api.common.dto.PersonLanguageDto;
+import kr.co.metasoft.ito.api.common.dto.PersonSectorDto;
+import kr.co.metasoft.ito.api.common.dto.PersonSkillDto;
 import kr.co.metasoft.ito.api.common.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,4 +31,10 @@ public class AccountDto {
     private UserDto userDto;
 
     private PersonDto personDto;
+
+    private List<PersonSectorDto> personSectorDtoList;
+
+    private List<PersonSkillDto> personSkillDtoList;
+
+    private List<PersonLanguageDto> personLanguageDtoList;
 }
