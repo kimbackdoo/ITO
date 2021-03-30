@@ -32,8 +32,6 @@ public class PersonParamDto {
 
     private String certificateStatus;
 
-    private String skill;
-
     private String career;
 
     private Long pay;

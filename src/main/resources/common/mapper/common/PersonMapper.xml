@@ -30,7 +30,6 @@
 
     <sql id="where">
         <where>
-
             <if test="personParamDto.name != null and personParamDto.name != ''">
                 AND `name` LIKE CONCAT('%', #{personParamDto.name} , '%')
             </if>
@@ -55,7 +54,6 @@
             <if test="personParamDto.inputStatus != null and personParamDto.inputStatus != ''">
                 AND NOT (`input_status` LIKE #{personParamDto.inputStatus})
             </if>
-
         </where>
     </sql>
 
