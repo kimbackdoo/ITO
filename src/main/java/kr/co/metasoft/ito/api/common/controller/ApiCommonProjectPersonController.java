@@ -35,7 +35,7 @@ public class ApiCommonProjectPersonController {
         return projectPersonService.getprojectPersonList(projectPersonParamDto, pageRequest);
     }
 
-    @PostMapping(path = "" , params= {"!bulk"})
+    @PostMapping(path = "")
     public ProjectPersonEntity careateProjectPerson(
             @RequestBody ProjectPersonDto projectPersonDto) {
             ProjectPersonEntity projectPersonEntity = ProjectPersonEntity.builder()
