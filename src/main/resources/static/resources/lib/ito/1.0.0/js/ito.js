@@ -299,6 +299,16 @@ ito = {
                 "removePersonLanguageList": function (data) { return axios({"url": "/api/common/person-languages", "method": "delete", "data": data}); },
                 "removePersonLanguage": function (personId, language) { return axios({"url": "/api/common/person-languages/"+ personId + "," + language, "method": "delete"}); }
             },
+            "projectSkill": {
+                "getProjectSkillList": function (params) { return axios({"url": "/api/common/project-skills", "method": "get", "params": params}); },
+                "getProjectSkill": function (projId, skill) { return axios({"url": "/api/common/project-skills/" + projId + "," + skill, "method": "get"}); },
+                "createProjectSkillList": function (data) { return axios({"url": "/api/common/project-skills?bulk", "method": "post", "data": data}); },
+                "createProjectSkill": function (data) { return axios({"url": "/api/common/project-skills", "method": "post", "data": data}); },
+                "modifyProjectSkillList": function (data) { return axios({"url": "/api/common/project-skills", "method": "put", "data": data}); },
+                "modifyProjectSkill": function (projId, skill, data) { return axios({"url": "/api/common/project-skills/" + projId + "," + skill, "method": "put", "data": data}); },
+                "removeProjectSkillList": function (data) { return axios({"url": "/api/common/project-skills", "method": "delete", "data": data}); },
+                "removeProjectSkill": function (projId, skill) { return axios({"url": "/api/common/project-skills/"+ projId + "," + skill, "method": "delete"}); }
+            },
             "projectPerson": {
                 "getProjectPersonList": function(params) {return axios({"url": "/api/common/project-person", "method": "get", "params": params}); }
             }
