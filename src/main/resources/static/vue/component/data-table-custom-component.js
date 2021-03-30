@@ -81,6 +81,13 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
             "type": String,
             "default": "id"
         },
+        "countTitle": {
+            "type": Object,
+            "default": {
+                "front": "전체",
+                "end": "건"
+            }
+        }
     },
     "data": function () {
         return {
@@ -144,6 +151,9 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
     "computed": {
         "disabled": function () {
             return this.loading || this.totalRows === 0 ? true : false;
+        },
+        "count": function () {
+            return this.countTitle.front + " " + this.totalRows + this.countTitle.end;
         }
     },
     "methods": {
