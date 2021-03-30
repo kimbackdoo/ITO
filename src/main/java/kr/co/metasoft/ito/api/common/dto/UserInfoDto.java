@@ -1,7 +1,6 @@
 package kr.co.metasoft.ito.api.common.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 

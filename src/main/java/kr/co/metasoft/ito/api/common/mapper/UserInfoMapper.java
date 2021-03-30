@@ -2,16 +2,11 @@ package kr.co.metasoft.ito.api.common.mapper;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import kr.co.metasoft.ito.api.common.dto.PersonParamDto;
-import kr.co.metasoft.ito.api.common.dto.UserInfoDto;
 import kr.co.metasoft.ito.api.common.dto.UserInfoParamDto;
-import kr.co.metasoft.ito.api.common.entity.PersonEntity;
 import kr.co.metasoft.ito.api.common.entity.UserInfoEntity;
 import kr.co.metasoft.ito.common.util.PageRequest;
 

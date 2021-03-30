@@ -26,7 +26,6 @@ import kr.co.metasoft.ito.api.common.entity.CodeEntity;
 import kr.co.metasoft.ito.api.common.entity.PersonEntity;
 import kr.co.metasoft.ito.api.common.entity.PersonSkillEntity;
 import kr.co.metasoft.ito.api.common.mapper.CodeMapper;
-import kr.co.metasoft.ito.api.common.mapper.PersonMapper;
 import kr.co.metasoft.ito.api.common.repository.PersonRepository;
 import kr.co.metasoft.ito.api.common.repository.PersonSkillRepository;
 import kr.co.metasoft.ito.common.util.PageRequest;

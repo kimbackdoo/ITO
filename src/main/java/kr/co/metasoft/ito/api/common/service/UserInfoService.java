@@ -8,16 +8,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import kr.co.metasoft.ito.api.common.dto.PersonParamDto;
 import kr.co.metasoft.ito.api.common.dto.UserInfoParamDto;
-import kr.co.metasoft.ito.api.common.entity.PersonEntity;
 import kr.co.metasoft.ito.api.common.entity.UserInfoEntity;
 import kr.co.metasoft.ito.api.common.mapper.UserInfoMapper;
 import kr.co.metasoft.ito.api.common.repository.UserInfoRepository;
