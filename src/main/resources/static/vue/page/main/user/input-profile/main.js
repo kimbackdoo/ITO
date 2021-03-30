@@ -4,6 +4,9 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
         "template": (await axios.get("/vue/page/main/user/input-profile/main.html")).data,
         "data": function () {
             return {
+                "data": {
+                    "skill": [],
+                },
                 "select": {
                     "job": {
                         "items": []
@@ -30,13 +33,29 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                             "extraAddress": null
                         },
                     },
+                    "skill": {
+                        "items": []
+                    },
                 },
             };
         },
         "watch": {
             "inputProfile.form.item.jobType": {
                 "handler": async function () {
-                    console.log(this.inputProfile.form.item.jobType);
+                    let skill = this.select.job.items.find(e=>e.value == this.inputProfile.form.item.jobType);
+
+                    this.inputProfile.skill.items = [];
+                    this.inputProfile.skill.items = (await ito.api.common.code.getCodeList({
+                        "idStartLike": "004",
+                        "status": "T",
+                        "skill": skill !== undefined ? skill.text : null,
+                        "rowSize": 1000000
+                    })).data.items.filter(e=> {
+                        if(e.id.startsWith("00401")) return e.id.length > 7;
+                        else return e.id.length > 5;
+                    });
+
+                    console.log(this.inputProfile.skill.items);
                 }
             }
         },
@@ -57,7 +76,6 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
             "setProfile": async function() {
                 let self = this,
                     person;
-
                 person = (await ito.api.common.person.getPerson(store.state.app.person.id)).data;
 
                 self.inputProfile.form.item = person;
@@ -66,16 +84,14 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                 var self = this,
                     data = self.inputProfile.form.item;
 
+                console.log(this.inputProfile.form.item.skill);
+
                 if(data.id != undefined && data.id != null) {
                     if(await ito.confirm("수정하시겠습니까?")) {
                         ito.api.common.person.modifyPerson(data.id, data);
                         await ito.alert("수정되었습니다.");
                     }
                 }
-
-                self.$router.push({
-                    "path": "/main/user/profiles",
-                });
             },
             "execDaumPostcode": function() {
                 var self = this;
