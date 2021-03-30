@@ -15,7 +15,7 @@ import kr.co.metasoft.ito.common.util.PageRequest;
 public interface PersonLanguageMapper {
 
     public List<PersonLanguageEntity> selectPersonLanguageList(
-            @Param (value = "PersonLanguageParamDto") PersonLanguageParamDto personLanguageParamDto,
+            @Param (value = "personLanguageParamDto") PersonLanguageParamDto personLanguageParamDto,
             @Param (value = "pageRequest") PageRequest pageRequest);
 
     public Integer selectPersonLanguageListCount(

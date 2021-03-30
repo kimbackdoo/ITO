@@ -15,7 +15,7 @@ import kr.co.metasoft.ito.common.util.PageRequest;
 public interface PersonSkillMapper {
 
     public List<PersonSkillEntity> selectPersonSkillList(
-            @Param (value = "PersonSkillParamDto") PersonSkillParamDto personSkillParamDto,
+            @Param (value = "personSkillParamDto") PersonSkillParamDto personSkillParamDto,
             @Param (value = "pageRequest") PageRequest pageRequest);
 
     public Integer selectPersonSkillListCount(

@@ -15,7 +15,7 @@ import kr.co.metasoft.ito.common.util.PageRequest;
 public interface ProjectSkillMapper {
 
     public List<ProjectSkillEntity> selectProjectSkillList(
-            @Param (value = "ProjectSkillParamDto") ProjectSkillParamDto projectSkillParamDto,
+            @Param (value = "projectSkillParamDto") ProjectSkillParamDto projectSkillParamDto,
             @Param (value = "pageRequest") PageRequest pageRequest);
 
     public Integer selectProjectSkillListCount(

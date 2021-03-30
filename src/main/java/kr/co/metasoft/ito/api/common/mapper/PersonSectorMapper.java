@@ -15,7 +15,7 @@ import kr.co.metasoft.ito.common.util.PageRequest;
 public interface PersonSectorMapper {
 
     public List<PersonSectorEntity> selectPersonSectorList(
-            @Param (value = "PersonSectorParamDto") PersonSectorParamDto personSectorParamDto,
+            @Param (value = "personSectorParamDto") PersonSectorParamDto personSectorParamDto,
             @Param (value = "pageRequest") PageRequest pageRequest);
 
     public Integer selectPersonSectorListCount(
