@@ -48,7 +48,7 @@ public class ProjectSkillEntity {
 
     @ManyToOne
     @NotFound (action = NotFoundAction.IGNORE)
-    @JoinColumn (name = "`proj_id`", referencedColumnName = "`id`", insertable = false, updatable = false)
+    @JoinColumn (name = "`project_id`", referencedColumnName = "`id`", insertable = false, updatable = false)
     private ProjectEntity project;
 
     @ManyToOne
