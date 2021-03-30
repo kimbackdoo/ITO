@@ -85,14 +85,22 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                 self.inputProfile.form.item = person;
             },
             "saveProfile": async function () {
-                var self = this,
+                let self = this, personId, skill, personSkillList,
                     data = self.inputProfile.form.item;
+                personId = data.id;
+                personSkillList = (await ito.api.common.personSkill.getPersonSkillList({personId})).data.items;
+                skill = [];
+                personSkillList.forEach(e=>{
+                    skill.push(e.skill);
+                });
+                data.skill = skill;
 
-                console.log(this.inputProfile.form.item.skill);
+                console.log(data.skill);
 
                 if(data.id != undefined && data.id != null) {
                     if(await ito.confirm("수정하시겠습니까?")) {
-                        ito.api.common.personSkill.modifyPersonSkill(data.id, data.skill, data);
+                        await ito.api.app.person.modifyPerson(data);
+                        // ito.api.common.personSkill.modifyPersonSkill(data.id, data.skill, data);
                         await ito.alert("수정되었습니다.");
                     }
                 }

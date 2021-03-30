@@ -36,13 +36,20 @@ ApplyProjectDetailMainComponent = Vue.component('applyProject-detail-main-compon
                        })
                        .then(function(response) {
                            self.project.items = response.data;
-                           console.log(self.project.items);
                        })
                        .then(function() { resolve(); });
                });
            },
            "applyProject": async function() {
+               let personId, projectId
+               personId = store.state.app.person.id;
+               projectId = this.$route.query.id;
+
                if(await ito.confirm("지원하시겠습니까?")) {
+                   await ito.api.common.projectPerson.createProjectPerson({
+                       "personId": personId,
+                       "projectId": projectId
+                   });
                    await ito.alert("지원되었습니다.");
                }
            }
