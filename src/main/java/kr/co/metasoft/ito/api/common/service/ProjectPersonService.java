@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import kr.co.metasoft.ito.api.common.dto.ProjectPersonParamDto;
+import kr.co.metasoft.ito.api.common.entity.PersonEntity;
 import kr.co.metasoft.ito.api.common.entity.ProjectPersonEntity;
 import kr.co.metasoft.ito.api.common.mapper.ProjectPersonMapper;
 import kr.co.metasoft.ito.api.common.repository.ProjectPersonRepository;
@@ -30,12 +31,15 @@ public class ProjectPersonService {
 
     @Validated(ReadValidationGroup.class)
     @Transactional (readOnly = true)
-    public PageResponse<ProjectPersonEntity> getprojectPersonList(
+    public PageResponse<PersonEntity> getprojectPersonList(
             @Valid ProjectPersonParamDto projectPersonParamDto,
             PageRequest pageRequest){
         Integer ProjectPersonListCount = projectPersonMapper.selectProjectPersonListCount(projectPersonParamDto);
-        List<ProjectPersonEntity> projectPersonList = projectPersonMapper.selectProjectPersonList(projectPersonParamDto, pageRequest);
-        PageResponse<ProjectPersonEntity> pageResponse = new PageResponse<>(pageRequest, ProjectPersonListCount);
+        List<PersonEntity> projectPersonList = projectPersonMapper.selectProjectPersonList(projectPersonParamDto, pageRequest);
+        PageResponse<PersonEntity> pageResponse = new PageResponse<>(pageRequest, ProjectPersonListCount);
+        System.out.println("ProjectPersonListCount 값 :  " + ProjectPersonListCount);
+        System.out.println("projectPersonList 값 : " + projectPersonList);
+        pageResponse.setItems(projectPersonList);
         return pageResponse;
     }
 

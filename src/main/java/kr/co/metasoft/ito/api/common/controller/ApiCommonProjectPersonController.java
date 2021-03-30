@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.metasoft.ito.api.common.dto.ProjectPersonParamDto;
 import kr.co.metasoft.ito.api.common.dto.UserPersonParamDto;
+import kr.co.metasoft.ito.api.common.entity.PersonEntity;
 import kr.co.metasoft.ito.api.common.entity.ProjectPersonEntity;
 import kr.co.metasoft.ito.api.common.entity.UserPersonEntity;
 import kr.co.metasoft.ito.api.common.service.ProjectPersonService;
@@ -23,7 +24,7 @@ public class ApiCommonProjectPersonController {
     private ProjectPersonService projectPersonService;
 
     @GetMapping (path = "")
-    public PageResponse<ProjectPersonEntity> getProjectPersonList(
+    public PageResponse<PersonEntity> getProjectPersonList(
             @ModelAttribute ProjectPersonParamDto projectPersonParamDto,
             @ModelAttribute PageRequest pageRequest) {
         return projectPersonService.getprojectPersonList(projectPersonParamDto, pageRequest);

@@ -15,9 +15,8 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ProjectPersonParamDto{
 
-    private Long userId;
+    private Long projectId;
 
     private Long personId;
-
 
 }
