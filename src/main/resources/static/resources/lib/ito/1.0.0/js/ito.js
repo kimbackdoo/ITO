@@ -229,16 +229,6 @@ ito = {
                 "removeCodeList": function (data) { return axios({"url": "/api/common/codes", "method": "delete", "data": data}); },
                 "removeCode": function (id) { return axios({"url": "/api/common/codes/"+ id, "method": "delete"}); },
             },
-            "profile": {
-                "getProfileList": function (params) { return axios({"url": "/api/common/profiles", "method": "get", "params": params}); },
-                "getProfile": function (userProfId) { return axios({"url": "/api/common/profiles/" + userProfId, "method": "get"}); },
-                "createProfileList": function (data) { return axios({"url": "/api/common/profiles?bulk", "method": "post", "data": data}); },
-                "createProfile": function (data) { return axios({"url": "/api/common/profiles", "method": "post", "data": data}); },
-                "modifyProfileList": function (data) { return axios({"url": "/api/common/profiles", "method": "put", "data": data}); },
-                "modifyProfile": function (userProfId, data) { return axios({"url": "/api/common/profiles/" + userProfId, "method": "put", "data": data}); },
-                "removeProfileList": function (data) { return axios({"url": "/api/common/profiles", "method": "delete", "data": data}); },
-                "removeProfile": function (userProfId) { return axios({"url": "/api/common/profiles/"+ userProfId, "method": "delete"}); }
-            },
             "personCareer": {
                 "getPersonCareerList": function (params) { return axios({"url": "/api/common/person-career", "method": "get", "params": params}); },
                 "getPersonCareer": function (personId, careerId) { return axios({"url": "/api/common/person-career/" + personId + "," + careerId, "method": "get"}); },
