@@ -9,12 +9,14 @@
             >
                 <v-expansion-panel>
                     <v-expansion-panel-header>사용자 검색</v-expansion-panel-header>
-                    <v-expansion-panel-content>
+                    <v-expansion-panel-content
+                        class="overflow-y-auto"
+                    >
                         <v-form>
                             <v-row>
                                 <v-col
                                     cols="12"
-                                    sm="6"
+                                    sm="3"
                                 >
                                     <v-text-field
                                         dense
@@ -23,11 +25,9 @@
                                         @keydown.enter="search();"
                                     ></v-text-field>
                                 </v-col>
-                          </v-row>
-                           <v-row>
                                 <v-col
                                     cols="12"
-                                    sm="6"
+                                    sm="2"
                                 >
                                   <v-select
                                       dense
@@ -38,29 +38,36 @@
                                     @keydown.enter="search();"
                                  ></v-select>
                                  </v-col>
-                            </v-row>
-                           <v-row>
                                 <v-col
                                     cols="12"
-                                    sm="6"
+                                    sm="2"
                                 >
                                   <v-select
                                       dense
-                                      outlined
                                       :items="user.dataTable.education"
                                       label="최종 학력"
                                     v-model="user.query.education"
                                     @keydown.enter="search();"
                                  ></v-select>
                                  </v-col>
-                            </v-row>
-                            <v-row>
                                 <v-col
                                     cols="12"
-                                    sm="6"
+                                    sm="2"
                                 >
                                     <v-select
-                                        outlined
+                                        dense
+                                        menu-props="auto"
+                                        :items="user.dataTable.career"
+                                        label="경력"
+                                        v-model="user.query.career"
+                                        @keydown.enter="search();"
+                                    ></v-select>
+                                </v-col>
+                                <v-col
+                                    cols="12"
+                                    sm="2"
+                                >
+                                    <v-select
                                         dense
                                         menu-props="auto"
                                         :items="user.dataTable.career"
@@ -73,7 +80,7 @@
                             <v-row>
                                 <v-col
                                     cols="12"
-                                    sm="6"
+                                    sm="3"
                                 >
                                     <v-select
                                         outlined

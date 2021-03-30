@@ -62,9 +62,6 @@ public class PersonEntity {
     @Column (name = "`certificate_status`", columnDefinition = "char(1)", nullable = true)
     private String certificateStatus;
 
-    @Column (name = "`skill`", columnDefinition = "varchar(100)", nullable = true)
-    private String skill;
-
     @Column (name = "`role`", columnDefinition = "varchar(100)", nullable = true)
     private String role;
 

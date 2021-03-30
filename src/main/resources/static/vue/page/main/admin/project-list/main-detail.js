@@ -42,10 +42,19 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                     "person":{
                         "dataTable": {
                             "items":[],
-                            "itemsPerPage":0,
                             "totalRows": 0,
                             "page":2,
-
+                            "loading":false,
+                            "options": {
+                                "page": 1,
+                                "itemsPerPage": 10,
+                                "sortBy": [],
+                                "sortDesc": [],
+                                "groupBy": [],
+                                "groupDesc": [],
+                                "multiSort": true,
+                                "mustSort": false
+                            },
                         },
                         "pagination": {
                             "length": 10,
@@ -58,25 +67,30 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
             },
             "watch": {
 
-/*                 "user.dataTable.itemsPerPage": {
-                    "handler": function (newValue, oldValue) {
-                        Promise.resolve()
-                            .then(this.setUserInfoList)
-                            .then(this.replaceQuery)
-                    }
+                "person.dataTable.options.page": {
+                    "handler": async function(n, o) {
+                        await this.setPersonInfo();
+                    },
+                    "deep": true
+                },
+                "person.dataTable.options.itemsPerPage": {
+                    "handler": async function(n, o) {
+                        await this.setPersonInfo();
+                    },
+                    "deep": true
+                },
+                "person.dataTable.options.sortDesc": {
+                    "handler": async function (n, o) {
+                        await this.setPersonInfo();
+                    },
+                    "deep": true
                 }
-            },
-*/
-
-
-
 
             },
             "methods":{
 
                 "setProjectInfo": async function(){
                     var self =this;
-
                     var id = await self.$route.query.id;
                         return new Promise(function (resolve, reject) {
                             Promise.resolve()
@@ -90,36 +104,24 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                         });
                 },
 
-
-
-                "serPersonInfo": async function() {
+                "setPersonInfo": async function(){
                     var self = this;
                     var projectId = await self.$route.query.id;
-                        return new Promise(function (resolve, reject){
-                            Promise.resolve()
-                                .then(function (){
-                                    // return projectId 값으로 tb_proj_person 을 찾아서 해당 프로젝트에 대한 id 값들을 가져온다.
-                                    var params = {};
-                                    params.projectId = !_.isEmpty(projectId) ? projectId : null;
-                                    return ito.api.common.projectPerson.getProjectPersonList(params)
-                                })
-                                .then(function (response) {
-                                    self.person.items = response.data;
-                                }).then(function (){
-                                    resolve();
-                                })
-                        })
+                    var params = {};
+                    params.projectId = !_.isEmpty(projectId) ? projectId : null;
+                    self.person.dataTable.loading = true;
+                    var data = (await ito.api.common.projectPerson.getProjectPersonList(params)).data
+                    self.person.dataTable.items = data.items.map(e=> e.person);
+                    self.person.dataTable.totalRows = data.totalRows;
+                    console.log(" items 값  출력      " + self.person.dataTable.items)
+                    self.person.dataTable.loading = false;
                 },
-                "getPersonInfoList": async function(){
-                    var self = this;
-                }
 
             },
             "mounted": async function () {
                 var self = this;
-                console.log(self.$route.query.id)
                 await self.setProjectInfo();
-                await self.serPersonInfo();
+                await self.setPersonInfo();
             }
         });
     });

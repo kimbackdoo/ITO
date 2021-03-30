@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -13,6 +14,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import kr.co.metasoft.ito.api.common.entity.id.ProjectPersonEntityId;
 import kr.co.metasoft.ito.common.validation.group.CreateValidationGroup;
 import kr.co.metasoft.ito.common.validation.group.ModifyValidationGroup;
 import lombok.AllArgsConstructor;
@@ -24,6 +26,7 @@ import lombok.ToString;
 
 @Entity
 @Table (name = "`tb_project_person`")
+@IdClass (value = ProjectPersonEntityId.class)
 @EntityListeners (value = {AuditingEntityListener.class})
 @Getter
 @Setter
@@ -39,6 +42,7 @@ public class ProjectPersonEntity {
     private Long projectId;
 
     @NotNull (groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
+    @Id
     @Column (name = "`person_id`", columnDefinition = "bigint(20)")
     private Long personId;
 

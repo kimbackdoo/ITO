@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import kr.co.metasoft.ito.api.common.dto.ProjectPersonParamDto;
-import kr.co.metasoft.ito.api.common.entity.PersonEntity;
 import kr.co.metasoft.ito.api.common.entity.ProjectPersonEntity;
 import kr.co.metasoft.ito.common.util.PageRequest;
 
@@ -15,7 +14,7 @@ import kr.co.metasoft.ito.common.util.PageRequest;
 @Mapper
 public interface ProjectPersonMapper {
 
-    public List<PersonEntity> selectProjectPersonList(
+    public List<ProjectPersonEntity> selectProjectPersonList(
             @Param (value = "projectPersonParamDto") ProjectPersonParamDto projectPersonParamDto,
             @Param (value = "pageRequest") PageRequest pageRequest);
 

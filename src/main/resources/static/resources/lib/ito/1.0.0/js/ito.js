@@ -300,7 +300,9 @@ ito = {
                 "removeProjectSkill": function (projectId, skill) { return axios({"url": "/api/common/project-skills/"+ projectId + "," + skill, "method": "delete"}); }
             },
             "projectPerson": {
-                "getProjectPersonList": function(params) {return axios({"url": "/api/common/project-person", "method": "get", "params": params}); }
+                "getProjectPersonList": function(params) {return axios({"url": "/api/common/project-person", "method": "get", "params": params}); },
+                "createProjectPerson": function (data) { return axios({"url": "/api/common/project-person?bulk", "method": "post", "data": data}); },
+                "removeProjectPerson": function (projectId, personId) { return axios({"url": "/api/common/project-person/"+ projectId + "," + personId, "method": "delete"}); }
             }
 
         },

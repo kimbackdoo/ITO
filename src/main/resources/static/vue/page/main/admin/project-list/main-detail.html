@@ -53,39 +53,30 @@
                         </v-row>
                         <v-row>
                             <div>
-                                  <div style="width: 200px;">
-                                      <h3>지원자 수 : {{person.dataTable.totalRows}}명</h3>
-                                  </div>
                                     <br />
-                                    <v-data-table
-                                        fixed-header
-                                        hide-default-footer
-                                        :headers="project.dataTable.headers"
-                                        :items="person.dataTable.items"
-                                        :items-per-page.sync="person.dataTable.itemsPerPage"
-                                    >
-                                   <template v-slot:item.name="{ item }">
-                                        <v-btn
-                                            text
-                                            @click=""
-                                        >{{ item.name }}</v-btn>
-                                    </template>
-                                </v-data-table>
-                                <v-pagination
-                                    class="mt-2"
-                                    v-model="person.dataTable.page"
-                                    :length="person.pagination.length"
-                                    :total-visible="person.pagination.totalVisible"
-                                ></v-pagination>
+                                 <data-table-custom-component
+                                    :headers="project.dataTable.headers"
+                                    :items="person.dataTable.items"
+                                    :totalRows="person.dataTable.totalRows"
+                                    :page.sync="person.dataTable.options.page"
+                                    :itemsPerPage.sync="person.dataTable.options.itemsPerPage"
+                                    :loading="person.dataTable.loading"
+                                    :sortBy.sync="person.dataTable.options.sortBy"
+                                    :sortDesc.sync="person.dataTable.options.sortDesc"
+                                    :groupBy.sync="person.dataTable.options.groupBy"
+                                    :groupDesc.sync="person.dataTable.options.groupDesc"
+                                    :multiSort.sync="person.dataTable.options.multiSort"
+                                    :mustSort.sync="person.dataTable.options.mustSort"
+                                    :import-hide="true"
+                                    :add-hide="true"
+                                    :remove-hide="true"
+                                    :count-title="{'front': '지원자 수 :', 'end': '명'}"
+                                 >
                             </div>
                         </v-row>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
-
-
-
-
         </v-col>
     </v-row>
 </div>

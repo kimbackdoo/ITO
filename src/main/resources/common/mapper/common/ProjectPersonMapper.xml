@@ -4,23 +4,28 @@
 
     <sql id="selectFrom">
         SELECT
+            `project_person`.`project_id`,
             `project_person`.`person_id`,
-            `project_person_person`.`name`,
-            `project_person_person`.`phone_number`,
-            `project_person_person`.`job_type`,
-            `project_person_person`.`input_status`,
-            `project_person_person`.`certificate_status`,
-            `project_person_person`.`career`,
-            `project_person_person`.`pay`,
-            `project_person_person`.`workable_day`,
-            `project_person_person`.`postcode`,
-            `project_person_person`.`address`,
-            `project_person_person`.`detail_address`,
-            `project_person_person`.`email`,
-            `project_person_person`.`website`,
-            `project_person_person`.`education`,
-            `project_person_person`.`birth_date`,
-            `project_person_person`.`status`
+            `project_person_person`.`id` AS `project_person_person_id`,
+            `project_person_person`.`name` AS `project_person_person_name`,
+            `project_person_person`.`phone_number` AS `project_person_person_phone_number`,
+            `project_person_person`.`job_type` AS `project_person_person_job_type`,
+            `project_person_person`.`input_status` AS `project_person_person_inpute_status`,
+            `project_person_person`.`certificate_status` AS `project_person_person_certificate_status`,
+            `project_person_person`.`career` AS `project_person_person_career`,
+            `project_person_person`.`role` AS `project_person_person_role`,
+            `project_person_person`.`pay` AS `project_person_person_pay`,
+            `project_person_person`.`workable_day` AS `project_person_person_workable_day`,
+            `project_person_person`.`postcode` AS `project_person_person_postcode`,
+            `project_person_person`.`address` AS `project_person_person_address`,
+            `project_person_person`.`detail_address` AS `project_person_person_detail_address`,
+            `project_person_person`.`email` AS `project_person_person_email`,
+            `project_person_person`.`website` AS `project_person_person_website`,
+            `project_person_person`.`education` AS `project_person_person_education`,
+            `project_person_person`.`birth_date` AS `project_person_person_birth_date`,
+            `project_person_person`.`status` AS `project_person_person_status`,
+            `project_person_person`.`created_date` AS `project_person_person_created_date`,
+            `project_person_person`.`last_modified_date` AS `project_person_person_last_modified_date`
         FROM
             `tb_project_person` `project_person`
         LEFT OUTER JOIN
@@ -36,31 +41,39 @@
 
     <sql id="where">
         <where>
+            <if test="projectPersonParamDto.projectId != null and projectPersonParamDto.projectId != ''">
+                AND `project_person`.`project_id` = #{projectPersonParamDto.projectId}
+            </if>
         </where>
     </sql>
 
 
-    <resultMap id="personResultMap" type="kr.co.metasoft.ito.api.common.entity.PersonEntity">
-        <result property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="phoneNumber" column="phone_number"/>
-        <result property="jobType" column="job_type"/>
-        <result property="inputStatus" column="input_status"/>
-        <result property="certificateStatus" column="certificate_status"/>
-        <result property="skill" column="skill"/>
-        <result property="career" column="career"/>
-        <result property="pay" column="pay"/>
-        <result property="workableDay" column="workable_day"/>
-        <result property="postcode" column="postcode"/>
-        <result property="address" column="address"/>
-        <result property="detailAddress" column="detail_address"/>
-        <result property="email" column="email"/>
-        <result property="website" column="website"/>
-        <result property="education" column="education"/>
-        <result property="birthDate" column="birth_date"/>
-        <result property="status" column="status"/>
-        <result property="createdDate" column="created_date"/>
-        <result property="lastModifiedDate" column="last_modified_date"/>
+    <resultMap id="personResultMap" type="kr.co.metasoft.ito.api.common.entity.ProjectPersonEntity">
+        <result property="projectId" column="project_id" />
+        <result property="personId" column="person_id" />
+        <association property="person" columnPrefix="project_person_person_">
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="phoneNumber" column="phone_number"/>
+            <result property="jobType" column="job_type"/>
+            <result property="inputStatus" column="input_status"/>
+            <result property="certificateStatus" column="certificate_status"/>
+            <result property="role" column="role"/>
+            <result property="career" column="career"/>
+            <result property="pay" column="pay"/>
+            <result property="workableDay" column="workable_day"/>
+            <result property="postcode" column="postcode"/>
+            <result property="address" column="address"/>
+            <result property="detailAddress" column="detail_address"/>
+            <result property="email" column="email"/>
+            <result property="website" column="website"/>
+            <result property="education" column="education"/>
+            <result property="birthDate" column="birth_date"/>
+            <result property="status" column="status"/>
+            <result property="createdDate" column="created_date"/>
+            <result property="lastModifiedDate" column="last_modified_date"/>
+        </association>
+
     </resultMap>
 
     <select
