@@ -10,7 +10,6 @@
             `project_person_person`.`job_type`,
             `project_person_person`.`input_status`,
             `project_person_person`.`certificate_status`,
-            `project_person_person`.`skill`,
             `project_person_person`.`career`,
             `project_person_person`.`pay`,
             `project_person_person`.`workable_day`,
@@ -23,13 +22,13 @@
             `project_person_person`.`birth_date`,
             `project_person_person`.`status`
         FROM
-            `tb_proj_person` `project_person`
+            `tb_project_person` `project_person`
         LEFT OUTER JOIN
             `tb_person` `project_person_person`
         ON
             `project_person`.`person_id` = `project_person_person`.`id`
         LEFT OUTER JOIN
-            `tb_proj` `project_person_proj`
+            `tb_proj` `project_person_project`
         ON
             `project_person`.`project_id` = `project_person_project`.`id`
 

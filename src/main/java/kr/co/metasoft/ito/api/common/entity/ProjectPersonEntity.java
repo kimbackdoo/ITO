@@ -45,7 +45,7 @@ public class ProjectPersonEntity {
     @ManyToOne
     @NotFound (action = NotFoundAction.IGNORE)
     @JoinColumn (name = "`project_id`", referencedColumnName = "`id`", insertable = false, updatable = false)
-    private UserEntity project;
+    private ProjectEntity project;
 
     @ManyToOne
     @NotFound (action = NotFoundAction.IGNORE)
