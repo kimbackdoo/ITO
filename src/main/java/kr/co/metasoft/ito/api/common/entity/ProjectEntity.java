@@ -84,6 +84,11 @@ public class ProjectEntity {
     @Column(name = "term" , columnDefinition = "varchar(255)", nullable = true)
     private String term;
 
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
+    @Column (name = "`limit_date`", columnDefinition = "date", nullable = true)
+    private LocalDate limitDate;
+
     @CreatedDate
     @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")

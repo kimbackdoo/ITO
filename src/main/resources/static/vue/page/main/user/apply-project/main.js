@@ -54,7 +54,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                             {"text": "필요인원", "value": "prsnl"},
                             {"text": "현황", "value": "status"},
                             {"text": "월급여", "value": "salary"},
-                            {"text": "모집마감일", "value": "calc"},
+                            {"text": "모집마감일", "value": "limitDate"},
                         ],
                         "query": {
                             "projectName": null,
@@ -159,6 +159,13 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     "status": self.project.dataTable.query.status,
                     "salary": self.project.dataTable.query.salary,
                 })).data;
+
+                let limitDate, limitDay;
+                for(var i=0; i<projectList.items.length; i++) {
+                    limitDate = moment(projectList.items[i].limitDate).format("MM-DD");
+                    limitDay = moment().diff(moment(projectList.items[i].limitDate), "day");
+                    projectList.items[i].limitDate = limitDate + " (D-" + limitDay + ")";
+                }
 
                 self.project.dataTable.totalRows = projectList.totalRows;
                 self.project.dataTable.items = projectList.items;

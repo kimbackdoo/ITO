@@ -16,6 +16,7 @@
             `proj`.`status`,
             `proj`.`salary`,
             `proj`.`term`,
+            `proj`.`limit_date`,
             `proj`.`created_date`,
             `proj`.`last_modified_date`
         FROM
@@ -73,6 +74,7 @@
         <result property="term" column="term" />
         <result property="createdDate" column="created_date" />
         <result property="lastModifiedDate" column="last_modified_date" />
+        <result property="limitDate" column="limit_date" />
     </resultMap>
 
 

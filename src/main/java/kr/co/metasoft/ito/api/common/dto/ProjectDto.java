@@ -41,4 +41,8 @@ public class ProjectDto {
     private Long salary;
 
     private String term;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate limitDate;
 }

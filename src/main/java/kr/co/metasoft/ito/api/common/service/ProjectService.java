@@ -38,6 +38,8 @@ public class ProjectService {
         pageResponse.setItems(projectList);
 
         System.out.println("===========================================================================");
+
+        System.out.println("===========================================================================");
         System.out.println("NameLike: " + projectParamDto.getNameLike());
         System.out.println("Job: " + projectParamDto.getJob());
         System.out.println("skillList: " + projectParamDto.getSkillList());
@@ -58,10 +60,6 @@ public class ProjectService {
 
     @Transactional
     public ProjectEntity modifyProject(ProjectEntity projectEntity) { return projectRepository.save(projectEntity); }
-
-    /*
-     * @Transactional public void removeProjectList(List<Long> idList) { }
-     */
 
     @Validated (value = {RemoveValidationGroup.class})
     @Transactional
