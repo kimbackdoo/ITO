@@ -25,7 +25,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                             ],
                         },
                         "items": {
-                            "adminProjId":null,
+                            "id":null,
                             "name": "",
                             "skill": "",
                             "degree":"",
@@ -77,7 +77,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                 "setProjectInfo": async function(){
                     var self =this;
 
-                    var id = await self.$route.query.adminProjId;
+                    var id = await self.$route.query.id;
                         return new Promise(function (resolve, reject) {
                             Promise.resolve()
                                 .then(function () {
@@ -94,7 +94,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
 
                 "serPersonInfo": async function() {
                     var self = this;
-                    var projectId = await self.$route.query.adminProjId;
+                    var projectId = await self.$route.query.id;
                         return new Promise(function (resolve, reject){
                             Promise.resolve()
                                 .then(function (){
@@ -117,7 +117,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
             },
             "mounted": async function () {
                 var self = this;
-                console.log(self.$route.query.adminProjId)
+                console.log(self.$route.query.id)
                 await self.setProjectInfo();
                 await self.serPersonInfo();
             }

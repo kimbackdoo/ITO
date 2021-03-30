@@ -83,7 +83,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             "totalVisible": 10
                         },
                         "query": {
-                            "adminProjId":null,
+                            "id":null,
                             "name": "",
                             "job": "",
                             "skill": "",
@@ -134,16 +134,16 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     this.$router.push({
                         "path": "/main/admin/project-info-form",
                         "query": {
-                            "adminProjId": value
+                            "id": value
                         }
                       });
                 },
                 "DetailProjectInfo": function(value){
-                    console.log("id값 호출   "+value.adminProjId)
+                    console.log("id값 호출   "+value.id)
                     this.$router.push({
                         "path": "/main/admin/project-list/detail",
                         "query": {
-                            "adminProjId": value.adminProjId
+                            "id": value.id
                         }
                     });
                 },
@@ -153,7 +153,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
 
 
                     self.project.selected.forEach(e => {
-                        deleteList.push(e.adminProjId);
+                        deleteList.push(e.id);
                     });
                     console.log("삭제할 리스트 id 값들  "+deleteList);
 
@@ -206,7 +206,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                 "getQuery": function () {
                     var query = {},
                     routeQuery = this.$route.query;
-                    query.adminProjId = routeQuery.adminProjId ? routeQuery.adminProjId : this.project.query.adminProjId;
+                    query.id = routeQuery.id ? routeQuery.id : this.project.query.id;
                     query.page = routeQuery.page ? routeQuery.page : String(this.project.dataTable.page);
                     query.size = routeQuery.size ? routeQuery.size : String(this.project.dataTable.itemsPerPage);
                     query.name = routeQuery.name ? routeQuery.name : this.project.query.name;
@@ -242,7 +242,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     var query = {},
                     routeQuery = this.$route.query;
 
-                    query.adminProjId = this.project.query.adminProjId;
+                    query.id = this.project.query.id;
                     query.page = String(this.project.dataTable.page);
                     query.size = String(this.project.dataTable.itemsPerPage);
                     query.name = String(this.project.query.name);

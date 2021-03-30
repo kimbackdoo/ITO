@@ -1,6 +1,7 @@
 package kr.co.metasoft.ito.api.common.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -37,9 +40,9 @@ public class ProjectEntity {
     @Null (groups = {CreateValidationGroup.class})
     @NotNull (groups = {ModifyValidationGroup.class})
     @Id
-    @Column(name = "admin_proj_id" , columnDefinition = "bigint(20)")
+    @Column(name = "id" , columnDefinition = "bigint(20)")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long adminProjId;
+    private Long id;
 
     @Column(name = "name" , columnDefinition = "varchar(100)", nullable = true)
     private String name;
@@ -81,5 +84,16 @@ public class ProjectEntity {
     @Column(name = "term" , columnDefinition = "varchar(255)", nullable = true)
     private String term;
 
+    @CreatedDate
+    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column (name = "`created_date`", columnDefinition = "datetime", nullable = false, updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column (name = "`last_modified_date`", columnDefinition = "datetime", nullable = false)
+    private LocalDateTime lastModifiedDate;
 
 }

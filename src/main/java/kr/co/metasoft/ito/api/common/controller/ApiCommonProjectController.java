@@ -24,10 +24,10 @@ public class ApiCommonProjectController {
         return projectService.getProjectList(projectParamDto, pageRequest);
     }
 
-    @GetMapping(path = "{adminProjectId}")
+    @GetMapping(path = "{id}")
     public ProjectEntity getProject(
-            @PathVariable(name = "adminProjectId") Long adminProjectId) {
-        return projectService.getProfile(adminProjectId);
+            @PathVariable(name = "id") Long id) {
+        return projectService.getProfile(id);
     }
 
     @PostMapping(path = "")
@@ -36,11 +36,11 @@ public class ApiCommonProjectController {
         return projectService.createProject(projectEntity);
     }
 
-    @PutMapping(path = "{adminProjectId}")
+    @PutMapping(path = "{id}")
     public ProjectEntity modifyProject(
-            @PathVariable(name = "adminProjectId") Long adminProjectId,
+            @PathVariable(name = "id") Long id,
             @RequestBody ProjectEntity projectEntity) {
-        projectEntity.setAdminProjId(adminProjectId);
+        projectEntity.setId(id);
         return projectService.modifyProject(projectEntity);
     }
 

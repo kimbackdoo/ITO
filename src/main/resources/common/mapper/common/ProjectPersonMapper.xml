@@ -31,7 +31,7 @@
         LEFT OUTER JOIN
             `tb_proj` `project_person_proj`
         ON
-            `project_person`.`project_id` = `project_person_project`.`admin_proj_id`
+            `project_person`.`project_id` = `project_person_project`.`id`
 
     </sql>
 

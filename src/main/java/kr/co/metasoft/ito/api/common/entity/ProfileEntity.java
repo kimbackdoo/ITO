@@ -1,21 +1,46 @@
 package kr.co.metasoft.ito.api.common.entity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import kr.co.metasoft.ito.common.validation.group.CreateValidationGroup;
+import kr.co.metasoft.ito.common.validation.group.ModifyValidationGroup;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
-import java.time.LocalDate;
+import lombok.ToString;
 
 @Entity
 @Table(name = "tb_prof")
 @EntityListeners(value = {AuditingEntityListener.class})
 @Getter
 @Setter
-//@Builder
+@ToString
+@Builder
 public class ProfileEntity {
+
+
+    @Null (groups = {CreateValidationGroup.class})
+    @NotNull (groups = {ModifyValidationGroup.class})
     @Id
-    @Column(name = "user_prof_id")
+    @Column(name = "user_prof_id", columnDefinition = "bigint(20)")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userProfId;
 
@@ -54,4 +79,16 @@ public class ProfileEntity {
 
     @Column(name = "job")
     private String job;
+
+    @CreatedDate
+    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column (name = "`created_date`", columnDefinition = "datetime", nullable = false, updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column (name = "`last_modified_date`", columnDefinition = "datetime", nullable = false)
+    private LocalDateTime lastModifiedDate;
 }

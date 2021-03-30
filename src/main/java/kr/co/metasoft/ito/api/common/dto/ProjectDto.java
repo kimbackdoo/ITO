@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectDto {
-    private Long adminProjId;
+    private Long id;
 
     private String name;
 

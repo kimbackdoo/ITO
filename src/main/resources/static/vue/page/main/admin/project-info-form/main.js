@@ -58,7 +58,7 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                             {"text":"9명", "value": 9},
                         ],
                         "query": {
-                            "adminProjId":null,
+                            "id":null,
                             "name": "",
                             "job": "",
                             "skill": "",
@@ -73,7 +73,7 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                             "term":"",
                         },
                         "default": {
-                            "adminProjId":null,
+                            "id":null,
                             "name": "",
                             "job": "",
                             "skill": "",
@@ -112,11 +112,11 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                     var self = this;
                     var data = self.project.query;
                     console.log("save 함수 실행 ")
-                    if(data.adminProjId == null){
+                    if(data.id == null){
                         await ito.api.common.project.createProject(data);
                         console.log("create 실행 완료")
                     } else {
-                        await ito.api.common.project.modifyProject(data.adminProjId, data);
+                        await ito.api.common.project.modifyProject(data.id, data);
                     }
                     await ito.alert("저장 성공!!");
                     await self.$router.back();
@@ -126,7 +126,7 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                 "setProjectInfo": async function(){
                     var self =this;
 
-                    var id = await self.$route.query.adminProjId;
+                    var id = await self.$route.query.id;
                     console.log("파라미터 id 값 출력 :  " +id);
                         return new Promise(function (resolve, reject) {
                             Promise.resolve()

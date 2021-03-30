@@ -50,7 +50,7 @@ public class ApiCommonProjectSkillController {
         for (int i = 0; i < projectSkillDtoList.size(); i++) {
             ProjectSkillDto projectSkillDto = projectSkillDtoList.get(i);
             ProjectSkillEntity projectSkillEntity = ProjectSkillEntity.builder()
-                    .projId(projectSkillDto.getProjId())
+                    .projectId(projectSkillDto.getProjectId())
                     .skill(projectSkillDto.getSkill())
                     .build();
             projectSkillList.add(projectSkillEntity);
@@ -62,7 +62,7 @@ public class ApiCommonProjectSkillController {
     public ProjectSkillEntity createProjectSkill(
             @RequestBody ProjectSkillDto projectSkillDto) {
         ProjectSkillEntity projectSkillEntity = ProjectSkillEntity.builder()
-                .projId(projectSkillDto.getProjId())
+                .projectId(projectSkillDto.getProjectId())
                 .skill(projectSkillDto.getSkill())
                 .build();
         return projectSkillService.createProjectSkill(projectSkillEntity);
@@ -75,7 +75,7 @@ public class ApiCommonProjectSkillController {
         for (int i = 0; i < projectSkillDtoList.size(); i++) {
             ProjectSkillDto projectSkillDto = projectSkillDtoList.get(i);
             ProjectSkillEntity projectSkillEntity = ProjectSkillEntity.builder()
-                    .projId(projectSkillDto.getProjId())
+                    .projectId(projectSkillDto.getProjectId())
                     .skill(projectSkillDto.getSkill())
                     .build();
             projectSkillList.add(projectSkillEntity);
@@ -89,7 +89,7 @@ public class ApiCommonProjectSkillController {
             @PathVariable (name = "skill") String skill,
             @RequestBody ProjectSkillDto projectSkillDto) {
         ProjectSkillEntity projectSkillEntity = ProjectSkillEntity.builder()
-                .projId(projectId)
+                .projectId(projectId)
                 .skill(skill)
                 .build();
         return projectSkillService.modifyProjectSkill(projectSkillEntity);

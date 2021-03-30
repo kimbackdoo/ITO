@@ -3,7 +3,7 @@
 <mapper namespace="kr.co.metasoft.ito.api.common.mapper.ProjectMapper">
     <sql id="selectFrom">
         SELECT
-            `proj`.`admin_proj_id`,
+            `proj`.`id`,
             `proj`.`name`,
             `proj`.`job`,
             `proj`.`skill`,
@@ -56,7 +56,7 @@
     </sql>
 
     <resultMap id="projectResultMap" type="kr.co.metasoft.ito.api.common.entity.ProjectEntity">
-        <result property="adminProjId" column="admin_proj_id" />
+        <result property="id" column="id" />
         <result property="name" column="name" />
         <result property="job" column="job" />
         <result property="skill" column="skill" />

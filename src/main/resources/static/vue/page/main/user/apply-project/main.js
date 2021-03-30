@@ -125,7 +125,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 this.$router.push({
                     "path": "/main/user/apply-project/detail",
                     "query": {
-                        "id": value.adminProjId
+                        "id": value.id
                     }
                 });
             },

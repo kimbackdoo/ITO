@@ -15,7 +15,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ProjectSkillParamDto {
 
-    private Long projId;
+    private Long projectId;
 
     private String skill;
 

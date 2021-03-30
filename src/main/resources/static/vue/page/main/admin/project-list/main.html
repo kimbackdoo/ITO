@@ -194,14 +194,14 @@
                             :items-per-page.sync="project.dataTable.itemsPerPage"
                             @page-count="project.pagination.length = $event"
                             show-select
-                            item-key="adminProjId"
+                            item-key="id"
                             v-model=project.selected
                             >
                             <template v-slot:item.actions="{item}">
                                 <v-icon
                                     small
                                     class="mr-2"
-                                    @click="editProjectInfo(item.adminProjId)"
+                                    @click="editProjectInfo(item.id)"
                                 >mdi-pencil</v-icon>
                             </template>
 

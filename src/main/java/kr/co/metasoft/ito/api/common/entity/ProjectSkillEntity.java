@@ -38,8 +38,8 @@ public class ProjectSkillEntity {
 
     @NotNull (groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
     @Id
-    @Column (name = "`proj_id`", columnDefinition = "bigint(20)")
-    private Long projId;
+    @Column (name = "`project_id`", columnDefinition = "bigint(20)")
+    private Long projectId;
 
     @NotNull (groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
     @Id
@@ -48,7 +48,7 @@ public class ProjectSkillEntity {
 
     @ManyToOne
     @NotFound (action = NotFoundAction.IGNORE)
-    @JoinColumn (name = "`proj_id`", referencedColumnName = "`admin_proj_id`", insertable = false, updatable = false)
+    @JoinColumn (name = "`proj_id`", referencedColumnName = "`id`", insertable = false, updatable = false)
     private ProjectEntity project;
 
     @ManyToOne

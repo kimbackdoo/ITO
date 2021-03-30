@@ -25,7 +25,7 @@ public class ProjectSkillEntityId implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull (groups = {RemoveValidationGroup.class})
-    private Long projId;
+    private Long projectId;
 
     @NotNull (groups = {RemoveValidationGroup.class})
     private String skill;

@@ -51,7 +51,7 @@ public class ProjectService {
     }
 
     @Transactional
-    public ProjectEntity getProfile(Long adminProjId) { return projectRepository.findById(adminProjId).orElse(null); }
+    public ProjectEntity getProfile(Long id) { return projectRepository.findById(id).orElse(null); }
 
     @Transactional
     public ProjectEntity createProject(ProjectEntity projectEntity) { return projectRepository.save(projectEntity); }
@@ -70,7 +70,7 @@ public class ProjectService {
             List<ProjectEntity> projectList = new ArrayList<>();
             for (int i = 0; i < idList.size(); i++) {
                 Long id = idList.get(i);
-                projectList.add(ProjectEntity.builder().adminProjId(id).build());
+                projectList.add(ProjectEntity.builder().id(id).build());
              }
         projectRepository.deleteAll(projectList);
     }

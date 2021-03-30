@@ -89,9 +89,9 @@ public class ProjectSkillService {
         List<ProjectSkillEntity> projectSkillList = new ArrayList<>();
         for (int i = 0; i < projectSkillEntityIdList.size(); i++) {
             ProjectSkillEntityId projectSkillEntityId = projectSkillEntityIdList.get(i);
-            Long projectId = projectSkillEntityId.getProjId();
+            Long projectId = projectSkillEntityId.getProjectId();
             String skill = projectSkillEntityId.getSkill();
-            projectSkillList.add(ProjectSkillEntity.builder().projId(projectId).skill(skill).build());
+            projectSkillList.add(ProjectSkillEntity.builder().projectId(projectId).skill(skill).build());
         }
         projectSkillRepository.deleteAll(projectSkillList);
     }
@@ -101,7 +101,7 @@ public class ProjectSkillService {
     public void removeProjectSkill(
             @Valid @NotNull (groups = {RemoveValidationGroup.class}) Long projectId,
             @Valid @NotNull (groups = {RemoveValidationGroup.class}) String skill) {
-        projectSkillRepository.delete(ProjectSkillEntity.builder().projId(projectId).skill(skill).build());
+        projectSkillRepository.delete(ProjectSkillEntity.builder().projectId(projectId).skill(skill).build());
     }
 
 }
