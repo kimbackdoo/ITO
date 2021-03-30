@@ -118,9 +118,6 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             {"text": "50", "value": 50}
                         ]
                       },
-                      "query": {
-                         "id":"",
-                    },
                   }
                };
             },
@@ -136,6 +133,7 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         this.user.dataTable.addressSelect=this.user.dataTable.addressIndex[value];
                     }
                 },
+
             },
             "methods": {
                 "setUserInfo": function () {

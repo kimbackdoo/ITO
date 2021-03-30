@@ -48,12 +48,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                  {"text":"보유", "value":"T"},
                                  {"text":"없음", "value":"F"},
                             ],
-                            "jobTypeItems": [
-                                 {"text":"개발자", "value":"개발자"},
-                                 {"text":"기획자", "value":"기획자"},
-                                 {"text":"퍼블리셔", "value":"퍼블리셔"},
-                                 {"text":"디자이너", "value":"디자이너"}
-                             ],
                             "address": [
                                 {"text":"서울특별시", "value":0},
                                 {"text":"경기도", "value":1},
@@ -80,17 +74,38 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         },
                         "query": {
                             "id":0,
-                            "name": "",
-                            "jobType": "",
-                            "career": "",
-                            "phoneNumber":"",
-                            "education":"",
-                            "certificateStatus": "",
-                            "pay": "",
-                            "address": "",
-                            "inputStatus":"",
-                            "birthDate":"",
-                            "workableDay":"",
+                            "name": null,
+                            "job": null,
+                            "skill":null,
+                            "career": null,
+                            "phoneNumber":null,
+                            "education":null,
+                            "certificateStatus": null,
+                            "pay": null,
+                            "address": null,
+                            "inputStatus":null,
+                            "birthDate":null,
+                            "workableDay":null,
+                        },
+                    },
+                    "select": {
+                        "job": {
+                            "items": [
+                                {"text": "전체", "value": null}
+                            ]
+                        },
+                        "skill": {
+                            "items": [
+                                {"text": "전체", "value": null}
+                            ]
+                        },
+                        "status": {
+                            "items": [
+                                {"text": "섭외", "value": "A"},
+                                {"text": "완료", "value": "C"},
+                                {"text": "면접", "value": "I"},
+                                {"text": "투입", "value": "P"}
+                            ]
                         },
                     },
                     "dialog": {
@@ -117,7 +132,32 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         await this.setUserInfoList();
                     },
                     "deep": true
-                }
+                },
+
+                "user.query.job": {
+                    "handler": async function () {
+                        var self = this;
+                        let items,
+                            skill = self.select.job.items.find(e=>e.value == self.user.query.job);
+
+                        self.select.skill.items = [];
+                        items = (await ito.api.common.code.getCodeList({
+                            "idStartLike": "004",
+                            "status": "T",
+                            "skill": skill !== undefined ? skill.text : null,
+                            "rowSize": 1000000
+                        })).data.items.map(e=>({"text": e.name, "value": e.id}));
+                        items = items.filter(e=> {
+                            if(e.value.startsWith("00401")) return e.value.length > 7;
+                            else return e.value.length > 5;
+                        });
+                        self.select.skill.items.push(
+                            {"text": "전체", "value": null},
+                            ...items
+                        );
+                        self.user.query.skill = [];
+                    }
+                },
             },
             "methods": {
                 "editUserInfo": function(value){
@@ -143,7 +183,16 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         }
                         self.setUserInfoList();
                     }
-
+                },
+                "loadJobItems": async function() {
+                    var self = this;
+                    let items;
+                    items = (await ito.api.common.code.getCodeList({
+                        "parentId": "001",
+                        "sort": ["ranking, asc"],
+                        "rowSize": 1000000
+                    })).data.items.map(e=>({"text": e.name, "value": e.id}));
+                    self.select.job.items.push(...items);
                 },
                 "setUserInfoList": async function () {
                     var self = this,
@@ -190,6 +239,8 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 self.user.query.inputStatus = "";
                                 self.user.query.education = "";
                                 self.user.query.certificateStatus = "";
+                                self.user.query.job = "";
+                                self.user.query.skill = "";
                             })
                             .then(function () {
                                 return self.search();
@@ -214,12 +265,14 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         await ito.alert(returnType.data.returnMsg);
                         this.dialog.visible = false;
                         this.setUserInfoList();
+                        this.loadJobItems();
                     }
                 }
             },
             "mounted": async function () {
                 Promise.all([
-                    this.setUserInfoList()
+                    this.setUserInfoList(),
+                    this.loadJobItems()
                 ]);
             }
         });

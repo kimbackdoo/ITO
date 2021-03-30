@@ -11,12 +11,13 @@
                     <v-expansion-panel-header>사용자 검색</v-expansion-panel-header>
                     <v-expansion-panel-content
                         class="overflow-y-auto"
+                        style="max-height: 700px;"
                     >
                         <v-form>
+                          <v-container>
                             <v-row>
                                 <v-col
-                                    cols="12"
-                                    sm="3"
+                                    cols="4"
                                 >
                                     <v-text-field
                                         dense
@@ -26,21 +27,44 @@
                                     ></v-text-field>
                                 </v-col>
                                 <v-col
-                                    cols="12"
-                                    sm="2"
+                                    cols="2"
                                 >
                                   <v-select
                                       dense
-                                      outlined
-                                      :items="user.dataTable.jobTypeItems"
+                                      :items="select.job.items"
                                       label="직종"
-                                    v-model="user.query.jobType"
+                                    v-model="user.query.job"
                                     @keydown.enter="search();"
                                  ></v-select>
                                  </v-col>
                                 <v-col
-                                    cols="12"
-                                    sm="2"
+                                    cols="3"
+                                >
+                                  <v-select
+                                      dense
+                                      multiple
+                                      :items="select.skill.items"
+                                      label="기술"
+                                    v-model="user.query.skill"
+                                    @keydown.enter="search();"
+                                 ></v-select>
+                                 </v-col>
+                                <v-col
+                                    cols="3"
+                                >
+                                    <v-text-field
+                                        dense
+                                        suffix="만원"
+                                        label="희망 월급여"
+                                        v-model="user.query.pay"
+                                        @keydown.enter="search();"
+                                    ></v-text-field>
+                                </v-col>
+
+                              </v-row>
+                              <v-row>
+                                <v-col
+                                    cols="3"
                                 >
                                   <v-select
                                       dense
@@ -51,39 +75,35 @@
                                  ></v-select>
                                  </v-col>
                                 <v-col
-                                    cols="12"
-                                    sm="2"
+                                    cols="3"
                                 >
-                                    <v-select
+                                    <v-text-field
                                         dense
                                         menu-props="auto"
                                         :items="user.dataTable.career"
                                         label="경력"
+                                        suffix="년"
                                         v-model="user.query.career"
                                         @keydown.enter="search();"
-                                    ></v-select>
+                                    ></v-text-field>
                                 </v-col>
                                 <v-col
-                                    cols="12"
-                                    sm="2"
+                                    cols="3"
                                 >
-                                    <v-select
+                                    <v-text-field
                                         dense
                                         menu-props="auto"
                                         :items="user.dataTable.career"
                                         label="경력"
+                                        suffix="월"
                                         v-model="user.query.career"
                                         @keydown.enter="search();"
-                                    ></v-select>
+                                    ></v-text-field>
                                 </v-col>
-                              </v-row>
-                            <v-row>
                                 <v-col
-                                    cols="12"
-                                    sm="3"
+                                    cols="3"
                                 >
                                     <v-select
-                                        outlined
                                         dense
                                         menu-props="auto"
                                         :items="user.dataTable.certificateStatus"
@@ -92,29 +112,13 @@
                                         @keydown.enter="search();"
                                     ></v-select>
                                 </v-col>
-                              </v-row>
-                               <v-row>
+                            </v-row>
+                            <v-row>
                                 <v-col
-                                    cols="12"
-                                    sm="6"
-                                >
-                                    <v-text-field
-                                        dense
-                                        suffix="만원"
-                                        label="희망 월급여"
-                                        v-model="user.query.pay"
-                                        @keydown.enter="search();"
-                                    ></v-text-field>
-                                </v-col>
-                              </v-row>
-                               <v-row>
-                                <v-col
-                                    cols="3"
-                                    sm="6"
+                                    cols="5"
                                 >
                                     <v-select
                                         dense
-                                        outlined
                                         label="지역(시)"
                                         v-model="user.dataTable.addressValue"
                                         :items="user.dataTable.address"
@@ -122,19 +126,16 @@
                                     ></v-select>
                                 </v-col>
                                 <v-col
-                                    cols="3"
-                                    sm="6"
+                                    cols="5"
                                 >
                                     <v-select
                                         dense
-                                        outlined
                                         label="지역(구)"
                                         v-model="user.query.address"
                                         :items="user.dataTable.addressSelect"
                                         @keydown.enter="search();"
                                     ></v-select>
                                 </v-col>
-
                             </v-row>
                             <v-row>
                                 <v-col
@@ -159,6 +160,7 @@
                                     >검색</v-btn>
                                 </v-col>
                             </v-row>
+                           </v-container>
                         </v-form>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
