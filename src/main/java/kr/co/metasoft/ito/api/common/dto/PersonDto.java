@@ -34,13 +34,7 @@ public class PersonDto {
 
     private String certificateStatus;
 
-    private String skill;
-
     private String role;
-
-    private String sector;
-
-    private String language;
 
     private String career;
 

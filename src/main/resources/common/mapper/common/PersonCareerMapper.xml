@@ -11,7 +11,7 @@
             `person_career_person`.`job_type` AS `person_career_person_job_type`,
             `person_career_person`.`input_status` AS `person_career_person_input_status`,
             `person_career_person`.`certificate_status` AS `person_career_person_certificate_status`,
-            `person_career_person`.`skill` AS `person_career_person_skill`,
+            `person_career_person`.`role` AS `person_career_person_role`,
             `person_career_person`.`career` AS `person_career_person_career`,
             `person_career_person`.`pay` AS `person_career_person_pay`,
             `person_career_person`.`workable_day` AS `person_career_person_workable_day`,
@@ -67,7 +67,7 @@
             <result property="jobType" column="job_type"/>
             <result property="inputStatus" column="input_status"/>
             <result property="certificateStatus" column="certificate_status"/>
-            <result property="skill" column="skill"/>
+            <result property="role" column="role"/>
             <result property="career" column="career"/>
             <result property="pay" column="pay"/>
             <result property="workableDay" column="workable_day"/>

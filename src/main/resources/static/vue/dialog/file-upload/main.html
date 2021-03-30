@@ -1,0 +1,56 @@
+<v-dialog
+    v-model="dialog.visible"
+    persistent
+    max-width="700px"
+>
+    <v-card>
+        <v-card-title>
+            <span class="headline">파일 업로드</span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text>
+            <v-container>
+                <v-row>
+                    <v-col cols="7">
+                        <v-text-field
+                            outlined
+                            hide-details="auto"
+                            readonly
+                            v-model="dataUpload.selectedFileName"
+                        >
+                        </v-text-field>
+                    </v-col>
+                    <v-col cols="5" class="text-right">
+                        <v-btn
+                            color="primary"
+                            class="text-none ml-auto"
+                            depressed
+                            @click="onButtonClick()"
+                        >파일찾기</v-btn>
+                        <v-btn
+                            color="primary"
+                            class="text-none ml-1"
+                            depressed
+                            @click="onFileUpload()"
+                            >업로드</v-btn>
+                        <v-btn
+                            depressed
+                            color="primary"
+                            class="text-none ml-1"
+                            @click="clear()"
+                         >
+                        취소
+                        </v-btn>
+                        <input
+                            ref="uploader"
+                            class="d-none"
+                            id="hiddenFile"
+                            type="file"
+                            @change="onFileChanged"
+                        />
+                     </v-col>
+                </v-row>
+            </v-container>
+        </v-card-text>
+    </v-card>
+</v-dialog>

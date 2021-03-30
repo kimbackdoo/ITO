@@ -4,33 +4,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
             "template": response.data,
             "data": function () {
                 return {
-                    "dataUpload":{
-                        "panels": {
-                              "list": [0,1]
-                        },
-                    "dataTypeList" : [
-                        {
-                            "label" : "CMDB",
-                            "value" : 1,
-                        },
-                        {
-                            "label" : "DB백업",
-                            "value" : 2,
-                            },
-                        {
-                            "label" : "복구현황",
-                            "value" : 3,
-                        },
-                        {
-                            "label" : "백업구성도",
-                            "value" : 4,
-                        },
-                    ],
-                    "selectedFile" : null,
-                    "selectedFileName" : null,
-                    "seletedType" : 1,
-                    "uploadReferenceMonth" : moment().format('YYYY-MM'),
-                    },
                     "user": {
                         "dialog": false,
                         "panels": {
@@ -119,6 +92,10 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "birthDate":"",
                             "workableDay":"",
                         },
+                    },
+                    "dialog": {
+                        "visible": false,
+                        "title": "파일 업로드"
                     }
                 };
             },
@@ -143,64 +120,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 }
             },
             "methods": {
-    //-----------------파일 업로드 -------------------------
-                //파일 찾기 버튼
-                "onButtonClick" : function (){
-                    console.log("----------------------onButtonClick------------------")
-                    this.isSelecting = true
-                    window.addEventListener('focus', () => {
-                        this.isSelecting=false
-                    }, {once: true})
-                    this.$refs.uploader.click()
-                    console.log("----------------------uploader click ------------------")
-                },
-                "onFileChanged": function(e) {
-                    this.dataUpload.selectedFile = e.target.files[0];
-                    if(this.dataUpload.selectedFile != undefined && this.dataUpload.selectedFile != null){
-                        this.dataUpload.selectedFileName = this.dataUpload.selectedFile.name;
-                    }else{
-                        this.dataUpload.selectedFileName=null;
-                    }
-                },
-
-
-                "onFileUpload": async function() {
-                    var self = this, form = new FormData();
-
-                    //선택한 파일이 있을때
-                    if(self.dataUpload.selectedFile != null && self.dataUpload.selectedFile.size > 0){
-                        store.commit("app/SET_LOADING", true);
-                        form.append("file" , self.dataUpload.selectedFile);
-                        form.append("fileType" , self.dataUpload.seletedType);
-
-                        if(self.dataUpload.seletedType == 1 || self.dataUpload.selectedType == 2)
-                            form.append("uploadReferenceMonth" , self.dataUpload.uploadReferenceMonth);
-
-                        var returnType = await ito.api.app.dataUpload.uploadDataFile(form);
-                        console.log("---------uploadDatafile(form) 성공 -----------")
-                        store.commit("app/SET_LOADING", false);
-
-                        if(returnType.data.returnVal != 'success'){
-                            ito.alert(returnType.data.returnMsg);
-                        }else{
-                            ito.alert("업로드에 성공했습니다!!");
-                            self.fileClear();
-                            self.setUserInfoList();
-                        }
-                    }else{
-                        ito.alert("파일을 선택해주세요.");
-                    }
-                },
-                "fileClear": function() {
-                    document.getElementById("hiddenFile").value = "";
-                    this.dataUpload.selectedFileName = null;
-                    this.dataUpload.selectedFile = null;
-                },
-                "clear": function() {
-                    this.user.dialog = false;
-                    this.fileClear();
-                    self.setUserInfoList();
-                },
     //------------------------------------------------------
                 "editUserInfo": function(value){
                     this.$router.push({
@@ -278,6 +197,9 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             })
                             .then(function () { resolve(); });
                     });
+                },
+                "openDialog": function () {
+                    this.dialog.visible = true;
                 }
             },
             "mounted": async function () {

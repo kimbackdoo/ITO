@@ -18,7 +18,6 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                         {"text": "전체 보기", "value": null}
                     ],
                 },
-                "dialog": false,
                 "career": {
                     "panels": {
                         "list": [0],

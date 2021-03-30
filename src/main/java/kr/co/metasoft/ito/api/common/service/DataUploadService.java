@@ -1,14 +1,10 @@
 package kr.co.metasoft.ito.api.common.service;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,10 +20,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.metasoft.ito.api.common.dto.CodeParamDto;
 import kr.co.metasoft.ito.api.common.dto.DataUploadParamDto;
+import kr.co.metasoft.ito.api.common.entity.CodeEntity;
 import kr.co.metasoft.ito.api.common.entity.PersonEntity;
-import kr.co.metasoft.ito.api.common.mapper.DataUploadMapper;
+import kr.co.metasoft.ito.api.common.entity.PersonSkillEntity;
+import kr.co.metasoft.ito.api.common.mapper.CodeMapper;
+import kr.co.metasoft.ito.api.common.mapper.PersonMapper;
 import kr.co.metasoft.ito.api.common.repository.PersonRepository;
+import kr.co.metasoft.ito.api.common.repository.PersonSkillRepository;
+import kr.co.metasoft.ito.common.util.PageRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -35,11 +37,13 @@ import lombok.extern.slf4j.Slf4j;
 public class DataUploadService {
 
     @Autowired
-    private PersonRepository dataUploadCMDBRepository;
-
+    private PersonSkillRepository personSkillRepository;
 
     @Autowired
-    private DataUploadMapper dataUploadMapper;
+    private PersonRepository personRepository;
+
+    @Autowired
+    private CodeMapper codeMapper;
 
 
     //엑셀 항목 값
@@ -53,7 +57,33 @@ public class DataUploadService {
         String returnVal = "FAIL";
         String returnMsg = "";
         Map<String, Object> returnMap = new HashMap<>();
+        PageRequest pageRequest = new PageRequest();
+        pageRequest.setRowSize(10000000);
+        CodeParamDto codeParamDto = new CodeParamDto();
 
+        codeParamDto.setIdStartLike("001");
+        List<String> sort = new ArrayList<>();
+        sort.add("id,asc");
+        pageRequest.setSort(sort);
+        HashMap<String, String> jobMap = new HashMap<>();
+
+        for(CodeEntity job : codeMapper.selectCodeList(codeParamDto, pageRequest)) {
+            System.out.println("Key: " + job.getName() + ", Value: " + job.getValue());
+            jobMap.put(job.getName(), job.getId());
+        }
+
+        codeParamDto.setIdStartLike("004");
+        HashMap<String, String> skillMap = new HashMap<>();
+
+        String jobName = "";
+        for(CodeEntity skill : codeMapper.selectCodeList(codeParamDto, pageRequest)) {
+            if(jobMap.containsKey(skill.getName())) {
+                jobName = skill.getName();
+            }else {
+                System.out.println("Key: " + jobName+skill.getName() + ", Value: " + skill.getValue());
+                skillMap.put(jobName+skill.getName(), skill.getId());
+            }
+        }
         //위에 cmdKey값들을 columnkeylist로 넣는다.
         List<String> columnKeyList = new ArrayList<>();
         Collections.addAll(columnKeyList, personColumnKeyArray);
@@ -61,64 +91,9 @@ public class DataUploadService {
         //excelFile 변수 값으로 가져온다.
         MultipartFile excelFile = dataUploadParamDto.getFile();
 
-        //execel 파일 이름 가져오기
-        String excelOriginFileName = excelFile.getOriginalFilename();
-
-        // order 순서인가.... 모르겠다...
-        Long uploadFileOrder = Long.valueOf(0);
-
-        // 기존 테이블에 있는 다음 행의 index( = id값)을 더해준다
-//        uploadFileOrder += dataUploadMapper.selectUploadFileOrder();
-
-        LocalDate uploadDat = null;
-
-        SimpleDateFormat dateFormat= new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
-
-        DateTimeFormatter dateFormat2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        Date day1 = null;
-        Date day2 = new Date();
-        try {
-            //param에서 넘겨온 Month 값
-            String yearMonth = dataUploadParamDto.getUploadReferenceMonth();
-
-            Calendar cal = Calendar.getInstance();
-
-            cal.set(Integer.valueOf(yearMonth.substring(0, 4)), Integer.valueOf(yearMonth.substring(5, 7)) - 1, 1); //월은 -1해줘야 해당월로 인식
-
-            day1 = dateFormat.parse(dataUploadParamDto.getUploadReferenceMonth() + "-" + cal.getActualMaximum(Calendar.DAY_OF_MONTH) + " 23:59:59");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        int compare = day1.compareTo( day2 );
-
-        try {
-
-            if ( compare > 0 )
-            {
-                uploadDat = day2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            }
-            else if ( compare < 0 )
-            {
-                uploadDat = day1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            }
-            else
-            {
-                uploadDat = day1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-            }
-
-        } catch(Exception ex) {
-            log.error(ex.getMessage());
-        }
-
-
         // excelFile 값 확인
         if(excelFile != null && excelFile.getSize() > 0 && excelFile.getOriginalFilename() != null) {
             if(excelFile.getOriginalFilename().endsWith(".xlsx") || excelFile.getOriginalFilename().endsWith(".XLSX")) {
-                List<PersonEntity> list = new ArrayList<>();
-
 
                 //여기서 파일을 제대로 못 붙러오는듯한데....
                 try (
@@ -157,9 +132,12 @@ public class DataUploadService {
 
                         System.out.println("엑셀 양식 확인 통과");
 
+                        PersonEntity dataUploadEntity = null;
+                        List<PersonSkillEntity> personSkillEntityList = null;
+
                         for(int i=1; i<sheet.getLastRowNum() + 1; i++) {
-                            PersonEntity dataUploadEntity = new PersonEntity();
-                            dataUploadEntity.setId(uploadFileOrder);   //id값만 있으면 된다 더 필요하다 싶으면 추가
+                            dataUploadEntity = new PersonEntity();
+                            personSkillEntityList = new ArrayList<>();
                             row = sheet.getRow(i);
 
                             System.out.println(" sheet.getLastRowNum 에서 for문 검사중 문제  : " + i);
@@ -190,7 +168,13 @@ public class DataUploadService {
                             cell = row.getCell(columnKeyNumberList.get("직업종류"));
                             cell.setCellType(Cell.CELL_TYPE_STRING);
                             if(null != cell) {
-                                dataUploadEntity.setJobType(cell.getStringCellValue());
+                                if(jobMap.containsKey(cell.getStringCellValue())) {
+                                    System.out.println(jobMap.get(cell.getStringCellValue()));
+                                    dataUploadEntity.setJobType(jobMap.get(cell.getStringCellValue()));
+                                }else {
+                                    System.out.println("없다.");
+                                    dataUploadEntity.setJobType(null);
+                                }
                             }
                             System.out.println("breakPoint :  " + "직업종류");
 
@@ -210,15 +194,6 @@ public class DataUploadService {
                                 dataUploadEntity.setCertificateStatus(cell.getStringCellValue());
                             }
                             System.out.println("breakPoint :  " + "필수 자격증 여부");
-
-
-                            // (보유 스킬)
-                            cell = row.getCell(columnKeyNumberList.get("보유 스킬"));
-                            cell.setCellType(Cell.CELL_TYPE_STRING);
-                            if(null != cell) {
-                                dataUploadEntity.setSkill(cell.getStringCellValue());
-                            }
-                            System.out.println("breakPoint :  " + "보유 스킬");
 
                             // (경력)
                             cell = row.getCell(columnKeyNumberList.get("경력"));
@@ -319,15 +294,29 @@ public class DataUploadService {
                             }
                             System.out.println("breakPoint :  " + "생일");
 
+                            PersonEntity entity = personRepository.save(dataUploadEntity);
 
-                            //만든 personEntity를 list에 저장한다.
-                            list.add(dataUploadEntity);
+                            // (보유 스킬)
+                            cell = row.getCell(columnKeyNumberList.get("보유 스킬"));
+                            cell.setCellType(Cell.CELL_TYPE_STRING);
+                            if(null != cell) {
+                                for(String str : cell.getStringCellValue().split(",")) {
+                                    if(skillMap.containsKey(row.getCell(columnKeyNumberList.get("직업종류")) + str.trim())) {
+                                        System.out.println(skillMap.get(row.getCell(columnKeyNumberList.get("직업종류")) + str.trim()));
+                                        personSkillEntityList.add(PersonSkillEntity.builder()
+                                            .skill(skillMap.get(row.getCell(columnKeyNumberList.get("직업종류")) + str.trim()))
+                                            .personId(entity.getId())
+                                            .build()
+                                        );
+                                    }
+                                }
+                            }
+                            System.out.println("breakPoint :  " + "보유 스킬");
+
+                            personSkillRepository.saveAll(personSkillEntityList);
+
                         }
 
-                        for(Integer i = 0; i< list.size();i = i + 100)
-                        {
-                            dataUploadMapper.insertUploadFileOrder(new ArrayList<>( list.subList(i, Math.min((i + 100) , list.size()))));
-                        }
 
                         returnVal = "SUCCESS";
                         returnMsg = "업로드에 성공했습니다.";

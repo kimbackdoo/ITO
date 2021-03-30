@@ -185,10 +185,14 @@
                             @click:row="editUserInfo"
                             @remove="deleteUserInfoList"
                             @add="editUserInfo"
+                            @import="openDialog"
                         ></data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
         </v-col>
     </v-row>
+    <file-upload-dialog-component
+        :dialog="dialog"
+    ></file-upload-dialog-component>
 </v-container>
