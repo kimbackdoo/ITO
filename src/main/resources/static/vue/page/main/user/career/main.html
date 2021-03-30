@@ -26,6 +26,7 @@
                                 @click:row="openCareerDialog"
                                 @remove="deleteCareer"
                                 @add="openNewCareerDialog"
+                                @import="openFileUploadDialog"
                         ></data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -33,7 +34,11 @@
         </v-col>
     </v-row>
     <career-dialog-component
-            :dialog="dialog"
-            @save="saveCareer"
+        :dialog="dialogCareer"
+        @save="saveCareer"
     ></career-dialog-component>
+    <file-upload-dialog-component
+        :dialog="dialogFileUpload"
+        @upload="fileUpload"
+    ></file-upload-dialog-component>
 </div>

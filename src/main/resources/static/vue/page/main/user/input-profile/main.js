@@ -4,9 +4,6 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
         "template": (await axios.get("/vue/page/main/user/input-profile/main.html")).data,
         "data": function () {
             return {
-                "data": {
-                    "skill": [],
-                },
                 "select": {
                     "job": {
                         "items": []
@@ -41,9 +38,12 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
         },
         "watch": {
             "inputProfile.form.item.jobType": {
-                "handler": async function () {
+                "handler": async function (n, o) {
                     let skill = this.select.job.items.find(e=>e.value == this.inputProfile.form.item.jobType);
 
+                    if(o !== null) {
+                        this.inputProfile.form.item.skill = [];
+                    }
                     this.inputProfile.skill.items = [];
                     this.inputProfile.skill.items = (await ito.api.common.code.getCodeList({
                         "idStartLike": "004",
@@ -54,10 +54,8 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                         if(e.id.startsWith("00401")) return e.id.length > 7;
                         else return e.id.length > 5;
                     });
-
-                    console.log(this.inputProfile.skill.items);
                 }
-            }
+            },
         },
         "methods": {
             "init": async function() {
@@ -74,10 +72,16 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                 this.select.job.items.push(...items);
             },
             "setProfile": async function() {
-                let self = this,
-                    person;
-                person = (await ito.api.common.person.getPerson(store.state.app.person.id)).data;
+                let self = this, personId, skill, person, personSkillList;
 
+                personId = store.state.app.person.id;
+                person = (await ito.api.common.person.getPerson(personId)).data;
+                personSkillList = (await ito.api.common.personSkill.getPersonSkillList({personId})).data.items;
+                skill = [];
+                personSkillList.forEach(e=>{
+                    skill.push(e.skill);
+                });
+                person.skill = skill;
                 self.inputProfile.form.item = person;
             },
             "saveProfile": async function () {
@@ -88,7 +92,7 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
 
                 if(data.id != undefined && data.id != null) {
                     if(await ito.confirm("수정하시겠습니까?")) {
-                        ito.api.common.person.modifyPerson(data.id, data);
+                        ito.api.common.personSkill.modifyPersonSkill(data.id, data.skill, data);
                         await ito.alert("수정되었습니다.");
                     }
                 }

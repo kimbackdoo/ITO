@@ -84,7 +84,7 @@
                                             <v-card-text>
                                                 <v-row dense>
                                                     <v-col cols="auto" class="d-flex justify-center align-center">
-                                                        <span>보유 스킬&경험</span>
+                                                        <span>보유 스킬&경험<br/>(3개 선택)</span>
                                                     </v-col>
                                                     <v-col class="py-0 d-inline justify-center align-center">
                                                         <table>
@@ -95,10 +95,10 @@
                                                                         class="d-inline-block"
                                                                         style="margin: 5px !important;"
                                                                         hide-details="auto"
-                                                                        v-for="t in inputProfile.skill.items"
+                                                                        v-for="item in inputProfile.skill.items"
                                                                         v-model="inputProfile.form.item.skill"
-                                                                        :value="t.id"
-                                                                        :label="t.name"
+                                                                        :value="item.id"
+                                                                        :label="item.name"
                                                                     ></v-checkbox>
                                                                 </td>
                                                             </tr>

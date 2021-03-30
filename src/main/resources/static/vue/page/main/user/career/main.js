@@ -61,10 +61,14 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                         "totalCareer": 0,
                     },
                 },
-                "dialog": {
+                "dialogCareer": {
                     "visible": false,
                     "title": "경력 등록",
                     "data": {}
+                },
+                "dialogFileUpload": {
+                    "visible": false,
+                    "title": "파일 업로드"
                 }
             }
         },
@@ -178,14 +182,33 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                 }
             },
             "openNewCareerDialog": function () {
-                this.dialog.data = {};
-                this.dialog.visible = true;
+                this.dialogCareer.data = {};
+                this.dialogCareer.visible = true;
             },
             "openCareerDialog": function (data) {
-                this.dialog.title = "경력 수정";
-                this.dialog.data = data;
-                this.dialog.visible = true;
-            }
+                this.dialogCareer.title = "경력 수정";
+                this.dialogCareer.data = data;
+                this.dialogCareer.visible = true;
+            },
+            "openFileUploadDialog": function() {
+                this.dialogFileUpload.visible = true;
+            },
+            "fileUpload": async function (dataUpload) {
+                var form = new FormData();
+                store.commit("app/SET_LOADING", true);
+                form.append("file" , dataUpload.selectedFile);
+
+                var returnType = await ito.api.app.upload.person(form);
+                store.commit("app/SET_LOADING", false);
+
+                if(returnType.data.returnVal != 'SUCCESS'){
+                    await ito.alert(returnType.data.returnMsg);
+                }else{
+                    await ito.alert(returnType.data.returnMsg);
+                    this.dialog.visible = false;
+                    this.loadCareerList();
+                }
+            },
         },
         "mounted": function() {
             this.init();

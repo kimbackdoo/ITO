@@ -124,39 +124,18 @@
                 <v-expansion-panel>
                     <v-expansion-panel-header>프로젝트 현황</v-expansion-panel-header>
                     <v-expansion-panel-content>
-                        <v-row class="my-1">
-                            <v-col class="d-flex justify-start align-center">
-                                <div style="width: 200px;">
-                                    <h3>전체 {{ project.dataTable.totalRows }}건</h3>
-                                </div>
-                                <div style="width: 130px;" class="ml-auto">
-                                    <v-select
-                                        dense
-                                        outlined
-                                        hide-details="auto"
-                                        v-model="project.dataTable.options.itemsPerPage"
-                                        :items="data.paginationList"
-                                    ></v-select>
-                                </div>
-                            </v-col>
-                        </v-row>
-                        <v-data-table
-                            fixed-header
-                            hide-default-footer
-                            height="auto"
+                        <data-table-custom-component
                             :headers="project.dataTable.headers"
                             :items="project.dataTable.items"
+                            :totalRows="project.dataTable.totalRows"
+                            :page.sync="project.dataTable.options.page"
+                            :itemsPerPage.sync="project.dataTable.options.itemsPerPage"
                             :loading="project.dataTable.loading"
+                            :import-hide="true"
+                            :add-hide="true"
+                            :remove-hide="true"
                             @click:row="handleClick"
-                        ></v-data-table>
-                        <div class="text-center my-2">
-                            <v-pagination
-                                class="d-inline-block"
-                                :length="Math.ceil(project.dataTable.totalRows / project.dataTable.options.itemsPerPage)"
-                                :total-visible="10"
-                                v-model="project.dataTable.options.page"
-                            ></v-pagination>
-                        </div>
+                        ></data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
