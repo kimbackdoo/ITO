@@ -120,7 +120,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 }
             },
             "methods": {
-    //------------------------------------------------------
                 "editUserInfo": function(value){
                     this.$router.push({
                         "path": "/main/admin/user-info-form",
@@ -200,6 +199,22 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 },
                 "openDialog": function () {
                     this.dialog.visible = true;
+                },
+                "fileUpload": async function (dataUpload) {
+                    var form = new FormData();
+                    store.commit("app/SET_LOADING", true);
+                    form.append("file" , dataUpload.selectedFile);
+
+                    var returnType = await ito.api.app.upload.person(form);
+                    store.commit("app/SET_LOADING", false);
+
+                    if(returnType.data.returnVal != 'SUCCESS'){
+                        await ito.alert(returnType.data.returnMsg);
+                    }else{
+                        await ito.alert(returnType.data.returnMsg);
+                        this.dialog.visible = false;
+                        this.setUserInfoList();
+                    }
                 }
             },
             "mounted": async function () {

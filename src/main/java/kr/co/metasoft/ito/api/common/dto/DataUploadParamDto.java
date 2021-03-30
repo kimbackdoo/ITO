@@ -15,8 +15,6 @@ public class DataUploadParamDto {
 
     private Integer fileType;
 
-    private String uploadReferenceMonth;
-
 }
 
 
