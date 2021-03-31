@@ -9,6 +9,7 @@ import kr.co.metasoft.ito.api.common.repository.PersonLanguageRepository;
 import kr.co.metasoft.ito.api.common.repository.PersonRepository;
 import kr.co.metasoft.ito.api.common.repository.PersonSectorRepository;
 import kr.co.metasoft.ito.api.common.repository.PersonSkillRepository;
+import kr.co.metasoft.ito.common.validation.group.CreateValidationGroup;
 import kr.co.metasoft.ito.common.validation.group.ModifyValidationGroup;
 
 import kr.co.metasoft.ito.common.validation.group.RemoveValidationGroup;
@@ -36,9 +37,78 @@ public class ProfileService {
     @Autowired
     PersonLanguageRepository personLanguageRepository;
 
+    @Validated(value = {CreateValidationGroup.class})
+    @Transactional
+    public ProfileDto createProfile(
+            @Valid @NotNull(groups = {CreateValidationGroup.class}) ProfileDto profileDto) {
+        ProfileDto result = new ProfileDto();
+
+        PersonEntity.builder()
+                .id(profileDto.getPersonDto().getId())
+                .name(profileDto.getPersonDto().getName())
+                .phoneNumber(profileDto.getPersonDto().getPhoneNumber())
+                .jobType(profileDto.getPersonDto().getJobType())
+                .inputStatus(profileDto.getPersonDto().getInputStatus())
+                .certificateStatus(profileDto.getPersonDto().getCertificateStatus())
+                .role(profileDto.getPersonDto().getRole())
+                .career(profileDto.getPersonDto().getCareer())
+                .pay(profileDto.getPersonDto().getPay())
+                .workableDay(profileDto.getPersonDto().getWorkableDay())
+                .postcode(profileDto.getPersonDto().getPostcode())
+                .address(profileDto.getPersonDto().getAddress())
+                .detailAddress(profileDto.getPersonDto().getDetailAddress())
+                .email(profileDto.getPersonDto().getEmail())
+                .website(profileDto.getPersonDto().getWebsite())
+                .education(profileDto.getPersonDto().getEducation())
+                .birthDate(profileDto.getPersonDto().getBirthDate())
+                .build();
+
+        Long id = profileDto.getPersonDto().getId();
+
+        List<PersonSectorEntity> personSectorEntityList = new ArrayList<>();
+        List<PersonSkillEntity> personSkillEntityList = new ArrayList<>();
+        List<PersonLanguageEntity> personLanguageEntityList = new ArrayList<>();
+
+        personSectorRepository.deleteSectorAllByPersonId(id);
+        for(String sector : profileDto.getSectorList()) {
+            personSectorEntityList.add(PersonSectorEntity.builder()
+                    .sector(sector)
+                    .personId(id)
+                    .build()
+            );
+        }
+        result.setSectorList(profileDto.getSectorList());
+
+        personSkillRepository.deleteSkillAllByPersonId(id);
+        for(String skill : profileDto.getSkillList()) {
+            personSkillEntityList.add(PersonSkillEntity.builder()
+                    .skill(skill)
+                    .personId(id)
+                    .build()
+            );
+        }
+        result.setSkillList(profileDto.getSkillList());
+
+        personLanguageRepository.deleteLanguageAllByPersonId(id);
+        for(String language : profileDto.getLanguageList()) {
+            personLanguageEntityList.add(PersonLanguageEntity.builder()
+                    .language(language)
+                    .personId(id)
+                    .build()
+            );
+        }
+        result.setLanguageList(profileDto.getLanguageList());
+
+        personSectorRepository.saveAll(personSectorEntityList);
+        personSkillRepository.saveAll(personSkillEntityList);
+        personLanguageRepository.saveAll(personLanguageEntityList);
+
+        return result;
+    }
+
     @Validated(value = {ModifyValidationGroup.class})
     @Transactional
-    public void modifyPerson(
+    public void modifyProfile(
             @Valid @NotNull (groups = {ModifyValidationGroup.class}) ProfileDto profileDto) {
         PersonEntity.builder()
                 .id(profileDto.getPersonDto().getId())

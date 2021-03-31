@@ -9,11 +9,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "api/app/profile")
 public class ApiAppProfileController {
     @Autowired
-    ProfileService personService;
+    ProfileService profileService;
+
+    @PostMapping(path = "")
+    public ProfileDto createProfile(@RequestBody ProfileDto profileDto) {
+        return profileService.createProfile(profileDto);
+    }
 
     @PutMapping(path = "")
-    public void modifyPerson(@RequestBody ProfileDto personDto) { personService.modifyPerson(personDto); }
+    public void modifyPerson(@RequestBody ProfileDto personDto) { profileService.modifyProfile(personDto); }
 
-//    @DeleteMapping(path = "")
-//    public void removePerson(@RequestBody PersonDto personDto) { personService.removePerson(personDto); }
+    @DeleteMapping(path = "")
+    public void removePerson(@RequestBody ProfileDto profileDto) { profileService.removeProfile(profileDto); }
 }
