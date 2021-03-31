@@ -15,153 +15,251 @@
                           ref="form"
                           v-model="user.valid"
                           lazy-validation
+                          class="overflow-y-auto"
+                          style="max-height: 1500px"
                     >
-                      <v-row>
+                     <v-container>
+                      <v-row class="ma-0">
                            <v-col
-                              cols="12"
-                              sm="2"
+                              cols="4"
+                              class="pa-2"
                            >
                             <v-text-field
+                                dense
                                 label="이름"
-                                v-model="user.dataTable.editedItem.name"
+                                v-model="data.name"
                                 :rules= "[v=> !!v || '필수 입니다']"
                                 required
                             ></v-text-field>
                             </v-col>
+                      </v-row>
+                      <v-row class="ma-0">
                            <v-col
-                              cols="12"
-                              sm="2"
+                              cols="4"
+                              class="pa-2"
+                           >
+                        <date-picker-component
+                            class="required"
+                            dense
+                            append-icon="mdi-calendar"
+                            label="생년월일"
+                            v-model="data.birthDate"
+                        ></date-picker-component>
+                      </v-row>
+                      <v-row class="ma-0">
+                           <v-col
+                              cols="4"
+                              class="pa-2"
                            >
                             <v-text-field
+                                dense
                                 class="required"
                                 label="전화번호"
-                                v-model="user.dataTable.editedItem.phoneNumber"
+                                v-model="data.phoneNumber"
                                 :rules= "[v=> !!v || '필수 입니다']"
                                 required
                             ></v-text-field>
                             </v-col>
+                      </v-row>
+                      <v-row class="ma-0">
+                            <v-col cols="8">
+                               <div style="width: 100px; height:55px;">
+                                   <v-text-field
+                                       outlined
+                                       dense
+                                       label="우편번호"
+                                       v-model="data.postcode"
+                                       @click="execDaumPostcode"
+                                   ></v-text-field>
+                               </div>
+                               <div style="display:flex;">
+                                   <v-text-field
+                                       outlined
+                                       dense
+                                       label="주소"
+                                       v-model="data.address"
+                                   ></v-text-field>
+                                   <v-text-field
+                                       outlined
+                                       dense
+                                       class="ml-2"
+                                       label="상세주소"
+                                       ref="detailAddress"
+                                       v-model="data.detailAddress"
+                                   ></v-text-field>
+                               </div>
+                            </v-col>
+                      </v-row>
+                      <v-row class="ma-0 mb-5">
                            <v-col
-                              cols="12"
-                              sm="2"
+                              cols="3"
+                              class="pa-0"
                            >
                             <v-select
+                                dense
+                                outlined
                                 menu-props="auto"
                                 label="직종"
-                                v-model="user.dataTable.editedItem.jobType"
-                                :items="user.dataTable.jobTypeItems"
+                                :items="user.select.job.items"
+                                v-model="data.jobType"
                                 :rules= "[v=> !!v || '필수 입니다']"
                                 required
                             ></v-select>
                             </v-col>
-                           <v-col
-                              cols="12"
-                              sm="2"
-                           >
-                            <v-text-field
-                                label="기술"
-                                v-model="user.dataTable.editedItem.skill"
-                            ></v-text-field>
+                            <v-col cols="12" v-if="data.jobType !== null">
+                                <v-card oulined style="border-color: rgba(0, 0, 0, 0.42) !important;">
+                                    <v-card-text>
+                                        <v-row dense>
+                                            <v-col cols="auto" class="d-flex justify-center align-center">
+                                                <span>보유 스킬&경험<br/>(3개 선택)</span>
+                                            </v-col>
+                                            <v-col class="py-0 d-inline justify-center align-center">
+                                                <table>
+                                                    <tbody>
+                                                    <tr style="border: 1px solid black;">
+                                                        <td scope="row">
+                                                            <v-checkbox
+                                                                class="d-inline-block"
+                                                                style="margin: 5px !important;"
+                                                                hide-details="auto"
+                                                                v-for="item in user.dataTable.skill.items"
+                                                                v-model="data.skill"
+                                                                :value="item.id"
+                                                                :label="item.name"
+                                                            ></v-checkbox>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card-text>
+                                </v-card>
                             </v-col>
                     </v-row>
-                    <v-row>
+                    <v-row class="ma-0">
                            <v-col
-                              cols="12"
-                              sm="2"
-                           >
-                        <date-picker-component
-                              class="required"
-                            label="생년월일"
-                            v-model="user.dataTable.editedItem.birthDate"
-                        ></date-picker-component>
-                            </v-col>
-                           <v-col
-                              cols="12"
-                              sm="2"
+                              cols="3"
+                              class="pa-2"
                            >
                             <v-select
+                                dense
                                 menu-props="auto"
                                 label="최종 학력"
-                                v-model="user.dataTable.editedItem.education"
+                                v-model="data.education"
                                 :items="user.dataTable.education"
                                 required
                             ></v-select>
                             </v-col>
+                    </v-row>
+                    <v-row class="ma-0">
                            <v-col
-                              cols="12"
-                              sm="2"
+                              cols="3"
+                              class="pa-2"
                            >
                             <v-select
+                                dense
                                 menu-props="auto"
-                                label="경력기간"
-                                :items="user.dataTable.career"
-                                v-model="user.dataTable.editedItem.career"
+                                label="경력"
+                                suffix="년"
+                                :items="user.dataTable.career1"
+                                v-model="data.career1"
                             ></v-select>
                            </v-col>
                            <v-col
-                              cols="12"
-                              sm="2"
+                              cols="3"
+                              class="pa-2"
                            >
                             <v-select
+                                dense
                                 menu-props="auto"
-                                label="필수자격증 여부"
-                                v-model="user.dataTable.editedItem.certificateStatus"
+                                label="경력"
+                                suffix="월"
+                                :items="user.dataTable.career2"
+                                v-model="data.career2"
+                            ></v-select>
+                           </v-col>
+                    </v-row>
+                    <v-row class="ma-0">
+                           <v-col
+                              cols="3"
+                              class="pa-2"
+                           >
+                            <v-select
+                                dense
+                                menu-props="auto"
+                                label="자격증 여부"
+                                v-model="data.certificateStatus"
                                 :items="user.dataTable.certificateStatus"
                                 required
                             ></v-select>
                             </v-col>
                     </v-row>
-                    <v-row>
+                    <v-row class="ma-0">
                            <v-col
-                              cols="12"
-                              sm="2"
+                              cols="3"
+                              class="pa-2"
                            >
                             <v-text-field
-                                label="희망급여"
-                                v-model="user.dataTable.editedItem.pay"
+                                dense
+                                label="희망 급여"
+                                suffix="만원"
+                                v-model="data.pay"
                             ></v-text-field>
                            </v-col>
+                    </v-row>
+                    <v-row class="ma-0">
                            <v-col
-                              cols="12"
-                              sm="2"
+                              cols="3"
+                              class="pa-2"
                            >
                             <v-select
-                                label="지역(시)"
-                                v-model="user.dataTable.addressValue"
-                                :items="user.dataTable.address"
+                                dense
+                                outlined
+                                label="희망 지역"
+                                suffix="(시)"
                             ></v-select>
                            </v-col>
                            <v-col
-                              cols="12"
-                              sm="2"
+                              cols="3"
+                              class="pa-2"
                            >
                             <v-select
-                                label="지역(구)"
-                                v-model="user.dataTable.editedItem.address"
-                                :items="user.dataTable.addressSelect"
+                                dense
+                                outlined
+                                label="희망 지역"
+                                suffix="(구)"
                             ></v-select>
                            </v-col>
+                    </v-row>
+                    <v-row class="ma-0">
                            <v-col
-                              cols="12"
-                              sm="2"
+                              cols="3"
+                              class="pa-2"
                            >
                             <v-select
+                                dense
                                 menu-props="auto"
-                                label="투입여부"
-                                v-model="user.dataTable.editedItem.inputStatus"
+                                label="투입 여부"
+                                v-model="data.inputStatus"
                                 :items="user.dataTable.inputStatus"
                             ></v-select>
                            </v-col>
+                    </v-row>
+                    <v-row class="ma-0">
                            <v-col
-                              cols="12"
-                              sm="2"
+                              cols="3"
+                              class="pa-2"
                            >
                         <date-picker-component
+                                dense
+                            append-icon="mdi-calendar"
                             label="업무 가능일"
-                            v-model="user.dataTable.editedItem.workableDay"
+                            v-model="data.workableDay"
                         ></date-picker-component>
                            </v-col>
-                       </v-row>
-                       <v-row>
+                     </v-row>
+                    <v-row class="ma-0">
                          <v-spacer></v-spacer>
                         <v-card-actions>
                             <v-btn
@@ -173,10 +271,9 @@
                             class="secondary"
                              @click="reset"
                             >초기화 하기</v-btn>
-
                         </v-card-actions>
-                     </v-row>
-
+                         </v-row>
+                      </v-container>
                      </v-form>
                    </v-expansion-panel-content>
              </v-expansion-panel>

@@ -5,6 +5,24 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
             "template": response.data,
             "data": function () {
                 return {
+                    "data": {
+                                "id":"",
+                                "name": "",
+                                "jobType": "",
+                                "skill": null,
+                                "phoneNumber":"",
+                                "career": "",
+                                "education": "",
+                                "certificateStatus": "",
+                                "pay": "",
+                                "postcode":"",
+                                "address": "",
+                                "detailAddress":"",
+                                "extraAddress":"",
+                                "inputStatus":"",
+                                "birthDate":"",
+                                "workableDay":"",
+                    },
                   "user": {
                         "panels": {
                             "search": [0],
@@ -94,31 +112,41 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             ],
                             "checkbox:": [],
                             "editedIndex": -1,
-                            "editedItem": {
-                                "id":"",
-                                "name": "",
-                                "jobType": "",
-                                "phoneNumber":"",
-                                "career": "",
-                                "education": "",
-                                "certificateStatus": "",
-                                "pay": "",
-                                "address": "",
-                                "inputStatus":"",
-                                "birthDate":"",
-                                "workableDay":"",
+                            "skill": {
+                                "items": []
                             },
-                        "itemsPerPageItems": [
-                            {"text":"3", "value":3},
-                            {"text":"5", "value": 5},
-                            {"text": "10", "value": 10},
-                            {"text": "20", "value": 20},
-                            {"text": "30", "value": 30},
-                            {"text": "40", "value": 40},
-                            {"text": "50", "value": 50}
-                        ]
+                            "itemsPerPageItems": [
+                                {"text":"3", "value":3},
+                                {"text":"5", "value": 5},
+                                {"text": "10", "value": 10},
+                                {"text": "20", "value": 20},
+                                {"text": "30", "value": 30},
+                                {"text": "40", "value": 40},
+                                {"text": "50", "value": 50}
+                            ]
                       },
-                  }
+                    "select": {
+                        "job": {
+                            "items": [
+                                {"text": "전체", "value": null}
+                            ]
+                        },
+                        "skill": {
+                            "items": [
+                                {"text": "전체", "value": null}
+                            ]
+                        },
+                        "status": {
+                            "items": [
+                                {"text": "섭외", "value": "A"},
+                                {"text": "완료", "value": "C"},
+                                {"text": "면접", "value": "I"},
+                                {"text": "투입", "value": "P"}
+                            ]
+                        },
+                    }
+                  },
+                    "test": null
                };
             },
             "computed": {
@@ -133,42 +161,137 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         this.user.dataTable.addressSelect=this.user.dataTable.addressIndex[value];
                     }
                 },
+                "user.dataTable.editedItem.jobType": {
+                    "handler": async function (n, o) {
+                        let skill = this.user.select.job.items.find(e=>e.value == this.data.jobType);
+
+                        if(o !== null) {
+                            this.data.skill = [];
+                        }
+                        this.user.dataTable.skill.items = [];
+                        this.user.dataTable.skill.items = (await ito.api.common.code.getCodeList({
+                            "idStartLike": "004",
+                            "status": "T",
+                            "skill": skill !== undefined ? skill.text : null,
+                            "rowSize": 1000000
+                        })).data.items.filter(e=> {
+                            if(e.id.startsWith("00401")) return e.id.length > 7;
+                            else return e.id.length > 5;
+                        });
+                    }
+                },
+                "user.dataTable.editedItem.skill": {
+                    "handler": function (n, o) {
+                        if(n.length > 3) {
+                            ito.alert("3개 이하만 가능합니다.");
+                            n.pop();
+                            return;
+                        }
+                    }
+                },
 
             },
             "methods": {
-                "setUserInfo": function () {
+                "loadJobItems": async function() {
                     var self = this;
-                    return new Promise(function (resolve, reject) {
-                        Promise.resolve()
-                            .then(function () {
-                                var id = self.$route.query.id;
-                                console.log("파라미터 id"+id);
-                                return id ? ito.api.common.person.getPerson(id) : null;
-                            })
-                            .then(function (response) {
-                                if (response && response.data) {
-                                    self.user.dataTable.editedItem = response.data;
-                                }
-                            })
-                            .then(function () { resolve(); });
-                    });
+                    let items;
+                    items = (await ito.api.common.code.getCodeList({
+                        "parentId": "001",
+                        "sort": ["ranking, asc"],
+                        "rowSize": 1000000
+                    })).data.items.map(e=>({"text": e.name, "value": e.id}));
+                    self.user.select.job.items.push(...items);
                 },
+                "execDaumPostcode": function() {
+                    var self = this;
+                    new daum.Postcode({
+                        "onComplete": function(data) {
+                            if (data.userSelectedType === 'R') self.data.address = data.roadAddress;
+                            else self.data.address = data.jibunAddress;
 
+                            if (data.userSelectedType === 'R') {
+                                if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                                    self.data.extraAddress += data.bname;
+                                }
+                                if (data.buildingName !== '' && data.apartment === 'Y') {
+                                    self.data.extraAddress += (self.data.extraAddress !== '' ? ', ' + data.buildingName : data.buildingName);
+                                }
+                                if (self.data.extraAddress !== '') {
+                                    self.data.extraAddress =  ' (' + self.data.extraAddress + ')';
+                                }
+                            } else {
+                                self.data.extraAddress = '';
+                            }
+                            self.data.postcode = data.zonecode;
+                            self.$refs.detailAddress.focus();
+                        },
+                    }).open();
+                },
+                "setUserInfo": async function(){
+                    let self = this;
+                    let personId;
+                    let personSkillList,skillList,person;
+
+                    personId = self.$route.query.id;
+                    let response = personId ? await ito.api.common.person.getPerson(personId) : null;
+                    if(response && response.data){
+                        person = response.data;
+                        personSkillList = (await ito.api.common.personSkill.getPersonSkillList({personId})).data.items;
+                        skillList = [];
+                        console.log(personSkillList);
+                        this.test = {skill: personSkillList.map(e=> e.skill)};
+                        console.log(this.test);
+                        Object.assign(person, this.test);
+                        self.data = _.cloneDeep(person);
+                        console.log(self.data)
+                        console.log(person, skillList);
+                    }
+                },
                 "saveUserInfo": function () {
                     var self = this;
+                    let person, personSectorList,personLanguageList,
+                        sectorList=[], languageList=[];
+
                   if(this.$refs.form.validate()){
                     return new Promise(function (resolve, reject) {
                         Promise.resolve()
                             .then(function () {
-                                    return new Promise(function (resolve, reject) {
+                                    return new Promise( function (resolve, reject) {
                                         Promise.resolve()
-                                            .then(function () {
-                                                var data = self.user.dataTable.editedItem;
+                                            .then(async function () {
+                                                var data = self.data;
+                                                person=data;
+                                                console.log("data.id    : "  +data.id)
+
+
                                                 if (!data.id) {
+
+                                                    await ito.api.app.profile.createProfile({
+                                                        "personDto": person,
+                                                        "sectorList": sectorList,
+                                                        "skillList": person.skill,
+                                                        "languageList": languageList
+                                                    });
                                                     return ito.api.common.person.createPerson(data);
                                                 } else {
-                                                    console.log("수정되는 id 값 === " +  data.id);
-                                                    console.log("수정,입력되는 전화번호 값  ===" + data.phoneNumber)
+
+                                                    personSectorList =  (await ito.api.common.personSector.getPersonSectorList({"personId": data.id})).data.items;
+                                                    personSectorList.forEach(e => {
+                                                        sectorList.push(e.sector)
+                                                    })
+                                                    console.log(sectorList);
+
+                                                    personLanguageList = (await ito.api.common.personLanguage.getPersonLanguageList({"personId": data.id})).data.items;
+                                                    personLanguageList.forEach(e=>{
+                                                        languageList.push(e.language);
+                                                    });
+                                                    console.log(languageList);
+                                                    await ito.api.app.profile.modifyProfile({
+                                                        "personDto": person,
+                                                        "sectorList": sectorList,
+                                                        "skillList": person.skill,
+                                                        "languageList": languageList
+                                                    });
                                                     return ito.api.common.person.modifyPerson(data.id, data);
                                                 }
                                             })
@@ -202,27 +325,34 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                            })
                            .then(function () {
                                self.user.dataTable.addressValue="";
-                               self.user.dataTable.editedItem.address="";
-                               self.user.dataTable.editedItem.name = "";
-                               self.user.dataTable.editedItem.phoneNumber = "";
-                               self.user.dataTable.editedItem.jobType = "";
-                               self.user.dataTable.editedItem.skill = "";
-                               self.user.dataTable.editedItem.birthDate = "";
-                               self.user.dataTable.editedItem.career = "";
-                               self.user.dataTable.editedItem.pay = "";
-                               self.user.dataTable.editedItem.inputStatus = "";
-                               self.user.dataTable.editedItem.workableDay = "";
-                               self.user.dataTable.editedItem.certificateStatus = "";
-                               self.user.dataTable.editedItem.education = "";
+                               self.data.address="";
+                               self.data.postcode="";
+                               self.data.detailAddress="";
+                               self.data.name = "";
+                               self.data.phoneNumber = "";
+                               self.data.jobType = "";
+                               self.data.skill = "";
+                               self.data.birthDate = "";
+                               self.data.career = "";
+                               self.data.pay = "";
+                               self.data.inputStatus = "";
+                               self.data.workableDay = "";
+                               self.data.certificateStatus = "";
+                               self.data.education = "";
                            })
                            .then(function () { resolve(); });
                     });
              },
          },
-         "mounted": function () {
+         "mounted": async function () {
                 var self = this;
-                Promise.resolve()
-                    .then(self.setUserInfo);
+                await Promise.all([
+                    self.setUserInfo(),
+                    self.loadJobItems()
+                ]);
+//                console.log(this.data.skill, this.test);
+//                this.data.skill = this.test;
+//                console.log(this.data.skill, this.test);
          }
 
        });
