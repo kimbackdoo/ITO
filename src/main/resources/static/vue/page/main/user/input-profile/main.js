@@ -56,6 +56,15 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                     });
                 }
             },
+            "inputProfile.form.item.skill": {
+                "handler": function (n, o) {
+                    if(n.length > 3) {
+                        ito.alert("3개 이하만 가능합니다.");
+                        n.pop();
+                        return;
+                    }
+                }
+            },
         },
         "methods": {
             "init": async function() {
@@ -98,9 +107,6 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                 personLanguageList.forEach(e=>{
                     languageList.push(e.language);
                 });
-
-                console.log(sectorList);
-                console.log(languageList);
 
                 if(person.id != undefined && person.id != null) {
                     if(await ito.confirm("수정하시겠습니까?")) {

@@ -1,9 +1,6 @@
 package kr.co.metasoft.ito.api.app.dto;
 
 import kr.co.metasoft.ito.api.common.dto.PersonDto;
-import kr.co.metasoft.ito.api.common.dto.PersonLanguageDto;
-import kr.co.metasoft.ito.api.common.dto.PersonSectorDto;
-import kr.co.metasoft.ito.api.common.dto.PersonSkillDto;
 import lombok.*;
 
 import java.util.List;
