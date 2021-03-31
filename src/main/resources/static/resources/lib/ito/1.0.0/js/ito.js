@@ -339,10 +339,9 @@ ito = {
             "upload" : {
                 "person" : function (data) { return axios({"url": "/api/app/uploads/person","enctype": "multipart/form-data", "contentType" : false, "cache" : false, "processData" : false, "method": "post", "data": data});},
             },
-            "person": {
-                "createPerson": function (data) { return axios({"url": "/api/app/profile", "method": "post", "data": data}); },
-                "modifyPerson": function (data) { return axios({"url": "/api/app/profile", "method": "put", "data": data}); },
-                "removePerson": function (data) { return axios({"url": "/api/app/profile", "method": "delete", "data": data}); },
+            "profile": {
+                "modifyProfile": function (data) { return axios({"url": "/api/app/profile", "method": "put", "data": data}); },
+                "removeProfile": function (data) { return axios({"url": "/api/app/profile", "method": "delete", "data": data}); },
             },
         },
         "util": {
