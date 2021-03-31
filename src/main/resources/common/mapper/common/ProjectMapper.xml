@@ -12,6 +12,7 @@
             `proj`.`sterm`,
             `proj`.`eterm`,
             `proj`.`place`,
+            `proj`.`place2`,
             `proj`.`prsnl`,
             `proj`.`status`,
             `proj`.`salary`,
@@ -34,6 +35,9 @@
             <if test="projectParamDto.skillList != null and projectParamDto.skillList != ''">
                 AND `skill` = #{projectParamDto.skillList}
             </if>
+            <if test="projectParamDto.career != null and projectParamDto.career != ''">
+                AND CAST(`career` AS float) &gt;= CAST(#{projectParamDto.career} AS float)
+            </if>
             <if test="projectParamDto.stermStart != null">
                 AND `sterm` &gt;= #{projectParamDto.stermStart}
             </if>
@@ -45,6 +49,12 @@
             </if>
             <if test="projectParamDto.etermEnd != null">
                 AND `eterm` &lt;= #{projectParamDto.etermEnd}
+            </if>
+            <if test="projectParamDto.place != null and projectParamDto.place != ''">
+                AND `place` = #{projectParamDto.place}
+            </if>
+            <if test="projectParamDto.place2 != null and projectParamDto.place2 != ''">
+                AND `place2` = #{projectParamDto.place2}
             </if>
             <if test="projectParamDto.prsnl != null">
                 AND `prsnl` &gt;= #{projectParamDto.prsnl}
@@ -68,6 +78,7 @@
         <result property="sterm" column="sterm" />
         <result property="eterm" column="eterm" />
         <result property="place" column="place" />
+        <result property="place2" column="place2" />
         <result property="prsnl" column="prsnl" />
         <result property="status" column="status" />
         <result property="salary" column="salary" />

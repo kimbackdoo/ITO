@@ -26,7 +26,7 @@ public class ProjectParamDto {
 
     private String skillList;
 
-    private String careerLike;
+    private String career;
 
     private String degree;
 
@@ -47,6 +47,8 @@ public class ProjectParamDto {
     private LocalDate etermEnd;
 
     private String place;
+
+    private String place2;
 
     private Integer prsnl;
 

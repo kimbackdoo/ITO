@@ -14,7 +14,7 @@
                         <v-form>
                             <v-container>
                                 <v-row>
-                                    <v-col cols="6">
+                                    <v-col cols="4">
                                         <v-text-field
                                             dense
                                             label="프로젝트명"
@@ -34,7 +34,17 @@
                                     <v-col cols="3">
                                         <v-select
                                             dense
-                                            label="지역"
+                                            label="지역(시)"
+                                            :items="select.place.items"
+                                            v-model="project.dataTable.query.place"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <v-select
+                                            dense
+                                            label="지역(구)"
+                                            :items="select.place2.items"
+                                            v-model="project.dataTable.query.place2"
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="3">
@@ -134,6 +144,12 @@
                             :totalRows="project.dataTable.totalRows"
                             :page.sync="project.dataTable.options.page"
                             :itemsPerPage.sync="project.dataTable.options.itemsPerPage"
+                            :sortBy.sync="project.dataTable.options.sortBy"
+                            :sortDesc.sync="project.dataTable.options.sortDesc"
+                            :groupBy.sync="project.dataTable.options.groupBy"
+                            :groupDesc.sync="project.dataTable.options.groupDesc"
+                            :multiSort.sync="project.dataTable.options.multiSort"
+                            :mustSort.sync="project.dataTable.options.mustSort"
                             :loading="project.dataTable.loading"
                             :import-hide="true"
                             :add-hide="true"
