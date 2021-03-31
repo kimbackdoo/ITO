@@ -25,11 +25,12 @@ store = new Vuex.Store({
                         "callback": function () {}
                     },
                     "showMenuPathName" : "dd",
-
                     "loading" : {
-                    	"zIndex" : 9999,
-                    	"overlay" : false
+                        "zIndex" : 9999,
+                        "overlay" : false
                     },
+                    "parentAddress": null,
+                    "childAddress": null
                 };
             },
             "getters": {
@@ -61,6 +62,12 @@ store = new Vuex.Store({
                 },
                 "SET_LOADING": function (state, payload) {
                     state.loading.overlay = payload;
+                },
+                "SET_PARENT_ADDRESS": function (state, payload) {
+                    state.parentAddress = payload;
+                },
+                "SET_CHILD_ADDRESS": function (state, payload) {
+                    state.childAddress = payload;
                 }
             },
             "actions": {

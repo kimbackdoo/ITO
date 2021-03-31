@@ -5,6 +5,26 @@ ito = {
         axios.defaults.paramsSerializer = function (params) {
             return Qs.stringify(params, {"indices": false});
         }
+        const script1 = document.createElement("script");
+        script1.src = "http://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_ADSIDO_INFO&&key=2FFCBF12-D2F7-3C21-826D-082173D35C04&attrFilter=ctprvn_cd:%3E:0&size=1000&geometry=false&callback=ito.callback.setParentAddress"
+        const script2 = document.createElement("script");
+        script2.src = "http://api.vworld.kr/req/data?service=data&request=GetFeature&data=LT_C_ADSIGG_INFO&key=2FFCBF12-D2F7-3C21-826D-082173D35C04&attrFilter=sig_cd:%3E:0&size=1000&geometry=false&callback=ito.callback.setChildAddress"
+        document.getElementsByTagName('body')[0].appendChild(script1);
+        document.getElementsByTagName('body')[0].appendChild(script2);
+    },
+    "callback": {
+        "setParentAddress": function (obj) {
+            if(obj !== undefined) {
+                let data = obj.response.result.featureCollection.features.map(e=>({"value": e.properties.ctprvn_cd, "text": e.properties.ctp_kor_nm}));
+                store.commit("app/SET_PARENT_ADDRESS", data);
+            }
+        },
+        "setChildAddress": function (obj) {
+            if(obj !== undefined) {
+                let data = obj.response.result.featureCollection.features.map(e=>({"value": e.properties.sig_cd, "text": e.properties.sig_kor_nm}));
+                store.commit("app/SET_CHILD_ADDRESS", data);
+            }
+        }
     },
     "alert": function (message) {
         return new Promise(function (resolve, reject) {
