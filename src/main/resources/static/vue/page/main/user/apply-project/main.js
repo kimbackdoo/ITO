@@ -34,6 +34,14 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                             {"text": "투입", "value": "P"}
                         ]
                     },
+                    "careerYear": {
+                        "items": [
+                            {"text": "1년미만", "value": 0}
+                        ]
+                    },
+                    "careerMonth": {
+                        "items": []
+                    },
                 },
                 "dialog": false,
                 "project": {
@@ -60,7 +68,8 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                             "projectName": null,
                             "job": null,
                             "skill": null,
-                            "careerLike": null,
+                            "careerYear": null,
+                            "careerMonth": null,
                             "degree": null,
                             "stermStart": null,
                             "stermEnd": null,
@@ -172,6 +181,12 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 self.project.dataTable.loading = false;
             },
             "searchProjectList": async function() {
+                let year, month;
+                year = this.project.dataTable.query.careerYear;
+                month = this.project.dataTable.query.careerMonth;
+                console.log(year + month);
+
+
                 if(this.project.dataTable.options.page !== 1) {
                     this.project.dataTable.options.page = 1;
                 }else {
@@ -184,7 +199,8 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 self.project.dataTable.query.projectName = null;
                 self.project.dataTable.query.job = null;
                 self.project.dataTable.query.skill = null;
-                self.project.dataTable.query.careerLike = null;
+                self.project.dataTable.query.careerYear = null;
+                self.project.dataTable.query.careerMonth = null;
                 self.project.dataTable.query.degree = null;
                 self.project.dataTable.query.stermStart = null;
                 self.project.dataTable.query.place = null;
@@ -195,6 +211,13 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
         },
         "mounted": function() {
             this.init();
+        },
+        "created": function() {
+            for(var i=1; i<=20; i++) {
+                this.select.careerYear.items.push({"text": String(i), "value": Number(i)});
+
+                if(i < 12) this.select.careerMonth.items.push({"text": String(i), "value": Number(i * 0.08)});
+            }
         }
     });
 });

@@ -76,6 +76,8 @@
                                             dense
                                             label="경력"
                                             suffix="년"
+                                            :items="select.careerYear.items"
+                                            v-model="project.dataTable.query.careerYear"
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="2">
@@ -83,6 +85,8 @@
                                             dense
                                             label="경력"
                                             suffix="월"
+                                            :items="select.careerMonth.items"
+                                            v-model="project.dataTable.query.careerMonth"
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="4">
