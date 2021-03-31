@@ -4,39 +4,21 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
             "template": response.data,
             "data": function () {
                 return {
-                    "project": {
-                       "panels": {
-                            "search": [0],
-                            "list": [0]
-                        },
-                        "education": [
-                            {"text":"2년제", "value":"2년제"},
-                            {"text":"3년제", "value":"3년제"},
-                            {"text":"4년제", "value":"4년제"},
-                        ],
-                        "certificateStatus": [
+                    "data": {
+                        "project": {}
+                    },
+                    "rules": {
+                        "required": value => !!value || '필수'
+                    },
+                    "select": {
+                        "educationItems": [],
+                        "jobTypeItems": [],
+                        "skillItems": [],
+                        "certificateStatusItems": [
                             {"text":"보유", "value":"T"},
                             {"text":"없음", "value":"F"},
                         ],
-                        "jobTypeItems": [
-                            {"text":"개발자", "value":"개발자"},
-                            {"text":"기획자", "value":"기획자"},
-                            {"text":"퍼블리셔", "value":"퍼블리셔"},
-                            {"text":"디자이너", "value":"디자이너"}
-                        ],
-                        "address": [
-                            {"text":"서울특별시", "value":0},
-                            {"text":"경기도", "value":1},
-                            {"text":"대전광역시", "value":2},
-                         ],
-                        "addressValue": "",
-                        "addressIndex": [
-                             ["강서구","은평구","광진구","서초구","구로구"],
-                             ["김포시","부천","광명","시흥","안양","과천","성남","하남","수원","광주"],
-                             ["중구","서구","대덕구","유성구","동구"],
-                        ],
-                        "addressSelect": [],
-                        "career": [
+                        "careerItems": [
                              {"text":"신입", "value": "0"},
                              {"text":"1년", "value": "1"},
                              {"text":"2년", "value": "2"},
@@ -45,8 +27,22 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                              {"text":"5년", "value": "5"},
                              {"text":"6년", "value": "6"},
                              {"text":"7년", "value": "7"},
+                             {"text":"8년", "value": "8"},
+                             {"text":"9년", "value": "9"},
+                             {"text":"10년", "value": "10"},
+                             {"text":"11년", "value": "11"},
+                             {"text":"12년", "value": "12"},
+                             {"text":"13년", "value": "13"},
+                             {"text":"14년", "value": "14"},
+                             {"text":"15년", "value": "15"},
+                             {"text":"16년", "value": "16"},
+                             {"text":"17년", "value": "17"},
+                             {"text":"18년", "value": "18"},
+                             {"text":"19년", "value": "19"},
+                             {"text":"20년", "value": "20"},
+                             {"text":"20년 이상", "value": "99"}
                         ],
-                        "needPerson":[
+                        "needPersonItems":[
                             {"text":"1명", "value": 1},
                             {"text":"2명", "value": 2},
                             {"text":"3명", "value": 3},
@@ -57,69 +53,85 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                             {"text":"8명", "value": 8},
                             {"text":"9명", "value": 9},
                         ],
-                        "query": {
-                            "id":null,
-                            "name": "",
-                            "job": "",
-                            "skill": "",
-                            "career":"",
-                            "degree":"",
-                            "sterm": "",
-                            "eterm": "",
-                            "place": "",
-                            "prsnl":"",
-                            "status":"",
-                            "slary":"",
-                            "term":"",
-                        },
-                        "default": {
-                            "id":null,
-                            "name": "",
-                            "job": "",
-                            "skill": "",
-                            "career":"",
-                            "degree":"",
-                            "sterm": "",
-                            "eterm": "",
-                            "place": "",
-                            "prsnl":"",
-                            "status":"",
-                            "slary":"",
-                            "term":"",
-                        },
-                        "degree": [
-                            {"text": "2년제", "value": "2년제"},
-                            {"text": "3년제", "value": "3년제"},
-                            {"text": "4년제", "value": "4년제"},
+                        "statusItems": [
+                            {"text": "섭외", "value": "A"},
+                            {"text": "완료", "value": "C"},
+                            {"text": "면접", "value": "I"},
+                            {"text": "투입", "value": "P"},
                         ],
-                        "status": [
-                            {"text": "투입중", "value": "T"},
-                            {"text": "섭외중", "value": "F"},
-                        ],
+                    },
+                   "panels": {
+                        "search": [0],
+                        "list": [0]
                     }
                 };
             },
             "watch": {
-                "project.addressValue":{
-                    "handler": function(value){
-                        this.project.addressSelect=this.project.addressIndex[value];
+                "data.project.address":{
+                    "handler": async function(value){
+                        let id = (await ito.api.common.code.getCodeList({"parentId": "006", "nameLike": value.split(" ")[0], "rowSize": 1, "status": "T"})).data.items[0].id;
+                        let id2 = (await ito.api.common.code.getCodeList({"parentId": id, "nameLike": value.split(" ")[1], "rowSize": 1, "status": "T"})).data.items[0].id;
+                        this.$set(this.data.project, "place", id);
+                        this.$set(this.data.project, "place2", id2);
                     }
                 },
+                "data.project.job": {
+                    "handler": async function (n, o) {
+                        let skill = this.select.jobTypeItems.find(e=>e.value == this.data.project.job);
+
+                        if(o !== null) {
+                            this.$set(this.data.project, "skill", []);
+                        }
+                        this.select.skillItems = [];
+                        this.select.skillItems = (await ito.api.common.code.getCodeList({
+                            "idStartLike": "004",
+                            "status": "T",
+                            "skill": skill !== undefined ? skill.text : null,
+                            "rowSize": 1000000
+                        })).data.items.filter(e=> {
+                            if(e.id.startsWith("00401")) return e.id.length > 7;
+                            else return e.id.length > 5;
+                        });
+                    }
+                }
             },
             "methods": {
-                //저장  , 수정
+                "init": async function() {
+                    await this.setProjectInfo();
+                    await this.getJobTypeItems();
+                    await this.getEducationItems();
+                },
+                "getJobTypeItems": async function () {
+                    this.select.jobTypeItems = (await ito.api.common.code.getCodeList({
+                        "parentId": "001",
+                        "sort": ["ranking,asc"],
+                        "rowSize": 1000000,
+                        "status": "T"
+                    })).data.items.map(e=>({"text": e.name, "value": e.id}));
+                },
+                "getEducationItems": async function () {
+                    this.select.educationItems = (await ito.api.common.code.getCodeList({
+                        "parentId": "007",
+                        "sort": ["ranking,asc"],
+                        "rowSize": 1000000,
+                        "status": "T"
+                    })).data.items.map(e=>({"text": e.name, "value": e.id}));
+                },
                 "saveProject": async function() {
                     var self = this;
-                    var data = self.project.query;
-                    console.log("save 함수 실행 ")
-                    if(data.id == null){
-                        await ito.api.common.project.createProject(data);
-                        console.log("create 실행 완료")
-                    } else {
-                        await ito.api.common.project.modifyProject(data.id, data);
+                    var data = _.cloneDeep(self.data.project);
+                    var validate = this.$refs.projectForm.validate();
+                    if(!validate) {
+                        await ito.alert("필수값을 입력해주세요.");
+                    }else if(await ito.confirm("저장하시겠습니까?")) {
+                        if(data.id !== undefined && data.id !== null && data.id !== ""){
+                            await ito.api.common.project.modifyProject(data.id, data);
+                        } else {
+                            await ito.api.common.project.createProject(data);
+                        }
+                        await ito.alert("저장했습니다.");
+                        await self.$router.push({"path": "/main/admin/project-lists"});
                     }
-                    await ito.alert("저장 성공!!");
-                    await self.$router.back();
                 },
 
                 //set 설정 id 값 존재시 그 값들에 대한 값들 불러오기
@@ -127,28 +139,46 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                     var self =this;
 
                     var id = await self.$route.query.id;
-                    console.log("파라미터 id 값 출력 :  " +id);
+                    if(id !== undefined) {
                         return new Promise(function (resolve, reject) {
                             Promise.resolve()
                                 .then(function () {
                                     return ito.api.common.project.getProject(id);
                                 })
                                 .then(function (response) {
-                                    self.project.query = response.data;
+                                    self.data.project = response.data;
                                 })
                                 .then(function () { resolve(); });
                         });
+                    }
                 },
-                "reset":function() {
-                    var self = this;
-                    self.project.addressValue="";
-                    self.project.query = self.project.default;
+                "setAddress": async function () {
+                    var self = this,
+                        data,
+                        address,
+                        detailAddress;
+                    data = await ito.util.getPostcode();
+                    if (data) {
+                        if (data.userSelectedType === "R") {
+                            address = data.roadAddress;
+                            detailAddress = "";
+                            if (data.bname && data.bname !== "") {
+                                detailAddress += data.bname;
+                            }
+                            if (data.buildingName && data.buildingName !== "") {
+                                detailAddress += detailAddress !== "" ? ", " + data.buildingName : data.buildingName;
+                            }
+                            address += detailAddress !== "" ? " (" + detailAddress + ")" : "";
+                        } else {
+                            address = data.jibunAddress;
+                        }
+                        this.$set(self.data.project, "postcode", data.zonecode);
+                        this.$set(self.data.project, "address", address);
+                    }
                 }
-
             },
             "mounted": async function () {
-                var self = this;
-                await self.setProjectInfo();
+                this.init();
             }
         });
     });

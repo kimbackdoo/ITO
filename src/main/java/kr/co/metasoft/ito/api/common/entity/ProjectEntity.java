@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +15,7 @@ import javax.validation.constraints.Null;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -29,6 +31,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "tb_proj")
+@EntityListeners (value = {AuditingEntityListener.class})
 @Getter
 @Setter
 @ToString
@@ -71,6 +74,18 @@ public class ProjectEntity {
 
     @Column(name = "place", columnDefinition = "varchar(100)", nullable = true)
     private String place;
+
+    @Column(name = "place2", columnDefinition = "varchar(100)", nullable = true)
+    private String place2;
+
+    @Column (name = "`postcode`", columnDefinition = "bigint(20)", nullable = true)
+    private String postcode;
+
+    @Column (name = "`address`", columnDefinition = "varchar(100)", nullable = true)
+    private String address;
+
+    @Column (name = "`detail_address`", columnDefinition = "varchar(100)", nullable = true)
+    private String detailAddress;
 
     @Column(name = "prsnl", columnDefinition = "int(11)", nullable = true)
     private Integer prsnl;

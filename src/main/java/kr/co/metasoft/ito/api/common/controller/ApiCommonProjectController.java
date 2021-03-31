@@ -27,7 +27,7 @@ public class ApiCommonProjectController {
     @GetMapping(path = "{id}")
     public ProjectEntity getProject(
             @PathVariable(name = "id") Long id) {
-        return projectService.getProfile(id);
+        return projectService.getProject(id);
     }
 
     @PostMapping(path = "")

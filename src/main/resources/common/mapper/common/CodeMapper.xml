@@ -31,6 +31,9 @@
                 AND `code`.`id` LIKE
                     CONCAT ((SELECT id FROM `tb_code` WHERE `name` = #{codeParamDto.skill} AND `parent_id` = '004' LIMIT 1), '%')
             </if>
+            <if test="codeParamDto.nameLike != null and codeParamDto.nameLike != ''">
+                AND `code`.`name` LIKE CONCAT('%',#{codeParamDto.nameLike},'%')
+            </if>
         </where>
     </sql>
 
