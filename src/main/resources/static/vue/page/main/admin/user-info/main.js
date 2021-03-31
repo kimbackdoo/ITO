@@ -12,18 +12,18 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         },
                         "dataTable": {
                             "headers": [
-                                {"text": "이름", "value": "name"},
-                                {"text": "전화번호", "value": "phoneNumber"},
-                                {"text": "직종",  "value": "jobType"},
-                                {"text": "기술",  "value": "skill"},
-                                {"text": "학력", "value": "education"},
-                                {"text": "경력",  "value": "career"},
-                                {"text": "자격증 유무", "value": "certificateStatus"},
-                                {"text": "생년월일(나이)",  "value": "birthDate"},
-                                {"text": "희망 급여",  "value": "pay"},
-                                {"text": "지역",  "value": "address"},
-                                {"text": "투입여부",  "value": "inputStatus"},
-                                {"text": "업무 가능일",  "value": "workableDay"}
+                                {"text": "이름", "value": "name",cellClass:"text-truncate"},
+                                {"text": "전화번호", "value": "phoneNumber", cellClass:"text-truncate"},
+                                {"text": "직종",  "value": "jobType", cellClass:"text-truncate"},
+                                {"text": "기술",  "value": "skill",cellClass:"text-truncate"},
+                                {"text": "학력", "value": "education", cellClass:"text-truncate"},
+                                {"text": "경력",  "value": "career", cellClass:"text-truncate"},
+                                {"text": "자격증 유무", "value": "certificateStatus",cellClass:"text-truncate"},
+                                {"text": "생년월일(나이)",  "value": "birthDate", cellClass:"text-truncate"},
+                                {"text": "희망 급여",  "value": "pay", cellClass:"text-truncate"},
+                                {"text": "지역",  "value": "address", cellClass:"text-truncate"},
+                                {"text": "투입여부",  "value": "inputStatus", cellClass:"text-truncate"},
+                                {"text": "업무 가능일",  "value": "workableDay", cellClass:"text-truncate"}
 
                             ],
                             "totalRows":0,
@@ -60,15 +60,40 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 ["중구","서구","대덕구","유성구","동구"],
                             ],
                             "addressSelect": [],
-                            "career": [
-                                {"text":"신입", "value": "0"},
-                                {"text":"1년", "value": "1"},
-                                {"text":"2년", "value": "2"},
-                                {"text":"3년", "value": "3"},
-                                {"text":"4년", "value": "4"},
-                                {"text":"5년", "value": "5"},
-                                {"text":"6년", "value": "6"},
-                                {"text":"7년", "value": "7"},
+                            "career1": [
+                                {"text":"1년미만", "value": 0},
+                                {"text":"1", "value": 1},
+                                {"text":"2", "value": 2},
+                                {"text":"3", "value": 3},
+                                {"text":"4", "value": 4},
+                                {"text":"5", "value": 5},
+                                {"text":"6", "value": 6},
+                                {"text":"7", "value": 8},
+                                {"text":"8", "value": 9},
+                                {"text":"9", "value": 10},
+                                {"text":"10", "value": 11},
+                                {"text":"12", "value": 12},
+                                {"text":"13", "value": 13},
+                                {"text":"14", "value": 14},
+                                {"text":"15", "value": 15},
+                                {"text":"16", "value": 16},
+                                {"text":"17", "value": 17},
+                                {"text":"18", "value": 18},
+                                {"text":"19", "value": 19},
+                                {"text":"20", "value": 20}
+                            ],
+                            "career2": [
+                                {"text":"1", "value": 0.08},
+                                {"text":"2", "value": 0.16},
+                                {"text":"3", "value": 0.24},
+                                {"text":"4", "value": 0.32},
+                                {"text":"5", "value": 0.40},
+                                {"text":"6", "value": 0.48},
+                                {"text":"7", "value": 0.56},
+                                {"text":"8", "value": 0.64},
+                                {"text":"9", "value": 0.72},
+                                {"text":"10", "value": 0.80},
+                                {"text":"11", "value": 0.88}
                             ],
                             "checkbox:": [],
                         },
@@ -77,6 +102,8 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "name": null,
                             "job": null,
                             "skill":null,
+                            "career1": null,
+                            "career2": null,
                             "career": null,
                             "phoneNumber":null,
                             "education":null,
@@ -134,6 +161,24 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     "deep": true
                 },
 
+                "user.query.career1": {
+                    "handler": function (){
+                        var self = this;
+                        let data1 = self.user.query.career1;
+                        let data2 = self.user.query.career2;
+                        var career = (data1 + data2).toString
+                        self.user.query.career=career;
+                    }
+                },
+                "user.query.career2": {
+                    "handler": function (){
+                        var self = this;
+                        let data1 = self.user.query.career1;
+                        let data2 = self.user.query.career2;
+                        var career = (data1 + data2).toString
+                        self.user.query.career=career;
+                    }
+                },
                 "user.query.job": {
                     "handler": async function () {
                         var self = this;
@@ -168,6 +213,11 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         }
                        });
                 },
+                "addUserInfo": function(value){
+                    this.$router.push({
+                        "path": "/main/admin/user-info-form",
+                       });
+                },
                 "handlePageChange": function (value){
                     return this.currentPage=value;
                 },
@@ -195,21 +245,25 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     self.select.job.items.push(...items);
                 },
                 "setUserInfoList": async function () {
-                    var self = this,
-                        params = {}, data;
+                    var self = this
+                    var careerValue = String(self.user.query.career1 + self.user.query.career2);
+                    var params = {}, data;
                     params.page = self.user.dataTable.options.page;
                     params.rowSize = self.user.dataTable.options.itemsPerPage;
                     params.name = !_.isEmpty(self.user.query.name) ? self.user.query.name : null;
                     params.jobType = !_.isEmpty(self.user.query.jobType) ? self.user.query.jobType : null;
-                    params.career = !_.isEmpty(self.user.query.career) ? self.user.query.career : null;
+                    params.career = !_.isEmpty(careerValue) ? careerValue : null;
                     params.pay = !_.isEmpty(self.user.query.pay) ? self.user.query.pay : null;
                     params.address = !_.isEmpty(self.user.query.address) ? self.user.query.address : null;
                     params.inputStatus = !_.isEmpty(self.user.query.inputStatus) ? self.user.query.inputStatus : null;
                     params.education = !_.isEmpty(self.user.query.education) ? self.user.query.education : null;
                     params.certificateStatus = !_.isEmpty(self.user.query.certificateStatus) ? self.user.query.certificateStatus : null;
+
+                    params.sort=ito.util.sort(self.user.dataTable.options.sortBy, self.user.dataTable.options.sortDesc);
+
                     self.user.dataTable.loading = true;
+                    console.log("params.career 값 :  "+ params.career);
                     data = (await ito.api.common.person.getPersonList(params)).data;
-                    console.log(data);
                     self.user.dataTable.items = data.items;
                     self.user.dataTable.totalRows = data.totalRows;
                     self.user.dataTable.items.forEach(e => {
@@ -234,6 +288,8 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 self.user.query.name = "";
                                 self.user.query.jobType = "";
                                 self.user.query.career = "";
+                                self.user.query.career1 = "";
+                                self.user.query.career2 = "";
                                 self.user.query.pay = "";
                                 self.user.query.address = "";
                                 self.user.query.inputStatus = "";

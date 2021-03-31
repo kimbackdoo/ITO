@@ -77,28 +77,28 @@
                                 <v-col
                                     cols="3"
                                 >
-                                    <v-text-field
+                                    <v-select
                                         dense
                                         menu-props="auto"
-                                        :items="user.dataTable.career"
+                                        :items="user.dataTable.career1"
                                         label="경력"
                                         suffix="년"
-                                        v-model="user.query.career"
+                                        v-model="user.query.career1"
                                         @keydown.enter="search();"
-                                    ></v-text-field>
+                                    ></v-select>
                                 </v-col>
                                 <v-col
                                     cols="3"
                                 >
-                                    <v-text-field
+                                    <v-select
                                         dense
                                         menu-props="auto"
-                                        :items="user.dataTable.career"
+                                        :items="user.dataTable.career2"
                                         label="경력"
-                                        suffix="월"
-                                        v-model="user.query.career"
+                                        suffix="개월"
+                                        v-model="user.query.career2"
                                         @keydown.enter="search();"
-                                    ></v-text-field>
+                                    ></v-select>
                                 </v-col>
                                 <v-col
                                     cols="3"
@@ -193,7 +193,7 @@
                             :loading="user.dataTable.loading"
                             @click:row="editUserInfo"
                             @remove="deleteUserInfoList"
-                            @add="editUserInfo"
+                            @add="addUserInfo"
                             @import="openDialog"
                         ></data-table-custom-component>
                     </v-expansion-panel-content>

@@ -34,19 +34,19 @@
                 AND `name` LIKE CONCAT('%', #{personParamDto.name} , '%')
             </if>
            <if test="personParamDto.jobType != null and personParamDto.jobType != ''">
-                AND `job_type` LIKE CONCAT('%',#{personParamDto.jobType},'%')
+                AND `job_type` LIKE CONCAT(#{personParamDto.jobType})
             </if>
             <if test="personParamDto.education != null and personParamDto.education != ''">
                 AND `education` LIKE CONCAT('%', #{personParamDto.education} ,'%')
             </if>
+            <if test="personParamDto.pay != null and personParamDto.pay != ''">
+                AND CAST(`pay` AS float) &gt;= CAST(#{personParamDto.pay} AS float)
+            </if>
             <if test="personParamDto.career != null and personParamDto.career != ''">
-                AND `` LIKE CONCAT('%', #{personParamDto.career} ,'%')
+                AND CAST(`career` AS float) &gt;= CAST(#{personParamDto.career} AS float)
             </if>
             <if test="personParamDto.certificateStatus != null and personParamDto.certificateStatus != ''">
                 AND `certificate_status` LIKE CONCAT('%', #{personParamDto.certificateStatus} ,'%')
-            </if>
-            <if test="personParamDto.pay != null and personParamDto.pay != ''">
-                AND `pay` LIKE CONCAT('%', #{personParamDto.pay} ,'%')
             </if>
             <if test="personParamDto.address != null and personParamDto.address != ''">
                 AND `address` LIKE CONCAT('%', #{personParamDto.address}, '%')
