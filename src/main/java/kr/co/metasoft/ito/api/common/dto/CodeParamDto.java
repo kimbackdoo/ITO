@@ -24,4 +24,6 @@ public class CodeParamDto {
     private String status;
 
     private String skill;
+
+    private String detailLocal;
 }

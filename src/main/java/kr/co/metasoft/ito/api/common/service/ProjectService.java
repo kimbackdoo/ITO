@@ -38,12 +38,12 @@ public class ProjectService {
         pageResponse.setItems(projectList);
 
         System.out.println("===========================================================================");
-
-        System.out.println("===========================================================================");
         System.out.println("NameLike: " + projectParamDto.getNameLike());
         System.out.println("Job: " + projectParamDto.getJob());
         System.out.println("skillList: " + projectParamDto.getSkillList());
         System.out.println("stermStart: " + projectParamDto.getStermStart());
+        System.out.println("Local: " + projectParamDto.getLocal());
+        System.out.println("DetailLocal: " + projectParamDto.getDetailLocal());
         System.out.println("prsnl: " + projectParamDto.getPrsnl());
         System.out.println("status: " + projectParamDto.getStatus());
         System.out.println("salary: " + projectParamDto.getSalary());
