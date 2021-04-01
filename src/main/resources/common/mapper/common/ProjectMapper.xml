@@ -11,8 +11,11 @@
             `proj`.`degree`,
             `proj`.`sterm`,
             `proj`.`eterm`,
-            `proj`.`place`,
-            `proj`.`place2`,
+            `proj`.`local`,
+            `proj`.`detail_local`,
+            `proj`.`postcode`,
+            `proj`.`address`,
+            `proj`.`detail_address`,
             `proj`.`prsnl`,
             `proj`.`status`,
             `proj`.`salary`,
@@ -50,11 +53,11 @@
             <if test="projectParamDto.etermEnd != null">
                 AND `eterm` &lt;= #{projectParamDto.etermEnd}
             </if>
-            <if test="projectParamDto.place != null and projectParamDto.place != ''">
-                AND `place` = #{projectParamDto.place}
+            <if test="projectParamDto.local != null and projectParamDto.local != ''">
+                AND `local` = #{projectParamDto.local}
             </if>
-            <if test="projectParamDto.place2 != null and projectParamDto.place2 != ''">
-                AND `place2` = #{projectParamDto.place2}
+            <if test="projectParamDto.detailLocal != null and projectParamDto.detailLocal != ''">
+                AND `detail_local` = #{projectParamDto.detailLocal}
             </if>
             <if test="projectParamDto.prsnl != null">
                 AND `prsnl` &gt;= #{projectParamDto.prsnl}
@@ -77,8 +80,11 @@
         <result property="degree" column="degree" />
         <result property="sterm" column="sterm" />
         <result property="eterm" column="eterm" />
-        <result property="place" column="place" />
-        <result property="place2" column="place2" />
+        <result property="local" column="local" />
+        <result property="detailLocal" column="detail_local" />
+        <result property="postcode" column="postcode" />
+        <result property="address" column="address" />
+        <result property="detailAddress" column="detail_address" />
         <result property="prsnl" column="prsnl" />
         <result property="status" column="status" />
         <result property="salary" column="salary" />

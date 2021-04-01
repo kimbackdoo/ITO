@@ -46,9 +46,9 @@ public class ProjectParamDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate etermEnd;
 
-    private String place;
+    private String local;
 
-    private String place2;
+    private String detailLocal;
 
     private Integer prsnl;
 

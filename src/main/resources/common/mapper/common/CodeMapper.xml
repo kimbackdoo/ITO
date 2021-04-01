@@ -34,10 +34,6 @@
             <if test="codeParamDto.nameLike != null and codeParamDto.nameLike != ''">
                 AND `code`.`name` LIKE CONCAT('%',#{codeParamDto.nameLike},'%')
             </if>
-            <if test="codeParamDto.place2 != null and codeParamDto.place2 != ''">
-                AND `code`.`id` LIKE
-                CONCAT ((SELECT id FROM `tb_code` WHERE `name` = #{codeParamDto.place2} AND `parent_id` = '006' LIMIT 1), '%')
-            </if>
         </where>
     </sql>
 

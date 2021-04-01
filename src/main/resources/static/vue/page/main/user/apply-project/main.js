@@ -42,10 +42,10 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     "careerMonth": {
                         "items": []
                     },
-                    "place": {
+                    "local": {
                         "items": []
                     },
-                    "place2": {
+                    "detailLocal": {
                         "items": []
                     },
                 },
@@ -64,8 +64,8 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                             {"text": "학위요건", "value": "degree"},
                             {"text": "시작기간", "value": "sterm"},
                             {"text": "종료기간", "value": "eterm"},
-                            {"text": "지역(시)", "value": "place"},
-                            {"text": "지역(구)", "value": "place2"},
+                            {"text": "지역(시)", "value": "local"},
+                            {"text": "지역(구)", "value": "detailLocal"},
                             {"text": "필요인원", "value": "prsnl"},
                             {"text": "현황", "value": "status"},
                             {"text": "월급여", "value": "salary"},
@@ -82,8 +82,8 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                             "stermEnd": null,
                             "etermStart": null,
                             "etermEnd": null,
-                            "place": null,
-                            "place2": null,
+                            "local": null,
+                            "detailLocal": null,
                             "prsnl": null,
                             "status": null,
                             "salary": null
@@ -149,21 +149,21 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     this.project.dataTable.query.skill = [];
                 }
             },
-            "project.dataTable.query.place": {
+            "project.dataTable.query.local": {
                 "handler": async function() {
                     let items,
-                        place2 = this.select.place.items.find(e=> e.value == this.project.dataTable.query.place);
+                        detailLocal = this.select.local.items.find(e=> e.value == this.project.dataTable.query.local);
 
-                    this.select.place2.items = [];
+                    this.select.detailLocal.items = [];
                     items = (await ito.api.common.code.getCodeList({
                         "idStartLike": "006",
                         "status": "T",
-                        "place2": place2 !== undefined ? place2.text : null,
+                        "detailLocal": detailLocal !== undefined ? detailLocal.text : null,
                         "rowSize": 10000000
                     })).data.items.map(e=> ({"text": e.name, "value": e.id}));
                     items = items.filter(e=> e.value.length > 5)
 
-                    this.select.place2.items.push(...items);
+                    this.select.detailLocal.items.push(...items);
                 }
             }
         },
@@ -178,7 +178,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
             },
             "init": async function() {
                 await this.loadJobItems();
-                await this.loadPlaceItems();
+                await this.loadLocalItems();
                 await this.loadProjectList();
             },
             "loadJobItems": async function() {
@@ -190,13 +190,13 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 })).data.items.map(e=>({"text": e.name, "value": e.id}));
                 this.select.job.items.push(...items);
             },
-            "loadPlaceItems": async function() {
+            "loadLocalItems": async function() {
                 let items = (await ito.api.common.code.getCodeList({
                     "parentId": "006",
                     "sort": ["ranking, asc"],
                     "rowSize": 1000000
                 })).data.items.map(e=>({"text": e.name, "value": e.id}));;
-                this.select.place.items.push(...items);
+                this.select.local.items.push(...items);
             },
             "loadProjectList": async function() {
                 let self = this, career, projectList;
@@ -213,8 +213,8 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     "skillList": self.project.dataTable.query.skill,
                     "career": career,
                     "stermStart": self.project.dataTable.query.stermStart,
-                    "place": self.project.dataTable.query.place,
-                    "place2": self.project.dataTable.query.place2,
+                    "local": self.project.dataTable.query.local,
+                    "detailLocal": self.project.dataTable.query.detailLocal,
                     "prsnl": self.project.dataTable.query.prsnl,
                     "status": self.project.dataTable.query.status,
                     "salary": self.project.dataTable.query.salary,
@@ -250,8 +250,8 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 self.project.dataTable.query.careerMonth = null;
                 self.project.dataTable.query.degree = null;
                 self.project.dataTable.query.stermStart = null;
-                self.project.dataTable.query.place = null;
-                self.project.dataTable.query.place2 = null;
+                self.project.dataTable.query.local = null;
+                self.project.dataTable.query.detailLocal = null;
                 self.project.dataTable.query.prsnl = null;
                 self.project.dataTable.query.status = null;
                 self.project.dataTable.query.salary = null;

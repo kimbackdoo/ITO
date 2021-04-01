@@ -94,7 +94,7 @@
                                         outlined
                                         :items="project.dataTable.address"
                                         label="지역(시)"
-                                        v-model="project.dataTable.addressValue"
+                                        v-model="project.dataTable.local"
                                     ></v-select>
                                     </v-col>
                                     <v-col
@@ -105,7 +105,7 @@
                                         outlined
                                         :items="project.dataTable.addressSelect"
                                         label="지역(구)"
-                                        v-model="project.query.place"
+                                        v-model="project.query.detailLocal"
                                     ></v-select>
                                     </v-col>
                                <v-col

@@ -35,16 +35,16 @@
                                         <v-select
                                             dense
                                             label="지역(시)"
-                                            :items="select.place.items"
-                                            v-model="project.dataTable.query.place"
+                                            :items="select.local.items"
+                                            v-model="project.dataTable.query.local"
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="2">
                                         <v-select
                                             dense
                                             label="지역(구)"
-                                            :items="select.place2.items"
-                                            v-model="project.dataTable.query.place2"
+                                            :items="select.detailLocal.items"
+                                            v-model="project.dataTable.query.detailLocal"
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="3">
