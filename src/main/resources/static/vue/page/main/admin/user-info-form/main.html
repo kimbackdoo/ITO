@@ -92,11 +92,11 @@
                       </v-row>
                       <v-row class="ma-0 mb-5">
                            <v-col
-                              cols="3"
-                              class="pa-0"
+                              cols="4"
                            >
                             <v-select
                                 dense
+                                multiple
                                 outlined
                                 menu-props="auto"
                                 label="직종"
@@ -106,7 +106,25 @@
                                 required
                             ></v-select>
                             </v-col>
-                            <v-col cols="12" v-if="data.jobType !== null">
+
+                           <v-col
+                              cols="7"
+                           >
+                            <v-autocomplete
+                                dense
+                                chips
+                                multiple
+                                outlined
+                                menu-props="auto"
+                                label="기술"
+                                :items="user.select.skill.items"
+                                v-model="data2.skill"
+                            ></v-autocomplete>
+                            </v-col>
+<!--
+                      </v-row>
+                      <v-row class="ma-0 mb-5">
+                              <v-col cols="12" v-if="data.jobType !== null">
                                 <v-card oulined style="border-color: rgba(0, 0, 0, 0.42) !important;">
                                     <v-card-text>
                                         <v-row dense>
@@ -122,8 +140,8 @@
                                                                 class="d-inline-block"
                                                                 style="margin: 5px !important;"
                                                                 hide-details="auto"
-                                                                v-for="item in user.dataTable.skill.items"
-                                                                v-model="data.skill"
+                                                                v-for="item in user.select.skill.items"
+                                                                v-model="data2.skill"
                                                                 :value="item.id"
                                                                 :label="item.name"
                                                             ></v-checkbox>
@@ -136,7 +154,8 @@
                                     </v-card-text>
                                 </v-card>
                             </v-col>
-                    </v-row>
+ -->
+                     </v-row>
                     <v-row class="ma-0">
                            <v-col
                               cols="3"
@@ -218,6 +237,8 @@
                                 outlined
                                 label="희망 지역"
                                 suffix="(시)"
+                                :items="user.select.localPlace.items"
+                                v-model="data.localPlace"
                             ></v-select>
                            </v-col>
                            <v-col
@@ -229,6 +250,8 @@
                                 outlined
                                 label="희망 지역"
                                 suffix="(구)"
+                                :items="user.select.detailLocalPlace.items"
+                                v-model="data.detailLocalPlace"
                             ></v-select>
                            </v-col>
                     </v-row>

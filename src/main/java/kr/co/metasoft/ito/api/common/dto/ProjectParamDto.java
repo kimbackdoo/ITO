@@ -26,7 +26,7 @@ public class ProjectParamDto {
 
     private String skillList;
 
-    private String careerLike;
+    private String career;
 
     private String degree;
 
@@ -46,7 +46,9 @@ public class ProjectParamDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate etermEnd;
 
-    private String place;
+    private String local;
+
+    private String detailLocal;
 
     private Integer prsnl;
 

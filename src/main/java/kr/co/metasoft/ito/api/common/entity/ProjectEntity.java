@@ -72,11 +72,11 @@ public class ProjectEntity {
     @Column (name = "`eterm`", columnDefinition = "date", nullable = true)
     private LocalDate eterm;
 
-    @Column(name = "place", columnDefinition = "varchar(100)", nullable = true)
-    private String place;
+    @Column(name = "`local`", columnDefinition = "varchar(100)", nullable = true)
+    private String local;
 
-    @Column(name = "place2", columnDefinition = "varchar(100)", nullable = true)
-    private String place2;
+    @Column(name = "detail_local", columnDefinition = "varchar(100)", nullable = true)
+    private String detailLocal;
 
     @Column (name = "`postcode`", columnDefinition = "bigint(20)", nullable = true)
     private String postcode;

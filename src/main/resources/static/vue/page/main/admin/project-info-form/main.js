@@ -71,8 +71,8 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                     "handler": async function(value){
                         let id = (await ito.api.common.code.getCodeList({"parentId": "006", "nameLike": value.split(" ")[0], "rowSize": 1, "status": "T"})).data.items[0].id;
                         let id2 = (await ito.api.common.code.getCodeList({"parentId": id, "nameLike": value.split(" ")[1], "rowSize": 1, "status": "T"})).data.items[0].id;
-                        this.$set(this.data.project, "place", id);
-                        this.$set(this.data.project, "place2", id2);
+                        this.$set(this.data.project, "local", id);
+                        this.$set(this.data.project, "detailLocal", id2);
                     }
                 },
                 "data.project.job": {

@@ -105,6 +105,8 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "career1": null,
                             "career2": null,
                             "career": null,
+                            "localPlace": null,
+                            "detailLocalPlace": null,
                             "phoneNumber":null,
                             "education":null,
                             "certificateStatus": null,
@@ -114,6 +116,14 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "birthDate":null,
                             "workableDay":null,
                         },
+                        "select": {
+                            "localPlace":{
+                                "items":[]
+                            },
+                            "detailLocalPlace":{
+                                "items":[]
+                            },
+                        }
                     },
                     "select": {
                         "job": {
@@ -160,25 +170,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     },
                     "deep": true
                 },
-
-                "user.query.career1": {
-                    "handler": function (){
-                        var self = this;
-                        let data1 = self.user.query.career1;
-                        let data2 = self.user.query.career2;
-                        var career = (data1 + data2).toString
-                        self.user.query.career=career;
-                    }
-                },
-                "user.query.career2": {
-                    "handler": function (){
-                        var self = this;
-                        let data1 = self.user.query.career1;
-                        let data2 = self.user.query.career2;
-                        var career = (data1 + data2).toString
-                        self.user.query.career=career;
-                    }
-                },
                 "user.query.job": {
                     "handler": async function () {
                         var self = this;
@@ -203,8 +194,38 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         self.user.query.skill = [];
                     }
                 },
+                "user.query.localPlace": {
+                    "handler": async function(n, o){
+                        let detailLocal = this.user.select.localPlace.items.find(e=>e.value == this.data.localPlace);
+
+                        if(o != null){
+                            this.data.detailLocalPlace= [];
+                        }
+                        this.user.select.detailLocalPlace.items=[];
+                        let items = (await ito.api.common.code.getCodeList({
+                            "idStartLike":"006",
+                            "status": "T",
+                            "detailLocal": detailLocal !== undefined ? detailLocal.text : null,
+                            "rowSize": 1000000
+                        })).data.items.map(e => ({"text": e.name, "value": e.id}))
+                        items = items.filter(e => e.value.length > 5)
+                        this.user.select.detailLocalPlace.items.push(...items)
+                        console.log(this.user.select.detailLocalPlace.items)
+                    }
+                }
+
             },
             "methods": {
+               "loadLocalPlace": async function(){
+                    var self = this;
+                    let items;
+                    items = (await ito.api.common.code.getCodeList({
+                        "parentId": "006",
+                        "sort": ["ranking, asc"],
+                        "rowSize": 1000000
+                    })).data.items.map(e => ({"text": e.name, "value": e.id}));
+                    self.user.select.localPlace.items.push(...items);
+                },
                 "editUserInfo": function(value){
                     this.$router.push({
                         "path": "/main/admin/user-info-form",
@@ -327,6 +348,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
             },
             "mounted": async function () {
                 Promise.all([
+                    this.loadLocalPlace(),
                     this.setUserInfoList(),
                     this.loadJobItems()
                 ]);

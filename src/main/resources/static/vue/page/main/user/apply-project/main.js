@@ -42,6 +42,12 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     "careerMonth": {
                         "items": []
                     },
+                    "local": {
+                        "items": []
+                    },
+                    "detailLocal": {
+                        "items": []
+                    },
                 },
                 "dialog": false,
                 "project": {
@@ -58,7 +64,8 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                             {"text": "학위요건", "value": "degree"},
                             {"text": "시작기간", "value": "sterm"},
                             {"text": "종료기간", "value": "eterm"},
-                            {"text": "장소", "value": "place"},
+                            {"text": "지역(시)", "value": "local"},
+                            {"text": "지역(구)", "value": "detailLocal"},
                             {"text": "필요인원", "value": "prsnl"},
                             {"text": "현황", "value": "status"},
                             {"text": "월급여", "value": "salary"},
@@ -75,7 +82,8 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                             "stermEnd": null,
                             "etermStart": null,
                             "etermEnd": null,
-                            "place": null,
+                            "local": null,
+                            "detailLocal": null,
                             "prsnl": null,
                             "status": null,
                             "salary": null
@@ -84,6 +92,12 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                         "options": {
                             "page": 1,
                             "itemsPerPage": 10,
+                            "sortBy": [],
+                            "sortDesc": [],
+                            "groupBy": [],
+                            "groupDesc": [],
+                            "multiSort": true,
+                            "mustSort": false
                         },
                         "loading" : false,
                         "totalRows": 0,
@@ -105,6 +119,12 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 },
                 "deep": true
             },
+            "project.dataTable.options.sortDesc": {
+                "handler": async function (n, o) {
+                    await this.loadProjectList();
+                },
+                "deep": true
+            },
             "project.dataTable.query.job": {
                 "handler": async function () {
                     let items,
@@ -121,6 +141,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                         if(e.value.startsWith("00401")) return e.value.length > 7;
                         else return e.value.length > 5;
                     });
+
                     this.select.skill.items.push(
                         {"text": "전체", "value": null},
                         ...items
@@ -128,6 +149,23 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     this.project.dataTable.query.skill = [];
                 }
             },
+            "project.dataTable.query.local": {
+                "handler": async function() {
+                    let items,
+                        detailLocal = this.select.local.items.find(e=> e.value == this.project.dataTable.query.local);
+
+                    this.select.detailLocal.items = [];
+                    items = (await ito.api.common.code.getCodeList({
+                        "idStartLike": "006",
+                        "status": "T",
+                        "detailLocal": detailLocal !== undefined ? detailLocal.text : null,
+                        "rowSize": 10000000
+                    })).data.items.map(e=> ({"text": e.name, "value": e.id}));
+                    items = items.filter(e=> e.value.length > 5)
+
+                    this.select.detailLocal.items.push(...items);
+                }
+            }
         },
         "methods": {
             "handleClick": function(value) {
@@ -140,6 +178,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
             },
             "init": async function() {
                 await this.loadJobItems();
+                await this.loadLocalItems();
                 await this.loadProjectList();
             },
             "loadJobItems": async function() {
@@ -151,19 +190,31 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 })).data.items.map(e=>({"text": e.name, "value": e.id}));
                 this.select.job.items.push(...items);
             },
+            "loadLocalItems": async function() {
+                let items = (await ito.api.common.code.getCodeList({
+                    "parentId": "006",
+                    "sort": ["ranking, asc"],
+                    "rowSize": 1000000
+                })).data.items.map(e=>({"text": e.name, "value": e.id}));;
+                this.select.local.items.push(...items);
+            },
             "loadProjectList": async function() {
-                let self = this, projectList;
+                let self = this, career, projectList;
+                career = String(self.project.dataTable.query.careerYear + self.project.dataTable.query.careerMonth);
 
                 self.project.dataTable.loading = true;
-
                 projectList = (await ito.api.common.project.getProjectList({
                     "page": self.project.dataTable.options.page,
                     "rowSize": self.project.dataTable.options.itemsPerPage,
+                    "sort": ito.util.sort(self.project.dataTable.options.sortBy, self.project.dataTable.options.sortDesc),
 
                     "nameLike": self.project.dataTable.query.projectName,
                     "job": self.project.dataTable.query.job,
                     "skillList": self.project.dataTable.query.skill,
+                    "career": career,
                     "stermStart": self.project.dataTable.query.stermStart,
+                    "local": self.project.dataTable.query.local,
+                    "detailLocal": self.project.dataTable.query.detailLocal,
                     "prsnl": self.project.dataTable.query.prsnl,
                     "status": self.project.dataTable.query.status,
                     "salary": self.project.dataTable.query.salary,
@@ -176,17 +227,13 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     projectList.items[i].limitDate = limitDate + " (D-" + limitDay + ")";
                 }
 
+                console.log(projectList);
+
                 self.project.dataTable.totalRows = projectList.totalRows;
                 self.project.dataTable.items = projectList.items;
                 self.project.dataTable.loading = false;
             },
             "searchProjectList": async function() {
-                let year, month;
-                year = this.project.dataTable.query.careerYear;
-                month = this.project.dataTable.query.careerMonth;
-                console.log(year + month);
-
-
                 if(this.project.dataTable.options.page !== 1) {
                     this.project.dataTable.options.page = 1;
                 }else {
@@ -203,7 +250,8 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 self.project.dataTable.query.careerMonth = null;
                 self.project.dataTable.query.degree = null;
                 self.project.dataTable.query.stermStart = null;
-                self.project.dataTable.query.place = null;
+                self.project.dataTable.query.local = null;
+                self.project.dataTable.query.detailLocal = null;
                 self.project.dataTable.query.prsnl = null;
                 self.project.dataTable.query.status = null;
                 self.project.dataTable.query.salary = null;

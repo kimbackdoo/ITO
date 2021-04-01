@@ -20,7 +20,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 {"text": "학위요건", "value": "degree"},
                                 {"text": "프로젝트시작", "value": "sterm"},
                                 {"text": "프로젝트시작", "value": "eterm"},
-                                {"text": "장소", "value": "place"},
+                                {"text": "장소", "value": "local"},
                                 {"text": "필요인원", "value": "prsnl"},
                                 {"text": "현황", "value": "status"},
                                 {"text": "희망 급여", "value": "salary"},
@@ -59,7 +59,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 {"text":"면접", "value":"면접"},
                                 {"text":"완료", "value":"완료"},
                             ],
-                            "addressValue": "",
+                            "local": "",
                             "addressIndex": [
                                 ["강서구","은평구","광진구","서초구","구로구"],
                                 ["김포시","부천","광명","시흥","안양","과천","성남","하남","수원","광주"],
@@ -91,7 +91,8 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             "degree":"",
                             "sterm": "",
                             "eterm": "",
-                            "place": "",
+                            "detailLocal": "",
+                            "detailLocal": "",
                             "prsnl":"",
                             "status":"",
                             "slary":"",
@@ -111,7 +112,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
             },
 
             "watch": {
-                "project.dataTable.addressValue":{
+                "project.dataTable.local":{
                     "handler": function(value){
                         this.project.dataTable.addressSelect=this.project.dataTable.addressIndex[value];
                     }
@@ -182,7 +183,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 params.degree = !_.isEmpty(self.project.query.degree) ? self.project.query.degree : null;
                                 params.sterm = !_.isEmpty(self.project.query.sterm) ? self.project.query.sterm : null;
                                 params.eterm = !_.isEmpty(self.project.query.eterm) ? self.project.query.eterm : null;
-                                params.place = !_.isEmpty(self.project.query.place) ? self.project.query.place : null;
+                                params.detailLocal = !_.isEmpty(self.project.query.detailLocal) ? self.project.query.detailLocal : null;
                                 params.prsnl = !_.isEmpty(self.project.query.prsnl) ? self.project.query.prsnl : null;
                                 params.status = !_.isEmpty(self.project.query.status) ? self.project.query.status : null;
                                 params.slary = !_.isEmpty(self.project.query.slary) ? self.project.query.slary : null;
@@ -216,7 +217,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     query.degree = routeQuery.degree ? routeQuery.degree : this.project.query.degree;
                     query.sterm = routeQuery.sterm ? routeQuery.sterm : this.project.query.sterm;
                     query.eterm = routeQuery.eterm ? routeQuery.eterm : this.project.query.eterm;
-                    query.place = routeQuery.place ? routeQuery.place : this.project.query.place;
+                    query.detailLocal = routeQuery.detailLocal ? routeQuery.detailLocal : this.project.query.detailLocal;
                     query.status=routeQuery.status ? routeQuery.status : this.project.query.status;
                     query.slary=routeQuery.slary ? routeQuery.slary : this.project.query.slary;
                     return query;
@@ -233,7 +234,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     this.project.query.degree = query.degree;
                     this.project.query.sterm = query.sterm;
                     this.project.query.eterm = query.eterm;
-                    this.project.query.place = query.place;
+                    this.project.query.detailLocal = query.detailLocal;
                     this.project.query.prsnl = query.prsnl;
                     this.project.query.status = query.status;
                     this.project.query.slary = query.slary;
@@ -252,7 +253,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     query.degree = String(this.project.query.degree);
                     query.sterm = String(this.project.query.sterm);
                     query.eterm = String(this.project.query.eterm);
-                    query.place = String(this.project.query.place);
+                    query.detailLocal = String(this.project.query.detailLocal);
                     query.status = String(this.project.query.status);
                     query.slary = String(this.project.query.slary);
 
@@ -282,7 +283,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             .then(function () {
                             })
                             .then(function () {
-                                self.project.dataTable.addressValue=""
+                                self.project.dataTable.local=""
                                 self.project.query.name = "";
                                 self.project.query.job = "";
                                 self.project.query.skill = "";
@@ -290,7 +291,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 self.project.query.degree = "";
                                 self.project.query.sterm = "";
                                 self.project.query.eterm = "";
-                                self.project.query.place = "";
+                                self.project.query.detailLocal = "";
                                 self.project.query.prsnl = "";
                                 self.project.query.status = "";
                                 self.project.query.slary = "";

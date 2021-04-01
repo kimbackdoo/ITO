@@ -11,7 +11,11 @@
             `proj`.`degree`,
             `proj`.`sterm`,
             `proj`.`eterm`,
-            `proj`.`place`,
+            `proj`.`local`,
+            `proj`.`detail_local`,
+            `proj`.`postcode`,
+            `proj`.`address`,
+            `proj`.`detail_address`,
             `proj`.`prsnl`,
             `proj`.`status`,
             `proj`.`salary`,
@@ -34,6 +38,9 @@
             <if test="projectParamDto.skillList != null and projectParamDto.skillList != ''">
                 AND `skill` = #{projectParamDto.skillList}
             </if>
+            <if test="projectParamDto.career != null and projectParamDto.career != ''">
+                AND CAST(`career` AS float) &gt;= CAST(#{projectParamDto.career} AS float)
+            </if>
             <if test="projectParamDto.stermStart != null">
                 AND `sterm` &gt;= #{projectParamDto.stermStart}
             </if>
@@ -45,6 +52,12 @@
             </if>
             <if test="projectParamDto.etermEnd != null">
                 AND `eterm` &lt;= #{projectParamDto.etermEnd}
+            </if>
+            <if test="projectParamDto.local != null and projectParamDto.local != ''">
+                AND `local` = #{projectParamDto.local}
+            </if>
+            <if test="projectParamDto.detailLocal != null and projectParamDto.detailLocal != ''">
+                AND `detail_local` = #{projectParamDto.detailLocal}
             </if>
             <if test="projectParamDto.prsnl != null">
                 AND `prsnl` &gt;= #{projectParamDto.prsnl}
@@ -67,7 +80,11 @@
         <result property="degree" column="degree" />
         <result property="sterm" column="sterm" />
         <result property="eterm" column="eterm" />
-        <result property="place" column="place" />
+        <result property="local" column="local" />
+        <result property="detailLocal" column="detail_local" />
+        <result property="postcode" column="postcode" />
+        <result property="address" column="address" />
+        <result property="detailAddress" column="detail_address" />
         <result property="prsnl" column="prsnl" />
         <result property="status" column="status" />
         <result property="salary" column="salary" />

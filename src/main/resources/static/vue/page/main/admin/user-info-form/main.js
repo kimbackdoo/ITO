@@ -6,22 +6,29 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
             "data": function () {
                 return {
                     "data": {
-                                "id":"",
-                                "name": "",
-                                "jobType": "",
-                                "skill": null,
-                                "phoneNumber":"",
-                                "career": "",
-                                "education": "",
-                                "certificateStatus": "",
-                                "pay": "",
-                                "postcode":"",
-                                "address": "",
-                                "detailAddress":"",
-                                "extraAddress":"",
-                                "inputStatus":"",
-                                "birthDate":"",
-                                "workableDay":"",
+                        "id":"",
+                        "name": "",
+                        "jobType": "",
+                        "skill": "",
+                        "phoneNumber":"",
+                        "career": "",
+                        "career1": "",
+                        "career2": "",
+                        "localPlace": "",
+                        "detailLocalPlace": "",
+                        "education": "",
+                        "certificateStatus": "",
+                        "pay": "",
+                        "postcode":"",
+                        "address": "",
+                        "detailAddress":"",
+                        "extraAddress":"",
+                        "inputStatus":"",
+                        "birthDate":"",
+                        "workableDay":"",
+                    },
+                    "data2":{
+                        "skill": [],
                     },
                   "user": {
                         "panels": {
@@ -51,30 +58,11 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             ],
                         },
                         "dataTable": {
-                            "headers": [
-                                {"text": "이름", "value": "name",},
-                                {"text": "전화번호", "value": "phoneNumber",},
-                                {"text": "직종",  "value": "jobType",},
-                                {"text": "기술", "value": "skill",},
-                                {"text": "생년월일(나이)",  "value": "birthDate",},
-                                {"text": "경력", "value": "career",},
-                                {"text": "희망 급여",  "value": "pay",},
-                                {"text": "지역",  "value": "address",},
-                                {"text": "투입여부",  "value": "inputStatus",},
-                                {"text": "업무 가능일",  "value": "workableDay",},
-                                {"text": "수정 / 삭제", "sortable":false, "value": "actions",},
-                            ],
                             "items": [],
                             "loading": false,
                             "serverItemsLength": 0,
                             "page": 1,
                             "itemsPerPage": 10,
-                            "jobTypeItems": [
-                                 {"text":"개발자", "value":"개발자"},
-                                 {"text":"기획자", "value":"기획자"},
-                                 {"text":"퍼블리셔", "value":"퍼블리셔"},
-                                 {"text":"디자이너", "value":"디자이너"}
-                             ],
                             "education": [
                                  {"text":"2년제", "value":"2년제"},
                                  {"text":"3년제", "value":"3년제"},
@@ -84,27 +72,40 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                  {"text":"보유", "value":"T"},
                                  {"text":"없음", "value":"F"},
                             ],
-                            "address": [
-                                {"text":"서울특별시", "value":0},
-                                {"text":"경기도", "value":1},
-                                {"text":"대전광역시", "value":2},
+                            "career1": [
+                                {"text":"1년미만", "value": 0},
+                                {"text":"1", "value": 1},
+                                {"text":"2", "value": 2},
+                                {"text":"3", "value": 3},
+                                {"text":"4", "value": 4},
+                                {"text":"5", "value": 5},
+                                {"text":"6", "value": 6},
+                                {"text":"7", "value": 8},
+                                {"text":"8", "value": 9},
+                                {"text":"9", "value": 10},
+                                {"text":"10", "value": 11},
+                                {"text":"12", "value": 12},
+                                {"text":"13", "value": 13},
+                                {"text":"14", "value": 14},
+                                {"text":"15", "value": 15},
+                                {"text":"16", "value": 16},
+                                {"text":"17", "value": 17},
+                                {"text":"18", "value": 18},
+                                {"text":"19", "value": 19},
+                                {"text":"20", "value": 20}
                             ],
-                            "addressValue": "",
-                            "addressIndex": [
-                                ["강서구","은평구","광진구","서초구","구로구"],
-                                ["김포시","부천","광명","시흥","안양","과천","성남","하남","수원","광주"],
-                                ["중구","서구","대덕구","유성구","동구"],
-                            ],
-                            "addressSelect": [],
-                            "career": [
-                                {"text":"신입", "value": "0"},
-                                {"text":"1년", "value": "1"},
-                                {"text":"2년", "value": "2"},
-                                {"text":"3년", "value": "3"},
-                                {"text":"4년", "value": "4"},
-                                {"text":"5년", "value": "5"},
-                                {"text":"6년", "value": "6"},
-                                {"text":"7년", "value": "7"},
+                            "career2": [
+                                {"text":"1", "value": 0.08},
+                                {"text":"2", "value": 0.16},
+                                {"text":"3", "value": 0.24},
+                                {"text":"4", "value": 0.32},
+                                {"text":"5", "value": 0.40},
+                                {"text":"6", "value": 0.48},
+                                {"text":"7", "value": 0.56},
+                                {"text":"8", "value": 0.64},
+                                {"text":"9", "value": 0.72},
+                                {"text":"10", "value": 0.80},
+                                {"text":"11", "value": 0.88}
                             ],
                             "inputStatus": [
                                 {"text":"투입중", "value": 'T'},
@@ -115,15 +116,6 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             "skill": {
                                 "items": []
                             },
-                            "itemsPerPageItems": [
-                                {"text":"3", "value":3},
-                                {"text":"5", "value": 5},
-                                {"text": "10", "value": 10},
-                                {"text": "20", "value": 20},
-                                {"text": "30", "value": 30},
-                                {"text": "40", "value": 40},
-                                {"text": "50", "value": 50}
-                            ]
                       },
                     "select": {
                         "job": {
@@ -144,54 +136,76 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                 {"text": "투입", "value": "P"}
                             ]
                         },
+                        "localPlace": {
+                            "items": [
+                                {"text": "전체", "value": null}
+                            ]
+                        },
+                        "detailLocalPlace": {
+                            "items": [
+                                {"text": "전체", "value": null}
+                            ]
+                        }
                     }
                   },
                     "test": null
                };
             },
             "computed": {
-/*                formTitle() {
-                    return this.user.dataTable.editedIndex === -1 ? 'New Item' : '정보 수정하기'
-                },
-*/
             },
             "watch": {
-                "user.dataTable.addressValue":{
-                    "handler": function(value){
-                        this.user.dataTable.addressSelect=this.user.dataTable.addressIndex[value];
-                    }
-                },
-                "user.dataTable.editedItem.jobType": {
+/*                "data.jobType": {
                     "handler": async function (n, o) {
                         let skill = this.user.select.job.items.find(e=>e.value == this.data.jobType);
+                        console.log(skill)
 
                         if(o !== null) {
-                            this.data.skill = [];
+                            this.data2.skill = [];
                         }
-                        this.user.dataTable.skill.items = [];
-                        this.user.dataTable.skill.items = (await ito.api.common.code.getCodeList({
+                        this.user.select.skill.items = [];
+                        let items = (await ito.api.common.code.getCodeList({
                             "idStartLike": "004",
                             "status": "T",
                             "skill": skill !== undefined ? skill.text : null,
                             "rowSize": 1000000
-                        })).data.items.filter(e=> {
-                            if(e.id.startsWith("00401")) return e.id.length > 7;
-                            else return e.id.length > 5;
-                        });
-                    }
-                },
-                "user.dataTable.editedItem.skill": {
-                    "handler": function (n, o) {
-                        if(n.length > 3) {
-                            ito.alert("3개 이하만 가능합니다.");
-                            n.pop();
-                            return;
-                        }
-                    }
-                },
+                        })).data.items.map(e=> ({"text": e.name , "value": e.id}))
+                        items = items.filter(e => e.value.length > 5)
+                        this.user.select.skill.items.push(...items)
 
+                    }
+                },
+*/
+                "data.localPlace": {
+                    "handler": async function(n, o){
+                        let detailLocal = this.user.select.localPlace.items.find(e=>e.value == this.data.localPlace);
+
+                        if(o != null){
+                            this.data.detailLocalPlace= [];
+                        }
+                        this.user.select.detailLocalPlace.items=[];
+                        let items = (await ito.api.common.code.getCodeList({
+                            "idStartLike":"006",
+                            "status": "T",
+                            "detailLocal": detailLocal !== undefined ? detailLocal.text : null,
+                            "rowSize": 1000000
+                        })).data.items.map(e => ({"text": e.name, "value": e.id}))
+                        items = items.filter(e => e.value.length > 5)
+                        this.user.select.detailLocalPlace.items.push(...items)
+                        console.log(this.user.select.detailLocalPlace.items)
+                    }
+                }
             },
             "methods": {
+                "loadLocalPlace": async function(){
+                    var self = this;
+                    let items;
+                    items = (await ito.api.common.code.getCodeList({
+                        "parentId": "006",
+                        "sort": ["ranking, asc"],
+                        "rowSize": 1000000
+                    })).data.items.map(e => ({"text": e.name, "value": e.id}));
+                    self.user.select.localPlace.items.push(...items);
+                },
                 "loadJobItems": async function() {
                     var self = this;
                     let items;
@@ -200,7 +214,25 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         "sort": ["ranking, asc"],
                         "rowSize": 1000000
                     })).data.items.map(e=>({"text": e.name, "value": e.id}));
+
                     self.user.select.job.items.push(...items);
+
+                },
+                "loadSkillItems": async function() {
+                    var self = this;
+                    let items;
+                    let skill = {"text": "개발자", "value": "00101"};
+
+                    items = (await ito.api.common.code.getCodeList({
+                        "idStartLike": ["004"],
+                        "status": "T",
+                        "rowSize": 1000000
+                    })).data.items.map(e => ({"text": e.name , "value": e.id}));
+                    console.log(items)
+                    items = items.filter(e => e.value.length > 5)
+                    console.log(items)
+                    self.user.select.skill.items.push(...items)
+
                 },
                 "execDaumPostcode": function() {
                     var self = this;
@@ -240,11 +272,18 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         skillList = [];
                         console.log(personSkillList);
                         this.test = {skill: personSkillList.map(e=> e.skill)};
-                        console.log(this.test);
-                        Object.assign(person, this.test);
+
+                        console.log(this.test)
+                        person.skill = _.cloneDeep(this.test);
+                        console.log(person);
                         self.data = _.cloneDeep(person);
+                        self.data2.skill = this.test;
+                        self.data.jobType = [person.jobType];
+/*                        console.log(self.data2.skill)
                         console.log(self.data)
-                        console.log(person, skillList);
+                        console.log(_.cloneDeep(self.data))
+*/
+
                     }
                 },
                 "saveUserInfo": function () {
@@ -260,22 +299,22 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                         Promise.resolve()
                                             .then(async function () {
                                                 var data = self.data;
-                                                person=data;
-                                                console.log("data.id    : "  +data.id)
-
-
+                                                data.skill = self.data2.skill;
+                                                data.jobType = String(data.jobType)
                                                 if (!data.id) {
-
-                                                    await ito.api.app.profile.createProfile({
+/*                                                    await ito.api.app.profile.createProfile({
                                                         "personDto": person,
                                                         "sectorList": sectorList,
                                                         "skillList": person.skill,
                                                         "languageList": languageList
                                                     });
+*/													console.log( typeof(data.jobType));
+                                                    console.log( data);
+
                                                     return ito.api.common.person.createPerson(data);
                                                 } else {
 
-                                                    personSectorList =  (await ito.api.common.personSector.getPersonSectorList({"personId": data.id})).data.items;
+/*                                                    personSectorList =  (await ito.api.common.personSector.getPersonSectorList({"personId": data.id})).data.items;
                                                     personSectorList.forEach(e => {
                                                         sectorList.push(e.sector)
                                                     })
@@ -292,6 +331,7 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                                         "skillList": person.skill,
                                                         "languageList": languageList
                                                     });
+*/
                                                     return ito.api.common.person.modifyPerson(data.id, data);
                                                 }
                                             })
@@ -331,13 +371,15 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                self.data.name = "";
                                self.data.phoneNumber = "";
                                self.data.jobType = "";
-                               self.data.skill = "";
+                               self.data2.skill = "";
                                self.data.birthDate = "";
                                self.data.career = "";
                                self.data.pay = "";
                                self.data.inputStatus = "";
                                self.data.workableDay = "";
                                self.data.certificateStatus = "";
+                               self.data.localPlace = "";
+                               self.data.detailLocalPlace = "";
                                self.data.education = "";
                            })
                            .then(function () { resolve(); });
@@ -347,8 +389,10 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
          "mounted": async function () {
                 var self = this;
                 await Promise.all([
-                    self.setUserInfo(),
-                    self.loadJobItems()
+                    await self.loadJobItems(),
+                    await self.loadSkillItems(),
+                    self.loadLocalPlace(),
+                    self.setUserInfo()
                 ]);
 //                console.log(this.data.skill, this.test);
 //                this.data.skill = this.test;
