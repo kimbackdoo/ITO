@@ -122,7 +122,7 @@
                                         label="희망 지역"
                                         suffix="(시/도)"
                                         v-model="user.query.localPlace"
-                                        :items="user.select.localPlace.items"
+                                        :items="select.localPlace.items"
                                         @keydown.enter="search();"
                                     ></v-select>
                                 </v-col>
@@ -134,7 +134,7 @@
                                         label="희망 지역"
                                         suffix="(구/군)"
                                         v-model="user.query.detailLocalPlace"
-                                        :items="user.select.detailLocalPlace.items"
+                                        :items="select.detailLocalPlace.items"
                                         @keydown.enter="search();"
                                     ></v-select>
                                 </v-col>

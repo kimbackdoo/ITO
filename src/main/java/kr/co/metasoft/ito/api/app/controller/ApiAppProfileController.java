@@ -2,6 +2,9 @@ package kr.co.metasoft.ito.api.app.controller;
 
 import kr.co.metasoft.ito.api.app.dto.ProfileDto;
 import kr.co.metasoft.ito.api.app.service.ProfileService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +20,12 @@ public class ApiAppProfileController {
     }
 
     @PutMapping(path = "")
-    public void modifyPerson(@RequestBody ProfileDto personDto) { profileService.modifyProfile(personDto); }
+    public void modifyProfile(@RequestBody ProfileDto personDto) { profileService.modifyProfile(personDto); }
 
-    @DeleteMapping(path = "")
-    public void removePerson(@RequestBody ProfileDto profileDto) { profileService.removeProfile(profileDto); }
+    @DeleteMapping(path = "{id}")
+    public void removeProfile(@PathVariable Long id) { profileService.removeProfile(id); }
+
+    @DeleteMapping(path ="")
+    public void removeProfileList(@RequestBody List<ProfileDto> profileDtoList) { profileService.removeProfileList(profileDtoList); }
+
 }

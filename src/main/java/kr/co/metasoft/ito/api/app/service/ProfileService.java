@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -171,10 +172,40 @@ public class ProfileService {
     @Validated(value = {RemoveValidationGroup.class})
     @Transactional
     public void removeProfile(
-            @Valid @NotNull(groups = {RemoveValidationGroup.class}) ProfileDto profileDto) {
-        personRepository.delete(PersonEntity.builder().id(profileDto.getPersonDto().getId()).build());
-        personSectorRepository.delete(PersonSectorEntity.builder().personId(profileDto.getPersonDto().getId()).build());
-        personSkillRepository.delete(PersonSkillEntity.builder().personId(profileDto.getPersonDto().getId()).build());
-        personLanguageRepository.delete(PersonLanguageEntity.builder().personId(profileDto.getPersonDto().getId()).build());
+            @Valid @NotNull(groups = {RemoveValidationGroup.class}) Long id) {
+        personRepository.delete(PersonEntity.builder().id(id).build());
+        personSectorRepository.delete(PersonSectorEntity.builder().personId(id).build());
+        personSkillRepository.delete(PersonSkillEntity.builder().personId(id).build());
+        personLanguageRepository.delete(PersonLanguageEntity.builder().personId(id).build());
     }
+
+
+    @Validated(value = {RemoveValidationGroup.class})
+    @Transactional
+    public void removeProfileList(
+            @Valid @NotEmpty(groups = {RemoveValidationGroup.class}) List<@NotNull (groups = {RemoveValidationGroup.class}) ProfileDto> profileDtoList ) {
+
+        List<PersonEntity> personList = new ArrayList<>();
+        List<PersonSectorEntity> personSectorList = new ArrayList<>();
+        List<PersonSkillEntity> personSkillList = new ArrayList<>();
+        List<PersonLanguageEntity> personLanguageList = new ArrayList<>();
+        for(int i=0;i< profileDtoList.size();i++) {
+            Long id = profileDtoList.get(i).getPersonDto().getId();
+            personList.add(PersonEntity.builder().id(id).build());
+            personSectorList.add((PersonSectorEntity) profileDtoList.get(i).getSectorList());
+            personSkillList.add((PersonSkillEntity) profileDtoList.get(i).getSkillList());
+            personLanguageList.add((PersonLanguageEntity) profileDtoList.get(i).getLanguageList());
+        }
+        personSectorRepository.deleteAll(personSectorList);
+        personSkillRepository.deleteAll(personSkillList);
+        personLanguageRepository.deleteAll(personLanguageList);
+
+        personRepository.deleteAll(personList);
+    }
+
+
+
+
+
+
 }

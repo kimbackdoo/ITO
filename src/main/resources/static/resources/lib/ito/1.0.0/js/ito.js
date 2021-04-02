@@ -322,7 +322,8 @@ ito = {
             "profile": {
                 "createProfile": function (data) { return axios({"url": "/api/app/profile", "method": "post", "data": data}); },
                 "modifyProfile": function (data) { return axios({"url": "/api/app/profile", "method": "put", "data": data}); },
-                "removeProfile": function (data) { return axios({"url": "/api/app/profile", "method": "delete", "data": data}); },
+                "removeProfile": function (id) { return axios({"url": "/api/app/profile/"+id, "method": "delete"}); },
+                "removeProfileList": function (data) { return axios({"url": "/api/app/profile", "method": "delete", "data": data}); },
             },
         },
         "util": {

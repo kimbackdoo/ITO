@@ -116,14 +116,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "birthDate":null,
                             "workableDay":null,
                         },
-                        "select": {
-                            "localPlace":{
-                                "items":[]
-                            },
-                            "detailLocalPlace":{
-                                "items":[]
-                            },
-                        }
                     },
                     "select": {
                         "job": {
@@ -142,6 +134,16 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 {"text": "완료", "value": "C"},
                                 {"text": "면접", "value": "I"},
                                 {"text": "투입", "value": "P"}
+                            ]
+                        },
+                        "localPlace":{
+                            "items":[
+                                {"text": "전체", "value": null}
+                            ]
+                        },
+                        "detailLocalPlace":{
+                            "items":[
+                                {"text": "전체", "value": null}
                             ]
                         },
                     },
@@ -196,12 +198,12 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 },
                 "user.query.localPlace": {
                     "handler": async function(n, o){
-                        let detailLocal = this.user.select.localPlace.items.find(e=>e.value == this.data.localPlace);
+                        let detailLocal = this.select.localPlace.items.find(e=>e.value == this.user.query.localPlace);
 
                         if(o != null){
                             this.data.detailLocalPlace= [];
                         }
-                        this.user.select.detailLocalPlace.items=[];
+                        this.select.detailLocalPlace.items=[];
                         let items = (await ito.api.common.code.getCodeList({
                             "idStartLike":"006",
                             "status": "T",
@@ -209,8 +211,8 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "rowSize": 1000000
                         })).data.items.map(e => ({"text": e.name, "value": e.id}))
                         items = items.filter(e => e.value.length > 5)
-                        this.user.select.detailLocalPlace.items.push(...items)
-                        console.log(this.user.select.detailLocalPlace.items)
+                        this.select.detailLocalPlace.items.push( {"text": "전체", "value": null}, ...items)
+                        console.log(this.select.detailLocalPlace.items)
                     }
                 }
 
@@ -224,7 +226,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         "sort": ["ranking, asc"],
                         "rowSize": 1000000
                     })).data.items.map(e => ({"text": e.name, "value": e.id}));
-                    self.user.select.localPlace.items.push(...items);
+                    self.select.localPlace.items.push(...items);
                 },
                 "editUserInfo": function(value){
                     this.$router.push({
@@ -242,19 +244,60 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 "handlePageChange": function (value){
                     return this.currentPage=value;
                 },
+
+                //삭제 기능 수정 =>
                 "deleteUserInfoList": async function(items){
                     var self = this;
+                    let idList = [items.map(e=>e.id)];
+                    var item= {}, params=[];
+                    var person;
 
                     if(items.length == 0){
                         await ito.alert("삭제할 항목이 없습니다.")
                     }else{
                         if(await ito.confirm("삭제하시겠습니까?")){
-                           await ito.api.common.person.removePersonList(items.map(e=>e.id));
+                            console.log("idList 값 : "+idList);
+                           for(var i in idList){ //
+                                let sectorList=[], languageList=[], skillList=[];
+
+                                idList[i] = Number(idList[i]);
+                                console.log("id리스트 index 값 : "+ idList[i])
+
+                                console.log((await ito.api.common.person.getPerson(idList[i])).data);
+                                person = (await ito.api.common.person.getPerson(idList[i])).data;
+
+                                var personSectorList =  (await ito.api.common.personSector.getPersonSectorList(idList[i])).data.items;
+                                personSectorList.forEach(e => {
+                                    sectorList.push(e.sector)
+                                })
+
+                                var personLanguageList = (await ito.api.common.personLanguage.getPersonLanguageList({"personId": idList[i]})).data.items;
+                                console.log("personLanguageList 값 : "+[personLanguageList])
+                                personLanguageList.forEach(e=>{
+                                    languageList.push(e.language)
+                                });
+
+                                var personSkillList = (await ito.api.common.personSkill.getPersonSkillList({"personId": idList[i]})).data.items;
+                                personSkillList.forEach(e=>{
+                                    skillList.push(e.skill)
+                                });
+
+                                params.push({
+                                    "personDto": person,
+                                    "sectorList": sectorList,
+                                    "skillList": skillList,
+                                    "languageList": languageList,
+                                })
+                                console.log("param id값 : "+ idList[i]);
+                             }
+                           console.log(params)
+                           await ito.api.app.removeProfileList(params)
                            await ito.alert("삭제되었습니다.")
                         }
                         self.setUserInfoList();
                     }
                 },
+
                 "loadJobItems": async function() {
                     var self = this;
                     let items;
@@ -275,7 +318,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     params.jobType = !_.isEmpty(self.user.query.jobType) ? self.user.query.jobType : null;
                     params.career = !_.isEmpty(careerValue) ? careerValue : null;
                     params.pay = !_.isEmpty(self.user.query.pay) ? self.user.query.pay : null;
-                    params.address = !_.isEmpty(self.user.query.address) ? self.user.query.address : null;
+                    params.address = !_.isEmpty(self.user.query.detailLocalPlace) ? self.user.query.detailLocalPlace : null;
                     params.inputStatus = !_.isEmpty(self.user.query.inputStatus) ? self.user.query.inputStatus : null;
                     params.education = !_.isEmpty(self.user.query.education) ? self.user.query.education : null;
                     params.certificateStatus = !_.isEmpty(self.user.query.certificateStatus) ? self.user.query.certificateStatus : null;
