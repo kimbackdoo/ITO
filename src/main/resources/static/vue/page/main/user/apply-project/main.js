@@ -119,9 +119,14 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
             degreeSelect() {
                 return this.project.dataTable.query.degree.length > 0 && !this.degreeAllSelect;
             },
-            icon() {
-                if(this.skillAllSelect || this.degreeAllSelect) return 'mdi-close-box';
-                if(this.skillSelect || this.degreeSelect) return 'mdi-minus-box';
+            iconSkill() {
+                if(this.skillAllSelect) return 'mdi-close-box';
+                if(this.skillSelect) return 'mdi-minus-box';
+                return 'mdi-checkbox-blank-outline'
+            },
+            iconDegree() {
+                if(this.degreeAllSelect) return 'mdi-close-box';
+                if(this.degreeSelect) return 'mdi-minus-box';
                 return 'mdi-checkbox-blank-outline'
             },
         },
