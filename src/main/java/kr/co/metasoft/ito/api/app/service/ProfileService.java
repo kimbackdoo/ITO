@@ -184,22 +184,15 @@ public class ProfileService {
     @Transactional
     public void removeProfileList(
             @Valid @NotEmpty(groups = {RemoveValidationGroup.class}) List<@NotNull (groups = {RemoveValidationGroup.class}) ProfileDto> profileDtoList ) {
-
         List<PersonEntity> personList = new ArrayList<>();
-        List<PersonSectorEntity> personSectorList = new ArrayList<>();
-        List<PersonSkillEntity> personSkillList = new ArrayList<>();
-        List<PersonLanguageEntity> personLanguageList = new ArrayList<>();
         for(int i=0;i< profileDtoList.size();i++) {
             Long id = profileDtoList.get(i).getPersonDto().getId();
-            personList.add(PersonEntity.builder().id(id).build());
-            personSectorList.add((PersonSectorEntity) profileDtoList.get(i).getSectorList());
-            personSkillList.add((PersonSkillEntity) profileDtoList.get(i).getSkillList());
-            personLanguageList.add((PersonLanguageEntity) profileDtoList.get(i).getLanguageList());
-        }
-        personSectorRepository.deleteAll(personSectorList);
-        personSkillRepository.deleteAll(personSkillList);
-        personLanguageRepository.deleteAll(personLanguageList);
 
+            personList.add(PersonEntity.builder().id(id).build());
+            personSectorRepository.deleteSectorAllByPersonId(id);
+            personSkillRepository.deleteSkillAllByPersonId(id);
+            personLanguageRepository.deleteLanguageAllByPersonId(id);
+        }
         personRepository.deleteAll(personList);
     }
 

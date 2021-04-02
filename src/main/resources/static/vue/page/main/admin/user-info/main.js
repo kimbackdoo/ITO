@@ -83,17 +83,17 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 {"text":"20", "value": 20}
                             ],
                             "career2": [
-                                {"text":"1", "value": 0.08},
-                                {"text":"2", "value": 0.16},
-                                {"text":"3", "value": 0.24},
-                                {"text":"4", "value": 0.32},
-                                {"text":"5", "value": 0.40},
-                                {"text":"6", "value": 0.48},
-                                {"text":"7", "value": 0.56},
-                                {"text":"8", "value": 0.64},
-                                {"text":"9", "value": 0.72},
-                                {"text":"10", "value": 0.80},
-                                {"text":"11", "value": 0.88}
+                                {"text":"1", "value": 0.01},
+                                {"text":"2", "value": 0.02},
+                                {"text":"3", "value": 0.03},
+                                {"text":"4", "value": 0.04},
+                                {"text":"5", "value": 0.05},
+                                {"text":"6", "value": 0.06},
+                                {"text":"7", "value": 0.07},
+                                {"text":"8", "value": 0.08},
+                                {"text":"9", "value": 0.09},
+                                {"text":"10", "value": 0.10},
+                                {"text":"11", "value": 0.11}
                             ],
                             "checkbox:": [],
                         },
@@ -249,7 +249,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 "deleteUserInfoList": async function(items){
                     var self = this;
                     let idList = [items.map(e=>e.id)];
-                    var item= {}, params=[];
+                    var params=[];
                     var person;
 
                     if(items.length == 0){
@@ -258,40 +258,15 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         if(await ito.confirm("삭제하시겠습니까?")){
                             console.log("idList 값 : "+idList);
                            for(var i in idList){ //
-                                let sectorList=[], languageList=[], skillList=[];
 
                                 idList[i] = Number(idList[i]);
-                                console.log("id리스트 index 값 : "+ idList[i])
-
-                                console.log((await ito.api.common.person.getPerson(idList[i])).data);
                                 person = (await ito.api.common.person.getPerson(idList[i])).data;
-
-                                var personSectorList =  (await ito.api.common.personSector.getPersonSectorList(idList[i])).data.items;
-                                personSectorList.forEach(e => {
-                                    sectorList.push(e.sector)
-                                })
-
-                                var personLanguageList = (await ito.api.common.personLanguage.getPersonLanguageList({"personId": idList[i]})).data.items;
-                                console.log("personLanguageList 값 : "+[personLanguageList])
-                                personLanguageList.forEach(e=>{
-                                    languageList.push(e.language)
-                                });
-
-                                var personSkillList = (await ito.api.common.personSkill.getPersonSkillList({"personId": idList[i]})).data.items;
-                                personSkillList.forEach(e=>{
-                                    skillList.push(e.skill)
-                                });
 
                                 params.push({
                                     "personDto": person,
-                                    "sectorList": sectorList,
-                                    "skillList": skillList,
-                                    "languageList": languageList,
                                 })
-                                console.log("param id값 : "+ idList[i]);
                              }
-                           console.log(params)
-                           await ito.api.app.removeProfileList(params)
+                           await ito.api.app.profile.removeProfileList(params)
                            await ito.alert("삭제되었습니다.")
                         }
                         self.setUserInfoList();
