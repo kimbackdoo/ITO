@@ -8,17 +8,6 @@ ApplyProjectDetailMainComponent = Vue.component('applyProject-detail-main-compon
                    "panels": {
                        "list": [0],
                    },
-                   "dataTable": {
-                       "headers": [
-                           {"text": "이름", "value": "name"},
-                           {"text": "직종", "value": "job"},
-                           {"text": "기술", "value": "skill"},
-                           {"text": "경력기간", "value": "career"},
-                           {"text": "희망급여", "value": "pay"},
-                           {"text": "투입여부", "value": "status"},
-                           {"text": "메모", "value": "memo"},
-                       ]
-                   },
                    "items": [],
                }
            }
@@ -36,6 +25,8 @@ ApplyProjectDetailMainComponent = Vue.component('applyProject-detail-main-compon
                        })
                        .then(function(response) {
                            self.project.items = response.data;
+
+                           console.log(self.project.items);
                        })
                        .then(function() { resolve(); });
                });

@@ -3,6 +3,8 @@ package kr.co.metasoft.ito.api.common.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -39,9 +41,9 @@ public class ProjectDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate eterm;
 
-    private String place;
+    private String local;
 
-    private String place2;
+    private String detailLocal;
 
     private String postcode;
 

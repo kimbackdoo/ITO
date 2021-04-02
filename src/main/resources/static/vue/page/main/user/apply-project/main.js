@@ -152,13 +152,13 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
             "project.dataTable.query.local": {
                 "handler": async function() {
                     let items,
-                        detailLocal = this.select.local.items.find(e=> e.value == this.project.dataTable.query.local);
+                        local = this.select.local.items.find(e=> e.value == this.project.dataTable.query.local);
 
                     this.select.detailLocal.items = [];
                     items = (await ito.api.common.code.getCodeList({
                         "idStartLike": "006",
                         "status": "T",
-                        "detailLocal": detailLocal !== undefined ? detailLocal.text : null,
+                        "detailLocal": local !== undefined ? local.text : null,
                         "rowSize": 10000000
                     })).data.items.map(e=> ({"text": e.name, "value": e.id}));
                     items = items.filter(e=> e.value.length > 5)
@@ -223,8 +223,10 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 let limitDate, limitDay;
                 for(var i=0; i<projectList.items.length; i++) {
                     limitDate = moment(projectList.items[i].limitDate).format("MM-DD");
-                    limitDay = moment().diff(moment(projectList.items[i].limitDate), "day");
-                    projectList.items[i].limitDate = limitDate + " (D-" + limitDay + ")";
+                    limitDay = moment(projectList.items[i].limitDate).diff(moment(), "day");
+
+                    if(limitDay < 0) projectList.items[i].limitDate = limitDate + " (D+" + Math.abs(limitDay) + ")";
+                    else projectList.items[i].limitDate = limitDate + " (D-" + limitDay + ")";
                 }
 
                 console.log(projectList);

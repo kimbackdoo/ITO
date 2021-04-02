@@ -9,6 +9,11 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                         "items": []
                     },
                 },
+                "autocomplete": {
+                    "skill": {
+                        "items": []
+                    },
+                },
                 "inputProfile": {
                     "panels": {
                         "form": [0]
@@ -30,55 +35,36 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                             "extraAddress": null
                         },
                     },
-                    "skill": {
-                        "items": []
-                    },
                 },
             };
-        },
-        "watch": {
-            "inputProfile.form.item.jobType": {
-                "handler": async function (n, o) {
-                    let skill = this.select.job.items.find(e=>e.value == this.inputProfile.form.item.jobType);
-
-                    if(o !== null) {
-                        this.inputProfile.form.item.skill = [];
-                    }
-                    this.inputProfile.skill.items = [];
-                    this.inputProfile.skill.items = (await ito.api.common.code.getCodeList({
-                        "idStartLike": "004",
-                        "status": "T",
-                        "skill": skill !== undefined ? skill.text : null,
-                        "rowSize": 1000000
-                    })).data.items.filter(e=> {
-                        if(e.id.startsWith("00401")) return e.id.length > 7;
-                        else return e.id.length > 5;
-                    });
-                }
-            },
-            "inputProfile.form.item.skill": {
-                "handler": function (n, o) {
-                    if(n.length > 3) {
-                        ito.alert("3개 이하만 가능합니다.");
-                        n.pop();
-                        return;
-                    }
-                }
-            },
         },
         "methods": {
             "init": async function() {
                 await this.loadJobItems();
+                await this.loadSkillItems();
                 await this.setProfile();
             },
             "loadJobItems": async function() {
-                let items;
+                let items, self = this;
                 items = (await ito.api.common.code.getCodeList({
                     "parentId": "001",
                     "sort": ["ranking, asc"],
                     "rowSize": 1000000
                 })).data.items.map(e=>({"text": e.name, "value": e.id}));
-                this.select.job.items.push(...items);
+                self.select.job.items.push(...items);
+            },
+            "loadSkillItems": async function() {
+                let items, self = this;
+                items = (await ito.api.common.code.getCodeList({
+                    "idStartLike": "004",
+                    "status": "T",
+                    "rowSize": 1000000
+                })).data.items.map(e=> ({"text": e.name, "value": e.id}));
+                items = items.filter(e=> {
+                    if(e.value.startsWith("00401")) return e.value.length > 7;
+                    else return e.value.length > 5;
+                });
+                self.autocomplete.skill.items.push(...items);
             },
             "setProfile": async function() {
                 let self = this, personId, skill, person, personSkillList;
@@ -91,6 +77,7 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                     skill.push(e.skill);
                 });
                 person.skill = skill;
+                person.jobType = [person.jobType];
                 self.inputProfile.form.item = person;
             },
             "saveProfile": async function () {
