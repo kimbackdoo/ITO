@@ -2,6 +2,7 @@ package kr.co.metasoft.ito.api.common.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -46,7 +47,7 @@ public class PersonService {
     }
 
     @Validated (value = {ReadValidationGroup.class})
-    @Transactional (readOnly = true)
+    @Transactional
     public PersonEntity getPerson(
             @Valid @NotNull (groups = {ReadValidationGroup.class}) Long id) {
         return personMapper.selectPerson(id);
@@ -98,5 +99,4 @@ public class PersonService {
             @Valid @NotNull (groups = {RemoveValidationGroup.class}) Long id) {
         personRepository.delete(PersonEntity.builder().id(id).build());
     }
-
 }

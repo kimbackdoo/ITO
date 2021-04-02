@@ -65,8 +65,11 @@ public class PersonEntity {
     @Column (name = "`role`", columnDefinition = "varchar(100)", nullable = true)
     private String role;
 
-    @Column (name = "`career`", columnDefinition = "varchar(10)", nullable = true)
+    @Column (name = "`career`", columnDefinition = "varchar(100)", nullable = true)
     private String career;
+
+    @Column (name = "`days`", columnDefinition = "varchar(100)", nullable = true)
+    private String days;
 
     @Column (name = "`pay`", columnDefinition = "bigint(20)", nullable = true)
     private Long pay;

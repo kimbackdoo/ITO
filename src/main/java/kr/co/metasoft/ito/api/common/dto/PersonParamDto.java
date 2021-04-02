@@ -34,6 +34,8 @@ public class PersonParamDto {
 
     private String career;
 
+    private String days;
+
     private Long pay;
 
     @JsonFormat (pattern = "yyyy-MM-dd")

@@ -38,6 +38,8 @@ public class PersonDto {
 
     private String career;
 
+    private String days;
+
     private Long pay;
 
     private String status;

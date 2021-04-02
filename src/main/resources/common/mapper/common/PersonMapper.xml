@@ -12,6 +12,7 @@
             `person`.`certificate_status`,
             `person`.`role`,
             `person`.`career`,
+            `person`.`days`,
             `person`.`pay`,
             `person`.`workable_day`,
             `person`.`postcode`,
@@ -66,6 +67,7 @@
         <result property="certificateStatus" column="certificate_status"/>
         <result property="role" column="role"/>
         <result property="career" column="career"/>
+        <result property="days" column="days"/>
         <result property="pay" column="pay"/>
         <result property="workableDay" column="workable_day"/>
         <result property="postcode" column="postcode"/>
