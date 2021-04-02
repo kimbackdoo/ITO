@@ -39,11 +39,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 "multiSort": true,
                                 "mustSort": false
                             },
-                            "education": [
-                                 {"text":"2년제", "value":"2년제"},
-                                 {"text":"3년제", "value":"3년제"},
-                                 {"text":"4년제", "value":"4년제"},
-                            ],
                             "certificateStatus": [
                                  {"text":"보유", "value":"T"},
                                  {"text":"없음", "value":"F"},
@@ -146,6 +141,11 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 {"text": "전체", "value": null}
                             ]
                         },
+                        "education":{
+                            "items":[
+                                {"text": "학위", "value": null}
+                            ]
+                        }
                     },
                     "dialog": {
                         "visible": false,
@@ -218,6 +218,16 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
 
             },
             "methods": {
+                "loadEducation": async function() {
+                    var self = this;
+                    let items;
+                    items = (await ito.api.common.code.getCodeList({
+                        "parentId": "007",
+                        "sort": ["ranking, asc"],
+                        "rowSize": 1000000
+                    })).data.items.map(e => ({"text": e.name, "value": e.id}));
+                    self.select.education.items.push(...items);
+                },
                "loadLocalPlace": async function(){
                     var self = this;
                     let items;
@@ -366,9 +376,10 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
             },
             "mounted": async function () {
                 Promise.all([
+                    this.loadEducation(),
                     this.loadLocalPlace(),
-                    this.setUserInfoList(),
-                    this.loadJobItems()
+                    this.loadJobItems(),
+                    this.setUserInfoList()
                 ]);
             }
         });

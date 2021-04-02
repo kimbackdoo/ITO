@@ -13,140 +13,137 @@
                         style="max-height: 600px"
                         >
                         <v-form>
-                            <v-row>
-                                <v-col
-                                    cols="5"
-                                >
-                                    <v-text-field
-                                        dense
-                                        label="프로젝트명"
-                                        v-model="project.query.name"
-                                    ></v-text-field>
-                                </v-col>
-                                 <v-col
-                                    cols="3"
-                                >
-                                  <v-select
-                                      dense
-                                      outlined
-                                      :items="project.dataTable.jobTypeItems"
-                                      label="직종"
-                                    v-model="project.query.job"
-                                 ></v-select>
-                                 </v-col>
-                                 <v-col
-                                    cols="3"
-                                >
-                                    <v-text-field
-                                      dense
-                                      label="기술"
-                                    v-model="project.query.skill"
-                                 ></v-text-field>
-                                </v-col>
-                                <v-col
-                                    cols="3"
-                                >
-                                  <v-select
-                                      dense
-                                      outlined
-                                      label="학위"
-                                      :items="project.dataTable.education"
-                                    v-model="project.query.degree"
-                                 ></v-select>
-                                 </v-col>
-                                <v-col
-                                    cols="2"
-                                >
-                                    <v-select
-                                        outlined
-                                        dense
-                                        menu-props="auto"
-                                        :items="project.dataTable.career"
-                                        label="경력"
-                                        v-model="project.query.career"
-                                    ></v-select>
-                                </v-col>
-                                    <v-col
-                                    cols="3"
-                                   >
-                                        <date-picker-component
-                                     dense
-                                     label="시작 기간"
-                                     append-icon="mdi-calendar"
-                                     v-model="project.query.sterm"
-                                   ></date-picker-component>
-                                  </v-col>
-                                     <v-col
-                                       cols="3"
-                                  >
-                                    <date-picker-component
-                                        dense
-                                        label="종료 기간"
-                                        append-icon="mdi-calendar"
-                                           v-model="project.query.eterm"
-                                  ></date-picker-component>
-                                </v-col>
-                                <v-col
-                                        cols="3"
-                                    >
-                                    <v-select
-                                        dense
-                                        outlined
-                                        :items="project.dataTable.address"
-                                        label="지역(시)"
-                                        v-model="project.dataTable.local"
-                                    ></v-select>
-                                    </v-col>
-                                    <v-col
-                                        cols="3"
-                                    >
-                                    <v-select
-                                        dense
-                                        outlined
-                                        :items="project.dataTable.addressSelect"
-                                        label="지역(구)"
-                                        v-model="project.query.detailLocal"
-                                    ></v-select>
-                                    </v-col>
-                               <v-col
-                                    cols="3"
-                                >
-                                    <v-text-field
-                                        dense
-                                        suffix="만원"
-                                        label="희망 월급여"
-                                        v-model="project.query.slary"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col
-                                        cols="2"
-                                    >
-                                        <v-select
-                                            outlined
+                            <v-container>
+                                <v-row>
+                                    <v-col cols="4">
+                                        <v-text-field
                                             dense
-                                            menu-props="auto"
-                                            :items="project.dataTable.status"
-                                            label="현황"
-                                            v-model="project.query.status"
+                                            label="프로젝트명"
+                                            v-model="project.query.name"
+                                            @keyup.enter="search()"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="3">
+                                        <date-picker-component
+                                            dense
+                                            hide-details
+                                            append-icon="mdi-calendar"
+                                            label="시작기간"
+                                            v-model="project.query.sterm"
+                                        ></date-picker-component>
+                                    </v-col>
+                                    <v-col cols="3">
+                                        <v-select
+                                            dense
+                                            label="지역(시/도)"
+                                            :items="select.localPlace.items"
+                                            v-model="project.query.localPlace"
+                                            @keyup.enter="search()"
                                         ></v-select>
                                     </v-col>
-                               </v-row>
-                               <v-row>
-                                <v-col
-                                    cols="12"
-                                    class="text-right"
-                                >
-                                    <v-btn
-                                        class="primary"
-                                        @click="serarch()"
-                                    >검색</v-btn>
-                                    <v-btn
-                                        class="secondary"
-                                        @click="reset()"
-                                    >초기화</v-btn>
-                                </v-col>
-                            </v-row>
+                                    <v-col cols="2">
+                                        <v-select
+                                            dense
+                                            label="지역(구/군)"
+                                            :items="select.detailLocalPlace.items"
+                                            v-model="project.query.detailLocalPlace"
+                                            @keyup.enter="search()"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="3">
+                                        <v-select
+                                            dense
+                                            multiple
+                                            label="직종"
+                                            hide-details="auto"
+                                            :items="select.job.items"
+                                            v-model="project.query.job"
+                                            @keyup.enter="search()"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="3">
+                                        <v-select
+                                            multiple
+                                            dense
+                                            label="기술"
+                                            multiple
+                                            hide-details="auto"
+                                            :items="select.skill.items"
+                                            v-model="project.query.skill"
+                                            @keyup.enter="search()"
+                                        ></v-select>
+                                    </v-col>
 
+                                    <v-col cols="3">
+                                        <v-select
+                                            dense
+                                            label="학위"
+                                            :items="select.education.items"
+                                            v-model="project.query.degree"
+                                            @keyup.enter="search()"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="3">
+                                        <v-select
+                                            dense
+                                            label="현황"
+                                            :items="select.status.items"
+                                            v-model="project.query.status"
+                                            @keyup.enter="search()"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <v-select
+                                            dense
+                                            label="경력"
+                                            suffix="년"
+                                            :items="project.dataTable.career1"
+                                            v-model="project.query.career1"
+                                            @keyup.enter="search()"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <v-select
+                                            dense
+                                            label="경력"
+                                            suffix="월"
+                                            :items="project.dataTable.career2"
+                                            v-model="project.query.career2"
+                                            @keyup.enter="search()"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field
+                                            dense
+                                            label="필요인원수"
+                                            suffix="명"
+                                            v-model="project.query.prsnl"
+                                            @keyup.enter="search()"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field
+                                            dense
+                                            label="월 급여"
+                                            suffix="만원"
+                                            v-model="project.query.salary"
+                                            @keyup.enter="search()"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12" class="text-right">
+                                        <v-btn
+                                            class="primary"
+                                            @click="search()"
+                                        >검색</v-btn>
+                                        <v-btn
+                                            class="secondary"
+                                            @click="reset()"
+                                        >초기화</v-btn>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
                         </v-form>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -181,7 +178,7 @@
                                 </div>
                             </v-col>
                         </v-row>
-                        <v-row></v-row>>
+                        <v-row></v-row>
                         <v-data-table
                             fixed-header
                             hide-default-footer
