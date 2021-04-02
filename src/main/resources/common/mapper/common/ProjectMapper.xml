@@ -18,6 +18,13 @@
             `proj`.`detail_address`,
             `proj`.`prsnl`,
             `proj`.`status`,
+            CASE
+                WHEN `proj`.`status` = 'I' THEN '면접'
+                WHEN `proj`.`status` = 'P' THEN '투입'
+                WHEN `proj`.`status` = 'C' THEN '완료'
+                WHEN `proj`.`status` = 'A' THEN '섭외'
+                ELSE ''
+            END `status_name`,
             `proj`.`salary`,
             `proj`.`term`,
             `proj`.`limit_date`,
@@ -40,6 +47,9 @@
             </if>
             <if test="projectParamDto.career != null and projectParamDto.career != ''">
                 AND CAST(`career` AS float) &gt;= CAST(#{projectParamDto.career} AS float)
+            </if>
+            <if test="projectParamDto.degree != null and projectParamDto.degree != ''">
+                AND `degree` = #{projectParamDto.degree}
             </if>
             <if test="projectParamDto.stermStart != null">
                 AND `sterm` &gt;= #{projectParamDto.stermStart}

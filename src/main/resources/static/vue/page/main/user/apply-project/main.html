@@ -64,21 +64,54 @@
                                             hide-details="auto"
                                             :items="select.skill.items"
                                             v-model="project.dataTable.query.skill"
-                                        ></v-select>
+                                        >
+                                            <template v-slot:prepend-item>
+                                                <v-list-item
+                                                    ripple
+                                                    @click="toggleSkill"
+                                                >
+                                                    <v-list-item-action>
+                                                        <v-icon :color="project.dataTable.query.skill > 0 ? 'indigo darken-4' : ''">{{ icon }}</v-icon>
+                                                    </v-list-item-action>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>전체</v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                                <v-divider class="mt-2"></v-divider>
+                                            </template>
+                                        </v-select>
                                     </v-col>
-
                                     <v-col cols="3">
                                         <v-select
                                             dense
                                             label="학위"
-                                        ></v-select>
+                                            multiple
+                                            hide-details="auto"
+                                            :items="select.degree.items"
+                                            v-model="project.dataTable.query.degree"
+                                        >
+                                            <template v-slot:prepend-item>
+                                                <v-list-item
+                                                    ripple
+                                                    @click="toggleDegree"
+                                                >
+                                                    <v-list-item-action>
+                                                        <v-icon :color="project.dataTable.query.degree > 0 ? 'indigo darken-4' : ''">{{ icon }}</v-icon>
+                                                    </v-list-item-action>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>전체</v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                                <v-divider class="mt-2"></v-divider>
+                                            </template>
+                                        </v-select>
                                     </v-col>
                                     <v-col cols="3">
                                         <v-select
-                                                dense
-                                                label="현황"
-                                                :items="select.status.items"
-                                                v-model="project.dataTable.query.status"
+                                            dense
+                                            label="현황"
+                                            :items="select.status.items"
+                                            v-model="project.dataTable.query.status"
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="2">

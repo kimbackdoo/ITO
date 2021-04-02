@@ -17,19 +17,17 @@ ApplyProjectDetailMainComponent = Vue.component('applyProject-detail-main-compon
                await this.loadProjectList();
            },
            "setProject": async function(queryId) {
-               let self = this;
-               return new Promise(function (resolve, reject) {
-                   Promise.resolve()
-                       .then(function() {
-                           return ito.api.common.project.getProject(queryId);
-                       })
-                       .then(function(response) {
-                           self.project.items = response.data;
+               let self = this,
+                   project = (await ito.api.common.project.getProject(queryId)).data;
 
-                           console.log(self.project.items);
-                       })
-                       .then(function() { resolve(); });
-               });
+               switch (project.status) {
+                   case 'P': project.statusName = "투입"; break;
+                   case 'I': project.statusName = "면접"; break;
+                   case 'C': project.statusName = "완료"; break;
+                   case 'A': project.statusName = "섭외"; break;
+               }
+
+               self.project.items = project;
            },
            "applyProject": async function() {
                let personId, projectId
