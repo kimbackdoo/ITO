@@ -36,7 +36,9 @@ public class PersonParamDto {
 
     private String days;
 
-    private Long pay;
+    private Long minPay;
+
+    private Long maxPay;
 
     @JsonFormat (pattern = "yyyy-MM-dd")
     @DateTimeFormat (pattern = "yyyy-MM-dd")
