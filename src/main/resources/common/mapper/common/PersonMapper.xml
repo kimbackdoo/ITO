@@ -15,6 +15,8 @@
             `person`.`days`,
             `person`.`min_pay`,
             `person`.`max_pay`,
+            `person`.`local`,
+            `person`.`detail_local`,
             `person`.`workable_day`,
             `person`.`postcode`,
             `person`.`address`,
@@ -48,6 +50,12 @@
             <if test="personParamDto.maxPay != null and personParamDto.maxPay != ''">
                 AND CAST(`max_pay` AS float) &lt;= CAST(#{personParamDto.maxPay} AS float)
             </if>
+            <if test="personParamDto.local != null and personParamDto.local != ''">
+                AND `local` LIKE CONCAT('%', #{personParamDto.local} ,'%')
+            </if>
+            <if test="personParamDto.detailLocal != null and personParamDto.detailLocal != ''">
+                AND `detail_local` LIKE CONCAT('%', #{personParamDto.detailLocal} ,'%')
+            </if>
             <if test="personParamDto.career != null and personParamDto.career != ''">
                 AND CAST(`career` AS float) &gt;= CAST(#{personParamDto.career} AS float)
             </if>
@@ -75,6 +83,8 @@
         <result property="days" column="days"/>
         <result property="minPay" column="min_pay"/>
         <result property="maxPay" column="max_pay"/>
+        <result property="local" column="local"/>
+        <result property="detailLocal" column="detail_local"/>
         <result property="workableDay" column="workable_day"/>
         <result property="postcode" column="postcode"/>
         <result property="address" column="address"/>
@@ -132,7 +142,10 @@
             `certificate_status`,
             `role`,
             `career`,
-            `pay`,
+            `min_pay`,
+            `max_pay`,
+            `local`,
+            `detail_local`,
             `workable_day`,
             `postcode`,
             `address`,
@@ -153,7 +166,10 @@
             #{item.certificateStatus},
             #{item.role},
             #{item.career},
-            #{item.pay},
+            #{item.minPay},
+            #{item.maxPay},
+            #{item.local},
+            #{item.detailLocal},
             #{item.workableDay},
             #{item.postcode},
             #{item.address},
@@ -172,7 +188,10 @@
             `input_status` = VALUES(`input_status`) ,
             `role` = VALUES(`role`) ,
             `career` = VALUES(`career`) ,
-            `pay` = VALUES(`pay`) ,
+            `min_pay` = VALUES(`min_pay`) ,
+            `max_pay` = VALUES(`max_pay`) ,
+            `local` = VALUES(`local`) ,
+            `detail_local` = VALUES(`deatil_local`) ,
             `workable_day` = VALUES(`workable_day`) ,
             `postcode` = VALUES(`postcode`) ,
             `address` = VALUES(`address`) ,

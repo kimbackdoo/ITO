@@ -53,7 +53,6 @@
                                     <v-col cols="3">
                                         <v-select
                                             dense
-                                            multiple
                                             label="직종"
                                             hide-details="auto"
                                             :items="select.job.items"
@@ -62,26 +61,40 @@
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="3">
-                                        <v-select
-                                            multiple
+                                        <v-text-field
                                             dense
                                             label="기술"
                                             multiple
                                             hide-details="auto"
-                                            :items="select.skill.items"
                                             v-model="project.query.skill"
                                             @keyup.enter="search()"
-                                        ></v-select>
+                                        ></v-text-field>
                                     </v-col>
 
                                     <v-col cols="3">
                                         <v-select
                                             dense
+                                            multiple
                                             label="학위"
                                             :items="select.education.items"
                                             v-model="project.query.degree"
                                             @keyup.enter="search()"
-                                        ></v-select>
+                                        >
+                                            <template v-slot:prepend-item>
+                                                <v-list-item
+                                                    ripple
+                                                    @click="toggleDegree"
+                                                >
+                                                    <v-list-item-action>
+                                                        <v-icon :color="project.query.degree > 0 ? 'indigo darken-4' : ''">{{ iconDegree }}</v-icon>
+                                                    </v-list-item-action>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>전체</v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                                <v-divider class="mt-2"></v-divider>
+                                            </template>
+                                        </v-select>
                                     </v-col>
                                     <v-col cols="3">
                                         <v-select
@@ -90,7 +103,8 @@
                                             :items="select.status.items"
                                             v-model="project.query.status"
                                             @keyup.enter="search()"
-                                        ></v-select>
+                                        >
+                                        </v-select>
                                     </v-col>
                                     <v-col cols="2">
                                         <v-select
@@ -157,7 +171,35 @@
                 multiple
                 v-model="project.panels.list"
             >
-                <v-expansion-panel>
+                 <v-expansion-panel>
+                    <v-expansion-panel-header>목록</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <data-table-custom-component
+                            :show-select="true"
+                            item-key="id"
+                            :headers="project.dataTable.headers"
+                            :items="project.dataTable.items"
+                            :totalRows="project.dataTable.totalRows"
+                            :page.sync="project.dataTable.options.page"
+                            :itemsPerPage.sync="project.dataTable.options.itemsPerPage"
+                            :sortBy.sync="project.dataTable.options.sortBy"
+                            :sortDesc.sync="project.dataTable.options.sortDesc"
+                            :groupBy.sync="project.dataTable.options.groupBy"
+                            :groupDesc.sync="project.dataTable.options.groupDesc"
+                            :multiSort.sync="project.dataTable.options.multiSort"
+                            :mustSort.sync="project.dataTable.options.mustSort"
+                            :loading="project.dataTable.loading"
+                            @remove="deleteProjectInfoList"
+                            :import-hide="true"
+                            @click:edit="editProjectInfo"
+                            @click:row="detailProjectInfo"
+                            @add="addProjectInfo"
+                        >
+                        </data-table-custom-component>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+
+<!--                 <v-expansion-panel>
                     <v-expansion-panel-header>목록</v-expansion-panel-header>
                     <v-expansion-panel-content>
                        <v-row class="my-1">
@@ -178,7 +220,6 @@
                                 </div>
                             </v-col>
                         </v-row>
-                        <v-row></v-row>
                         <v-data-table
                             fixed-header
                             hide-default-footer
@@ -194,6 +235,7 @@
                             item-key="id"
                             v-model=project.selected
                             >
+
                             <template v-slot:item.actions="{item}">
                                 <v-icon
                                     small
@@ -235,8 +277,11 @@
                             >삭제하기</v-btn>
                             </v-col>
                         </v-row>
+
+
                     </v-expansion-panel-content>
                 </v-expansion-panel>
+ -->
             </v-expansion-panels>
         </v-col>
     </v-row>

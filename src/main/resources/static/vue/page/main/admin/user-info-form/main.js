@@ -14,11 +14,13 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         "career": "",
                         "career1": "",
                         "career2": "",
+                        "memo": "",
                         "localPlace": "",
                         "detailLocalPlace": "",
                         "education": "",
                         "certificateStatus": "",
-                        "pay": "",
+                        "minPay": "",
+                        "maxPay": "",
                         "postcode":"",
                         "address": "",
                         "detailAddress":"",
@@ -26,6 +28,7 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         "inputStatus":"",
                         "birthDate":"",
                         "workableDay":"",
+                        "rank":null
                     },
                     "data2":{
                         "skill": [],
@@ -71,6 +74,13 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             "certificateStatus": [
                                  {"text":"보유", "value":"T"},
                                  {"text":"없음", "value":"F"},
+                            ],
+                            "rank": [
+                                {"text":"1점", "value":1},
+                                {"text":"2점", "value":2},
+                                {"text":"3점", "value":3},
+                                {"text":"4점", "value":4},
+                                {"text":"5점", "value":5},
                             ],
                             "career1": [
                                 {"text":"1년미만", "value": 0},
@@ -364,23 +374,25 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                            .then(function () {
                            })
                            .then(function () {
-                               self.user.dataTable.addressValue="";
-                               self.data.address="";
-                               self.data.postcode="";
-                               self.data.detailAddress="";
-                               self.data.name = "";
-                               self.data.phoneNumber = "";
-                               self.data.jobType = "";
-                               self.data2.skill = "";
-                               self.data.birthDate = "";
-                               self.data.career = "";
-                               self.data.pay = "";
-                               self.data.inputStatus = "";
-                               self.data.workableDay = "";
-                               self.data.certificateStatus = "";
-                               self.data.localPlace = "";
-                               self.data.detailLocalPlace = "";
-                               self.data.education = "";
+                               self.data.postcode=null;
+                               self.data.address=null;
+                               self.data.detailAddress=null;
+                               self.data.name = null;
+                               self.data.phoneNumber = null;
+                               self.data.jobType = null;
+                               self.data2.skill = null;
+                               self.data.birthDate = null;
+                               self.data.career1 = null;
+                               self.data.career2 = null;
+                               self.data.inputStatus = null;
+                               self.data.workableDay = null;
+                               self.data.certificateStatus = null;
+                               self.data.localPlace = null;
+                               self.data.detailLocalPlace = null;
+                               self.data.education = null;
+                               self.data.rank = null;
+                               self.data.minPay = null;
+                               self.data.maxPay = null;
                            })
                            .then(function () { resolve(); });
                     });

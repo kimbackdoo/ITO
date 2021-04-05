@@ -40,6 +40,10 @@ public class PersonParamDto {
 
     private Long maxPay;
 
+    private String local;
+
+    private String detailLocal;
+
     @JsonFormat (pattern = "yyyy-MM-dd")
     @DateTimeFormat (pattern = "yyyy-MM-dd")
     private LocalDate workableDay;

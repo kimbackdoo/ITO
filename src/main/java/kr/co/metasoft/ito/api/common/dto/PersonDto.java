@@ -46,6 +46,10 @@ public class PersonDto {
 
     private String status;
 
+    private String local;
+
+    private String detailLocal;
+
     @JsonFormat (pattern = "yyyy-MM-dd")
     @DateTimeFormat (pattern = "yyyy-MM-dd")
     private LocalDate workableDay;

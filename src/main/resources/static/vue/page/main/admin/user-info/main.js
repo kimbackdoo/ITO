@@ -43,18 +43,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                  {"text":"보유", "value":"T"},
                                  {"text":"없음", "value":"F"},
                             ],
-                            "address": [
-                                {"text":"서울특별시", "value":0},
-                                {"text":"경기도", "value":1},
-                                {"text":"대전광역시", "value":2},
-                            ],
-                            "addressValue": "",
-                            "addressIndex": [
-                                ["강서구","은평구","광진구","서초구","구로구"],
-                                ["김포시","부천","광명","시흥","안양","과천","성남","하남","수원","광주"],
-                                ["중구","서구","대덕구","유성구","동구"],
-                            ],
-                            "addressSelect": [],
                             "career1": [
                                 {"text":"1년미만", "value": 0},
                                 {"text":"1", "value": 1},
@@ -100,16 +88,18 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "career1": null,
                             "career2": null,
                             "career": null,
-                            "localPlace": null,
-                            "detailLocalPlace": null,
+                            "local": null,
+                            "detailLocal": null,
                             "phoneNumber":null,
                             "education":null,
                             "certificateStatus": null,
-                            "pay": null,
+                            "minPay": null,
+                            "maxPay": null,
                             "address": null,
                             "inputStatus":null,
                             "birthDate":null,
                             "workableDay":null,
+                            "status":null
                         },
                     },
                     "select": {
@@ -145,11 +135,19 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "items":[
                                 {"text": "학위", "value": null}
                             ]
+                        },
+                        "status":{
+                            "items":[
+                                {"text": "현황", "value": null},
+                                {"text": "섭외", "value": "A"},
+                                {"text": "완료", "value": "C"},
+                                {"text": "면접", "value": "I"},
+                                {"text": "투입", "value": "P"}
+                            ]
                         }
                     },
                     "dialog": {
                         "visible": false,
-                        "title": "파일 업로드"
                     }
                 };
             },
@@ -300,9 +298,10 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     params.name = !_.isEmpty(self.user.query.name) ? self.user.query.name : null;
                     params.jobType = !_.isEmpty(self.user.query.jobType) ? self.user.query.jobType : null;
                     params.career = !_.isEmpty(careerValue) ? careerValue : null;
-                    params.pay = !_.isEmpty(self.user.query.pay) ? self.user.query.pay : null;
-                    params.address = !_.isEmpty(self.user.query.detailLocalPlace) ? self.user.query.detailLocalPlace : null;
-                    params.inputStatus = !_.isEmpty(self.user.query.inputStatus) ? self.user.query.inputStatus : null;
+                    params.pay = !_.isEmpty(self.user.query.pay) ? Number(self.user.query.pay) : null;
+                    params.local = !_.isEmpty(self.user.query.local) ? self.user.query.local : null;
+                    params.detailLocal = !_.isEmpty(self.user.query.detailLocal) ? self.user.query.detailLocal : null;
+                    params.inputStatus = !_.isEmpty(self.user.query.status) ? self.user.query.status : null;
                     params.education = !_.isEmpty(self.user.query.education) ? self.user.query.education : null;
                     params.certificateStatus = !_.isEmpty(self.user.query.certificateStatus) ? self.user.query.certificateStatus : null;
 
@@ -317,6 +316,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         e.inputStatus = (e.inputStatus == "T") ? "투입중" : "섭외중"
                         e.certificateStatus = (e.certificateStatus == "T") ? "있음" : "없음"
                         e.career = e.career+"년"
+                        e.pay = String(e.minPay) +" ~ " +String(e.maxPay)
                     });
                     self.user.dataTable.loading = false;
                 },
@@ -331,19 +331,18 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             .then(function () {
                             })
                             .then(function () {
-                                self.user.dataTable.addressValue=""
-                                self.user.query.name = "";
-                                self.user.query.jobType = "";
-                                self.user.query.career = "";
-                                self.user.query.career1 = "";
-                                self.user.query.career2 = "";
-                                self.user.query.pay = "";
-                                self.user.query.address = "";
-                                self.user.query.inputStatus = "";
-                                self.user.query.education = "";
-                                self.user.query.certificateStatus = "";
-                                self.user.query.job = "";
-                                self.user.query.skill = "";
+                                self.user.query.name = null;
+                                self.user.query.jobType = null;
+                                self.user.query.career = null;
+                                self.user.query.career1 = null;
+                                self.user.query.career2 = null;
+                                self.user.query.pay = null;
+                                self.user.query.address = null;
+                                self.user.query.inputStatus = null;
+                                self.user.query.education = null;
+                                self.user.query.certificateStatus = null;
+                                self.user.query.job = null;
+                                self.user.query.skill = null;
                             })
                             .then(function () {
                                 return self.search();

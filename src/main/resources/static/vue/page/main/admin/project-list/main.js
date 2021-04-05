@@ -16,56 +16,35 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 {"text": "프로젝트명", "value": "name"},
                                 {"text": "직종", "value": "job"},
                                 {"text": "기술", "value": "skill"},
-                                {"text": "경력요건", "value": "career"},
                                 {"text": "학위요건", "value": "degree"},
-                                {"text": "프로젝트시작", "value": "sterm"},
-                                {"text": "프로젝트시작", "value": "eterm"},
-                                {"text": "장소", "value": "local"},
+                                {"text": "경력요건", "value": "career"},
+                                {"text": "프로젝트 시작", "value": "sterm"},
+                                {"text": "프로젝트 끝 ", "value": "eterm"},
+                                {"text": "장소(시,구)", "value": "local"},
+                                {"text": "장소(시,구)", "value": "detailLocal"},
                                 {"text": "필요인원", "value": "prsnl"},
                                 {"text": "현황", "value": "status"},
                                 {"text": "희망 급여", "value": "salary"},
-                                {"text": "수정" , "value": "actions"},
-
+                                {"text": "모집마감일", "value": "limitDate"},
+                                {"text": "수정" , "value": "edit"},
                             ],
-                            "totalRows":0,
                             "items": [],
+                            "totalRows":0,
+                            "options": {
+                                "page": 1,
+                                "itemsPerPage": 10,
+                                "sortBy": [],
+                                "sortDesc": [],
+                                "groupBy": [],
+                                "groupDesc": [],
+                                "multiSort": true,
+                                "mustSort": false
+                            },
                             "loading": false,
-                            "serverItemsLength": 0,
-                            "page": 1,
-                            "itemsPerPage": 10,
-                            "education": [
-                                 {"text":"2년제", "value":"2년제"},
-                                 {"text":"3년제", "value":"3년제"},
-                                 {"text":"4년제", "value":"4년제"},
-                            ],
                             "certificateStatus": [
                                  {"text":"보유", "value":"T"},
                                  {"text":"없음", "value":"F"},
                             ],
-                            "jobTypeItems": [
-                                 {"text":"개발자", "value":"개발자"},
-                                 {"text":"기획자", "value":"기획자"},
-                                 {"text":"퍼블리셔", "value":"퍼블리셔"},
-                                 {"text":"디자이너", "value":"디자이너"}
-                             ],
-                            "address": [
-                                {"text":"서울특별시", "value":0},
-                                {"text":"경기도", "value":1},
-                                {"text":"대전광역시", "value":2},
-                            ],
-                            "status": [
-                                {"text":"투입", "value":"투입"},
-                                {"text":"섭외", "value":"섭외"},
-                                {"text":"면접", "value":"면접"},
-                                {"text":"완료", "value":"완료"},
-                            ],
-                            "local": "",
-                            "addressIndex": [
-                                ["강서구","은평구","광진구","서초구","구로구"],
-                                ["김포시","부천","광명","시흥","안양","과천","성남","하남","수원","광주"],
-                                ["중구","서구","대덕구","유성구","동구"],
-                            ],
-                            "addressSelect": [],
                             "career1": [
                                 {"text":"1년미만", "value": 0},
                                 {"text":"1", "value": 1},
@@ -101,20 +80,15 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 {"text":"10", "value": 0.10},
                                 {"text":"11", "value": 0.11}
                             ],
-                            "checkbox:": [],
-                        },
-                        "pagination": {
-                            "length": 10,
-                            "totalVisible": 10
                         },
                         "query": {
                             "id":null,
                             "name": "",
                             "job": "",
                             "skill": "",
-                            "career":"",
-                            "career1":"",
-                            "career2":"",
+                            "career":null,
+                            "career1":null,
+                            "career2":null,
                             "degree":"",
                             "sterm": "",
                             "eterm": "",
@@ -125,15 +99,6 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             "salary":"",
                             "term":"",
                         },
-                        "itemsPerPageItems": [
-                            {"text":"3개 보기", "value":3},
-                            {"text":"5개 보기", "value": 5},
-                            {"text": "10개 보기", "value": 10},
-                            {"text": "20개 보기", "value": 20},
-                            {"text": "30개 보기", "value": 30},
-                            {"text": "40개 보기", "value": 40},
-                            {"text": "50개 보기", "value": 50}
-                        ]
                     },
                     "select": {
                         "job": {
@@ -165,22 +130,47 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             ]
                         },
                         "education":{
-                            "items":[
-                                {"text": "학위", "value": null}
-                            ]
+                            "items":[]
                         },
                         "status":{
                             "items":[
-                                {"text": "현황", "value": null}
+                                {"text": "현황", "value": null},
+                                {"text": "섭외", "value": "A"},
+                                {"text": "완료", "value": "C"},
+                                {"text": "면접", "value": "I"},
+                                {"text": "투입", "value": "P"}
                             ]
                         }
-
-                    },
-
+                    }
                 };
             },
+            "computed": {
+               iconDegree() {
+                      if(this.degreeAllSelect) return 'mdi-close-box';
+                   if(this.degreeSelect) return 'mdi-minus-box';
+                   return 'mdi-checkbox-blank-outline'
+            },
 
+            },
             "watch": {
+                "project.dataTable.options.page": {
+                    "handler": async function(n, o) {
+                        await this.setProjectInfoList();
+                    },
+                    "deep": true
+                },
+                "project.dataTable.options.itemsPerPage": {
+                    "handler": async function(n, o) {
+                        await this.setProjectInfoList();
+                    },
+                    "deep": true
+                },
+                "project.dataTable.options.sortDesc": {
+                    "handler": async function (n, o) {
+                        await this.setProjectInfoList();
+                    },
+                    "deep": true
+                },
                 "project.dataTable.local":{
                     "handler": function(value){
                         this.project.dataTable.addressSelect=this.project.dataTable.addressIndex[value];
@@ -270,16 +260,21 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                 },
 
                 //프로젝트 내용 수정시 필요
+                "addProjectInfo": function(){
+                    this.$router.push({
+                        "path": "/main/admin/project-info-form",
+                    })
+                },
                 "editProjectInfo": function(value){
-                    console.log("id값 호출   "+value)
+                    console.log(value);
                     this.$router.push({
                         "path": "/main/admin/project-info-form",
                         "query": {
-                            "id": value
+                            "id": value.id
                         }
                       });
                 },
-                "DetailProjectInfo": function(value){
+                "detailProjectInfo": function(value){
                     console.log("id값 호출   "+value.id)
                     this.$router.push({
                         "path": "/main/admin/project-list/detail",
@@ -315,28 +310,62 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                         Promise.resolve()
                             .then(function () {
                                 var params = {};
-                                params.page = self.project.dataTable.page;
-                                params.size = self.project.dataTable.itemsPerPage;
+                                params.page = self.project.dataTable.options.page;
+                                params.size = self.project.dataTable.options.itemsPerPage;
                                 params.name = !_.isEmpty(self.project.query.name) ? self.project.query.name : null;
                                 params.job = !_.isEmpty(self.project.query.job) ? self.project.query.job : null;
-                                params.career = !_.isEmpty(self.project.query.career) ? self.project.query.career : null;
+                                params.skill = !_.isEmpty(self.project.query.skill) ? self.project.query.skill : null;
                                 params.degree = !_.isEmpty(self.project.query.degree) ? self.project.query.degree : null;
+                                params.career = _.isEmpty(self.project.query.career1) && _.isEmpty(self.project.query.career2) ? null : String(self.project.query.career1 + self.project.query.career2);
                                 params.sterm = !_.isEmpty(self.project.query.sterm) ? self.project.query.sterm : null;
                                 params.eterm = !_.isEmpty(self.project.query.eterm) ? self.project.query.eterm : null;
-                                params.detailLocalPlace = !_.isEmpty(self.project.query.detailLocalPlace) ? self.project.query.detailLocalPlace : null;
-                                params.prsnl = !_.isEmpty(self.project.query.prsnl) ? self.project.query.prsnl : null;
+                                params.local = !_.isEmpty(self.project.query.LocalPlace) ? self.project.query.LocalPlace : null;
+                                params.detailLocal = !_.isEmpty(self.project.query.detailLocalPlace) ? self.project.query.detailLocalPlace : null;
+                                params.prsnl = !_.isEmpty(self.project.query.prsnl) ? Number(self.project.query.prsnl) : null;
                                 params.status = !_.isEmpty(self.project.query.status) ? self.project.query.status : null;
-                                params.salary = !_.isEmpty(self.project.query.salary) ? self.project.query.salary : null;
+                                params.salary = !_.isEmpty(self.project.query.salary) ? Number(self.project.query.salary) : null;
+                                params.sort=ito.util.sort(self.project.dataTable.options.sortBy, self.project.dataTable.options.sortDesc);
 
                                 self.project.dataTable.loading = true;
                                 return ito.api.common.project.getProjectList(params);
                             })
                             .then(function (response) {
+                                //데이터값 인계
                                 var data = response.data;
                                 self.project.dataTable.items = data.items;
                                 self.project.dataTable.serverItemsLength = data.totalElements;
                                 self.project.dataTable.items.forEach(e => {
                                     e.career = e.career+"년"
+                                    e.salary = e.salary+"만원"
+                                    switch(e.status){
+                                        case 'A':
+                                             e.status = "섭외"; break;
+                                        case 'C':
+                                             e.status = "완료"; break;
+                                        case 'I':
+                                             e.status = "면접"; break;
+                                        case 'P':
+                                             e.status = "투입"; break;
+                                    }
+                                    switch(e.degree){
+                                        case "007001":
+                                             e.degree = "무관"; break;
+                                        case "007002":
+                                             e.degree = "고등학교 졸업"; break;
+                                        case "007003":
+                                             e.degree = "전문대 졸업"; break;
+                                        case "007004":
+                                             e.degree = "대학교 졸업"; break;
+                                    }
+                                    var limitDat, limitDay;
+                                    limitDate = moment(e.limitDate).format("MM-DD");
+                                    limitDay = moment(e.limitDate).diff(moment(), "day");
+
+                                    if(limitDay < 0) e.limitDate = limitDate + " (D+" + Math.abs(limitDay) + ")";
+                                    else e.limitDate = limitDate + " (D-" + limitDay + ")";
+
+
+
                                 });
                                 self.project.dataTable.totalRows = data.items.length;
                                 self.project.dataTable.loading = false;
@@ -344,7 +373,6 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             .then(function () { resolve(); });
                     });
                 },
-
                 "getQuery": function () {
                     var query = {},
                     routeQuery = this.$route.query;
@@ -390,10 +418,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     query.name = String(this.project.query.name);
                     query.job = String(this.project.query.job);
                     query.skill = String(this.project.query.skill);
-
-
 //                    query.career = String(this.project.query.career);
-
                     query.degree = String(this.project.query.degree);
                     query.sterm = String(this.project.query.sterm);
                     query.eterm = String(this.project.query.eterm);
@@ -445,6 +470,15 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             })
                             .then(function () { resolve(); });
                     });
+                },
+                "toggleDegree": function() {
+                    this.$nextTick(() => {
+                        if(this.degreeAllSelect) {
+                            this.project.query.degree = [];
+                        } else {
+                            this.project.query.degree = this.select.education.items.slice();
+                        }
+                    })
                 }
             },
             "mounted": function () {
