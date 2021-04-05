@@ -212,7 +212,7 @@ public class DataUploadService {
                             cell.setCellType(Cell.CELL_TYPE_STRING);
                             if(null != cell) {
                                 Long pay = Long.parseLong(cell.getStringCellValue());
-                                dataUploadEntity.setPay(pay);
+                                dataUploadEntity.setMinPay(pay);
                             }
                             System.out.println("breakPoint :  " + "급여");
 
@@ -437,7 +437,7 @@ public class DataUploadService {
                             match = pat.matcher(line);
                             if (match.find()) {
                                 String str = match.group(1);
-                                person.setPay(Long.parseLong(str));
+                                person.setMinPay(Long.parseLong(str));
                                 line = line.replace(match.group(), "");
                             }
                             regex = ", {0,10}([1-9]{0,1}[0-9]{1}\\.{0,1}[0-9]{0,2})년{0,1}[^-]";

@@ -40,7 +40,9 @@ public class PersonDto {
 
     private String days;
 
-    private Long pay;
+    private Long minPay;
+
+    private Long maxPay;
 
     private String status;
 

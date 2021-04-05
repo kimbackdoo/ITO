@@ -13,7 +13,8 @@
             `person`.`role`,
             `person`.`career`,
             `person`.`days`,
-            `person`.`pay`,
+            `person`.`min_pay`,
+            `person`.`max_pay`,
             `person`.`workable_day`,
             `person`.`postcode`,
             `person`.`address`,
@@ -41,8 +42,11 @@
             <if test="personParamDto.education != null and personParamDto.education != ''">
                 AND `education` LIKE CONCAT('%', #{personParamDto.education} ,'%')
             </if>
-            <if test="personParamDto.pay != null and personParamDto.pay != ''">
-                AND CAST(`pay` AS float) &gt;= CAST(#{personParamDto.pay} AS float)
+            <if test="personParamDto.minPay != null and personParamDto.minPay != ''">
+                AND CAST(`min_pay` AS float) &gt;= CAST(#{personParamDto.minPay} AS float)
+            </if>
+            <if test="personParamDto.maxPay != null and personParamDto.maxPay != ''">
+                AND CAST(`max_pay` AS float) &lt;= CAST(#{personParamDto.maxPay} AS float)
             </if>
             <if test="personParamDto.career != null and personParamDto.career != ''">
                 AND CAST(`career` AS float) &gt;= CAST(#{personParamDto.career} AS float)
@@ -69,7 +73,8 @@
         <result property="role" column="role"/>
         <result property="career" column="career"/>
         <result property="days" column="days"/>
-        <result property="pay" column="pay"/>
+        <result property="minPay" column="min_pay"/>
+        <result property="maxPay" column="max_pay"/>
         <result property="workableDay" column="workable_day"/>
         <result property="postcode" column="postcode"/>
         <result property="address" column="address"/>

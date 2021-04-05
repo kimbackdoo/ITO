@@ -71,8 +71,11 @@ public class PersonEntity {
     @Column (name = "`days`", columnDefinition = "varchar(100)", nullable = true)
     private String days;
 
-    @Column (name = "`pay`", columnDefinition = "bigint(20)", nullable = true)
-    private Long pay;
+    @Column (name = "`min_pay`", columnDefinition = "bigint(20)", nullable = true)
+    private Long minPay;
+
+    @Column (name = "`max_pay`", columnDefinition = "bigint(20)", nullable = true)
+    private Long maxPay;
 
     @JsonFormat (pattern = "yyyy-MM-dd")
     @DateTimeFormat (pattern = "yyyy-MM-dd")

@@ -9,11 +9,11 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                         "items": []
                     },
                 },
-                "autocomplete": {
-                    "skill": {
-                        "items": []
-                    },
-                },
+                // "autocomplete": {
+                //     "skill": {
+                //         "items": []
+                //     },
+                // },
                 "inputProfile": {
                     "panels": {
                         "form": [0]
@@ -26,9 +26,11 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                             "email": null,
                             "career": null,
                             "jobType": null,
-                            "skill": null,
-                            "pay": null,
+                            // "skill": null,
+                            "minPay": null,
+                            "maxPay": null,
                             "status": null,
+                            "memo": null,
                             "postcode": null,
                             "address": null,
                             "detailAddress": null,
@@ -41,7 +43,7 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
         "methods": {
             "init": async function() {
                 await this.loadJobItems();
-                await this.loadSkillItems();
+                // await this.loadSkillItems();
                 await this.setProfile();
             },
             "loadJobItems": async function() {
@@ -53,31 +55,32 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                 })).data.items.map(e=>({"text": e.name, "value": e.id}));
                 self.select.job.items.push(...items);
             },
-            "loadSkillItems": async function() {
-                let items, self = this;
-                items = (await ito.api.common.code.getCodeList({
-                    "idStartLike": "004",
-                    "status": "T",
-                    "rowSize": 1000000
-                })).data.items.map(e=> ({"text": e.name, "value": e.id}));
-                items = items.filter(e=> {
-                    if(e.value.startsWith("00401")) return e.value.length > 7;
-                    else return e.value.length > 5;
-                });
-                self.autocomplete.skill.items.push(...items);
-            },
+            /* 기술 select 박스 */
+            // "loadSkillItems": async function() {
+            //     let items, self = this;
+            //     items = (await ito.api.common.code.getCodeList({
+            //         "idStartLike": "004",
+            //         "status": "T",
+            //         "rowSize": 1000000
+            //     })).data.items.map(e=> ({"text": e.name, "value": e.id}));
+            //     items = items.filter(e=> {
+            //         if(e.value.startsWith("00401")) return e.value.length > 7;
+            //         else return e.value.length > 5;
+            //     });
+            //     self.autocomplete.skill.items.push(...items);
+            // },
             "setProfile": async function() {
                 let self = this, personId, skill, person, personSkillList;
 
                 personId = store.state.app.person.id;
                 person = (await ito.api.common.person.getPerson(personId)).data;
-                personSkillList = (await ito.api.common.personSkill.getPersonSkillList({personId})).data.items;
-                skill = [];
-                personSkillList.forEach(e=>{
-                    skill.push(e.skill);
-                });
-                person.skill = skill;
-                person.jobType = [person.jobType];
+                // personSkillList = (await ito.api.common.personSkill.getPersonSkillList({personId})).data.items; // tb_person_skill 사용
+                // skill = [];
+                // personSkillList.forEach(e=>{
+                //     skill.push(e.skill);
+                // });
+                // person.skill = skill;
+                // person.jobType = [person.jobType];
                 self.inputProfile.form.item = person;
             },
             "saveProfile": async function () {
@@ -85,27 +88,33 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                         sectorList=[], languageList=[];
 
                 person = self.inputProfile.form.item;
-                personSectorList = (await ito.api.common.personSector.getPersonSectorList({"personId": person.id})).data.items;
-                personSectorList.forEach(e=>{
-                    sectorList.push(e.sector);
-                });
-
-                personLanguageList = (await ito.api.common.personLanguage.getPersonLanguageList({"personId": person.id})).data.items;
-                personLanguageList.forEach(e=>{
-                    languageList.push(e.language);
-                });
-
                 if(person.id != undefined && person.id != null) {
                     if(await ito.confirm("수정하시겠습니까?")) {
-                        await ito.api.app.profile.modifyProfile({
-                            "personDto": person,
-                            "sectorList": sectorList,
-                            "skillList": person.skill,
-                            "languageList": languageList
-                        });
+                        await ito.api.common.person.modifyPerson(person.id, person);
                         await ito.alert("수정되었습니다.");
                     }
                 }
+                // personSectorList = (await ito.api.common.personSector.getPersonSectorList({"personId": person.id})).data.items;
+                // personSectorList.forEach(e=>{
+                //     sectorList.push(e.sector);
+                // });
+                //
+                // personLanguageList = (await ito.api.common.personLanguage.getPersonLanguageList({"personId": person.id})).data.items;
+                // personLanguageList.forEach(e=>{
+                //     languageList.push(e.language);
+                // });
+                //
+                // if(person.id != undefined && person.id != null) {
+                //     if(await ito.confirm("수정하시겠습니까?")) {
+                //         await ito.api.app.profile.modifyProfile({
+                //             "personDto": person,
+                //             "sectorList": sectorList,
+                //             "skillList": person.skill,
+                //             "languageList": languageList
+                //         });
+                //         await ito.alert("수정되었습니다.");
+                //     }
+                // }
             },
             "execDaumPostcode": function() {
                 var self = this;

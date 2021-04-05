@@ -306,6 +306,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
             "toggleDegree": function() {
                 this.$nextTick(() => {
                     if(this.degreeAllSelect) {
+                        console.log(this.project.dataTable.query.degree);
                         this.project.dataTable.query.degree = [];
                     } else {
                         this.project.dataTable.query.degree = this.select.degree.items.slice();

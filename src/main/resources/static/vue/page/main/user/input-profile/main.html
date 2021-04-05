@@ -74,26 +74,25 @@
                                         <v-select
                                             dense
                                             outlined
-                                            multiple
                                             label="직종"
                                             :items="select.job.items"
                                             v-model="inputProfile.form.item.jobType"
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="6" class="pa-0 pl-2">
-                                        <v-autocomplete
-                                            dense
-                                            outlined
-                                            multiple
-                                            clearable
-                                            hide-no-data
-                                            hide-details="auto"
-                                            label="기술"
-                                            placeholdere="기술을 선택해주세요"
-                                            :items="autocomplete.skill.items"
-                                            v-model="inputProfile.form.item.skill"
-                                        ></v-autocomplete>
-                                    </v-col>
+<!--                                    <v-col cols="6" class="pa-0 pl-2">-->
+<!--                                        <v-autocomplete-->
+<!--                                            dense-->
+<!--                                            outlined-->
+<!--                                            multiple-->
+<!--                                            clearable-->
+<!--                                            hide-no-data-->
+<!--                                            hide-details="auto"-->
+<!--                                            label="기술"-->
+<!--                                            placeholder="기술을 선택해주세요"-->
+<!--                                            :items="autocomplete.skill.items"-->
+<!--                                            v-model="inputProfile.form.item.skill"-->
+<!--                                        ></v-autocomplete>-->
+<!--                                    </v-col>-->
                                 </v-row>
                                 <v-row class="ma-0">
                                     <v-col cols="4">
@@ -107,13 +106,22 @@
                                     </v-col>
                                 </v-row>
                                 <v-row class="ma-0">
-                                    <v-col cols="4">
+                                    <v-col cols="3">
                                         <v-text-field
-                                            label="희망월급여"
+                                            label="최소희망월급여"
                                             suffix="만원"
-                                            v-model="inputProfile.form.item.pay"
+                                            v-model="inputProfile.form.item.minPay"
                                         ></v-text-field>
-
+                                    </v-col>
+                                    <v-col cols="1">
+                                        ~
+                                    </v-col>
+                                    <v-col cols="3">
+                                        <v-text-field
+                                            label="최대희망월급여"
+                                            suffix="만원"
+                                            v-model="inputProfile.form.item.maxPay"
+                                        ></v-text-field>
                                     </v-col>
                                 </v-row>
                                 <v-row class="ma-0">
@@ -126,6 +134,14 @@
                                             :items="[{'text': '선택', 'value': null},{'text': '공개', 'value': 'T'},{'text': '비공개', 'value': 'F'}]"
                                             v-model="inputProfile.form.item.status"
                                         ></v-select>
+                                    </v-col>
+                                    <v-col cols="9">
+                                        <v-textarea
+                                            dense
+                                            outlined
+                                            label="비고"
+                                            v-model="inputProfile.form.item.memo"
+                                        ></v-textarea>
                                     </v-col>
                                 </v-row>
                                 <v-row>

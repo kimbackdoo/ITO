@@ -14,7 +14,8 @@
             `person_language_person`.`certificate_status` AS `person_language_person_certificate_status`,
             `person_language_person`.`role` AS `person_language_person_role`,
             `person_language_person`.`career` AS `person_language_person_career`,
-            `person_language_person`.`pay` AS `person_language_person_pay`,
+            `person_language_person`.`min_pay` AS `person_language_person_min_pay`,
+            `person_language_person`.`max_pay` AS `person_language_person_max_pay`,
             `person_language_person`.`workable_day` AS `person_language_person_workable_day`,
             `person_language_person`.`postcode` AS `person_language_person_postcode`,
             `person_language_person`.`address` AS `person_language_person_address`,
@@ -70,7 +71,8 @@
             <result property="certificateStatus" column="certificate_status"/>
             <result property="role" column="role"/>
             <result property="career" column="career"/>
-            <result property="pay" column="pay"/>
+            <result property="minPay" column="min_pay"/>
+            <result property="maxPay" column="max_pay"/>
             <result property="workableDay" column="workable_day"/>
             <result property="postcode" column="postcode"/>
             <result property="address" column="address"/>
