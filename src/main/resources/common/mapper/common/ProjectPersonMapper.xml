@@ -24,6 +24,7 @@
             `project_person_person`.`education` AS `project_person_person_education`,
             `project_person_person`.`birth_date` AS `project_person_person_birth_date`,
             `project_person_person`.`status` AS `project_person_person_status`,
+            `project_person_person`.`memo` AS `project_person_person_memo`,
             `project_person_person`.`created_date` AS `project_person_person_created_date`,
             `project_person_person`.`last_modified_date` AS `project_person_person_last_modified_date`
         FROM
@@ -70,6 +71,7 @@
             <result property="education" column="education"/>
             <result property="birthDate" column="birth_date"/>
             <result property="status" column="status"/>
+            <result property="memo" column="memo"/>
             <result property="createdDate" column="created_date"/>
             <result property="lastModifiedDate" column="last_modified_date"/>
         </association>

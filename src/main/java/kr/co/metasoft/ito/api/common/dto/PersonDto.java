@@ -60,6 +60,8 @@ public class PersonDto {
 
     private String education;
 
+    private String memo;
+
     @JsonFormat (pattern = "yyyy-MM-dd")
     @DateTimeFormat (pattern = "yyyy-MM-dd")
     private LocalDate birthDate;

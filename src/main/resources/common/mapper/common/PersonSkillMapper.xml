@@ -24,6 +24,7 @@
             `person_skill_person`.`education` AS `person_skill_person_education`,
             `person_skill_person`.`birth_date` AS `person_skill_person_birth_date`,
             `person_skill_person`.`status` AS `person_skill_person_status`,
+            `person_skill_person`.`memo` AS `person_skill_person_memo`,
             `person_skill_person`.`created_date` AS `person_skill_person_created_date`,
             `person_skill_person`.`last_modified_date` AS `person_skill_person_last_modified_date`,
             `person_skill_skill`.`id` AS `person_skill_skill_id`,
@@ -79,6 +80,7 @@
             <result property="education" column="education"/>
             <result property="birthDate" column="birth_date"/>
             <result property="status" column="status"/>
+            <result property="memo" column="memo"/>
             <result property="createdDate" column="created_date"/>
             <result property="lastModifiedDate" column="last_modified_date"/>
         </association>

@@ -13,8 +13,6 @@ public class DataUploadParamDto {
 
     private MultipartFile file;
 
-    private Integer fileType;
-
 }
 
 

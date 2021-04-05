@@ -24,4 +24,11 @@ class ApiCommonFileUploadController {
             DataUploadParamDto dataUploadParamDto) throws Exception {
             return dataUploadService.uploadCMDBExcelFile(dataUploadParamDto);
     }
+
+    // excel로 업로드만 가능하게끔
+    @PostMapping (path = "/ito")
+    public Map<String, Object> getITOExcelFile(
+            DataUploadParamDto dataUploadParamDto) throws Exception {
+            return dataUploadService.uploadITOExcelFile(dataUploadParamDto);
+    }
 }

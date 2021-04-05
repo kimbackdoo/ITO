@@ -23,6 +23,7 @@
             `person_career_person`.`education` AS `person_career_person_education`,
             `person_career_person`.`birth_date` AS `person_career_person_birth_date`,
             `person_career_person`.`status` AS `person_career_person_status`,
+            `person_career_person`.`memo` AS `person_career_person_memo`,
             `person_career_person`.`created_date` AS `person_career_person_created_date`,
             `person_career_person`.`last_modified_date` AS `person_career_person_last_modified_date`,
             `person_career_career`.`person_career_id` AS `person_career_career_person_career_id`,
@@ -79,6 +80,7 @@
             <result property="education" column="education"/>
             <result property="birthDate" column="birth_date"/>
             <result property="status" column="status"/>
+            <result property="memo" column="memo"/>
             <result property="createdDate" column="created_date"/>
             <result property="lastModifiedDate" column="last_modified_date"/>
         </association>

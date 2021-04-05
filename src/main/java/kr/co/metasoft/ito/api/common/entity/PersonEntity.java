@@ -105,6 +105,9 @@ public class PersonEntity {
     @Column (name = "`status`", columnDefinition = "enum('T', 'F')", nullable = true)
     private String status;
 
+    @Column (name = "`memo`", columnDefinition = "text", nullable = true)
+    private String memo;
+
     @CreatedDate
     @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")

@@ -1,5 +1,8 @@
 package kr.co.metasoft.ito.api.common.service;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -8,6 +11,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
@@ -43,7 +48,6 @@ public class DataUploadService {
 
     @Autowired
     private CodeMapper codeMapper;
-
 
     //엑셀 항목 값
     String[] personColumnKeyArray = {"이름","휴대폰 번호","직업종류","투입여부","필수 자격증 여부","보유 스킬","경력","급여","투입 가능 시작일"
@@ -336,8 +340,142 @@ public class DataUploadService {
             returnMsg = "파일의 데이터가 존재하지 않습니다.";
         }
 
+        returnMap.put("returnVal", returnVal);
+        returnMap.put("returnMsg", returnMsg);
+        return returnMap;
+    }
 
+    @Transactional
+    public Map<String, Object> uploadITOExcelFile(DataUploadParamDto dataUploadParamDto) {
 
+        String returnVal = "FAIL";
+        String returnMsg = "";
+        Map<String, Object> returnMap = new HashMap<>();
+
+        //excelFile 변수 값으로 가져온다.
+        MultipartFile excelFile = dataUploadParamDto.getFile();
+
+        CodeParamDto codeParamDto = new CodeParamDto();
+        codeParamDto.setIdStartLike("007");
+        PageRequest pageRequest = new PageRequest();
+        pageRequest.setRowSize(10000000);
+        List<String> sort = new ArrayList<>();
+        sort.add("id,asc");
+
+        List<CodeEntity> addressList = codeMapper.selectCodeList(codeParamDto, pageRequest);
+        HashMap<String, String> addressMap = new HashMap<>();
+        for(int i = 0; i < addressList.size(); i++) {
+            CodeEntity entity = addressList.get(i);
+            if(entity.getId().equals("007")) {
+                continue;
+            }
+            addressMap.put(entity.getName().substring(0,2), entity.getId());
+        }
+
+        // excelFile 값 확인
+        if(excelFile != null && excelFile.getSize() > 0 && excelFile.getOriginalFilename() != null) {
+            if(excelFile.getOriginalFilename().endsWith(".txt") || excelFile.getOriginalFilename().endsWith(".TXT")) {
+                try (
+                        Reader filereader = new InputStreamReader(excelFile.getInputStream());
+                        BufferedReader bufReader = new BufferedReader(filereader);
+                    ) {
+                    String line = "";
+                    PersonEntity person = new PersonEntity();
+                    List<PersonEntity> personList = new ArrayList<>();
+                    String [] lineArray = null;
+                    List<String> jobTypeList = new ArrayList<>();
+
+                    while((line = bufReader.readLine()) != null){
+                        if(line.trim().isEmpty()) {
+                            continue;
+                        }
+                        if(line.trim().indexOf("*") == 0) {
+                            jobTypeList.add(line.replaceAll("[*]", "").trim());
+                        }else {
+                            if(line.indexOf(":") == -1) {
+                                continue;
+                            }
+                            lineArray = line.split(",");
+                            person = new PersonEntity();
+                            person.setName(lineArray[0].split(":")[0].trim());
+                            line = line.replaceAll("[\\w|가-힣| ]*:", "").trim();
+                            String regex = "[0-9]{2}세\\(([0-9]{2})년\\)";
+                            Pattern pat = Pattern.compile(regex);
+                            Matcher match = pat.matcher(line);
+                            if(match.find()) {
+                                int birth = Integer.parseInt(match.group(1));
+                                if(birth >= 0 && birth <= (LocalDate.now().getYear() % 100)) {
+                                    person.setBirthDate(LocalDate.parse("20"+birth+"-01-01"));
+                                }else {
+                                    person.setBirthDate(LocalDate.parse("19"+birth+"-01-01"));
+                                }
+                                line = line.replace(match.group(), "");
+                            }
+                            regex = "([0-9]{3})(-){0,1}([0-9]{3,4})(-){0,1}([0-9]{4})";
+                            pat = Pattern.compile(regex);
+                            match = pat.matcher(line);
+                            if (match.find()) {
+                                 person.setPhoneNumber(match.group());
+                                 line = line.replace(match.group(), "");
+                            }
+                            regex = "(\\w*{1,50})@(\\w*{1,50})\\.([\\w|.]*{1,50})";
+                            pat = Pattern.compile(regex);
+                            match = pat.matcher(line);
+                            if (match.find()) {
+                                person.setEmail(match.group());
+                                line = line.replace(match.group(), "");
+                            }
+                            regex = "([가-힣]{2,10}[시|도]{0,1})( {0,2})([가-힣]*[시|구])( {0,2})([가-힣]*[0-9]*[동|구] {0,2}[가-힣|\\w]*){0,1}";
+                            pat = Pattern.compile(regex);
+                            match = pat.matcher(line);
+                            if (match.find()) {
+                                person.setAddress(match.group());
+                                line = line.replace(match.group(), "");
+                            }
+                            regex = "([0-9]{1,4})~{0,1}([0-9]{0,4})만원";
+                            pat = Pattern.compile(regex);
+                            match = pat.matcher(line);
+                            if (match.find()) {
+                                String str = match.group(1);
+                                person.setPay(Long.parseLong(str));
+                                line = line.replace(match.group(), "");
+                            }
+                            regex = ", {0,10}([1-9]{0,1}[0-9]{1}\\.{0,1}[0-9]{0,2})년{0,1}[^-]";
+                            pat = Pattern.compile(regex);
+                            match = pat.matcher(line);
+                            if (match.find()) {
+                                String str = match.group(1);
+                                if(!str.startsWith("0")) {
+                                    person.setCareer(str);
+                                    line = line.replace(match.group(), "");
+                                }
+                            }
+                            line = line.replaceAll("[,|거주함\\.|거주함,]", "").trim();
+                            log.info(line);
+                            personList.add(person);
+                        }
+                    }
+                    for(int i = 0; i < jobTypeList.size(); i++) {
+                        log.info(jobTypeList.get(i));
+                    }
+                    for(int i = 0; i < personList.size(); i++) {
+                        log.info(personList.get(i).toString());
+                    }
+                    returnVal = "SUCCESS";
+                    returnMsg = "업로드에 성공했습니다.";
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    returnVal = "FAIL";
+                    returnMsg = "업로드 중에 오류가 발생했습니다.";
+                }
+            } else {
+                returnVal = "FAIL";
+                returnMsg = "잘못된 파일 형식입니다.";
+            }
+        } else {
+            returnVal = "FAIL";
+            returnMsg = "파일의 데이터가 존재하지 않습니다.";
+        }
         returnMap.put("returnVal", returnVal);
         returnMap.put("returnMsg", returnMsg);
         return returnMap;

@@ -11,6 +11,10 @@ SettingUserMainPage = Vue.component("setting-user-main-page", async function (re
                     "id": null
                 }
             },
+            "dialog": {
+                "title": "테스트",
+                "visible": false
+            },
             "text": {
                 "icon": "mdi-eye-off-outline",
                 "type": "password"
@@ -129,6 +133,24 @@ SettingUserMainPage = Vue.component("setting-user-main-page", async function (re
             } else {
                 this.text.icon = 'mdi-eye-off-outline';
                 this.text.type = 'password';
+            }
+        },
+        "open": function () {
+            this.dialog.visible = true;
+        },
+        "upload": async function (dataUpload) {
+            var form = new FormData();
+            store.commit("app/SET_LOADING", true);
+            form.append("file" , dataUpload.selectedFile);
+
+            var returnType = await ito.api.app.upload.ito(form);
+            store.commit("app/SET_LOADING", false);
+
+            if(returnType.data.returnVal != 'SUCCESS'){
+                await ito.alert(returnType.data.returnMsg);
+            }else{
+                await ito.alert(returnType.data.returnMsg);
+                this.dialog.visible = false;
             }
         }
 
