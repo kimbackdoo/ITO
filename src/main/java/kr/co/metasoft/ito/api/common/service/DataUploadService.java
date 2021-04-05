@@ -21,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,7 @@ import kr.co.metasoft.ito.api.common.entity.CodeEntity;
 import kr.co.metasoft.ito.api.common.entity.PersonEntity;
 import kr.co.metasoft.ito.api.common.entity.PersonSkillEntity;
 import kr.co.metasoft.ito.api.common.mapper.CodeMapper;
+import kr.co.metasoft.ito.api.common.repository.CodeRepository;
 import kr.co.metasoft.ito.api.common.repository.PersonRepository;
 import kr.co.metasoft.ito.api.common.repository.PersonSkillRepository;
 import kr.co.metasoft.ito.common.util.PageRequest;
@@ -48,6 +50,9 @@ public class DataUploadService {
 
     @Autowired
     private CodeMapper codeMapper;
+
+    @Autowired
+    private CodeRepository codeRepository;
 
     //엑셀 항목 값
     String[] personColumnKeyArray = {"이름","휴대폰 번호","직업종류","투입여부","필수 자격증 여부","보유 스킬","경력","급여","투입 가능 시작일"
@@ -383,14 +388,45 @@ public class DataUploadService {
                     PersonEntity person = new PersonEntity();
                     List<PersonEntity> personList = new ArrayList<>();
                     String [] lineArray = null;
-                    List<String> jobTypeList = new ArrayList<>();
-
+                    String jobName = "";
+                    String jobType = "";
                     while((line = bufReader.readLine()) != null){
                         if(line.trim().isEmpty()) {
                             continue;
                         }
                         if(line.trim().indexOf("*") == 0) {
-                            jobTypeList.add(line.replaceAll("[*]", "").trim());
+                            jobName = line.replaceAll("[*]", "").trim();
+                            CodeEntity code = codeRepository.findOne(Example.of(CodeEntity.builder().parentId("001").name(jobName).build())).orElse(null);
+                            if(null == code) {
+                                pageRequest = new PageRequest();
+                                pageRequest.setRowSize(1);
+                                sort = new ArrayList<>();
+                                sort.add("id,desc");
+                                pageRequest.setSort(sort);
+                                List<CodeEntity> codeList = codeMapper.selectCodeList(CodeParamDto.builder().parentId("001").build(), pageRequest);
+                                if(codeList.isEmpty()) {
+                                    code = CodeEntity.builder()
+                                            .id("00101")
+                                            .parentId("001")
+                                            .name(jobName)
+                                            .value(null)
+                                            .ranking(1)
+                                            .status("T")
+                                            .build();
+                                    codeRepository.save(code);
+                                }else {
+                                    code = CodeEntity.builder()
+                                            .id("00" + (Integer.parseInt(codeList.get(0).getId()) + 1))
+                                            .parentId("001")
+                                            .name(jobName)
+                                            .value(null)
+                                            .ranking(codeList.get(0).getRanking())
+                                            .status("T")
+                                            .build();
+                                    codeRepository.save(code);
+                                }
+                            }
+                            jobType = code.getId();
                         }else {
                             if(line.indexOf(":") == -1) {
                                 continue;
@@ -425,42 +461,44 @@ public class DataUploadService {
                                 person.setEmail(match.group());
                                 line = line.replace(match.group(), "");
                             }
-                            regex = "([가-힣]{2,10}[시|도]{0,1})( {0,2})([가-힣]*[시|구])( {0,2})([가-힣]*[0-9]*[동|구] {0,2}[가-힣|\\w]*){0,1}";
+                            regex = "([가-힣]{2,10}[시|도]{0,1})( {0,2})([가-힣]*[시|구] [^거주함|,|\\.]*)";
                             pat = Pattern.compile(regex);
                             match = pat.matcher(line);
                             if (match.find()) {
                                 person.setAddress(match.group());
                                 line = line.replace(match.group(), "");
                             }
-                            regex = "([0-9]{1,4})~{0,1}([0-9]{0,4})만원";
+                            regex = "([0-9]{0,3},{0,1}[0-9]{1,3})[만원]{0,2}~{0,1}([0-9]{0,3},{0,1}[0-9]{1,3}){0,1}[만원]{2}";
                             pat = Pattern.compile(regex);
                             match = pat.matcher(line);
                             if (match.find()) {
-                                String str = match.group(1);
-                                person.setMinPay(Long.parseLong(str));
+                                String str1 = match.group(1).replace(",", "");
+                                person.setMinPay(Long.parseLong(str1));
+                                if(match.group(2) != null) {
+                                    String str2 = match.group(2).replace(",", "");
+                                    person.setMaxPay(Long.parseLong(str2));
+                                }
                                 line = line.replace(match.group(), "");
                             }
-                            regex = ", {0,10}([1-9]{0,1}[0-9]{1}\\.{0,1}[0-9]{0,2})년{0,1}[^-]";
+                            regex = "[^\\d&^-]([\\d]{1,2}\\.{0,1}[\\d]{0,2})년{0,1}[,|\\.]";
                             pat = Pattern.compile(regex);
                             match = pat.matcher(line);
                             if (match.find()) {
                                 String str = match.group(1);
-                                if(!str.startsWith("0")) {
-                                    person.setCareer(str);
-                                    line = line.replace(match.group(), "");
-                                }
+                                person.setCareer(str);
+                                line = line.replace(match.group(), "");
                             }
-                            line = line.replaceAll("[,|거주함\\.|거주함,]", "").trim();
-                            log.info(line);
+                            line = line.replaceAll("거주함{0,1}[\\.|,]", "").trim();
+                            line = line.replaceAll("(, {0,2}){2,100}", ",").trim();
+                            if(line.startsWith(",")) {
+                                line.replaceFirst(",", "");
+                            }
+                            person.setMemo(line);
+                            person.setJobType(jobType);
                             personList.add(person);
                         }
                     }
-                    for(int i = 0; i < jobTypeList.size(); i++) {
-                        log.info(jobTypeList.get(i));
-                    }
-                    for(int i = 0; i < personList.size(); i++) {
-                        log.info(personList.get(i).toString());
-                    }
+                    personRepository.saveAll(personList);
                     returnVal = "SUCCESS";
                     returnMsg = "업로드에 성공했습니다.";
                 } catch (Exception e) {
