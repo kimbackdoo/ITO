@@ -215,15 +215,35 @@
                             </v-col>
                     </v-row>
                     <v-row class="ma-0">
+                        <v-col cols="3">
+                            <v-text-field
+                                label="최소 희망 급여"
+                                suffix="만원"
+                                v-model="data.minPay"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="1" class="text-center" style="line-height: 60px;">
+                            ~
+                        </v-col>
+                        <v-col cols="3">
+                            <v-text-field
+                                label="최대 희망 급여"
+                                suffix="만원"
+                                v-model="data.maxPay"
+                            ></v-text-field>
+                        </v-col>
+                    </v-row>
+
+                    <v-row class="ma-0">
                            <v-col
                               cols="3"
                               class="pa-2"
                            >
                             <v-text-field
                                 dense
-                                label="희망 급여"
+                                label="실제 지급 급여"
                                 suffix="만원"
-                                v-model="data.pay"
+                                v-model="data.realPay"
                             ></v-text-field>
                            </v-col>
                     </v-row>
@@ -281,7 +301,31 @@
                             v-model="data.workableDay"
                         ></date-picker-component>
                            </v-col>
-                     </v-row>
+                    </v-row>
+                    <v-row class="ma-0">
+                           <v-col
+                              cols="3"
+                              class="pa-2"
+                           >
+                            <v-select
+                                dense
+                                outlined
+                                menu-props="auto"
+                                label="평가 점수"
+                                v-model="data.rank"
+                                :items="user.dataTable.rank"
+                                required
+                            ></v-select>
+                            </v-col>
+                            <v-col cols="9">
+                                <v-textarea
+                                    dense
+                                    outlined
+                                    label="비고"
+                                    v-model="data.memo"
+                                ></v-textarea>
+                            </v-col>
+                    </v-row>
                     <v-row class="ma-0">
                          <v-spacer></v-spacer>
                         <v-card-actions>
@@ -300,104 +344,6 @@
                      </v-form>
                    </v-expansion-panel-content>
              </v-expansion-panel>
-
-<!--    <v-expansion-panels
-          </v-expansion-panels>
-              multiple
-              v-model="user.panels.list"
-          >
-           <v-expansion-panel>
-            <v-expansion-panel-header>사용자 입력 목록</v-expansion-panel-header>
-              <v-expansion-panel-content>
-
-            <v-dialog v-model="user.dialogDelete" max-width="500px">
-              <v-card>
-                <v-card-title class="headline">삭제할 겁니까???</v-card-title>
-                  <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="blue darken-1" text @click="closeDelete">취소</v-btn>
-                      <v-btn color="blue darken-1" text @click="deleteItemConfirm">삭제</v-btn>
-                      <v-spacer></v-spacer>
-                  </v-card-actions>
-                </v-card>
-            </v-dialog>
-
-              <v-row>
-                <v-col cols="12" >
-                        <v-data-table
-                            dense
-                            fixed-header
-                            hide-default-footer
-                            :loading="user.dataTable.loading"
-                            :headers="user.dataTable.headers"
-                            :items="user.dataTable.items"
-                            :page="user.dataTable.page"
-                            :items-per-page="user.dataTable.itemsPerPage"
-                            @page-count="user.pagination.length = $event"
-                            show-select
-                            v-model="user.selected"
-                            item-key="name"
-                            >
-
-                            <template v-slot:top>
-                                <v-toolbar flat>
-                                   <v-select
-                                        fixed-header
-                                         hide-default-footer
-                                       class="shrink"
-                                       label="items Per Page"
-                                       :items="user.dataTable.itemsPerPageItems"
-                                       v-model="user.dataTable.itemsPerPage"
-                                       ></v-select>
-                                       <v-spacer></v-spacer>
-                                       <v-btn
-                                           class="primary"
-                                           to="/main/admin/user-info-form"
-                                       >DB 저장</v-btn>
-                                </v-toolbar>
-                             </template>
-
-                              <template v-slot:item.name="{ item }">
-                                <v-btn
-                                text
-                                >{{item.name}}</v-btn>
-                            </template>
-                            <template v-slot:item.actions="{ item }">
-                                <v-icon
-                                  small
-                                 class="mr-2"
-                                 @click="editItem(item)"
-                                    >
-                                mdi-pencil
-                              </v-icon>
-                              <v-icon
-                                small
-                                @click="deleteItem(item)"
-                                  >
-                                mdi-delete
-                                </v-icon>
-                            </template>
-                          </v-data-table>
-
-                         <v-pagination
-                            class="mt-2"
-                            v-model="user.dataTable.page"
-                            :length="user.pagination.length"
-                            :total-visible="user.pagination.totalVisible"
-
-                          ></v-pagination>
-                         <v-spacer></v-spacer>
-                         <v-btn
-                            class="red"
-                            @click="deleteItem(item)"
-                         >삭제하기</v-btn>
-
-                        </v-col>
-                      </v-row>
-                   </v-expansion-panel-content>
-                 </v-expansion-panel>
-               </v-expansion-panels>
- -->
         </v-col>
     </v-row>
 

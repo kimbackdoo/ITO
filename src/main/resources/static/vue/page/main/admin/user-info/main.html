@@ -17,7 +17,7 @@
                           <v-container>
                             <v-row>
                                 <v-col
-                                    cols="4"
+                                    cols="3"
                                 >
                                     <v-text-field
                                         dense
@@ -31,6 +31,7 @@
                                 >
                                   <v-select
                                       dense
+                                      multiple
                                       :items="select.job.items"
                                       label="직종"
                                     v-model="user.query.job"
@@ -38,16 +39,15 @@
                                  ></v-select>
                                  </v-col>
                                 <v-col
-                                    cols="3"
+                                    cols="4"
                                 >
-                                  <v-select
+                                  <v-text-field
                                       dense
                                       multiple
-                                      :items="select.skill.items"
                                       label="기술"
-                                    v-model="user.query.skill"
-                                    @keydown.enter="search();"
-                                 ></v-select>
+                                      v-model="user.query.skill"
+                                      @keydown.enter="search();"
+                                 ></v-text-field>
                                  </v-col>
                                 <v-col
                                     cols="3"
@@ -68,6 +68,7 @@
                                 >
                                   <v-select
                                       dense
+                                      multiple
                                       label="최종 학력"
                                         v-model="user.query.education"
                                       :items="select.education.items"
@@ -115,29 +116,40 @@
                             </v-row>
                             <v-row>
                                 <v-col
-                                    cols="5"
+                                    cols="4"
                                 >
                                     <v-select
                                         dense
                                         label="희망 지역"
                                         suffix="(시/도)"
-                                        v-model="user.query.localPlace"
+                                        v-model="user.query.local"
                                         :items="select.localPlace.items"
                                         @keydown.enter="search();"
                                     ></v-select>
                                 </v-col>
                                 <v-col
-                                    cols="5"
+                                    cols="4"
                                 >
                                     <v-select
                                         dense
                                         label="희망 지역"
                                         suffix="(구/군)"
-                                        v-model="user.query.detailLocalPlace"
+                                        v-model="user.query.detailLocal"
                                         :items="select.detailLocalPlace.items"
                                         @keydown.enter="search();"
                                     ></v-select>
                                 </v-col>
+                                <v-col cols="3">
+                                    <v-select
+                                        dense
+                                        multiple
+                                        label="현황"
+                                        hide-details="auto"
+                                        :items="select.status.items"
+                                        v-model="user.query.status"
+                                    ></v-select>
+                            </v-col>
+
                             </v-row>
                             <v-row>
                                 <v-col
