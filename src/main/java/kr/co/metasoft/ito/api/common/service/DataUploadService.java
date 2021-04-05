@@ -50,7 +50,7 @@ public class DataUploadService {
     private CodeMapper codeMapper;
 
     //엑셀 항목 값
-    String[] personColumnKeyArray = {"이름","휴대폰 번호","직업종류","투입여부","필수 자격증 여부","보유 스킬","경력","급여","투입 가능 시작일"
+    String[] personColumnKeyArray = {"이름","휴대폰 번호","직업종류","투입여부","필수 자격증 여부","보유 스킬","경력","최소급여","최대급여","희망지역(시/구)","희망지역(구/군)","투입 가능 시작일"
             ,"우편번호","주소","상세주소","이메일","웹사이트","최종학력","생일","생성일","수정일"};
 
 
@@ -204,17 +204,42 @@ public class DataUploadService {
                             if(null != cell) {
                                 dataUploadEntity.setCareer(cell.getStringCellValue());
                             }
-                            System.out.println("breakPoint :  " + "경력");
 
 
-                            // (급여)
-                            cell = row.getCell(columnKeyNumberList.get("급여"));
+                            // (급여 - 최솟값)
+                            cell = row.getCell(columnKeyNumberList.get("최소급여"));
                             cell.setCellType(Cell.CELL_TYPE_STRING);
                             if(null != cell) {
                                 Long pay = Long.parseLong(cell.getStringCellValue());
                                 dataUploadEntity.setMinPay(pay);
                             }
+                            System.out.println("breakPoint :  " + "최소급여");
+
+                            // (급여 - 최댓값)
+                            cell = row.getCell(columnKeyNumberList.get("최대급여"));
+                            cell.setCellType(Cell.CELL_TYPE_STRING);
+                            if(null != cell) {
+                                Long pay = Long.parseLong(cell.getStringCellValue());
+                                dataUploadEntity.setMaxPay(pay);
+                            }
                             System.out.println("breakPoint :  " + "급여");
+
+
+                            // 희망지역(시/도)
+                            cell = row.getCell(columnKeyNumberList.get("희망지역(시/도)"));
+                            cell.setCellType(Cell.CELL_TYPE_STRING);
+                            if(null != cell) {
+                                dataUploadEntity.setLocal(cell.getStringCellValue());
+                            }
+                            System.out.println("breakPoint :  " + "희망지역(시/도)");
+
+                            // 희망지역(구/군)
+                            cell = row.getCell(columnKeyNumberList.get("희망지역(구/군)"));
+                            cell.setCellType(Cell.CELL_TYPE_STRING);
+                            if(null != cell) {
+                                dataUploadEntity.setDetailLocal(cell.getStringCellValue());
+                            }
+                            System.out.println("breakPoint :  " + "희망지역(구/군)");
 
 
                             // (투입가능 시작 가능일) - localDate 형 변환

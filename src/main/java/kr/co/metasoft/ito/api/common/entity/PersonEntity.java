@@ -77,6 +77,13 @@ public class PersonEntity {
     @Column (name = "`max_pay`", columnDefinition = "bigint(20)", nullable = true)
     private Long maxPay;
 
+
+    @Column (name = "`local`", columnDefinition = "varchar(100)", nullable = true)
+    private String local;
+
+    @Column (name = "`detail_local`", columnDefinition = "varchar(100)", nullable = true)
+    private String detailLocal;
+
     @JsonFormat (pattern = "yyyy-MM-dd")
     @DateTimeFormat (pattern = "yyyy-MM-dd")
     @Column (name = "`workable_day`", columnDefinition = "date", nullable = true)
