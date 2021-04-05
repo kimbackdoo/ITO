@@ -168,6 +168,9 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
         },
         "add": function () {
             this.$emit("add");
+        },
+        "clickIcon": function (item) {
+            this.$emit("click:icon", item);
         }
     },
 }); });
