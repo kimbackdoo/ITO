@@ -314,6 +314,26 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     self.user.dataTable.totalRows = data.totalRows;
                     self.user.dataTable.items.forEach(e => {
                         e.inputStatus = (e.inputStatus == "T") ? "투입중" : "섭외중"
+                        switch(e.inputStatus){
+                            case 'A':
+                                 e.inputStatus = "섭외"; break;
+                            case 'C':
+                                 e.inputStatus = "완료"; break;
+                            case 'I':
+                                 e.inputStatus = "면접"; break;
+                            case 'P':
+                                 e.inputStatus = "투입"; break;
+                        }
+                        switch(e.education){
+                            case "007001":
+                                 e.education = "무관"; break;
+                            case "007002":
+                                 e.education = "고등학교 졸업"; break;
+                            case "007003":
+                                 e.education = "전문대 졸업"; break;
+                            case "007004":
+                                 e.education = "대학교 졸업"; break;
+                        }
                         e.certificateStatus = (e.certificateStatus == "T") ? "있음" : "없음"
                         e.career = e.career+"년"
                         e.pay = String(e.minPay) +" ~ " +String(e.maxPay)
