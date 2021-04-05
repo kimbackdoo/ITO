@@ -53,7 +53,8 @@ public class ProfileService {
                 .certificateStatus(profileDto.getPersonDto().getCertificateStatus())
                 .role(profileDto.getPersonDto().getRole())
                 .career(profileDto.getPersonDto().getCareer())
-                .pay(profileDto.getPersonDto().getPay())
+                .minPay(profileDto.getPersonDto().getMinPay())
+                .maxPay(profileDto.getPersonDto().getMaxPay())
                 .workableDay(profileDto.getPersonDto().getWorkableDay())
                 .postcode(profileDto.getPersonDto().getPostcode())
                 .address(profileDto.getPersonDto().getAddress())
@@ -120,7 +121,8 @@ public class ProfileService {
                 .certificateStatus(profileDto.getPersonDto().getCertificateStatus())
                 .role(profileDto.getPersonDto().getRole())
                 .career(profileDto.getPersonDto().getCareer())
-                .pay(profileDto.getPersonDto().getPay())
+                .minPay(profileDto.getPersonDto().getMinPay())
+                .maxPay(profileDto.getPersonDto().getMaxPay())
                 .workableDay(profileDto.getPersonDto().getWorkableDay())
                 .postcode(profileDto.getPersonDto().getPostcode())
                 .address(profileDto.getPersonDto().getAddress())
@@ -179,7 +181,6 @@ public class ProfileService {
         personLanguageRepository.delete(PersonLanguageEntity.builder().personId(id).build());
     }
 
-
     @Validated(value = {RemoveValidationGroup.class})
     @Transactional
     public void removeProfileList(
@@ -195,10 +196,4 @@ public class ProfileService {
         }
         personRepository.deleteAll(personList);
     }
-
-
-
-
-
-
 }
