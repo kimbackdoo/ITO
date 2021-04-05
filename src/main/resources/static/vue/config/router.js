@@ -47,13 +47,11 @@ router = new VueRouter({
                     "path": "/main/admin",
                     "redirect": "/main/admin/user-info"
                 },
-
                 {
                     "name": "사용자현황",
                     "path": "/main/admin/user-info",
                     "component": MainAdminPage
                 },
-
                 {
                     "name": "사용자정보 입력하기",
                     "path": "/main/admin/user-info-form",
@@ -69,11 +67,15 @@ router = new VueRouter({
                     "path": "/main/admin/project-list/detail",
                     "component": MainAdminProjectDetailPage
                 },
-
                 {
                       "name": "프로젝트 입력하기",
                       "path": "/main/admin/project-info-form",
                       "component": MainAdminProjectFormPage
+                },
+                {
+                    "name": "가용인력",
+                    "path": "/main/admin/available-list",
+                    "component": MainAdminAvailableListPage
                 },
                 {
                     "name": "Settings",

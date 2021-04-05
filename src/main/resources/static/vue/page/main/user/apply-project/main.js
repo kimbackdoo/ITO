@@ -319,7 +319,6 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
         "created": function() {
             for(var i=1; i<=20; i++) {
                 this.select.careerYear.items.push({"text": String(i), "value": Number(i)});
-
                 if(i < 12) this.select.careerMonth.items.push({"text": String(i), "value": Number(i * 0.01)});
             }
         }
