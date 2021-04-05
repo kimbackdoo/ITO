@@ -57,29 +57,35 @@
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="3">
-                                        <v-select
+<!--                                        <v-select-->
+<!--                                            dense-->
+<!--                                            label="기술"-->
+<!--                                            multiple-->
+<!--                                            hide-details="auto"-->
+<!--                                            :items="select.skill.items"-->
+<!--                                            v-model="project.dataTable.query.skill"-->
+<!--                                        >-->
+<!--                                            <template v-slot:prepend-item>-->
+<!--                                                <v-list-item-->
+<!--                                                    ripple-->
+<!--                                                    @click="toggleSkill"-->
+<!--                                                >-->
+<!--                                                    <v-list-item-action>-->
+<!--                                                        <v-icon :color="project.dataTable.query.skill > 0 ? 'indigo darken-4' : ''">{{ iconSkill }}</v-icon>-->
+<!--                                                    </v-list-item-action>-->
+<!--                                                    <v-list-item-content>-->
+<!--                                                        <v-list-item-title>전체</v-list-item-title>-->
+<!--                                                    </v-list-item-content>-->
+<!--                                                </v-list-item>-->
+<!--                                                <v-divider class="mt-2"></v-divider>-->
+<!--                                            </template>-->
+<!--                                        </v-select>-->
+                                        <v-text-field
                                             dense
                                             label="기술"
-                                            multiple
-                                            hide-details="auto"
-                                            :items="select.skill.items"
                                             v-model="project.dataTable.query.skill"
-                                        >
-                                            <template v-slot:prepend-item>
-                                                <v-list-item
-                                                    ripple
-                                                    @click="toggleSkill"
-                                                >
-                                                    <v-list-item-action>
-                                                        <v-icon :color="project.dataTable.query.skill > 0 ? 'indigo darken-4' : ''">{{ iconSkill }}</v-icon>
-                                                    </v-list-item-action>
-                                                    <v-list-item-content>
-                                                        <v-list-item-title>전체</v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-list-item>
-                                                <v-divider class="mt-2"></v-divider>
-                                            </template>
-                                        </v-select>
+                                            @keyup.enter="loadProjectList()"
+                                        ></v-text-field>
                                     </v-col>
                                     <v-col cols="3">
                                         <v-select
@@ -91,19 +97,19 @@
                                             v-model="project.dataTable.query.degree"
                                         >
                                             <template v-slot:prepend-item>
-                                                <v-list-item
-                                                    ripple
-                                                    @click="toggleDegree"
-                                                >
-                                                    <v-list-item-action>
-                                                        <v-icon :color="project.dataTable.query.degree > 0 ? 'indigo darken-4' : ''">{{ iconDegree }}</v-icon>
-                                                    </v-list-item-action>
-                                                    <v-list-item-content>
-                                                        <v-list-item-title>전체</v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-list-item>
                                                 <v-divider class="mt-2"></v-divider>
                                             </template>
+                                            <v-list-item
+                                                    ripple
+                                                    @click="toggleDegree"
+                                            >
+                                                <v-list-item-action>
+                                                    <v-icon :color="project.dataTable.query.degree > 0 ? 'indigo darken-4' : ''">{{ iconDegree }}</v-icon>
+                                                </v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>전체</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
                                         </v-select>
                                     </v-col>
                                     <v-col cols="3">

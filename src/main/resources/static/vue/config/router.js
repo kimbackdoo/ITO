@@ -17,22 +17,17 @@ router = new VueRouter({
                 {
                     "name": "user",
                     "path": "/main/user",
-                    "redirect": "/main/user/profiles"
-                },
-                {
-                    "name": "Profile",
-                    "path": "/main/user/profiles",
-                    "component": ProfileMainComponent
-                },
-                {
-                    "name": "InputProfileCareer",
-                    "path": "/main/user/career",
-                    "component": CareerMainComponent
+                    "redirect": "/main/user/input-profile"
                 },
                 {
                     "name": "InputProfile",
                     "path": "/main/user/input-profile",
                     "component": InputProfileMainComponent
+                },
+                {
+                    "name": "InputProfileCareer",
+                    "path": "/main/user/career",
+                    "component": CareerMainComponent
                 },
                 {
                     "name": "ApplyProject",
