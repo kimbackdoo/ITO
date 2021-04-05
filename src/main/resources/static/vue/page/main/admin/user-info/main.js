@@ -254,8 +254,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 "handlePageChange": function (value){
                     return this.currentPage=value;
                 },
-
-                //삭제 기능 수정 =>
                 "deleteUserInfoList": async function(items){
                     var self = this;
                     let idList = [items.map(e=>e.id)];

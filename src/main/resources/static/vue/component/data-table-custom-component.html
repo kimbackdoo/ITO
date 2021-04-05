@@ -50,12 +50,11 @@
                             hide-details
                         />
                     </td>
-                    <td :class="'text-'+header.align + ' ' + header.cellClass" v-for="header in headers"  @click="clickRow(item)">
+                    <td :class="'text-'+header.align + ' ' + header.cellClass" v-for="header in headers" @click="clickRow(item)">
                         <template v-if="header.value === 'edit'">
                             <v-icon
-                                small
                                 class="mr-2"
-                                @click="clickEdit(item)"
+                                @click.native.stop="clickEdit(item)"
                             >mdi-pencil</v-icon>
                         </template>
                         <template v-else-if="header.cellClass != null && header.cellClass.indexOf('truncate') !== -1">
@@ -102,13 +101,6 @@
                 </td>
             </tr>
         </tbody>
-    </template>
-    <template v-if="headers.find(e=>e.value === 'actions') !== undefined" v-slot:item.actions="{item}">
-        <v-icon
-            small
-            class="mr-2"
-            @click="clickIcon(item);"
-        >mdi-pencil</v-icon>
     </template>
     <template v-slot:footer >
         <v-row dense>
