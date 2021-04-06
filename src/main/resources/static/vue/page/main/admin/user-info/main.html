@@ -31,10 +31,9 @@
                                 >
                                   <v-select
                                       dense
-                                      multiple
                                       :items="select.job.items"
                                       label="직종"
-                                    v-model="user.query.job"
+                                    v-model="user.query.jobType"
                                     @keydown.enter="search();"
                                  ></v-select>
                                  </v-col>
@@ -68,9 +67,8 @@
                                 >
                                   <v-select
                                       dense
-                                      multiple
                                       label="최종 학력"
-                                        v-model="user.query.education"
+                                      v-model="user.query.education"
                                       :items="select.education.items"
                                     @keydown.enter="search();"
                                  ></v-select>

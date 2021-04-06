@@ -83,7 +83,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         "query": {
                             "id":0,
                             "name": null,
-                            "job": null,
+                            "jobType": null,
                             "skill":null,
                             "career1": null,
                             "career2": null,
@@ -133,7 +133,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         },
                         "education":{
                             "items":[
-                                {"text": "학위", "value": null}
+                                {"text": "전체", "value": null}
                             ]
                         },
                         "status":{
@@ -170,7 +170,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     },
                     "deep": true
                 },
-                "user.query.job": {
+                "user.query.jobType": {
                     "handler": async function () {
                         var self = this;
                         let items,
@@ -194,12 +194,12 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         self.user.query.skill = [];
                     }
                 },
-                "user.query.localPlace": {
+                "user.query.local": {
                     "handler": async function(n, o){
                         let detailLocal = this.select.localPlace.items.find(e=>e.value == this.user.query.localPlace);
 
                         if(o != null){
-                            this.data.detailLocalPlace= [];
+                            this.user.query.detailLocal= [];
                         }
                         this.select.detailLocalPlace.items=[];
                         let items = (await ito.api.common.code.getCodeList({
@@ -213,7 +213,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         console.log(this.select.detailLocalPlace.items)
                     }
                 }
-
             },
             "methods": {
                 "loadEducation": async function() {
@@ -304,14 +303,21 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     params.inputStatus = !_.isEmpty(self.user.query.status) ? self.user.query.status : null;
                     params.education = !_.isEmpty(self.user.query.education) ? self.user.query.education : null;
                     params.certificateStatus = !_.isEmpty(self.user.query.certificateStatus) ? self.user.query.certificateStatus : null;
-
                     params.sort=ito.util.sort(self.user.dataTable.options.sortBy, self.user.dataTable.options.sortDesc);
+                    params.memo= !_.isEmpty(self.user.query.skill) ? [self.user.query.skill] : null;
+
 
                     self.user.dataTable.loading = true;
-                    console.log("params.career 값 :  "+ params.career);
+
+                    console.log("params.memo 값 :  "+ params.memo);
+                    console.log("params.memo 타입 :  "+ typeof(params.memo));
+
                     data = (await ito.api.common.person.getPersonList(params)).data;
                     self.user.dataTable.items = data.items;
                     self.user.dataTable.totalRows = data.totalRows;
+
+                    var codeBigData = (await ito.api.common.code.getCodeList()).data.items;
+
                     self.user.dataTable.items.forEach(e => {
                         e.inputStatus = (e.inputStatus == "T") ? "투입중" : "섭외중"
                         switch(e.inputStatus){
@@ -326,19 +332,30 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         }
                         switch(e.education){
                             case "007001":
-                                 e.education = "무관"; break;
+                                 e.education = "학력 무관"; break;
                             case "007002":
                                  e.education = "고등학교 졸업"; break;
                             case "007003":
-                                 e.education = "전문대 졸업"; break;
+                                 e.education = "(2~3년제)전문대 졸업"; break;
                             case "007004":
-                                 e.education = "대학교 졸업"; break;
+                                 e.education = "(4년제)대학교 졸업"; break;
+                            case "007005":
+                                 e.education = "석사"; break;
+                            case "007006":
+                                 e.education = "박사"; break;
                         }
-                        e.certificateStatus = (e.certificateStatus == "T") ? "있음" : "없음"
+                        for(var i=0; i < codeBigData.length ; i++){
+                            if(e.jobType == codeBigData[i].id) e.jobType = codeBigData[i].name;
+                        }
+
+                        e.jobType = codeBigData.name;
+                        e.certificateStatus =(e.certificateStatus == "T") ? "있음" : "없음"
                         e.career = e.career+"년"
                         e.pay = String(e.minPay) +" ~ " +String(e.maxPay)
                     });
                     self.user.dataTable.loading = false;
+
+
                 },
                 "search": async function () {
                     var self = this;
@@ -363,6 +380,8 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 self.user.query.certificateStatus = null;
                                 self.user.query.job = null;
                                 self.user.query.skill = null;
+                                self.user.query.local = null;
+                                self.user.query.detailLocal = null;
                             })
                             .then(function () {
                                 return self.search();

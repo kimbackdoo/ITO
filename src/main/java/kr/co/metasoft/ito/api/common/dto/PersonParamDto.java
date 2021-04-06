@@ -2,6 +2,7 @@ package kr.co.metasoft.ito.api.common.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,6 +28,8 @@ public class PersonParamDto {
     private String phoneNumber;
 
     private String jobType;
+
+    private List<String> memo;
 
     private String inputStatus;
 

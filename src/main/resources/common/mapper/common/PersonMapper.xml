@@ -42,7 +42,7 @@
                 AND `job_type` LIKE CONCAT(#{personParamDto.jobType})
             </if>
             <if test="personParamDto.education != null and personParamDto.education != ''">
-                AND `education` LIKE CONCAT('%', #{personParamDto.education} ,'%')
+                AND `education` &gt;= #{personParamDto.education}
             </if>
             <if test="personParamDto.minPay != null and personParamDto.minPay != ''">
                 AND CAST(`min_pay` AS float) &gt;= CAST(#{personParamDto.minPay} AS float)
