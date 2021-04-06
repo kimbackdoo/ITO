@@ -150,7 +150,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
             "loadJobItems": async function() {
                 let items;
                 items = (await ito.api.common.code.getCodeList({
-                    "parentId": "002",
+                    "parentId": "001",
                     "sort": ["ranking, asc"],
                     "rowSize": 1000000
                 })).data.items.map(e=>({"text": e.name, "value": e.id}));
@@ -175,7 +175,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 this.select.local.items.push(...items);
             },
             "setUserInfoList": async function () {
-                let self = this, pay, personList, items,
+                let self = this, personList, items,
                     careerValue = String(self.user.query.careerYear + self.user.query.careerMonth);
 
                 self.user.dataTable.loading = true;
@@ -196,7 +196,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 })).data;
 
                 items = (await ito.api.common.code.getCodeList({
-                    "parentId": "002",
+                    "parentId": "001",
                     "sort": ["ranking, asc"],
                     "rowSize": 1000000
                 })).data.items.map(e=>({"text": e.name, "value": e.id}));
