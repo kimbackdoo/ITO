@@ -195,6 +195,8 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "certificateStatus": self.user.query.certificateStatus,
                 })).data;
 
+                console.log(personList.items.length);
+
                 items = (await ito.api.common.code.getCodeList({
                     "parentId": "001",
                     "sort": ["ranking, asc"],
