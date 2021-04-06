@@ -96,6 +96,35 @@
                                             v-model="project.dataTable.query.degree"
                                         ></v-select>
                                     </v-col>
+<!--                                     <v-col cols="3"> -->
+<!--                                         <v-select -->
+<!--                                             dense -->
+<!--                                             label="학위" -->
+<!--                                             multiple -->
+<!--                                             hide-details="auto" -->
+<!--                                             :items="select.degree.items" -->
+<!--                                             v-model="project.dataTable.query.degree" -->
+<!--                                         > -->
+<!--                                             <template v-slot:prepend-item> -->
+<!--                                                 <v-list-item -->
+<!--                                                         ripple -->
+<!--                                                         @click="toggleDegree" -->
+<!--                                                 > -->
+<!--                                                     <v-list-item-action> -->
+<!--                                                         <v-icon :color="project.dataTable.query.degree > 0 ? 'indigo darken-4' : ''">{{ iconDegree }}</v-icon> -->
+<!--                                                     </v-list-item-action> -->
+<!--                                                     <v-list-item-content> -->
+<!--                                                         <v-list-item-title>전체</v-list-item-title> -->
+<!--                                                     </v-list-item-content> -->
+<!--                                                 </v-list-item> -->
+<!--                                                 <v-divider class="mt-2"></v-divider> -->
+<!--                                             </template> -->
+<!--                                             <template v-slot:selection="{ item, index }"> -->
+<!--                                                 <span v-if="project.dataTable.query.degree.length === select.degree.items.length">{{index === 0 ? "전체" : ""}}</span> -->
+<!--                                                 <span v-else>{{(index > 0 ? ", ": "") + item.text}}</span> -->
+<!--                                             </template> -->
+<!--                                         </v-select> -->
+<!--                                     </v-col> -->
                                     <v-col cols="3">
                                         <v-select
                                             dense

@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,8 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 import kr.co.metasoft.ito.api.common.dto.CodeParamDto;
 import kr.co.metasoft.ito.api.common.dto.DataUploadParamDto;
@@ -413,14 +416,17 @@ public class DataUploadService {
                     PersonEntity person = new PersonEntity();
                     List<PersonEntity> personList = new ArrayList<>();
                     String [] lineArray = null;
+                    HashMap<String, CodeEntity> jobTypeMap = new HashMap<>();
+                    List<CodeEntity> jobTypeList = new ArrayList<>();
                     String jobName = "";
                     String jobType = "";
+                    int jobTypeCnt = 1;
                     while((line = bufReader.readLine()) != null){
                         if(line.trim().isEmpty()) {
                             continue;
                         }
                         if(line.trim().indexOf("*") == 0) {
-                            jobName = line.replaceAll("[*]", "").trim();
+                            jobName = line.replaceAll("[*]", "").trim().toUpperCase();
                             CodeEntity code = codeRepository.findOne(Example.of(CodeEntity.builder().parentId("001").name(jobName).build())).orElse(null);
                             if(null == code) {
                                 pageRequest = new PageRequest();
@@ -430,27 +436,38 @@ public class DataUploadService {
                                 pageRequest.setSort(sort);
                                 List<CodeEntity> codeList = codeMapper.selectCodeList(CodeParamDto.builder().parentId("001").build(), pageRequest);
                                 if(codeList.isEmpty()) {
-                                    code = CodeEntity.builder()
-                                            .id("00101")
-                                            .parentId("001")
-                                            .name(jobName)
-                                            .value(null)
-                                            .ranking(1)
-                                            .status("T")
-                                            .build();
-                                    codeRepository.save(code);
+                                    if(jobTypeMap.containsKey(jobName)) {
+                                        code = jobTypeMap.get(jobName);
+                                    }else {
+                                        code = CodeEntity.builder()
+                                                .id("001" + (jobTypeCnt < 9 ? ("0"+jobTypeCnt++) : jobTypeCnt++))
+                                                .parentId("001")
+                                                .name(jobName)
+                                                .value(null)
+                                                .ranking(1)
+                                                .status("T")
+                                                .build();
+                                        jobTypeMap.put(jobName, code);
+                                        jobTypeList.add(code);
+                                    }
                                 }else {
-                                    code = CodeEntity.builder()
-                                            .id("00" + (Integer.parseInt(codeList.get(0).getId()) + 1))
-                                            .parentId("001")
-                                            .name(jobName)
-                                            .value(null)
-                                            .ranking(codeList.get(0).getRanking())
-                                            .status("T")
-                                            .build();
-                                    codeRepository.save(code);
+                                    if(jobTypeMap.containsKey(jobName)) {
+                                        code = jobTypeMap.get(jobName);
+                                    }else {
+                                        code = CodeEntity.builder()
+                                                .id("00" + (Integer.parseInt(codeList.get(0).getId()) + jobTypeCnt++))
+                                                .parentId("001")
+                                                .name(jobName)
+                                                .value(null)
+                                                .ranking(codeList.get(0).getRanking())
+                                                .status("T")
+                                                .build();
+                                        jobTypeMap.put(jobName, code);
+                                        jobTypeList.add(code);
+                                    }
                                 }
                             }
+                            log.info(code.getId());
                             jobType = code.getId();
                         }else {
                             if(line.indexOf(":") == -1) {
@@ -516,13 +533,17 @@ public class DataUploadService {
                             line = line.replaceAll("거주함{0,1}[\\.|,]", "").trim();
                             line = line.replaceAll("(, {0,2}){2,100}", ",").trim();
                             if(line.startsWith(",")) {
-                                line.replaceFirst(",", "");
+                                line = line.replaceFirst(",", "");
                             }
                             person.setMemo(line);
                             person.setJobType(jobType);
                             personList.add(person);
                         }
                     }
+                    for(CodeEntity job : jobTypeList) {
+                        log.info(job.getId() + ", " + job.getParentId() + ", " + job.getName());
+                    }
+                    codeRepository.saveAll(jobTypeList);
                     personRepository.saveAll(personList);
                     returnVal = "SUCCESS";
                     returnMsg = "업로드에 성공했습니다.";
