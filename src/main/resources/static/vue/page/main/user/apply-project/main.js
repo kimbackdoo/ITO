@@ -18,14 +18,16 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 "select": {
                     "job": {
                         "items": [
-                            {"text": "전체", "value": null}
+                            {"text": "전체", "value": null},
                         ]
                     },
                     // "skill": {
                     //     "items": []
                     // },
                     "degree": {
-                        "items": []
+                        "items": [
+                            {"text": "전체", "value": null},
+                        ]
                     },
                     "status": {
                         "items": [
@@ -105,30 +107,6 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     },
                 }
             };
-        },
-        "computed": {
-            // skillAllSelect() {
-            //     return this.project.dataTable.query.skill.length === this.select.skill.items.length;
-            // },
-            // skillSelect() {
-            //     return this.project.dataTable.query.skill.length > 0 && !this.skillAllSelect;
-            // },
-            degreeAllSelect() {
-                return this.project.dataTable.query.degree.length === this.select.degree.items.length;
-            },
-            degreeSelect() {
-                return this.project.dataTable.query.degree.length > 0 && !this.degreeAllSelect;
-            },
-            // iconSkill() {
-            //     if(this.skillAllSelect) return 'mdi-close-box';
-            //     if(this.skillSelect) return 'mdi-minus-box';
-            //     return 'mdi-checkbox-blank-outline'
-            // },
-            iconDegree() {
-                if(this.degreeAllSelect) return 'mdi-close-box';
-                if(this.degreeSelect) return 'mdi-minus-box';
-                return 'mdi-checkbox-blank-outline'
-            },
         },
         "watch": {
             "project.dataTable.options.page": {
@@ -293,24 +271,6 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 self.project.dataTable.query.prsnl = null;
                 self.project.dataTable.query.status = null;
                 self.project.dataTable.query.salary = null;
-            },
-            // "toggleSkill": function() {
-            //     this.$nextTick(() => {
-            //         if(this.skillAllSelect) {
-            //             this.project.dataTable.query.skill = [];
-            //         } else {
-            //             this.project.dataTable.query.skill = this.select.skill.items.slice();
-            //         }
-            //     });
-            // },
-            "toggleDegree": function() {
-                this.$nextTick(() => {
-                    if(this.degreeAllSelect) {
-                        this.project.dataTable.query.degree = [];
-                    } else {
-                        this.project.dataTable.query.degree = this.select.degree.items.slice();
-                    }
-                })
             },
         },
         "mounted": function() {

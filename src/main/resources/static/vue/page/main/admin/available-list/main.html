@@ -27,19 +27,17 @@
                                             dense
                                             :items="select.job.items"
                                             label="직종"
-                                            v-model="user.query.job"
+                                            v-model="user.query.jobType"
                                             @keydown.enter="search();"
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="3">
-                                        <v-select
+                                        <v-text-field
                                             dense
-                                            multiple
-                                            :items="select.skill.items"
                                             label="기술"
                                             v-model="user.query.skill"
                                             @keydown.enter="search();"
-                                        ></v-select>
+                                        ></v-text-field>
                                     </v-col>
                                     <v-col cols="3">
                                         <v-text-field
@@ -56,25 +54,10 @@
                                         <v-select
                                             dense
                                             label="최종 학력"
-                                            v-model="user.query.education"
                                             :items="select.education.items"
+                                            v-model="user.query.education"
                                             @keydown.enter="search();"
-                                        >
-                                            <template v-slot:prepend-item>
-                                                <v-divider class="mt-2"></v-divider>
-                                            </template>
-                                            <v-list-item
-                                                ripple
-                                                @click="toggleDegree"
-                                            >
-                                                <v-list-item-action>
-                                                    <v-icon :color="user.query.degree > 0 ? 'indigo darken-4' : ''">{{ iconDegree }}</v-icon>
-                                                </v-list-item-action>
-                                                <v-list-item-content>
-                                                    <v-list-item-title>전체</v-list-item-title>
-                                                </v-list-item-content>
-                                            </v-list-item>
-                                        </v-select>
+                                        ></v-select>
                                     </v-col>
                                     <v-col cols="3">
                                         <v-select
@@ -115,7 +98,7 @@
                                             dense
                                             label="희망 지역"
                                             suffix="(시/도)"
-                                            v-model="user.query.localPlace"
+                                            v-model="user.query.local"
                                             :items="select.local.items"
                                             @keydown.enter="search();"
                                         ></v-select>
@@ -125,7 +108,7 @@
                                             dense
                                             label="희망 지역"
                                             suffix="(구/군)"
-                                            v-model="user.query.detailLocalPlace"
+                                            v-model="user.query.detailLocal"
                                             :items="select.detailLocal.items"
                                             @keydown.enter="search();"
                                         ></v-select>

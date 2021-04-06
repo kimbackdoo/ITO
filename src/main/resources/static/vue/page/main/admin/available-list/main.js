@@ -40,7 +40,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     },
                     "query": {
                         "name": null,
-                        "job": null,
+                        "jobType": null,
                         "skill": null,
                         "careerYear": null,
                         "careerMonth": null,
@@ -63,11 +63,6 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                             {"text": "전체", "value": null},
                         ]
                     },
-                    "skill": {
-                        "items": [
-                            {"text": "전체", "value": null},
-                        ]
-                    },
                     "status": {
                         "items": [
                             {"text": "섭외", "value": "A"},
@@ -76,8 +71,10 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                             {"text": "투입", "value": "P"},
                         ]
                     },
-                    "education":{
-                        "items":[]
+                    "education": {
+                        "items": [
+                            {"text": "전체", "value": null},
+                        ]
                     },
                     "careerYear": {
                         "items": [
@@ -101,19 +98,6 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     },
                 },
             };
-        },
-        "computed": {
-            degreeAllSelect() {
-                return this.user.query.education.length === this.select.education.items.length;
-            },
-            degreeSelect() {
-                return this.user.query.education.length > 0 && !this.degreeAllSelect;
-            },
-            iconDegree() {
-                if(this.degreeAllSelect) return 'mdi-close-box';
-                if(this.degreeSelect) return 'mdi-minus-box';
-                return 'mdi-checkbox-blank-outline'
-            },
         },
         "watch": {
             "user.dataTable.options.page": {
@@ -166,7 +150,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
             "loadJobItems": async function() {
                 let items;
                 items = (await ito.api.common.code.getCodeList({
-                    "parentId": "001",
+                    "parentId": "002",
                     "sort": ["ranking, asc"],
                     "rowSize": 1000000
                 })).data.items.map(e=>({"text": e.name, "value": e.id}));
@@ -191,7 +175,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 this.select.local.items.push(...items);
             },
             "setUserInfoList": async function () {
-                let self = this, pay, personList,
+                let self = this, pay, personList, items,
                     careerValue = String(self.user.query.careerYear + self.user.query.careerMonth);
 
                 self.user.dataTable.loading = true;
@@ -211,12 +195,22 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "certificateStatus": self.user.query.certificateStatus,
                 })).data;
 
+                items = (await ito.api.common.code.getCodeList({
+                    "parentId": "002",
+                    "sort": ["ranking, asc"],
+                    "rowSize": 1000000
+                })).data.items.map(e=>({"text": e.name, "value": e.id}));
+
                 self.user.dataTable.totalRows = personList.totalRows;
                 self.user.dataTable.items = personList.items;
-
-                console.log(self.user.dataTable.items);
-
                 self.user.dataTable.items.forEach(e => {
+                    for(var i=0; i<items.length; i++) {
+                        if(e.jobType === items[i].value) {
+                            e.jobType = items[i].text;
+                            break;
+                        }
+                    }
+
                     e.inputStatus = (e.inputStatus == "T") ? "투입중" : "섭외중"
                     e.certificateStatus = (e.certificateStatus == "T") ? "있음" : "없음"
                     e.career = e.career+"년"
@@ -225,8 +219,8 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 self.user.dataTable.loading = false;
             },
             "search": async function () {
-                if(this.project.dataTable.options.page !== 1) {
-                    this.project.dataTable.options.page = 1;
+                if(this.user.dataTable.options.page !== 1) {
+                    this.user.dataTable.options.page = 1;
                 }else {
                     await this.setUserInfoList();
                 }
@@ -240,19 +234,10 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 this.user.query.pay = null;
                 this.user.query.address = null;
                 this.user.query.inputStatus = null;
-                this.user.query.education = null;
+                this.user.query.education = [];
                 this.user.query.certificateStatus = null;
                 this.user.query.job = null;
                 this.user.query.skill = null;
-            },
-            "toggleDegree": function() {
-                this.$nextTick(() => {
-                    if(this.degreeAllSelect) {
-                        this.user.query.education = [];
-                    } else {
-                        this.user.query.education = this.select.education.items.slice();
-                    }
-                })
             },
         },
         "mounted": async function () {
