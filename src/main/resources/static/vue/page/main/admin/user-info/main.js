@@ -345,10 +345,10 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                  e.education = "박사"; break;
                         }
                         for(var i=0; i < codeBigData.length ; i++){
-                            if(e.jobType == codeBigData[i].id) e.jobType = codeBigData[i].name;
+                            if(e.jobType == codeBigData[i].id)
+                                 e.jobType = codeBigData[i].name;
                         }
 
-                        e.jobType = codeBigData.name;
                         e.certificateStatus =(e.certificateStatus == "T") ? "있음" : "없음"
                         e.career = e.career+"년"
                         e.pay = String(e.minPay) +" ~ " +String(e.maxPay)
