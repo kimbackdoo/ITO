@@ -83,6 +83,7 @@
         <result property="inputStatus" column="input_status"/>
         <result property="certificateStatus" column="certificate_status"/>
         <result property="role" column="role"/>
+        <result property="skill" column="skill"/>
         <result property="career" column="career"/>
         <result property="days" column="days"/>
         <result property="minPay" column="min_pay"/>

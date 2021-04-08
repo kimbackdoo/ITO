@@ -14,17 +14,17 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "headers": [
                                 {"text": "이름", "value": "name",cellClass:"text-truncate"},
                                 {"text": "전화번호", "value": "phoneNumber", cellClass:"text-truncate"},
+                                {"text": "생년월일(나이)",  "value": "birthDate", cellClass:"text-truncate"},
                                 {"text": "직종",  "value": "jobType", cellClass:"text-truncate"},
                                 {"text": "기술",  "value": "skill",cellClass:"text-truncate"},
                                 {"text": "학력", "value": "education", cellClass:"text-truncate"},
                                 {"text": "경력",  "value": "career", cellClass:"text-truncate"},
                                 {"text": "자격증 유무", "value": "certificateStatus",cellClass:"text-truncate"},
-                                {"text": "생년월일(나이)",  "value": "birthDate", cellClass:"text-truncate"},
                                 {"text": "희망 급여",  "value": "pay", cellClass:"text-truncate"},
                                 {"text": "지역",  "value": "address", cellClass:"text-truncate"},
-                                {"text": "투입여부",  "value": "inputStatus", cellClass:"text-truncate"},
+                                {"text": "현황",  "value": "inputStatus", cellClass:"text-truncate"},
                                 {"text": "업무 가능일",  "value": "workableDay", cellClass:"text-truncate"}
-
+                                //성별
                             ],
                             "totalRows":0,
                             "items": [],
@@ -99,7 +99,9 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "inputStatus":null,
                             "birthDate":null,
                             "workableDay":null,
-                            "status":null
+                            "status":null,
+                            "age":null,
+                            "gender":null
                         },
                     },
                     "select": {
@@ -111,14 +113,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         "skill": {
                             "items": [
                                 {"text": "전체", "value": null}
-                            ]
-                        },
-                        "status": {
-                            "items": [
-                                {"text": "섭외", "value": "A"},
-                                {"text": "완료", "value": "C"},
-                                {"text": "면접", "value": "I"},
-                                {"text": "투입", "value": "P"}
                             ]
                         },
                         "localPlace":{
@@ -143,6 +137,13 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 {"text": "완료", "value": "C"},
                                 {"text": "면접", "value": "I"},
                                 {"text": "투입", "value": "P"}
+                            ]
+                        },
+                        "gender":{
+                            "items":[
+                                {"text": "무관", "value": null},
+                                {"text": "남자", "value": "M"},
+                                {"text": "여자", "value": "F"}
                             ]
                         }
                     },
@@ -322,13 +323,15 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         e.inputStatus = (e.inputStatus == "T") ? "투입중" : "섭외중"
                         switch(e.inputStatus){
                             case 'A':
-                                 e.inputStatus = "섭외"; break;
+                                 e.inputStatus = "섭외중"; break;
                             case 'C':
-                                 e.inputStatus = "완료"; break;
+                                 e.inputStatus = "섭외완료"; break;
                             case 'I':
-                                 e.inputStatus = "면접"; break;
+                                 e.inputStatus = "인터뷰"; break;
                             case 'P':
-                                 e.inputStatus = "투입"; break;
+                                 e.inputStatus = "투입중"; break;
+                            case 'N':
+                                 e.inputStatus = "미정"; break;
                         }
                         switch(e.education){
                             case "007001":
@@ -348,7 +351,19 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             if(e.jobType == codeBigData[i].id)
                                  e.jobType = codeBigData[i].name;
                         }
-
+                        if(e.birthDate != null){
+                            var v = e.birthDate.slice(0,4);
+                            var age = e.birthDate.slice(2,4);
+                            if(Number(v) < 2000){
+                                var a = 2000 - Number(v);
+                                e.birthDate =  age+"년생 "+ "("+(Number(moment().format("YY")) + a + 1)+")";
+                            }
+                            else{
+                                var a = Number(v) - 2000;
+                                e.birthDate = age+"년생 " + "("+(a + 1 )+")";
+                            }
+                        }
+                        if(e.detailAddress != null) e.address = e.address + e.detailAddress
                         e.certificateStatus =(e.certificateStatus == "T") ? "있음" : "없음"
                         e.career = e.career+"년"
                         e.pay = String(e.minPay) +" ~ " +String(e.maxPay)

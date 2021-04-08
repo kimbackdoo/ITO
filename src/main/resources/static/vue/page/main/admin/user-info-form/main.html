@@ -110,6 +110,20 @@
                            <v-col
                               cols="7"
                            >
+                            <v-text-field
+                                dense
+                                chips
+                                multiple
+                                outlined
+                                menu-props="auto"
+                                label="기술"
+                                v-model="data2.skill"
+                            ></v-text-field>
+                            </v-col>
+<!--
+                           <v-col
+                              cols="7"
+                           >
                             <v-autocomplete
                                 dense
                                 chips
@@ -166,7 +180,7 @@
                                 menu-props="auto"
                                 label="최종 학력"
                                 v-model="data.education"
-                                :items="user.dataTable.education"
+                                :items="user.select.education.items"
                                 required
                             ></v-select>
                             </v-col>
@@ -257,8 +271,8 @@
                                 outlined
                                 label="희망 지역"
                                 suffix="(시)"
-                                :items="user.select.localPlace.items"
-                                v-model="data.localPlace"
+                                :items="user.select.local.items"
+                                v-model="data.local"
                             ></v-select>
                            </v-col>
                            <v-col
@@ -270,8 +284,8 @@
                                 outlined
                                 label="희망 지역"
                                 suffix="(구)"
-                                :items="user.select.detailLocalPlace.items"
-                                v-model="data.detailLocalPlace"
+                                :items="user.select.detailLocal.items"
+                                v-model="data.detailLocal"
                             ></v-select>
                            </v-col>
                     </v-row>
@@ -283,9 +297,9 @@
                             <v-select
                                 dense
                                 menu-props="auto"
-                                label="투입 여부"
+                                label="현황"
                                 v-model="data.inputStatus"
-                                :items="user.dataTable.inputStatus"
+                                :items="user.select.status.items"
                             ></v-select>
                            </v-col>
                     </v-row>

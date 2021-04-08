@@ -15,8 +15,8 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         "career1": "",
                         "career2": "",
                         "memo": "",
-                        "localPlace": "",
-                        "detailLocalPlace": "",
+                        "local": "",
+                        "detailLocal": "",
                         "education": "",
                         "certificateStatus": "",
                         "minPay": "",
@@ -62,15 +62,6 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         },
                         "dataTable": {
                             "items": [],
-                            "loading": false,
-                            "serverItemsLength": 0,
-                            "page": 1,
-                            "itemsPerPage": 10,
-                            "education": [
-                                 {"text":"2년제", "value":"2년제"},
-                                 {"text":"3년제", "value":"3년제"},
-                                 {"text":"4년제", "value":"4년제"},
-                            ],
                             "certificateStatus": [
                                  {"text":"보유", "value":"T"},
                                  {"text":"없음", "value":"F"},
@@ -105,21 +96,17 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                 {"text":"20", "value": 20}
                             ],
                             "career2": [
-                                {"text":"1", "value": 0.08},
-                                {"text":"2", "value": 0.16},
-                                {"text":"3", "value": 0.24},
-                                {"text":"4", "value": 0.32},
-                                {"text":"5", "value": 0.40},
-                                {"text":"6", "value": 0.48},
-                                {"text":"7", "value": 0.56},
-                                {"text":"8", "value": 0.64},
-                                {"text":"9", "value": 0.72},
-                                {"text":"10", "value": 0.80},
-                                {"text":"11", "value": 0.88}
-                            ],
-                            "inputStatus": [
-                                {"text":"투입중", "value": 'T'},
-                                {"text":"섭외중", "value": 'F'},
+                                {"text":"1", "value": 0.01},
+                                {"text":"2", "value": 0.02},
+                                {"text":"3", "value": 0.03},
+                                {"text":"4", "value": 0.04},
+                                {"text":"5", "value": 0.05},
+                                {"text":"6", "value": 0.06},
+                                {"text":"7", "value": 0.07},
+                                {"text":"8", "value": 0.08},
+                                {"text":"9", "value": 0.09},
+                                {"text":"10", "value": 0.10},
+                                {"text":"11", "value": 0.11}
                             ],
                             "checkbox:": [],
                             "editedIndex": -1,
@@ -138,20 +125,26 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                 {"text": "전체", "value": null}
                             ]
                         },
-                        "status": {
-                            "items": [
+                        "status":{
+                            "items":[
+                                {"text": "현황", "value": null},
                                 {"text": "섭외", "value": "A"},
                                 {"text": "완료", "value": "C"},
                                 {"text": "면접", "value": "I"},
                                 {"text": "투입", "value": "P"}
                             ]
                         },
-                        "localPlace": {
+                        "education":{
+                            "items":[
+                                {"text": "전체", "value": null}
+                            ]
+                        },
+                        "local": {
                             "items": [
                                 {"text": "전체", "value": null}
                             ]
                         },
-                        "detailLocalPlace": {
+                        "detailLocal": {
                             "items": [
                                 {"text": "전체", "value": null}
                             ]
@@ -185,14 +178,14 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                     }
                 },
 */
-                "data.localPlace": {
+                "data.local": {
                     "handler": async function(n, o){
-                        let detailLocal = this.user.select.localPlace.items.find(e=>e.value == this.data.localPlace);
+                        let detailLocal = this.user.select.local.items.find(e=>e.value == this.data.local);
 
                         if(o != null){
-                            this.data.detailLocalPlace= [];
+                            this.data.detailLocal= [];
                         }
-                        this.user.select.detailLocalPlace.items=[];
+                        this.user.select.detailLocal.items=[];
                         let items = (await ito.api.common.code.getCodeList({
                             "idStartLike":"006",
                             "status": "T",
@@ -200,12 +193,22 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             "rowSize": 1000000
                         })).data.items.map(e => ({"text": e.name, "value": e.id}))
                         items = items.filter(e => e.value.length > 5)
-                        this.user.select.detailLocalPlace.items.push(...items)
-                        console.log(this.user.select.detailLocalPlace.items)
+                        this.user.select.detailLocal.items.push(...items)
+                        console.log(this.user.select.detailLocal.items)
                     }
                 }
             },
             "methods": {
+                "loadEducation": async function() {
+                    var self = this;
+                    let items;
+                    items = (await ito.api.common.code.getCodeList({
+                        "parentId": "007",
+                        "sort": ["ranking, asc"],
+                        "rowSize": 1000000
+                    })).data.items.map(e => ({"text": e.name, "value": e.id}));
+                    self.user.select.education.items.push(...items);
+                },
                 "loadLocalPlace": async function(){
                     var self = this;
                     let items;
@@ -214,7 +217,7 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         "sort": ["ranking, asc"],
                         "rowSize": 1000000
                     })).data.items.map(e => ({"text": e.name, "value": e.id}));
-                    self.user.select.localPlace.items.push(...items);
+                    self.user.select.local.items.push(...items);
                 },
                 "loadJobItems": async function() {
                     var self = this;
@@ -282,23 +285,21 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         skillList = [];
                         console.log(personSkillList);
                         this.test = {skill: personSkillList.map(e=> e.skill)};
-
                         console.log(this.test)
-                        person.skill = _.cloneDeep(this.test);
-                        console.log(person);
+//                        person.skill = _.cloneDeep(this.test);
+//                        console.log(person);
                         self.data = _.cloneDeep(person);
-                        self.data2.skill = this.test;
+                        self.data.career1 = Number(Math.floor(self.data.career))
+                        self.data.career2 = (((self.data.career) * 100)%100) * (0.01);
+                        self.data2.skill = person.skill
                         self.data.jobType = [person.jobType];
-/*                        console.log(self.data2.skill)
-                        console.log(self.data)
-                        console.log(_.cloneDeep(self.data))
-*/
+
 
                     }
                 },
                 "saveUserInfo": function () {
                     var self = this;
-                    let person, personSectorList,personLanguageList,
+                    let person, personSectorList, personLanguageList,
                         sectorList=[], languageList=[];
 
                   if(this.$refs.form.validate()){
@@ -309,7 +310,8 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                         Promise.resolve()
                                             .then(async function () {
                                                 var data = self.data;
-                                                data.skill = self.data2.skill;
+                                                data.skill = String(self.data2.skill);
+                                                data.career = data.career1 + data.career2;
                                                 data.jobType = String(data.jobType)
                                                 if (!data.id) {
 /*                                                    await ito.api.app.profile.createProfile({
@@ -403,7 +405,8 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                 await Promise.all([
                     await self.loadJobItems(),
                     await self.loadSkillItems(),
-                    self.loadLocalPlace(),
+                    await self.loadLocalPlace(),
+                    await self.loadEducation(),
                     self.setUserInfo()
                 ]);
 //                console.log(this.data.skill, this.test);
