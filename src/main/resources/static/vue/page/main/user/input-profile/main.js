@@ -30,7 +30,6 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                             "minPay": null,
                             "maxPay": null,
                             "status": null,
-                            "memo": null,
                             "postcode": null,
                             "address": null,
                             "detailAddress": null,
@@ -81,6 +80,7 @@ InputProfileMainComponent = Vue.component('inputProfile-main-component', async f
                 // });
                 // person.skill = skill;
                 // person.jobType = [person.jobType];
+
                 self.inputProfile.form.item = person;
             },
             "saveProfile": async function () {

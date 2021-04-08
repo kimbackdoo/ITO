@@ -12,17 +12,20 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "dataTable": {
                         "headers": [
                             {"text": "이름", "value": "name",cellClass:"text-truncate"},
+                            {"text": "성별", "value": "gender",cellClass:"text-truncate"},
+                            {"text": "평가점수", "value": "ratingScore",cellClass:"text-truncate"},
+                            {"text": "평가메모", "value": "memo", "width": "120", cellClass:"w-12 text-truncate"},
                             {"text": "전화번호", "value": "phoneNumber", cellClass:"text-truncate"},
-                            {"text": "직종",  "value": "jobType", cellClass:"text-truncate"},
-                            {"text": "기술",  "value": "skill",cellClass:"text-truncate"},
+                            {"text": "직종", "value": "jobType", cellClass:"text-truncate"},
+                            {"text": "기술", "value": "skill",cellClass:"text-truncate"},
                             {"text": "학력", "value": "education", cellClass:"text-truncate"},
-                            {"text": "경력",  "value": "career", cellClass:"text-truncate"},
+                            {"text": "경력", "value": "career", cellClass:"text-truncate"},
                             {"text": "자격증 유무", "value": "certificateStatus",cellClass:"text-truncate"},
-                            {"text": "생년월일(나이)",  "value": "birthDate", cellClass:"text-truncate"},
-                            {"text": "희망 월급여",  "value": "pay", cellClass:"text-truncate"},
-                            {"text": "지역",  "value": "address", cellClass:"text-truncate"},
-                            {"text": "투입여부",  "value": "inputStatus", cellClass:"text-truncate"},
-                            {"text": "업무 가능일",  "value": "workableDay", cellClass:"text-truncate"}
+                            {"text": "생년월일(나이)", "value": "birthDate", cellClass:"text-truncate"},
+                            {"text": "희망 월급여", "value": "pay", cellClass:"text-truncate"},
+                            {"text": "지역", "value": "address", cellClass:"text-truncate"},
+                            {"text": "투입여부", "value": "inputStatus", cellClass:"text-truncate"},
+                            {"text": "업무 가능일", "value": "workableDay", cellClass:"text-truncate"}
                         ],
                         "totalRows":0,
                         "items": [],
@@ -40,6 +43,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     },
                     "query": {
                         "name": null,
+                        "sex": null,
                         "jobType": null,
                         "skillList": [],
                         "careerYear": null,
@@ -106,6 +110,9 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                             {"text": "여자", "value": "F"},
                         ]
                     },
+                    "ratingScroe": {
+                        "items": []
+                    }
                 },
             };
         },
@@ -132,8 +139,6 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 "handler": async function(value){
                     let items,
                         local = this.select.local.items.find(e=> e.value == this.user.query.local);
-
-                    console.log(local);
 
                     this.select.detailLocal.items=[];
                     items = (await ito.api.common.code.getCodeList({
@@ -198,7 +203,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
 
                     "name": self.user.query.name,
                     "jobType": self.user.query.jobType,
-                    "career": careerValue,
+                    "career": careerValue === "0" ? null : careerValue,
                     "minPay": self.user.query.minPay,
                     "local": self.user.query.local,
                     "detailLocal": self.user.query.detailLocal,
@@ -225,6 +230,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                             break;
                         }
                     }
+                    e.gender = (e.gender === "M") ? "남자" : "여자"
                     e.inputStatus = (e.inputStatus == "T") ? "투입중" : "섭외중"
                     e.certificateStatus = (e.certificateStatus == "T") ? "있음" : "없음"
                     e.birthDate = moment(e.birthDate).format("YY") + "년생 (" + Number(moment().diff(moment(e.birthDate), "years")+1) + ")";
@@ -267,6 +273,8 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
             for(var i=1; i<=20; i++) {
                 this.select.careerYear.items.push({"text": String(i), "value": Number(i)});
                 if(i < 12) this.select.careerMonth.items.push({"text": String(i), "value": Number(i * 0.01)});
+
+                if(i<6) this.select.ratingScroe.items.push({"text": String(i), "value": Number(i)});
             }
         }
     });
