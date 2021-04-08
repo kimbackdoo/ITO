@@ -48,7 +48,7 @@
            <if test="personParamDto.gender != null and personParamDto.gender != ''">
                 AND `gender` LIKE CONCAT(#{personParamDto.gender})
             </if>
-           <if test="personParamDto.ratingScore != null and personParamDto.ratingScore != ''">
+           <if test="personParamDto.ratingScore != null">
                 AND `rating_score` &gt;= #{personParamDto.ratingScore}
             </if>
             <if test="personParamDto.education != null and personParamDto.education != ''">

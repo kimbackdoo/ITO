@@ -191,7 +191,7 @@
                             :multiSort.sync="project.dataTable.options.multiSort"
                             :mustSort.sync="project.dataTable.options.mustSort"
                             :loading="project.dataTable.loading"
-                            @remove="deleteProjectInfoList()"
+                            @remove="deleteProjectInfoList"
                             :import-hide="true"
                             @click:edit="editProjectInfo"
                             @click:row="detailProjectInfo"
