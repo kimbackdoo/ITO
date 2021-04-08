@@ -45,6 +45,18 @@
                             label="생년월일"
                             v-model="data.birthDate"
                         ></date-picker-component>
+                         </v-col>
+                           <v-col
+                              cols="4"
+                              class="pa-2"
+                           >
+                        <v-select
+                            dense
+                            label="성별"
+                            :items="user.select.gender.items"
+                            v-model="data.gender"
+                        ></v-select>
+                         </v-col>
                       </v-row>
                       <v-row class="ma-0">
                            <v-col
@@ -257,7 +269,7 @@
                                 dense
                                 label="실제 지급 급여"
                                 suffix="만원"
-                                v-model="data.realPay"
+                                v-model="data.actualPay"
                             ></v-text-field>
                            </v-col>
                     </v-row>
@@ -326,8 +338,8 @@
                                 outlined
                                 menu-props="auto"
                                 label="평가 점수"
-                                v-model="data.rank"
-                                :items="user.dataTable.rank"
+                                v-model="data.ratingScore"
+                                :items="user.select.ratingScore.items"
                                 required
                             ></v-select>
                             </v-col>

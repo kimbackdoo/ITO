@@ -8,6 +8,7 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                     "data": {
                         "id":"",
                         "name": "",
+                        "gender": "",
                         "jobType": "",
                         "skill": "",
                         "phoneNumber":"",
@@ -28,7 +29,8 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         "inputStatus":"",
                         "birthDate":"",
                         "workableDay":"",
-                        "rank":null
+                        "ratingScore":"",
+                        "actualPay":"",
                     },
                     "data2":{
                         "skill": [],
@@ -65,13 +67,6 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                             "certificateStatus": [
                                  {"text":"보유", "value":"T"},
                                  {"text":"없음", "value":"F"},
-                            ],
-                            "rank": [
-                                {"text":"1점", "value":1},
-                                {"text":"2점", "value":2},
-                                {"text":"3점", "value":3},
-                                {"text":"4점", "value":4},
-                                {"text":"5점", "value":5},
                             ],
                             "career1": [
                                 {"text":"1년미만", "value": 0},
@@ -144,9 +139,26 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                 {"text": "전체", "value": null}
                             ]
                         },
+                        "gender":{
+                            "items":[
+                                {"text": "무관", "value": null},
+                                {"text": "남자", "value": "M"},
+                                {"text": "여자", "value": "F"}
+                            ]
+                        },
                         "detailLocal": {
                             "items": [
                                 {"text": "전체", "value": null}
+                            ]
+                        },
+                        "ratingScore": {
+                            "items":[
+                                {"text":"무관", "value":0},
+                                {"text":"1점", "value":1},
+                                {"text":"2점", "value":2},
+                                {"text":"3점", "value":3},
+                                {"text":"4점", "value":4},
+                                {"text":"5점", "value":5},
                             ]
                         }
                     }

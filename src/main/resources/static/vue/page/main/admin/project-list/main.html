@@ -50,7 +50,7 @@
                                             @keyup.enter="search()"
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="3">
+                                    <v-col cols="2">
                                         <v-select
                                             dense
                                             label="직종"
@@ -60,18 +60,20 @@
                                             @keyup.enter="search()"
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="3">
-                                        <v-text-field
+                                    <v-col cols="5">
+                                         <v-combobox
                                             dense
-                                            label="기술"
                                             multiple
-                                            hide-details="auto"
-                                            v-model="project.query.skill"
-                                            @keyup.enter="search()"
-                                        ></v-text-field>
+                                            small-chips
+                                            deletable-chips
+                                            :delimiters="[',',' ']"
+                                            label="기술"
+                                            v-model="project.query.skillList"
+                                            @change="delimit"
+                                         ></v-combobox>
                                     </v-col>
 
-                                    <v-col cols="3">
+                                    <v-col cols="2">
                                         <v-select
                                             dense
                                             label="학위"
@@ -189,7 +191,7 @@
                             :multiSort.sync="project.dataTable.options.multiSort"
                             :mustSort.sync="project.dataTable.options.mustSort"
                             :loading="project.dataTable.loading"
-                            @remove="deleteProjectInfoList"
+                            @remove="deleteProjectInfoList()"
                             :import-hide="true"
                             @click:edit="editProjectInfo"
                             @click:row="detailProjectInfo"

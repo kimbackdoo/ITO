@@ -86,6 +86,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             "name": "",
                             "job": "",
                             "skill": "",
+                            "skillList": [],
                             "career":"",
                             "career1":"",
                             "career2":"",
@@ -214,6 +215,10 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                 }
             },
             "methods": {
+                "delimit": function(v) {
+                    let reducer = (a, e) => [...a, ...e.split(/[, ]+/)]
+                    this.user.query.skillList = [...new Set(v.reduce(reducer, []))]
+                },
                 "loadEducation": async function() {
                     var self = this;
                     let items;
@@ -270,13 +275,11 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     });
                 },
 
-               "deleteProjectInfoList": async function(){
+               "deleteProjectInfoList": async function(items){
                     var self = this;
-                    var deleteList = [];
 
-                    self.project.selected.forEach(e => {
-                        deleteList.push(e.id);
-                    });
+                    let deleteList = [items.map(e=>e.id)];
+
                     console.log("삭제할 리스트 id 값들  "+deleteList);
 
                     if(self.project.selected.length == 0){
@@ -301,6 +304,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 params.name = !_.isEmpty(self.project.query.name) ? self.project.query.name : null;
                                 params.job = !_.isEmpty(self.project.query.job) ? self.project.query.job : null;
                                 params.skill = !_.isEmpty(self.project.query.skill) ? self.project.query.skill : null;
+                                params.skillList = !_.isEmpty(self.project.query.skillList) ? self.project.query.skillList : [];
                                 params.degree = !_.isEmpty(self.project.query.degree) ? self.project.query.degree : null;
                                 params.career = _.isEmpty(self.project.query.career1) && _.isEmpty(self.project.query.career2) ? null : String(self.project.query.career1 + self.project.query.career2);
                                 params.sterm = !_.isEmpty(self.project.query.sterm) ? self.project.query.sterm : null;
@@ -380,6 +384,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     query.detailLocal = routeQuery.detailLocal ? routeQuery.detailLocal : this.project.query.detailLocal;
                     query.status=routeQuery.status ? routeQuery.status : this.project.query.status;
                     query.slary=routeQuery.slary ? routeQuery.slary : this.project.query.slary;
+                    query.skillList=routeQuery.skillList ? routeQuery.skillList : this.project.query.skillList;
                     return query;
                 },
                 "setQuery": function () {
@@ -390,6 +395,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     this.project.query.name = query.name;
                     this.project.query.job = query.job;
                     this.project.query.skill = query.skill;
+                    this.project.query.skillList = query.skillList;
                     this.project.query.career = query.career;
                     this.project.query.degree = query.degree;
                     this.project.query.sterm = query.sterm;
@@ -409,6 +415,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     query.name = String(this.project.query.name);
                     query.job = String(this.project.query.job);
                     query.skill = String(this.project.query.skill);
+                    query.skillList = this.project.query.skillList;
                     query.career = String(this.project.query.career);
                     query.degree = String(this.project.query.degree);
                     query.sterm = String(this.project.query.sterm);
@@ -452,6 +459,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 self.project.query.name = null;
                                 self.project.query.job = null;
                                 self.project.query.skill = null;
+                                self.project.query.skillList = [];
                                 self.project.query.career = null;
                                 self.project.query.career1 = null;
                                 self.project.query.career2 = null;

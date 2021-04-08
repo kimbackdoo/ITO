@@ -87,7 +87,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "name": null,
                             "jobType": null,
                             "skill":null,
-                            "skillList":null,
+                            "skillList":[],
                             "career1": null,
                             "career2": null,
                             "career": null,
@@ -152,6 +152,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         },
                         "ratingScore":{
                             "items":[
+                                {"text":"무관", "value": null},
                                 {"text":"1점", "value": 1},
                                 {"text":"2점", "value": 2},
                                 {"text":"3점", "value": 3},
@@ -333,7 +334,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     params.endBirthDate= !_.isEmpty(endBirth) ? endBirth : null;
                     params.gender = !_.isEmpty(self.user.query.gender) ? self.user.query.gender : null;
                     params.ratingScore = !_.isEmpty(self.user.query.ratingScore) ? Number(self.user.query.ratingScore) : null;
-                    params.skillList = !_.isEmpty(self.user.query.skillList) ? self.user.query.skillList : null;
+                    params.skillList = !_.isEmpty(self.user.query.skillList) ? self.user.query.skillList : [];
 
                     self.user.dataTable.loading = true;
 
@@ -429,6 +430,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 self.user.query.detailLocal = null;
                                 self.user.query.gender = null;
                                 self.user.query.ratingScore = null;
+                                self.user.query.skillList = [];
                             })
                             .then(function () {
                                 return self.search();
