@@ -45,10 +45,10 @@
             <if test="personParamDto.education != null and personParamDto.education != ''">
                 AND `education` &gt;= #{personParamDto.education}
             </if>
-            <if test="personParamDto.minPay != null and personParamDto.minPay != ''">
+            <if test="personParamDto.minPay != null">
                 AND CAST(`min_pay` AS float) &gt;= CAST(#{personParamDto.minPay} AS float)
             </if>
-            <if test="personParamDto.maxPay != null and personParamDto.maxPay != ''">
+            <if test="personParamDto.maxPay != null">
                 AND CAST(`max_pay` AS float) &lt;= CAST(#{personParamDto.maxPay} AS float)
             </if>
             <if test="personParamDto.local != null and personParamDto.local != ''">
@@ -71,6 +71,12 @@
             </if>
             <if test="personParamDto.inputStatus != null and personParamDto.inputStatus != ''">
                 AND NOT (`input_status` LIKE #{personParamDto.inputStatus})
+            </if>
+            <if test="personParamDto.startBirthDate != null">
+                AND `birth_date` &gt;= #{personParamDto.startBirthDate}
+            </if>
+            <if test="personParamDto.endBirthDate != null">
+                AND `birth_date` &lt;= #{personParamDto.endBirthDate}
             </if>
         </where>
     </sql>

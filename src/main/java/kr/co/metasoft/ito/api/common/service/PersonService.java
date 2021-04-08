@@ -39,6 +39,18 @@ public class PersonService {
     public PageResponse<PersonEntity> getPersonList(
             @Valid PersonParamDto personParamDto,
             PageRequest pageRequest) {
+        System.out.println("===========================================================================");
+        System.out.println("Name: " + personParamDto.getName());
+        System.out.println("JobType: " + personParamDto.getJobType());
+        System.out.println("skill: " + personParamDto.getSkill());
+        System.out.println("Local: " + personParamDto.getLocal());
+        System.out.println("DetailLocal: " + personParamDto.getDetailLocal());
+        System.out.println("Career: " + personParamDto.getCareer());
+        System.out.println("Education: " + personParamDto.getEducation());
+        System.out.println("StartBirthDate: " + personParamDto.getStartBirthDate());
+        System.out.println("EndBirthDate: " + personParamDto.getEndBirthDate());
+        System.out.println("===========================================================================");
+
         Integer personListCount = personMapper.selectPersonListCount(personParamDto);
         List<PersonEntity> personList = personMapper.selectPersonList(personParamDto, pageRequest);
         PageResponse<PersonEntity> pageResponse = new PageResponse<>(pageRequest, personListCount);

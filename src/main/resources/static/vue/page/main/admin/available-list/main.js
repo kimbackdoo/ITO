@@ -175,11 +175,13 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 this.select.local.items.push(...items);
             },
             "setUserInfoList": async function () {
-                let self = this, personList, items,
+                let self = this, personList, items, startBirth, endBirth,
                     careerValue = String(self.user.query.careerYear + self.user.query.careerMonth);
 
-                let a = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-MM-DD");
-                console.log(a);
+                if(self.user.query.birthDate != null) {
+                    startBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-01-01");
+                    endBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-12-31");
+                }
 
                 self.user.dataTable.loading = true;
                 personList = (await ito.api.common.person.getPersonList({
@@ -196,13 +198,9 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "inputStatus": self.user.query.inputStatus,
                     "education": self.user.query.education,
                     "certificateStatus": self.user.query.certificateStatus,
+                    "startBirthDate": startBirth,
+                    "endBirthDate": endBirth,
                 })).data;
-
-                console.log(personList.items);
-
-                let age = moment().diff(moment(personList.items[0].birthDate), "years")+1;
-
-                console.log(age);
 
                 items = (await ito.api.common.code.getCodeList({
                     "parentId": "001",
@@ -219,9 +217,9 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                             break;
                         }
                     }
-
                     e.inputStatus = (e.inputStatus == "T") ? "투입중" : "섭외중"
                     e.certificateStatus = (e.certificateStatus == "T") ? "있음" : "없음"
+                    e.birthDate = moment(e.birthDate).format("YY") + "년생 (" + Number(moment().diff(moment(e.birthDate), "years")+1) + ")";
                     e.career = e.career+"년"
                     e.pay = String(e.minPay) +" ~ " +String(e.maxPay);
                 });
@@ -245,6 +243,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 this.user.query.inputStatus = null;
                 this.user.query.education = [];
                 this.user.query.certificateStatus = null;
+                this.user.query.birthDate = null;
                 this.user.query.job = null;
                 this.user.query.skill = null;
             },

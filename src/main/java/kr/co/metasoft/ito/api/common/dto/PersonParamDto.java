@@ -67,7 +67,11 @@ public class PersonParamDto {
 
     @JsonFormat (pattern = "yyyy-MM-dd")
     @DateTimeFormat (pattern = "yyyy-MM-dd")
-    private LocalDate birthDate;
+    private LocalDate startBirthDate;
+
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
+    private LocalDate endBirthDate;
 
     @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
