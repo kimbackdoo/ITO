@@ -50,7 +50,7 @@ public class PersonEntity {
     @Column (name = "`name`", columnDefinition = "varchar(100)", nullable = true)
     private String name;
 
-    @Column (name = "`gender`", columnDefinition = "varchar(10)", nullable = true)
+    @Column (name = "`gender`", columnDefinition = "varchar(1)", nullable = true)
     private String gender;
 
     @Column (name = "`phone_number`", columnDefinition = "varchar(13)", nullable = true)
