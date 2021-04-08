@@ -56,6 +56,9 @@ public class PersonEntity {
     @Column (name = "`job_type`", columnDefinition = "varchar(100)", nullable = true)
     private String jobType;
 
+    @Column (name = "`skill`", columnDefinition = "varchar(100)", nullable = true)
+    private String skill;
+
     @Column (name = "`input_status`", columnDefinition = "char(1)", nullable = true)
     private String inputStatus;
 

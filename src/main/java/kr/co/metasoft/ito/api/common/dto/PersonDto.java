@@ -30,6 +30,8 @@ public class PersonDto {
 
     private String jobType;
 
+    private String skill;
+
     private String inputStatus;
 
     private String certificateStatus;
