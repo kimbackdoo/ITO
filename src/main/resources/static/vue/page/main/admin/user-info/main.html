@@ -40,13 +40,16 @@
                                 <v-col
                                     cols="4"
                                 >
-                                  <v-text-field
-                                      dense
-                                      multiple
-                                      label="기술"
-                                      v-model="user.query.skill"
-                                      @keydown.enter="search();"
-                                 ></v-text-field>
+                                 <v-combobox
+                                    dense
+                                    multiple
+                                    small-chips
+                                    deletable-chips
+                                    :delimiters="[',',' ']"
+                                    label="기술"
+                                    v-model="user.query.skillList"
+                                    @change="delimit"
+                                 ></v-combobox>
                                  </v-col>
                                 <v-col
                                     cols="3"
@@ -153,7 +156,7 @@
                                         label="나이"
                                         suffix="살"
                                         hide-details="auto"
-                                        v-model="user.query.age"
+                                        v-model="user.query.birthDate"
                                      ></v-text-field>
                                 </v-col>
                                 <v-col cols="2">
@@ -163,6 +166,15 @@
                                         hide-details="auto"
                                         :items="select.gender.items"
                                         v-model="user.query.gender"
+                                     ></v-select>
+                                </v-col>
+                                <v-col cols="2">
+                                    <v-select
+                                        dense
+                                        label="평가점수"
+                                        hide-details="auto"
+                                        :items="select.ratingScore.items"
+                                        v-model="user.query.ratingScore"
                                      ></v-select>
                                 </v-col>
 

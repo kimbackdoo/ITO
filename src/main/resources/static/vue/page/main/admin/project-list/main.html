@@ -36,8 +36,8 @@
                                         <v-select
                                             dense
                                             label="지역(시/도)"
-                                            :items="select.localPlace.items"
-                                            v-model="project.query.localPlace"
+                                            :items="select.local.items"
+                                            v-model="project.query.local"
                                             @keyup.enter="search()"
                                         ></v-select>
                                     </v-col>
@@ -45,8 +45,8 @@
                                         <v-select
                                             dense
                                             label="지역(구/군)"
-                                            :items="select.detailLocalPlace.items"
-                                            v-model="project.query.detailLocalPlace"
+                                            :items="select.detailLocal.items"
+                                            v-model="project.query.detailLocal"
                                             @keyup.enter="search()"
                                         ></v-select>
                                     </v-col>
@@ -74,13 +74,12 @@
                                     <v-col cols="3">
                                         <v-select
                                             dense
-                                            multiple
                                             label="학위"
                                             :items="select.education.items"
                                             v-model="project.query.degree"
                                             @keyup.enter="search()"
                                         >
-                                            <template v-slot:prepend-item>
+<!--                                             <template v-slot:prepend-item>
                                                 <v-list-item
                                                     ripple
                                                     @click="toggleDegree"
@@ -94,7 +93,8 @@
                                                 </v-list-item>
                                                 <v-divider class="mt-2"></v-divider>
                                             </template>
-                                        </v-select>
+ -->
+                                         </v-select>
                                     </v-col>
                                     <v-col cols="3">
                                         <v-select

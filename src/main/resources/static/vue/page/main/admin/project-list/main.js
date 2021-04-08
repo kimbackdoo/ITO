@@ -82,22 +82,22 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             ],
                         },
                         "query": {
-                            "id":null,
+                            "id":"",
                             "name": "",
                             "job": "",
                             "skill": "",
-                            "career":null,
-                            "career1":null,
-                            "career2":null,
+                            "career":"",
+                            "career1":"",
+                            "career2":"",
                             "degree":"",
                             "sterm": "",
                             "eterm": "",
-                            "localPlace":"",
-                            "detailLocalPlace": "",
+                            "local":"",
+                            "detailLocal": "",
                             "prsnl":"",
                             "status":"",
                             "salary":"",
-                            "term":"",
+                            "term": "",
                         },
                     },
                     "select": {
@@ -111,20 +111,12 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 {"text": "전체", "value": null}
                             ]
                         },
-                        "status": {
-                            "items": [
-                                {"text": "섭외", "value": "A"},
-                                {"text": "완료", "value": "C"},
-                                {"text": "면접", "value": "I"},
-                                {"text": "투입", "value": "P"}
-                            ]
-                        },
-                        "localPlace":{
+                        "local":{
                             "items":[
                                 {"text": "전체", "value": null}
                             ]
                         },
-                        "detailLocalPlace":{
+                        "detailLocal":{
                             "items":[
                                 {"text": "전체", "value": null}
                             ]
@@ -134,11 +126,11 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                         },
                         "status":{
                             "items":[
-                                {"text": "현황", "value": null},
-                                {"text": "섭외", "value": "A"},
-                                {"text": "완료", "value": "C"},
-                                {"text": "면접", "value": "I"},
-                                {"text": "투입", "value": "P"}
+                                {"text": "미정", "value": null},
+                                {"text": "섭외중", "value": 'A'},
+                                {"text": "섭외완료", "value": 'C'},
+                                {"text": "인터뷰", "value": 'I'},
+                                {"text": "투입중", "value": 'P'}
                             ]
                         }
                     }
@@ -171,12 +163,6 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     },
                     "deep": true
                 },
-                "project.dataTable.local":{
-                    "handler": function(value){
-                        this.project.dataTable.addressSelect=this.project.dataTable.addressIndex[value];
-                    }
-                },
-
                  "project.dataTable.itemsPerPage": {
                     "handler": function (newValue, oldValue) {
                         Promise.resolve()
@@ -208,14 +194,14 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                         self.project.query.skill = [];
                     }
                 },
-                "project.query.localPlace": {
+                "project.query.local": {
                     "handler": async function(n, o){
-                        let detailLocal = this.select.localPlace.items.find(e=>e.value == this.project.query.localPlace);
+                        let detailLocal = this.select.local.items.find(e=>e.value == this.project.query.local);
 
                         if(o != null){
-                            this.project.query.detailLocalPlace= [];
+                            this.project.query.detailLocal= [];
                         }
-                        this.select.detailLocalPlace.items=[];
+                        this.select.detailLocal.items=[];
                         let items = (await ito.api.common.code.getCodeList({
                             "idStartLike":"006",
                             "status": "T",
@@ -223,7 +209,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             "rowSize": 1000000
                         })).data.items.map(e => ({"text": e.name, "value": e.id}))
                         items = items.filter(e => e.value.length > 5)
-                        this.select.detailLocalPlace.items.push( {"text": "전체", "value": null}, ...items)
+                        this.select.detailLocal.items.push( {"text": "전체", "value": null}, ...items)
                     }
                 }
             },
@@ -246,7 +232,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                         "sort": ["ranking, asc"],
                         "rowSize": 1000000
                     })).data.items.map(e => ({"text": e.name, "value": e.id}));
-                    self.select.localPlace.items.push(...items);
+                    self.select.local.items.push(...items);
                 },
                 "loadJobItems": async function() {
                     var self = this;
@@ -319,10 +305,10 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 params.career = _.isEmpty(self.project.query.career1) && _.isEmpty(self.project.query.career2) ? null : String(self.project.query.career1 + self.project.query.career2);
                                 params.sterm = !_.isEmpty(self.project.query.sterm) ? self.project.query.sterm : null;
                                 params.eterm = !_.isEmpty(self.project.query.eterm) ? self.project.query.eterm : null;
-                                params.local = !_.isEmpty(self.project.query.LocalPlace) ? self.project.query.LocalPlace : null;
-                                params.detailLocal = !_.isEmpty(self.project.query.detailLocalPlace) ? self.project.query.detailLocalPlace : null;
+                                params.local = !_.isEmpty(self.project.query.Local) ? self.project.query.Local : null;
+                                params.detailLocal = !_.isEmpty(self.project.query.detailLocal) ? self.project.query.detailLocal : null;
                                 params.prsnl = !_.isEmpty(self.project.query.prsnl) ? Number(self.project.query.prsnl) : null;
-                                params.status = !_.isEmpty(self.project.query.status) ? self.project.query.status : null;
+                                params.status = !_.isEmpty(self.project.query.status) ? (self.project.query.status).charAt(0) : null;
                                 params.salary = !_.isEmpty(self.project.query.salary) ? Number(self.project.query.salary) : null;
                                 params.sort=ito.util.sort(self.project.dataTable.options.sortBy, self.project.dataTable.options.sortDesc);
 
@@ -339,23 +325,29 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                     e.salary = e.salary+"만원"
                                     switch(e.status){
                                         case 'A':
-                                             e.status = "섭외"; break;
+                                             e.status = "섭외중"; break;
                                         case 'C':
-                                             e.status = "완료"; break;
+                                             e.status = "섭외완료"; break;
                                         case 'I':
-                                             e.status = "면접"; break;
+                                             e.status = "인터뷰"; break;
                                         case 'P':
-                                             e.status = "투입"; break;
+                                             e.status = "투입중"; break;
+                                        case 'N':
+                                             e.status = "미정"; break;
                                     }
                                     switch(e.degree){
                                         case "007001":
-                                             e.degree = "무관"; break;
+                                             e.degree = "학력 무관"; break;
                                         case "007002":
                                              e.degree = "고등학교 졸업"; break;
                                         case "007003":
-                                             e.degree = "전문대 졸업"; break;
+                                             e.degree = "(2~3년제)전문대 졸업"; break;
                                         case "007004":
-                                             e.degree = "대학교 졸업"; break;
+                                             e.degree = "(4년제)대학교 졸업"; break;
+                                        case "007005":
+                                             e.degree = "석사"; break;
+                                        case "007006":
+                                             e.degree = "박사"; break;
                                     }
                                     var limitDat, limitDay;
                                     limitDate = moment(e.limitDate).format("MM-DD");
@@ -363,7 +355,6 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
 
                                     if(limitDay < 0) e.limitDate = limitDate + " (D+" + Math.abs(limitDay) + ")";
                                     else e.limitDate = limitDate + " (D-" + limitDay + ")";
-
 
 
                                 });
@@ -382,11 +373,11 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     query.name = routeQuery.name ? routeQuery.name : this.project.query.name;
                     query.job = routeQuery.job ? routeQuery.job : this.project.query.job;
                     query.skill = routeQuery.skill ? routeQuery.skill : this.project.query.skill;
-                    query.career = routeQuery.career ? routeQuery.career : this.project.query.career;
+                    query.career = routeQuery.career ? routeQuery.career : String(this.project.query.career1 + this.project.query.career2);
                     query.degree = routeQuery.degree ? routeQuery.degree : this.project.query.degree;
                     query.sterm = routeQuery.sterm ? routeQuery.sterm : this.project.query.sterm;
                     query.eterm = routeQuery.eterm ? routeQuery.eterm : this.project.query.eterm;
-                    query.detailLocalPlace = routeQuery.detailLocalPlace ? routeQuery.detailLocalPlace : this.project.query.detailLocalPlace;
+                    query.detailLocal = routeQuery.detailLocal ? routeQuery.detailLocal : this.project.query.detailLocal;
                     query.status=routeQuery.status ? routeQuery.status : this.project.query.status;
                     query.slary=routeQuery.slary ? routeQuery.slary : this.project.query.slary;
                     return query;
@@ -403,7 +394,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     this.project.query.degree = query.degree;
                     this.project.query.sterm = query.sterm;
                     this.project.query.eterm = query.eterm;
-                    this.project.query.detailLocalPlace = query.detailLocalPlace;
+                    this.project.query.detailLocal = query.detailLocal;
                     this.project.query.prsnl = query.prsnl;
                     this.project.query.status = query.status;
                     this.project.query.slary = query.slary;
@@ -418,11 +409,11 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     query.name = String(this.project.query.name);
                     query.job = String(this.project.query.job);
                     query.skill = String(this.project.query.skill);
-//                    query.career = String(this.project.query.career);
+                    query.career = String(this.project.query.career);
                     query.degree = String(this.project.query.degree);
                     query.sterm = String(this.project.query.sterm);
                     query.eterm = String(this.project.query.eterm);
-                    query.detailLocalPlace = String(this.project.query.detailLocalPlace);
+                    query.detailLocal = String(this.project.query.detailLocal);
                     query.status = String(this.project.query.status);
                     query.salary = String(this.project.query.salary);
 
@@ -431,6 +422,9 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     }
                 },
                 "search": function () {
+                    if(this.project.dataTable.options.page !== 1) {
+                        this.project.dataTable.options.page = 1;
+                    }else {
                     var self = this;
                     return new Promise(function (resolve, reject) {
                         Promise.resolve()
@@ -444,6 +438,8 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                              resolve();
                          });
                     });
+                    }
+
                 },
                 "reset": function () {
                     var self = this;
@@ -452,18 +448,20 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             .then(function () {
                             })
                             .then(function () {
-                                self.project.dataTable.local=""
-                                self.project.query.name = "";
-                                self.project.query.job = "";
-                                self.project.query.skill = "";
-                                self.project.query.career = "";
-                                self.project.query.degree = "";
-                                self.project.query.sterm = "";
-                                self.project.query.eterm = "";
-                                self.project.query.detailLocal = "";
-                                self.project.query.prsnl = "";
-                                self.project.query.status = "";
-                                self.project.query.slary = "";
+                                self.project.dataTable.local=null;
+                                self.project.query.name = null;
+                                self.project.query.job = null;
+                                self.project.query.skill = null;
+                                self.project.query.career = null;
+                                self.project.query.career1 = null;
+                                self.project.query.career2 = null;
+                                self.project.query.degree = null;
+                                self.project.query.sterm = null;
+                                self.project.query.eterm = null;
+                                self.project.query.detailLocal = null;
+                                self.project.query.prsnl = null;
+                                self.project.query.status = null;
+                                self.project.query.salary = null;
                             })
                             .then(function () {
                                 return self.search();
@@ -481,12 +479,12 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     })
                 }
             },
-            "mounted": function () {
+            "mounted": async function () {
                     Promise.all([
-                    this.loadEducation(),
-                    this.loadLocalPlace(),
-                    this.loadJobItems(),
-                    this.setQuery(),
+                    await this.loadEducation(),
+                    await this.loadLocalPlace(),
+                    await this.loadJobItems(),
+                    await this.setQuery(),
                     this.replaceQuery(),
                     this.setProjectInfoList()
                 ]);

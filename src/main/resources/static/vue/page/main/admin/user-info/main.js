@@ -13,6 +13,8 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         "dataTable": {
                             "headers": [
                                 {"text": "이름", "value": "name",cellClass:"text-truncate"},
+                                {"text": "성별", "value": "gender",cellClass:"text-truncate"},
+                                {"text": "평가점수", "value": "ratingScore",cellClass:"text-truncate"},
                                 {"text": "전화번호", "value": "phoneNumber", cellClass:"text-truncate"},
                                 {"text": "생년월일(나이)",  "value": "birthDate", cellClass:"text-truncate"},
                                 {"text": "직종",  "value": "jobType", cellClass:"text-truncate"},
@@ -85,6 +87,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "name": null,
                             "jobType": null,
                             "skill":null,
+                            "skillList":null,
                             "career1": null,
                             "career2": null,
                             "career": null,
@@ -101,7 +104,8 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "workableDay":null,
                             "status":null,
                             "age":null,
-                            "gender":null
+                            "gender":null,
+                            "ratingScore":null
                         },
                     },
                     "select": {
@@ -132,11 +136,11 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         },
                         "status":{
                             "items":[
-                                {"text": "현황", "value": null},
-                                {"text": "섭외", "value": "A"},
-                                {"text": "완료", "value": "C"},
-                                {"text": "면접", "value": "I"},
-                                {"text": "투입", "value": "P"}
+                                {"text": "미정", "value": null},
+                                {"text": "섭외중", "value": "A"},
+                                {"text": "섭외완료", "value": "C"},
+                                {"text": "인터뷰", "value": "I"},
+                                {"text": "투입중", "value": "P"}
                             ]
                         },
                         "gender":{
@@ -145,7 +149,17 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 {"text": "남자", "value": "M"},
                                 {"text": "여자", "value": "F"}
                             ]
+                        },
+                        "ratingScore":{
+                            "items":[
+                                {"text":"1점", "value": 1},
+                                {"text":"2점", "value": 2},
+                                {"text":"3점", "value": 3},
+                                {"text":"4점", "value": 4},
+                                {"text":"5점", "value": 5},
+                            ]
                         }
+
                     },
                     "dialog": {
                         "visible": false,
@@ -216,6 +230,10 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 }
             },
             "methods": {
+                "delimit": function(v) {
+                    let reducer = (a, e) => [...a, ...e.split(/[, ]+/)]
+                    this.user.query.skillList = [...new Set(v.reduce(reducer, []))]
+                },
                 "loadEducation": async function() {
                     var self = this;
                     let items;
@@ -293,6 +311,11 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     var self = this
                     var careerValue = String(self.user.query.career1 + self.user.query.career2);
                     var params = {}, data;
+                    if(self.user.query.birthDate != null) {
+                        var startBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-01-01");
+                        var endBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-12-31");
+                       }
+
                     params.page = self.user.dataTable.options.page;
                     params.rowSize = self.user.dataTable.options.itemsPerPage;
                     params.name = !_.isEmpty(self.user.query.name) ? self.user.query.name : null;
@@ -306,7 +329,11 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     params.certificateStatus = !_.isEmpty(self.user.query.certificateStatus) ? self.user.query.certificateStatus : null;
                     params.sort=ito.util.sort(self.user.dataTable.options.sortBy, self.user.dataTable.options.sortDesc);
                     params.memo= !_.isEmpty(self.user.query.skill) ? [self.user.query.skill] : null;
-
+                    params.startBirthDate= !_.isEmpty(startBirth) ? startBirth : null;
+                    params.endBirthDate= !_.isEmpty(endBirth) ? endBirth : null;
+                    params.gender = !_.isEmpty(self.user.query.gender) ? self.user.query.gender : null;
+                    params.ratingScore = !_.isEmpty(self.user.query.ratingScore) ? Number(self.user.query.ratingScore) : null;
+                    params.skillList = !_.isEmpty(self.user.query.skillList) ? self.user.query.skillList : null;
 
                     self.user.dataTable.loading = true;
 
@@ -320,7 +347,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     var codeBigData = (await ito.api.common.code.getCodeList()).data.items;
 
                     self.user.dataTable.items.forEach(e => {
-                        e.inputStatus = (e.inputStatus == "T") ? "투입중" : "섭외중"
                         switch(e.inputStatus){
                             case 'A':
                                  e.inputStatus = "섭외중"; break;
@@ -373,8 +399,11 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
 
                 },
                 "search": async function () {
-                    var self = this;
-                    await self.setUserInfoList();
+                    if(this.user.dataTable.options.page !== 1) {
+                        this.user.dataTable.options.page = 1;
+                    }else {
+                        await this.setUserInfoList();
+                    }
                 },
                 "reset": function () {
                     var self = this;
@@ -396,7 +425,10 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 self.user.query.job = null;
                                 self.user.query.skill = null;
                                 self.user.query.local = null;
+                                self.user.query.birthDate = null;
                                 self.user.query.detailLocal = null;
+                                self.user.query.gender = null;
+                                self.user.query.ratingScore = null;
                             })
                             .then(function () {
                                 return self.search();

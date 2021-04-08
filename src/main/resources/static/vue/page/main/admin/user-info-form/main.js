@@ -127,11 +127,11 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         },
                         "status":{
                             "items":[
-                                {"text": "현황", "value": null},
-                                {"text": "섭외", "value": "A"},
-                                {"text": "완료", "value": "C"},
-                                {"text": "면접", "value": "I"},
-                                {"text": "투입", "value": "P"}
+                                {"text": "미정", "value": null},
+                                {"text": "섭외중", "value": "A"},
+                                {"text": "섭외완료", "value": "C"},
+                                {"text": "인터뷰", "value": "I"},
+                                {"text": "투입중", "value": "P"}
                             ]
                         },
                         "education":{
@@ -286,8 +286,8 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         console.log(personSkillList);
                         this.test = {skill: personSkillList.map(e=> e.skill)};
                         console.log(this.test)
-//                        person.skill = _.cloneDeep(this.test);
-//                        console.log(person);
+
+
                         self.data = _.cloneDeep(person);
                         self.data.career1 = Number(Math.floor(self.data.career))
                         self.data.career2 = (((self.data.career) * 100)%100) * (0.01);
@@ -313,6 +313,9 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                                 data.skill = String(self.data2.skill);
                                                 data.career = data.career1 + data.career2;
                                                 data.jobType = String(data.jobType)
+                                                data.detailLocal = String(data.detailLocal)
+                                                data.jobType = String(data.jobType)
+
                                                 if (!data.id) {
 /*                                                    await ito.api.app.profile.createProfile({
                                                         "personDto": person,
@@ -389,8 +392,8 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                self.data.inputStatus = null;
                                self.data.workableDay = null;
                                self.data.certificateStatus = null;
-                               self.data.localPlace = null;
-                               self.data.detailLocalPlace = null;
+                               self.data.local = null;
+                               self.data.detailLocal = null;
                                self.data.education = null;
                                self.data.rank = null;
                                self.data.minPay = null;
