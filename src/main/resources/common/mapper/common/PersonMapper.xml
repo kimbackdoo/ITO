@@ -10,6 +10,7 @@
             `person`.`job_type`,
             `person`.`input_status`,
             `person`.`certificate_status`,
+            `person`.`skill`,
             `person`.`role`,
             `person`.`career`,
             `person`.`days`,
@@ -61,6 +62,9 @@
             </if>
             <if test="personParamDto.certificateStatus != null and personParamDto.certificateStatus != ''">
                 AND `certificate_status` LIKE CONCAT('%', #{personParamDto.certificateStatus} ,'%')
+            </if>
+            <if test="personParamDto.skill != null and personParamDto.skill != ''">
+                AND `skill` LIKE CONCAT('%', #{personParamDto.skill} ,'%')
             </if>
             <if test="personParamDto.address != null and personParamDto.address != ''">
                 AND `address` LIKE CONCAT('%', #{personParamDto.address}, '%')

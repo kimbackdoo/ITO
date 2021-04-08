@@ -232,7 +232,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 let limitDate, limitDay;
                 for(var i=0; i<projectList.items.length; i++) {
                     limitDate = moment(projectList.items[i].limitDate).format("MM-DD");
-                    limitDay = moment(projectList.items[i].limitDate).diff(moment(), "day");
+                    limitDay = moment(projectList.items[i].limitDate).diff(moment(), "days");
 
                     if(limitDay < 0) projectList.items[i].limitDate = limitDate + " (D+" + Math.abs(limitDay) + ")";
                     else projectList.items[i].limitDate = limitDate + " (D-" + limitDay + ")";

@@ -178,6 +178,9 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 let self = this, personList, items,
                     careerValue = String(self.user.query.careerYear + self.user.query.careerMonth);
 
+                let a = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-MM-DD");
+                console.log(a);
+
                 self.user.dataTable.loading = true;
                 personList = (await ito.api.common.person.getPersonList({
                     "page": self.user.dataTable.options.page,
@@ -195,7 +198,11 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "certificateStatus": self.user.query.certificateStatus,
                 })).data;
 
-                console.log(personList.items.length);
+                console.log(personList.items);
+
+                let age = moment().diff(moment(personList.items[0].birthDate), "years")+1;
+
+                console.log(age);
 
                 items = (await ito.api.common.code.getCodeList({
                     "parentId": "001",

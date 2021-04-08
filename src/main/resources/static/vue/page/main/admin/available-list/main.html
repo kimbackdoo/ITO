@@ -93,7 +93,7 @@
                                     </v-col>
                                 </v-row>
                                 <v-row>
-                                    <v-col cols="5">
+                                    <v-col cols="4">
                                         <v-select
                                             dense
                                             label="희망 지역"
@@ -103,7 +103,7 @@
                                             @keydown.enter="search();"
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="5">
+                                    <v-col cols="4">
                                         <v-select
                                             dense
                                             label="희망 지역"
@@ -112,6 +112,15 @@
                                             :items="select.detailLocal.items"
                                             @keydown.enter="search();"
                                         ></v-select>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field
+                                            dense
+                                            label="나이"
+                                            suffix="세"
+                                            v-model="user.query.birthDate"
+                                            @keydown.enter="search();"
+                                        ></v-text-field>
                                     </v-col>
                                 </v-row>
                                 <v-row>
