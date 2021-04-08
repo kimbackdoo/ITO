@@ -51,6 +51,9 @@ public class ApiCommonPersonController {
             PersonDto personDto = personDtoList.get(i);
             PersonEntity personEntity = PersonEntity.builder()
                     .name(personDto.getName())
+                    .gender(personDto.getGender())
+                    .actualPay(personDto.getActualPay())
+                    .ratingScore(personDto.getRatingScore())
                     .phoneNumber(personDto.getPhoneNumber())
                     .jobType(personDto.getJobType())
                     .inputStatus(personDto.getInputStatus())
@@ -70,6 +73,7 @@ public class ApiCommonPersonController {
                     .website(personDto.getWebsite())
                     .education(personDto.getEducation())
                     .birthDate(personDto.getBirthDate())
+                    .memo(personDto.getMemo())
                     .build();
             personList.add(personEntity);
         }
@@ -81,6 +85,9 @@ public class ApiCommonPersonController {
             @RequestBody PersonDto personDto) {
         PersonEntity personEntity = PersonEntity.builder()
                 .name(personDto.getName())
+                .gender(personDto.getGender())
+                .actualPay(personDto.getActualPay())
+                .ratingScore(personDto.getRatingScore())
                 .phoneNumber(personDto.getPhoneNumber())
                 .jobType(personDto.getJobType())
                 .skill(personDto.getSkill())
@@ -100,6 +107,7 @@ public class ApiCommonPersonController {
                 .website(personDto.getWebsite())
                 .education(personDto.getEducation())
                 .birthDate(personDto.getBirthDate())
+                .memo(personDto.getMemo())
                 .build();
         return personService.createPerson(personEntity);
     }
@@ -113,6 +121,9 @@ public class ApiCommonPersonController {
             PersonEntity personEntity = PersonEntity.builder()
                     .id(personDto.getId())
                     .name(personDto.getName())
+                    .gender(personDto.getGender())
+                    .actualPay(personDto.getActualPay())
+                    .ratingScore(personDto.getRatingScore())
                     .phoneNumber(personDto.getPhoneNumber())
                     .jobType(personDto.getJobType())
                     .skill(personDto.getSkill())
@@ -132,6 +143,7 @@ public class ApiCommonPersonController {
                     .website(personDto.getWebsite())
                     .education(personDto.getEducation())
                     .birthDate(personDto.getBirthDate())
+                    .memo(personDto.getMemo())
                     .build();
             personList.add(personEntity);
         }
@@ -145,6 +157,9 @@ public class ApiCommonPersonController {
         PersonEntity personEntity = PersonEntity.builder()
                 .id(id)
                 .name(personDto.getName())
+                .gender(personDto.getGender())
+                .actualPay(personDto.getActualPay())
+                .ratingScore(personDto.getRatingScore())
                 .phoneNumber(personDto.getPhoneNumber())
                 .jobType(personDto.getJobType())
                 .skill(personDto.getSkill())

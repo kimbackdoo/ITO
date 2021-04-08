@@ -28,6 +28,12 @@ public class PersonDto {
 
     private String phoneNumber;
 
+    private String gender;
+
+    private Long actualPay;
+
+    private Long ratingScore;
+
     private String jobType;
 
     private String skill;

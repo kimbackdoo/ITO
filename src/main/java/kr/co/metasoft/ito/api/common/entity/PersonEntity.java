@@ -50,6 +50,9 @@ public class PersonEntity {
     @Column (name = "`name`", columnDefinition = "varchar(100)", nullable = true)
     private String name;
 
+    @Column (name = "`gender`", columnDefinition = "varchar(10)", nullable = true)
+    private String gender;
+
     @Column (name = "`phone_number`", columnDefinition = "varchar(13)", nullable = true)
     private String phoneNumber;
 
@@ -79,6 +82,9 @@ public class PersonEntity {
 
     @Column (name = "`max_pay`", columnDefinition = "bigint(20)", nullable = true)
     private Long maxPay;
+
+    @Column (name = "`actual_pay`", columnDefinition = "bigint(20)", nullable = true)
+    private Long actualPay;
 
 
     @Column (name = "`local`", columnDefinition = "varchar(100)", nullable = true)
@@ -117,6 +123,9 @@ public class PersonEntity {
 
     @Column (name = "`status`", columnDefinition = "enum('T', 'F')", nullable = true)
     private String status;
+
+    @Column (name = "`rating_score`", columnDefinition = "bigint(20)", nullable = true)
+    private Long ratingScore;
 
     @Column (name = "`memo`", columnDefinition = "text", nullable = true)
     private String memo;

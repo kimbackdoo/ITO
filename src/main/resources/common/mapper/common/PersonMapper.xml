@@ -7,6 +7,9 @@
             `person`.`id`,
             `person`.`name`,
             `person`.`phone_number`,
+            `person`.`gender`,
+            `person`.`actual_pay`,
+            `person`.`rating_score`,
             `person`.`job_type`,
             `person`.`input_status`,
             `person`.`certificate_status`,
@@ -41,6 +44,12 @@
             </if>
            <if test="personParamDto.jobType != null and personParamDto.jobType != ''">
                 AND `job_type` LIKE CONCAT(#{personParamDto.jobType})
+            </if>
+           <if test="personParamDto.gender != null and personParamDto.gender != ''">
+                AND `gender` LIKE CONCAT(#{personParamDto.gender})
+            </if>
+           <if test="personParamDto.ratingScore != null and personParamDto.ratingScore != ''">
+                AND `rating_score` &gt;= #{personParamDto.ratingScore}
             </if>
             <if test="personParamDto.education != null and personParamDto.education != ''">
                 AND `education` &gt;= #{personParamDto.education}
@@ -88,6 +97,9 @@
     <resultMap id="personResultMap" type="kr.co.metasoft.ito.api.common.entity.PersonEntity">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="actualPay" column="actual_pay"/>
+        <result property="ratingScore" column="rating_score"/>
         <result property="phoneNumber" column="phone_number"/>
         <result property="jobType" column="job_type"/>
         <result property="inputStatus" column="input_status"/>
@@ -151,6 +163,9 @@
         insert into `tb_person`(
             `id`,
             `name`,
+            `gender`,
+            `actual_pay`,
+            `rating_score`,
             `phone_number`,
             `job_type`,
             `input_status`,
@@ -175,6 +190,9 @@
         values
         <foreach collection="list" item="item" index="idx" open="(" separator="),(" close=")">
             #{item.name},
+            #{item.gender},
+            #{item.actualPay},
+            #{item.ratingScore},
             #{item.phoneNumber},
             #{item.jobType},
             #{item.inputStatus},
@@ -198,6 +216,9 @@
         </foreach>
         ON DUPLICATE KEY UPDATE
             `name` = VALUES(`name`),
+            `gender` = VALUES(`gender`),
+            `actual_pay` = VALUES(`actual_pay`),
+            `rating_score` = VALUES(`rating_score`),
             `phone_number` = VALUES(`phone_number`) ,
             `job_type` = VALUES(`job_type`) ,
             `input_status` = VALUES(`input_status`) ,

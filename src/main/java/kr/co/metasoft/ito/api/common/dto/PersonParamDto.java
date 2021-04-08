@@ -27,6 +27,13 @@ public class PersonParamDto {
 
     private String phoneNumber;
 
+    private String gender;
+
+    private Long actualPay;
+
+    private Long ratingScore;
+
+
     private String jobType;
 
     private List<String> memo;
