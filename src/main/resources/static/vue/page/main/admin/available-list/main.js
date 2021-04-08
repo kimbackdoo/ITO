@@ -41,7 +41,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "query": {
                         "name": null,
                         "jobType": null,
-                        "skill": null,
+                        "skillList": [],
                         "careerYear": null,
                         "careerMonth": null,
                         "career": null,
@@ -65,10 +65,11 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     },
                     "status": {
                         "items": [
-                            {"text": "섭외", "value": "A"},
-                            {"text": "완료", "value": "C"},
-                            {"text": "면접", "value": "I"},
-                            {"text": "투입", "value": "P"},
+                            {"text": "섭외중", "value": "A"},
+                            {"text": "섭외완료", "value": "C"},
+                            {"text": "인터뷰", "value": "I"},
+                            {"text": "투입중", "value": "P"},
+                            {"text": "이외", "value": "N"},
                         ]
                     },
                     "education": {
@@ -94,7 +95,16 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                         "items": []
                     },
                     "detailLocal": {
-                        "items": []
+                        "items": [
+                            {"text": "전체", "value": null},
+                        ]
+                    },
+                    "sex": {
+                        "items": [
+                            {"text": "무관", "value": null},
+                            {"text": "남자", "value": "M"},
+                            {"text": "여자", "value": "F"},
+                        ]
                     },
                 },
             };
@@ -132,9 +142,6 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                         "detailLocal": local !== undefined ? local.text : null,
                         "rowSize": 1000000
                     })).data.items.map(e => ({"text": e.name, "value": e.id}))
-
-                    console.log(items);
-
                     items = items.filter(e => e.value.length > 5)
                     this.select.detailLocal.items.push(...items);
                 }
@@ -198,6 +205,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "inputStatus": self.user.query.inputStatus,
                     "education": self.user.query.education,
                     "certificateStatus": self.user.query.certificateStatus,
+                    "skillList": self.user.query.skillList,
                     "startBirthDate": startBirth,
                     "endBirthDate": endBirth,
                 })).data;
@@ -245,8 +253,12 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 this.user.query.certificateStatus = null;
                 this.user.query.birthDate = null;
                 this.user.query.job = null;
-                this.user.query.skill = null;
+                this.user.query.skillList = [];
             },
+            "delimit": function(v) {
+                let reducer = (a, e) => [...a, ...e.split(/[, ]+/)]
+                this.user.query.skillList = [...new Set(v.reduce(reducer, []))]
+            }
         },
         "mounted": async function () {
             this.init();

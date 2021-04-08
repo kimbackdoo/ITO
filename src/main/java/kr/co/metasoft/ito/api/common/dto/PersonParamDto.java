@@ -35,7 +35,7 @@ public class PersonParamDto {
 
     private String certificateStatus;
 
-    private String skill;
+    private List<String> skillList;
 
     private String career;
 
@@ -80,6 +80,4 @@ public class PersonParamDto {
     @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastModifiedDate;
-
-
 }

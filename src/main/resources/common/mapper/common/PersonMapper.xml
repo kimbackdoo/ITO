@@ -63,9 +63,6 @@
             <if test="personParamDto.certificateStatus != null and personParamDto.certificateStatus != ''">
                 AND `certificate_status` LIKE CONCAT('%', #{personParamDto.certificateStatus} ,'%')
             </if>
-            <if test="personParamDto.skill != null and personParamDto.skill != ''">
-                AND `skill` LIKE CONCAT('%', #{personParamDto.skill} ,'%')
-            </if>
             <if test="personParamDto.address != null and personParamDto.address != ''">
                 AND `address` LIKE CONCAT('%', #{personParamDto.address}, '%')
             </if>
@@ -77,6 +74,13 @@
             </if>
             <if test="personParamDto.endBirthDate != null">
                 AND `birth_date` &lt;= #{personParamDto.endBirthDate}
+            </if>
+            <if test="personParamDto.skillList != null and !personParamDto.skillList.isEmpty()">
+                AND
+                    <foreach collection="personParamDto.skillList"
+                             item="item"
+                             separator=" AND "
+                    >`skill` LIKE CONCAT('%', #{item}, '%')</foreach>
             </if>
         </where>
     </sql>

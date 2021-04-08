@@ -32,12 +32,16 @@
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="3">
-                                        <v-text-field
+                                        <v-combobox
                                             dense
+                                            multiple
+                                            small-chips
+                                            deletable-chips
+                                            :delimiters="[',',' ']"
                                             label="기술"
-                                            v-model="user.query.skill"
-                                            @keydown.enter="search();"
-                                        ></v-text-field>
+                                            v-model="user.query.skillList"
+                                            @change="delimit"
+                                        ></v-combobox>
                                     </v-col>
                                     <v-col cols="3">
                                         <v-text-field
@@ -50,7 +54,7 @@
                                     </v-col>
                                 </v-row>
                                 <v-row>
-                                    <v-col cols="3">
+                                    <v-col cols="2">
                                         <v-select
                                             dense
                                             label="최종 학력"
@@ -59,7 +63,7 @@
                                             @keydown.enter="search();"
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="3">
+                                    <v-col cols="2">
                                         <v-select
                                             dense
                                             menu-props="auto"
@@ -70,7 +74,7 @@
                                             @keydown.enter="search();"
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="3">
+                                    <v-col cols="2">
                                         <v-select
                                             dense
                                             menu-props="auto"
@@ -81,13 +85,31 @@
                                             @keydown.enter="search();"
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="3">
+                                    <v-col cols="2">
                                         <v-select
                                             dense
                                             menu-props="auto"
                                             :items="select.certificateStatus.items"
                                             label="필수 자격증 여부"
                                             v-model="user.query.certificateStatus"
+                                            @keydown.enter="search();"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <v-select
+                                            dense
+                                            menu-props="auto"
+                                            :items="select.status.items"
+                                            label="현황"
+                                            @keydown.enter="search();"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <v-select
+                                            dense
+                                            menu-props="auto"
+                                            :items="select.sex.items"
+                                            label="성별"
                                             @keydown.enter="search();"
                                         ></v-select>
                                     </v-col>

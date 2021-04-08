@@ -40,9 +40,19 @@ public class PersonService {
             @Valid PersonParamDto personParamDto,
             PageRequest pageRequest) {
         System.out.println("===========================================================================");
+        System.out.println(personParamDto);
         System.out.println("Name: " + personParamDto.getName());
         System.out.println("JobType: " + personParamDto.getJobType());
-        System.out.println("skill: " + personParamDto.getSkill());
+        if(personParamDto.getSkillList() == null) {
+            System.out. println("Skill: null");
+        }
+        else {
+            System.out.print("Skill: ");
+            for(String skill : personParamDto.getSkillList()) {
+                System.out.print(skill + ", ");
+            }
+            System.out.println();
+        }
         System.out.println("Local: " + personParamDto.getLocal());
         System.out.println("DetailLocal: " + personParamDto.getDetailLocal());
         System.out.println("Career: " + personParamDto.getCareer());
