@@ -88,7 +88,11 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
                 "end": "건"
             }
         },
-        "autocompleteItems": {
+        "cellItems": {
+            "type": Object,
+            "default": {}
+        },
+        "cellTitles": {
             "type": Object,
             "default": {}
         }
