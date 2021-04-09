@@ -60,6 +60,8 @@ public class DataUploadService {
     //엑셀 항목 값
     String[] personColumnKeyArray = {"이름","휴대폰 번호","직업종류","투입여부","필수 자격증 여부","보유 스킬","경력","최소급여","최대급여","희망지역(시/구)","희망지역(구/군)","투입 가능 시작일"
             ,"우편번호","주소","상세주소","이메일","웹사이트","최종학력","생일","생성일","수정일"};
+    //마이그레이션 항목 값
+    String[] personKeyArray = {"NAME","PHONE_NUMBER","JOB_TYPE","INPUT_STATUS","CERTIFICATE_STATUS","SKILL","CAREER","MIN_PAY","MAX_PAY","WORKABLE_DAY","ADDRESS","DETAIL_ADDRESS","EMAIL","BIRTH_DATE","MEMO"};
 
 
     @Transactional
@@ -388,6 +390,176 @@ public class DataUploadService {
         //excelFile 변수 값으로 가져온다.
         MultipartFile excelFile = dataUploadParamDto.getFile();
 
+        List<String> columnKeyList = new ArrayList<>();
+        Collections.addAll(columnKeyList, personKeyArray);
+
+        // excelFile 값 확인
+        if(excelFile != null && excelFile.getSize() > 0 && excelFile.getOriginalFilename() != null) {
+            if(excelFile.getOriginalFilename().endsWith(".xlsx") || excelFile.getOriginalFilename().endsWith(".XLSX")) {
+                try (
+                        OPCPackage opcPackage = OPCPackage.open(excelFile.getInputStream());
+                        XSSFWorkbook workbook = new XSSFWorkbook(opcPackage);
+                    ) {
+                    XSSFSheet sheet = workbook.getSheetAt(0);
+
+                    XSSFRow row = sheet.getRow(0);
+                    HashMap<String,Integer> columnKeyNumberList = new HashMap<>();
+
+                    //row.getPysicalNumberCells() 한개의 로우마다 몇개의 cell 수
+                    int cols= row.getPhysicalNumberOfCells();
+                    for(int i = 0; i < cols; i++) {
+                        XSSFCell cell = row.getCell(i);
+                        cell.setCellType(Cell.CELL_TYPE_STRING);
+
+                        if(columnKeyList.contains(cell.getStringCellValue().toUpperCase())) {
+                            columnKeyNumberList.put(cell.getStringCellValue().toUpperCase(), i);
+                        }
+                    }
+
+                    if(columnKeyNumberList.size() == columnKeyList.size()) {
+                        PersonEntity dataUploadEntity = null;
+                        List<PersonEntity> personEntityList = new ArrayList<>();
+
+                        for(int i=1; i<sheet.getLastRowNum() + 1; i++) {
+                            dataUploadEntity = new PersonEntity();
+                            row = sheet.getRow(i);
+
+                            // 행이 존재하기 않으면 패스
+                            if(null == row) {
+                                continue;
+                            }
+
+                            // (이름)
+                            XSSFCell cell = row.getCell(columnKeyNumberList.get("NAME"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                log.info(cell.getStringCellValue());
+                                dataUploadEntity.setName(cell.getStringCellValue());
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("PHONE_NUMBER"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                dataUploadEntity.setPhoneNumber(cell.getStringCellValue());
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("JOB_TYPE"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                dataUploadEntity.setJobType(cell.getStringCellValue());
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("INPUT_STATUS"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                String inputStatus = cell.getStringCellValue();
+                                if(inputStatus.equals("")) {
+                                    dataUploadEntity.setCertificateStatus("N");
+                                }else {
+                                    dataUploadEntity.setCertificateStatus(inputStatus);
+                                }
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("CERTIFICATE_STATUS"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                String cert = cell.getStringCellValue();
+                                if(cert.equals("T")) {
+                                    dataUploadEntity.setCertificateStatus(cert);
+                                }else {
+                                    dataUploadEntity.setCertificateStatus("F");
+                                }
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("SKILL"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                dataUploadEntity.setSkill(cell.getStringCellValue());
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("CAREER"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                if(cell.getStringCellValue().length() > 5) dataUploadEntity.setCareer(Double.toString(Math.round(Double.parseDouble(cell.getStringCellValue()))));
+                                else dataUploadEntity.setCareer(cell.getStringCellValue());
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("MIN_PAY"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                dataUploadEntity.setMinPay(cell.getStringCellValue().isEmpty() ? null : Long.parseLong(cell.getStringCellValue()));
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("MAX_PAY"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                dataUploadEntity.setMaxPay(cell.getStringCellValue().isEmpty() ? null : Long.parseLong(cell.getStringCellValue()));
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("WORKABLE_DAY"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                dataUploadEntity.setWorkableDay(cell.getStringCellValue().isEmpty() ? null : LocalDate.parse(cell.getStringCellValue()));
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("ADDRESS"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                dataUploadEntity.setAddress(cell.getStringCellValue());
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("DETAIL_ADDRESS"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                dataUploadEntity.setDetailAddress(cell.getStringCellValue());
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("EMAIL"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                dataUploadEntity.setEmail(cell.getStringCellValue());
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("BIRTH_DATE"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                dataUploadEntity.setBirthDate(cell.getStringCellValue().isEmpty() ? null : LocalDate.parse(cell.getStringCellValue()));
+                            }
+                            cell = row.getCell(columnKeyNumberList.get("MEMO"));
+                            if(null != cell) {
+                                cell.setCellType(Cell.CELL_TYPE_STRING);
+                                dataUploadEntity.setMemo(cell.getStringCellValue());
+                            }
+
+                            personEntityList.add(dataUploadEntity);
+                        }
+
+                        for (PersonEntity entity : personEntityList) {
+                            log.info(entity.toString());
+                        }
+                        personRepository.saveAll(personEntityList);
+                        returnVal = "SUCCESS";
+                        returnMsg = "업로드에 성공했습니다.";
+                    } else {
+                        returnVal = "FAIL";
+                        returnMsg = "잘못된 엑셀 양식입니다.";
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    returnVal = "FAIL";
+                    returnMsg = "업로드 중에 오류가 발생했습니다.";
+                }
+            } else {
+                returnVal = "FAIL";
+                returnMsg = "잘못된 파일 형식입니다.";
+            }
+        } else {
+            returnVal = "FAIL";
+            returnMsg = "파일의 데이터가 존재하지 않습니다.";
+        }
+        returnMap.put("returnVal", returnVal);
+        returnMap.put("returnMsg", returnMsg);
+        return returnMap;
+    }
+
+    @Transactional
+    public Map<String, Object> uploadITOTxtFile(DataUploadParamDto dataUploadParamDto) {
+
+        String returnVal = "FAIL";
+        String returnMsg = "";
+        Map<String, Object> returnMap = new HashMap<>();
+
+        //excelFile 변수 값으로 가져온다.
+        MultipartFile excelFile = dataUploadParamDto.getFile();
+
         CodeParamDto codeParamDto = new CodeParamDto();
         codeParamDto.setIdStartLike("007");
         PageRequest pageRequest = new PageRequest();
@@ -527,6 +699,9 @@ public class DataUploadService {
                             match = pat.matcher(line);
                             if (match.find()) {
                                 String str = match.group(1);
+                                if(str.indexOf(".") != -1 && str.substring(str.indexOf(".")+1).length() == 1) {
+
+                                }
                                 person.setCareer(str);
                                 line = line.replace(match.group(), "");
                             }
