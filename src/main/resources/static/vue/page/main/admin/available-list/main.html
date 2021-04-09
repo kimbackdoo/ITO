@@ -2,14 +2,14 @@
     <v-row>
         <v-col cols="12">
             <v-expansion-panels
-                    multiple
-                    v-model="user.panels.search"
+                multiple
+                v-model="user.panels.search"
             >
                 <v-expansion-panel>
                     <v-expansion-panel-header>사용자 검색</v-expansion-panel-header>
                     <v-expansion-panel-content
-                            class="overflow-y-auto"
-                            style="max-height: 700px;"
+                        class="overflow-y-auto"
+                        style="max-height: 700px;"
                     >
                         <v-form>
                             <v-container>
@@ -108,8 +108,9 @@
                                         <v-select
                                             dense
                                             menu-props="auto"
-                                            :items="select.sex.items"
                                             label="성별"
+                                            :items="select.sex.items"
+                                            v-model="user.query.sex"
                                             @keydown.enter="search();"
                                         ></v-select>
                                     </v-col>
@@ -135,7 +136,7 @@
                                             @keydown.enter="search();"
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="4">
+                                    <v-col cols="2">
                                         <v-text-field
                                             dense
                                             label="나이"
@@ -143,6 +144,15 @@
                                             v-model="user.query.birthDate"
                                             @keydown.enter="search();"
                                         ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <v-select
+                                            dense
+                                            label="평가점수"
+                                            suffix="점"
+                                            :items="select.ratingScroe.items"
+                                            @keydown.enter="search();"
+                                        ></v-select>
                                     </v-col>
                                 </v-row>
                                 <v-row>

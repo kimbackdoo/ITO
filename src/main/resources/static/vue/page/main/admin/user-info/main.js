@@ -309,7 +309,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     self.select.job.items.push(...items);
                 },
                 "setUserInfoList": async function () {
-                    var self = this
+                    var self = this;
                     var careerValue = String(self.user.query.career1 + self.user.query.career2);
                     var params = {}, data;
                     if(self.user.query.birthDate != null) {
@@ -321,7 +321,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     params.rowSize = self.user.dataTable.options.itemsPerPage;
                     params.name = !_.isEmpty(self.user.query.name) ? self.user.query.name : null;
                     params.jobType = !_.isEmpty(self.user.query.jobType) ? self.user.query.jobType : null;
-                    params.career = !_.isEmpty(careerValue) ? careerValue : null;
+                    params.career = !_.isEmpty(careerValue) && careerValue != 0 ? careerValue : null;
                     params.pay = !_.isEmpty(self.user.query.pay) ? Number(self.user.query.pay) : null;
                     params.local = !_.isEmpty(self.user.query.local) ? self.user.query.local : null;
                     params.detailLocal = !_.isEmpty(self.user.query.detailLocal) ? self.user.query.detailLocal : null;

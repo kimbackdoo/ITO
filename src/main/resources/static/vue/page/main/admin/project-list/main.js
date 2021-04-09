@@ -278,11 +278,11 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                "deleteProjectInfoList": async function(items){
                     var self = this;
 
-                    let deleteList = [items.map(e=>e.id)];
+                    let deleteList = items.map(e=> e.id);
 
                     console.log("삭제할 리스트 id 값들  "+deleteList);
 
-                    if(self.project.selected.length == 0){
+                    if(items.length == 0){
                         await ito.alert("삭제할 항목이 없습니다.")
                     }else{
                         if(await ito.confirm("삭제하시겠습니까?")){
