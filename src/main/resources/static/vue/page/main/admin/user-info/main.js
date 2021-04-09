@@ -31,16 +31,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "totalRows":0,
                             "items": [],
                             "loading": false,
-                            "options": {
-                                "page": 1,
-                                "itemsPerPage": 10,
-                                "sortBy": [],
-                                "sortDesc": [],
-                                "groupBy": [],
-                                "groupDesc": [],
-                                "multiSort": true,
-                                "mustSort": false
-                            },
                             "certificateStatus": [
                                  {"text":"보유", "value":"T"},
                                  {"text":"없음", "value":"F"},
@@ -136,7 +126,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         },
                         "status":{
                             "items":[
-                                {"text": "미정", "value": null},
+                                {"text": "미정", "value": "N"},
                                 {"text": "섭외중", "value": "A"},
                                 {"text": "섭외완료", "value": "C"},
                                 {"text": "인터뷰", "value": "I"},
@@ -168,24 +158,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 };
             },
             "watch": {
-                "user.dataTable.options.page": {
-                    "handler": async function(n, o) {
-                        await this.setUserInfoList();
-                    },
-                    "deep": true
-                },
-                "user.dataTable.options.itemsPerPage": {
-                    "handler": async function(n, o) {
-                        await this.setUserInfoList();
-                    },
-                    "deep": true
-                },
-                "user.dataTable.options.sortDesc": {
-                    "handler": async function (n, o) {
-                        await this.setUserInfoList();
-                    },
-                    "deep": true
-                },
                 "user.query.jobType": {
                     "handler": async function () {
                         var self = this;
@@ -287,13 +259,14 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 idList[i] = Number(idList[i]);
                                 param.personId = idList[i];
                                 var project = (await ito.api.common.projectPerson.getProjectPersonList(param)).data
-                                var projectPersonParams=[];
-                                project.items.forEach(e => {
-                                    projectPersonParams.push({"personId": idList[i], "projectId": e.projectId});
-                                })
-                                await ito.api.common.projectPerson.removeProjectPersonList(projectPersonParams)
-
-                                person = (await ito.api.common.person.getPerson(idList[i])).data; // -> person LIst 삭제 하기
+                                if(project != null){
+                                    var projectPersonParams=[];
+                                    project.items.forEach(e => {
+                                        projectPersonParams.push({"personId": idList[i], "projectId": e.projectId});
+                                    })
+                                    await ito.api.common.projectPerson.removeProjectPersonList(projectPersonParams)
+                                }
+                                person = (await ito.api.common.person.getPerson(idList[i])).data;
                                 params.push({
                                     "personDto": person,
                                 })
@@ -316,7 +289,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     })).data.items.map(e=>({"text": e.name, "value": e.id}));
                     self.select.job.items.push(...items);
                 },
-                "setUserInfoList": async function () {
+                "setUserInfoList": async function (options) {
                     var self = this;
                     var careerValue = String(self.user.query.career1 + self.user.query.career2);
                     var params = {}, data;
@@ -325,8 +298,11 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         var endBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-12-31");
                        }
 
-                    params.page = self.user.dataTable.options.page;
-                    params.rowSize = self.user.dataTable.options.itemsPerPage;
+                    if(options !== undefined) {
+                        params.page = options.page;
+                        params.rowSize = options.itemsPerPage;
+                        params.sort=ito.util.sort(options.sortBy, options.sortDesc);
+                    }
                     params.name = !_.isEmpty(self.user.query.name) ? self.user.query.name : null;
                     params.jobType = !_.isEmpty(self.user.query.jobType) ? self.user.query.jobType : null;
                     params.career = !_.isEmpty(careerValue) && careerValue != 0 ? careerValue : null;
@@ -336,7 +312,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     params.inputStatus = !_.isEmpty(self.user.query.status) ? self.user.query.status : null;
                     params.education = !_.isEmpty(self.user.query.education) ? self.user.query.education : null;
                     params.certificateStatus = !_.isEmpty(self.user.query.certificateStatus) ? self.user.query.certificateStatus : null;
-                    params.sort=ito.util.sort(self.user.dataTable.options.sortBy, self.user.dataTable.options.sortDesc);
                     params.memo= !_.isEmpty(self.user.query.skill) ? [self.user.query.skill] : null;
                     params.startBirthDate= !_.isEmpty(startBirth) ? startBirth : null;
                     params.endBirthDate= !_.isEmpty(endBirth) ? endBirth : null;
@@ -369,17 +344,17 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                  e.inputStatus = "미정"; break;
                         }
                         switch(e.education){
-                            case "007001":
+                            case "00701":
                                  e.education = "학력 무관"; break;
-                            case "007002":
+                            case "00702":
                                  e.education = "고등학교 졸업"; break;
-                            case "007003":
+                            case "00703":
                                  e.education = "(2~3년제)전문대 졸업"; break;
-                            case "007004":
+                            case "00704":
                                  e.education = "(4년제)대학교 졸업"; break;
-                            case "007005":
+                            case "00705":
                                  e.education = "석사"; break;
-                            case "007006":
+                            case "00706":
                                  e.education = "박사"; break;
                         }
                         for(var i=0; i < codeBigData.length ; i++){

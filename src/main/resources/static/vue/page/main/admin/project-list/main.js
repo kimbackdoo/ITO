@@ -26,20 +26,17 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 {"text": "현황", "value": "status"},
                                 {"text": "희망 급여", "value": "salary"},
                                 {"text": "모집마감일", "value": "limitDate"},
-                                {"text": "수정" , "value": "edit"},
+                                {"text": "수정" , "value": "edit","type": "icon"},
                             ],
+                            "cell": {
+                                "icon": {
+                                    "edit": {
+                                        "title": "mdi-pencil"
+                                    }
+                                }
+                            },
                             "items": [],
                             "totalRows":0,
-                            "options": {
-                                "page": 1,
-                                "itemsPerPage": 10,
-                                "sortBy": [],
-                                "sortDesc": [],
-                                "groupBy": [],
-                                "groupDesc": [],
-                                "multiSort": true,
-                                "mustSort": false
-                            },
                             "loading": false,
                             "certificateStatus": [
                                  {"text":"보유", "value":"T"},
@@ -146,31 +143,14 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
 
             },
             "watch": {
-                "project.dataTable.options.page": {
-                    "handler": async function(n, o) {
-                        await this.setProjectInfoList();
-                    },
-                    "deep": true
-                },
-                "project.dataTable.options.itemsPerPage": {
-                    "handler": async function(n, o) {
-                        await this.setProjectInfoList();
-                    },
-                    "deep": true
-                },
-                "project.dataTable.options.sortDesc": {
-                    "handler": async function (n, o) {
-                        await this.setProjectInfoList();
-                    },
-                    "deep": true
-                },
-                 "project.dataTable.itemsPerPage": {
+/*                 "project.dataTable.itemsPerPage": {
                     "handler": function (newValue, oldValue) {
                         Promise.resolve()
                             .then(this.setUserInfoList)
                             .then(this.replaceQuery)
                     }
                 },
+*/
                 "project.query.job": {
                     "handler": async function () {
                         var self = this;
@@ -257,11 +237,10 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     })
                 },
                 "editProjectInfo": function(value){
-                    console.log(value);
                     this.$router.push({
                         "path": "/main/admin/project-info-form",
                         "query": {
-                            "id": value.id
+                            "id": value.item.id
                         }
                       });
                 },
@@ -277,7 +256,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
 
                "deleteProjectInfoList": async function(items){
                     var self = this;
-
+                    var param = {};
                     let deleteList = items.map(e=> e.id);
 
                     console.log("삭제할 리스트 id 값들  "+deleteList);
@@ -286,25 +265,42 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                         await ito.alert("삭제할 항목이 없습니다.")
                     }else{
                         if(await ito.confirm("삭제하시겠습니까?")){
-                           await ito.api.common.project.removeProjectList(deleteList);
-                           await ito.alert("삭제되었습니다.")
+                            for(var i in deleteList){
+
+                               param.projectId = deleteList[i];
+                                console.log(param.projectId)
+                               var projectParam=[];
+                               var person = (await ito.api.common.projectPerson.getProjectPersonList(param)).data
+                                if(person != null){
+                                    console.log(person.items)
+                                   person.items.forEach(e=> {
+                                           projectParam.push({"personId": e.personId,"projectId": deleteList[i] });
+                                   })
+                                     console.log(projectParam)
+                                   await ito.api.common.projectPerson.removeProjectPersonList(projectParam)
+                                }
+                            }
+                            await ito.api.common.project.removeProjectList(deleteList);
+                            await ito.alert("삭제되었습니다.")
                         }
                         self.setProjectInfoList();
                     }
-
                 },
-                "setProjectInfoList": function () {
+                "setProjectInfoList": function (options) {
                     var self = this;
                     return new Promise(function (resolve, reject) {
                         Promise.resolve()
                             .then(function () {
                                 var params = {};
-                                params.page = self.project.dataTable.options.page;
-                                params.size = self.project.dataTable.options.itemsPerPage;
+                                if(options !== undefined) {
+                                    params.page = options.page;
+                                    params.rowSize = options.itemsPerPage;
+                                    params.sort=ito.util.sort(options.sortBy, options.sortDesc);
+                                }
                                 params.name = !_.isEmpty(self.project.query.name) ? self.project.query.name : null;
                                 params.job = !_.isEmpty(self.project.query.job) ? self.project.query.job : null;
                                 params.skill = !_.isEmpty(self.project.query.skill) ? self.project.query.skill : null;
-                                params.skillList = !_.isEmpty(self.project.query.skillList) ? self.project.query.skillList : [];
+                                params.skillListLike = !_.isEmpty(self.project.query.skillList) ? self.project.query.skillList : [];
                                 params.degree = !_.isEmpty(self.project.query.degree) ? self.project.query.degree : null;
                                 params.career = _.isEmpty(self.project.query.career1) && _.isEmpty(self.project.query.career2) ? null : String(self.project.query.career1 + self.project.query.career2);
                                 params.sterm = !_.isEmpty(self.project.query.sterm) ? self.project.query.sterm : null;
@@ -314,7 +310,6 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 params.prsnl = !_.isEmpty(self.project.query.prsnl) ? Number(self.project.query.prsnl) : null;
                                 params.status = !_.isEmpty(self.project.query.status) ? (self.project.query.status).charAt(0) : null;
                                 params.salary = !_.isEmpty(self.project.query.salary) ? Number(self.project.query.salary) : null;
-                                params.sort=ito.util.sort(self.project.dataTable.options.sortBy, self.project.dataTable.options.sortDesc);
 
                                 self.project.dataTable.loading = true;
                                 return ito.api.common.project.getProjectList(params);
@@ -340,17 +335,17 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                              e.status = "미정"; break;
                                     }
                                     switch(e.degree){
-                                        case "007001":
+                                        case "00701":
                                              e.degree = "학력 무관"; break;
-                                        case "007002":
+                                        case "00702":
                                              e.degree = "고등학교 졸업"; break;
-                                        case "007003":
+                                        case "00703":
                                              e.degree = "(2~3년제)전문대 졸업"; break;
-                                        case "007004":
+                                        case "00704":
                                              e.degree = "(4년제)대학교 졸업"; break;
-                                        case "007005":
+                                        case "00705":
                                              e.degree = "석사"; break;
-                                        case "007006":
+                                        case "00706":
                                              e.degree = "박사"; break;
                                     }
                                     var limitDat, limitDay;

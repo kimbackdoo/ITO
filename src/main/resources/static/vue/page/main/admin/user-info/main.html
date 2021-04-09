@@ -224,19 +224,12 @@
                             :headers="user.dataTable.headers"
                             :items="user.dataTable.items"
                             :totalRows="user.dataTable.totalRows"
-                            :page.sync="user.dataTable.options.page"
-                            :itemsPerPage.sync="user.dataTable.options.itemsPerPage"
-                            :sortBy.sync="user.dataTable.options.sortBy"
-                            :sortDesc.sync="user.dataTable.options.sortDesc"
-                            :groupBy.sync="user.dataTable.options.groupBy"
-                            :groupDesc.sync="user.dataTable.options.groupDesc"
-                            :multiSort.sync="user.dataTable.options.multiSort"
-                            :mustSort.sync="user.dataTable.options.mustSort"
                             :loading="user.dataTable.loading"
                             @click:row="editUserInfo"
                             @remove="deleteUserInfoList"
                             @add="addUserInfo"
                             @import="openDialog"
+                            @reload="setUserInfoList"
                         ></data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>

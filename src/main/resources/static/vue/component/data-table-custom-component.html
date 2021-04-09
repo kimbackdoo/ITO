@@ -60,6 +60,11 @@
                                 @change="changeAutocomplete($event, header.value, item);"
                             ></v-autocomplete>
                         </template>
+                        <template v-else-if="header.type === 'button'">
+                            <v-btn
+                                @click.native.stop="clickButton(item, header.value)"
+                            >{{cell[header.type][header.value].title}}</v-btn>
+                        </template>
                         <template v-else-if="header.cellClass != null && header.cellClass.indexOf('truncate') !== -1">
                             <template v-if="header.value.toUpperCase().indexOf('TARGET') !== -1">
                                 <v-tooltip top>

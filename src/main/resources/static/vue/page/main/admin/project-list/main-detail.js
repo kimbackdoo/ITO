@@ -13,6 +13,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                             "headers": [
                                 {"text": "이름", "value": "name"},
                                 {"text": "전화번호", "value": "phoneNumber"},
+                                {"text": "성별", "value": "gender"},
                                 {"text": "생년월일(나이)",  "value": "birthDate", cellClass:"text-truncate"},
                                 {"text": "직종",  "value": "jobType"},
                                 {"text": "기술",  "value": "skill"},
@@ -50,16 +51,6 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                             "totalRows": 0,
                             "page":2,
                             "loading":false,
-                            "options": {
-                                "page": 1,
-                                "itemsPerPage": 10,
-                                "sortBy": [],
-                                "sortDesc": [],
-                                "groupBy": [],
-                                "groupDesc": [],
-                                "multiSort": true,
-                                "mustSort": false
-                            },
                         },
                         "pagination": {
                             "length": 10,
@@ -72,31 +63,17 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
             },
             "watch": {
 
-                "person.dataTable.options.page": {
-                    "handler": async function(n, o) {
-                        await this.setPersonInfo();
-                    },
-                    "deep": true
-                },
-                "person.dataTable.options.itemsPerPage": {
-                    "handler": async function(n, o) {
-                        await this.setPersonInfo();
-                    },
-                    "deep": true
-                },
-                "person.dataTable.options.sortDesc": {
-                    "handler": async function (n, o) {
-                        await this.setPersonInfo();
-                    },
-                    "deep": true
-                }
-
             },
             "methods":{
+                "click": {
+
+                },
+
 
                 "setProjectInfo": async function(){
                     var self =this;
                     var id = await self.$route.query.id;
+                        console.log(id);
                         return new Promise(function (resolve, reject) {
                             Promise.resolve()
                                 .then(function () {
@@ -106,6 +83,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                     self.project.items = response.data;
                                     self.project.items.career += "년 이상"
                                     self.project.items.prsnl += "명"
+                                    if(self.project.items.detailAddress != null) self.project.items.address += " "+self.project.items.detailAddress;
                                     switch(self.project.items.status){
                                         case 'A':
                                              self.project.items.status = "섭외중"; break;
@@ -119,17 +97,17 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                              self.project.items.status = "미정"; break;
                                     }
                                     switch(self.project.items.degree){
-                                        case "007001":
+                                        case "00701":
                                              self.project.items.degree = "학력 무관"; break;
-                                        case "007002":
+                                        case "00702":
                                              self.project.items.degree = "고등학교 졸업"; break;
-                                        case "007003":
+                                        case "00703":
                                              self.project.items.degree = "(2~3년제)전문대 졸업"; break;
-                                        case "007004":
+                                        case "00704":
                                              self.project.items.degree = "(4년제)대학교 졸업"; break;
-                                        case "007005":
+                                        case "00705":
                                              self.project.items.degree = "석사"; break;
-                                        case "007006":
+                                        case "00706":
                                              self.project.items.degree = "박사"; break;
                                     }
                                     if(e.birthDate != null){
@@ -150,18 +128,76 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                         });
                 },
 
-                "setPersonInfo": async function(){
+                "setPersonInfo": async function(options){
                     var self = this;
                     var projectId = await self.$route.query.id;
                     var params = {};
                     params.projectId = !_.isEmpty(projectId) ? projectId : null;
                     self.person.dataTable.loading = true;
                     var data = (await ito.api.common.projectPerson.getProjectPersonList(params)).data
-                    self.person.dataTable.items = data.items;
-                    self.person.dataTable.items.forEach(e =>{
+                    self.person.dataTable.items = [];
+                    data.items.forEach(e=> {
+                        self.person.dataTable.items.push(e.person);
+                    });
+
+                    var codeBigData = (await ito.api.common.code.getCodeList()).data.items;
+
+                    self.person.dataTable.items.forEach(e => {
+                        console.log(e)
+                        console.log(e.inputStatus)
+
+                        if(e.gender == "M") e.gender = "남자";
+                        else e.gender = "여자";
+
+                        switch(e.inputStatus){
+                            case 'A':
+                                 e.inputStatus = "섭외중"; break;
+                            case 'C':
+                                 e.inputStatus = "섭외완료"; break;
+                            case 'I':
+                                 e.inputStatus = "인터뷰"; break;
+                            case 'P':
+                                 e.inputStatus = "투입중"; break;
+                            case 'N':
+                                 e.inputStatus = "미정"; break;
+                        }
+                        switch(e.education){
+                            case "00701":
+                                 e.education = "학력 무관"; break;
+                            case "00702":
+                                 e.education = "고등학교 졸업"; break;
+                            case "00703":
+                                 e.education = "(2~3년제)전문대 졸업"; break;
+                            case "00704":
+                                 e.education = "(4년제)대학교 졸업"; break;
+                            case "00705":
+                                 e.education = "석사"; break;
+                            case "00706":
+                                 e.education = "박사"; break;
+                        }
+                        for(var i=0; i < codeBigData.length ; i++){
+                            if(e.jobType == codeBigData[i].id)
+                                 e.jobType = codeBigData[i].name;
+                        }
+                        if(e.birthDate != null){
+                            var v = e.birthDate.slice(0,4);
+                            var age = e.birthDate.slice(2,4);
+                            if(Number(v) < 2000){
+                                var a = 2000 - Number(v);
+                                e.birthDate =  age+"년생 "+ "("+(Number(moment().format("YY")) + a + 1)+")";
+                            }
+                            else{
+                                var a = Number(v) - 2000;
+                                e.birthDate = age+"년생 " + "("+(a + 1 )+")";
+                            }
+                        }
+                        if(e.detailAddress != null) e.address = e.address + e.detailAddress
                         e.certificateStatus =(e.certificateStatus == "T") ? "있음" : "없음"
+                        e.career = e.career+"년"
+                        e.pay = String(e.minPay) +" ~ " +String(e.maxPay)
 
                     })
+                    console.log(self.person.dataTable.items);
                     self.person.dataTable.totalRows = data.totalRows;
                     console.log(" items 값  출력      " + self.person.dataTable.items)
                     self.person.dataTable.loading = false;

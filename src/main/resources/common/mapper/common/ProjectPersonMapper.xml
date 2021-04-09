@@ -9,8 +9,10 @@
             `project_person_person`.`id` AS `project_person_person_id`,
             `project_person_person`.`name` AS `project_person_person_name`,
             `project_person_person`.`phone_number` AS `project_person_person_phone_number`,
+            `project_person_person`.`gender` AS `project_person_person_gender`,
+            `project_person_person`.`skill` AS `project_person_person_skill`,
             `project_person_person`.`job_type` AS `project_person_person_job_type`,
-            `project_person_person`.`input_status` AS `project_person_person_inpute_status`,
+            `project_person_person`.`input_status` AS `project_person_person_input_status`,
             `project_person_person`.`certificate_status` AS `project_person_person_certificate_status`,
             `project_person_person`.`career` AS `project_person_person_career`,
             `project_person_person`.`role` AS `project_person_person_role`,
@@ -61,6 +63,8 @@
         <association property="person" columnPrefix="project_person_person_">
             <result property="id" column="id"/>
             <result property="name" column="name"/>
+            <result property="skill" column="skill"/>
+            <result property="gender" column="gender"/>
             <result property="phoneNumber" column="phone_number"/>
             <result property="jobType" column="job_type"/>
             <result property="inputStatus" column="input_status"/>

@@ -133,6 +133,10 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
         "changeAutocomplete": function (id, header, item) {
             const selected = { id, header, item };
             this.$emit("change:autocomplete", selected);
+        },
+        "clickButton": function (item, header) {
+            const clicked = {item, header};
+            this.$emit("click:button", clicked);
         }
     },
 }); });
