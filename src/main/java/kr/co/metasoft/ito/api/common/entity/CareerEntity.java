@@ -1,6 +1,9 @@
 package kr.co.metasoft.ito.api.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import kr.co.metasoft.ito.common.validation.group.CreateValidationGroup;
+import kr.co.metasoft.ito.common.validation.group.ModifyValidationGroup;
 import lombok.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -10,6 +13,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -22,6 +27,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class CareerEntity {
+    @Null (groups = {CreateValidationGroup.class})
+    @NotNull (groups = {ModifyValidationGroup.class})
     @Id
     @Column(name = "person_career_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
