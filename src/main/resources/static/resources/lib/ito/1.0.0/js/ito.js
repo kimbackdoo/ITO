@@ -305,7 +305,14 @@ ito = {
                 "modifyProjectPerson": function (personId, projectId, data) { return axios({"url": "/api/common/project-person/" + personId + "," + projectId, "method": "put", "data": data}); },
                 "removeProjectPerson": function (projectId, personId) { return axios({"url": "/api/common/project-person/"+ projectId + "," + personId, "method": "delete"}); },
                 "removeProjectPersonList": function (data) { return axios({"url": "/api/common/project-person","method": "delete" , "data": data}); }
-            }
+            },
+            "projectCareer": {
+                "getProjectCareerList": function (params) { return axios({"url": "/api/common/project-careers", "method": "get", "params": params}); },
+                "createProjectCareer": function (data) { return axios({"url": "/api/common/project-careers", "method": "post", "data": data}); },
+                "modifyProjectCareer": function (projectId, careerId, data) { return axios({"url": "/api/common/project-careers/" + projectId + "," + careerId, "method": "put", "data": data}); },
+                "removeProjectCareerList": function (data) { return axios({"url": "/api/common/project-careers", "method": "delete", "data": data}); },
+                "removeProjectCareer": function (projectId, careerId) { return axios({"url": "/api/common/project-careers/"+ projectId + "," + careerId, "method": "delete"}); }
+            },
 
         },
         "app": {
@@ -327,6 +334,11 @@ ito = {
                 "modifyProfile": function (data) { return axios({"url": "/api/app/profile", "method": "put", "data": data}); },
                 "removeProfile": function (id) { return axios({"url": "/api/app/profile/"+id, "method": "delete"}); },
                 "removeProfileList": function (data) { return axios({"url": "/api/app/profile", "method": "delete", "data": data}); },
+            },
+            "involvement": {
+                "createInvolvement": function (data) { return axios({"url": "/api/app/involvements", "method": "post", "data": data}); },
+                "modifyInvolvement": function (data) { return axios({"url": "/api/app/involvements", "method": "put", "data": data}); },
+                "removeInvolvement": function (data) { return axios({"url": "/api/app/involvements", "method": "delete", "data": data}); },
             },
         },
         "util": {
