@@ -51,7 +51,7 @@
                         />
                     </td>
                     <td :class="'text-'+header.align + ' ' + header.cellClass" v-for="header in headers" @click="clickRow(item)">
-                        <template v-if="header.value === 'edit'">
+                        <template v-if="header.type === 'edit'">
                             <v-icon
                                 class="mr-2"
                                 @click.native.stop="clickEdit(item)"
