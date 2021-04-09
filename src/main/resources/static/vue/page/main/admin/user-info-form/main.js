@@ -194,8 +194,8 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                     "handler": async function(n, o){
                         let detailLocal = this.user.select.local.items.find(e=>e.value == this.data.local);
 
-                        if(o != null){
-                            this.data.detailLocal= [];
+                        if(o != null && o != ""){
+                            this.data.detailLocal= null;
                         }
                         this.user.select.detailLocal.items=[];
                         let items = (await ito.api.common.code.getCodeList({
@@ -297,16 +297,14 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         skillList = [];
                         console.log(personSkillList);
                         this.test = {skill: personSkillList.map(e=> e.skill)};
-                        console.log(this.test)
-
-
+                        console.log(person);
                         self.data = _.cloneDeep(person);
+                        console.log(self.data);
                         self.data.career1 = Number(Math.floor(self.data.career))
                         self.data.career2 = (((self.data.career) * 100)%100) * (0.01);
                         self.data2.skill = person.skill
                         self.data.jobType = [person.jobType];
-
-
+                        console.log(self.data);
                     }
                 },
                 "saveUserInfo": function () {
@@ -418,17 +416,16 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
          "mounted": async function () {
                 var self = this;
                 await Promise.all([
-                    await self.loadJobItems(),
-                    await self.loadSkillItems(),
-                    await self.loadLocalPlace(),
-                    await self.loadEducation(),
-                    self.setUserInfo()
+                    self.setUserInfo(),
+                    self.loadJobItems(),
+                    self.loadSkillItems(),
+                    self.loadLocalPlace(),
+                    self.loadEducation()
                 ]);
 //                console.log(this.data.skill, this.test);
 //                this.data.skill = this.test;
 //                console.log(this.data.skill, this.test);
          }
-
        });
     });
 });
