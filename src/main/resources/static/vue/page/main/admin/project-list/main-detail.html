@@ -69,6 +69,7 @@
                                     :count-title="{'front': '지원자 수 :', 'end': '명'}"
                                     @reload="setPersonInfo"
                                     @click:button="clickInputStatus"
+                                    @input:textField="setActualPay"
                                     :cell="person.dataTable.cell"
                                  >
                             </div>

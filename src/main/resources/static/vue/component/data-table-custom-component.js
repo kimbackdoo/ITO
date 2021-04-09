@@ -137,6 +137,10 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
         "clickButton": function (item, header) {
             const clicked = {item, header};
             this.$emit("click:button", clicked);
+        },
+        "inputTextField": function (value, item, header) {
+            const clicked = {value, item, header};
+            this.$emit("input:textField", clicked);
         }
     },
 }); });

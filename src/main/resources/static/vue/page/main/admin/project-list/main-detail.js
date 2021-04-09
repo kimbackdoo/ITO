@@ -43,8 +43,11 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                 {"text": "자격증 유무", "value": "certificateStatus"},
                                 {"text": "희망 급여(최저)",  "value": "minPay"},
                                 {"text": "희망 급여(최고)",  "value": "maxPay"},
+                                {"text": "실제 급여" , "value": "actualPay","type": "textField"},
                                 {"text": "업무 시작 가능일",  "value": "workableDay"},
                                 {"text": "투입 여부" , "value": "edit","type": "button"},
+
+
 //                                {"text": "현황",  "value": "inputStatus"},
                             ],
                             "cell": {
@@ -52,9 +55,15 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                     "edit": {
                                         "title": "투입하기"
                                     }
+                                },
+                                "textField": {
+                                    "actualPay": {
+                                        "suffix": "만원"
+                                    }
                                 }
                             },
                             "items":[],
+                            "textField": null,
                             "totalRows": 0,
                             "loading":false,
                         },
