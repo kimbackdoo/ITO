@@ -96,6 +96,16 @@
                                     dense
                                     outlined
                                     hide-details="auto"
+                                    label="모집마감일"
+                                    append-icon="mdi-calendar"
+                                    v-model="data.project.limitDate"
+                                ></date-picker-component>
+                            </v-col>
+                            <v-col cols="12">
+                                <date-picker-component
+                                    dense
+                                    outlined
+                                    hide-details="auto"
                                     label="시작 기간"
                                     append-icon="mdi-calendar"
                                     v-model="data.project.sterm"
@@ -141,7 +151,7 @@
                             </v-col>
                             <v-col cols="12">
                                 <v-text-field
-                                    :value="data.project.detailAddress"
+                                    v-model="data.project.detailAddress"
                                     outlined
                                     hide-details="auto"
                                     dense

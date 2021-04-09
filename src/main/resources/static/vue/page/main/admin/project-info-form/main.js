@@ -75,25 +75,6 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                         this.$set(this.data.project, "detailLocal", id2);
                     }
                 },
-                "data.project.job": {
-                    "handler": async function (n, o) {
-                        let skill = this.select.jobTypeItems.find(e=>e.value == this.data.project.job);
-
-                        if(o !== null) {
-                            this.$set(this.data.project, "skill", []);
-                        }
-                        this.select.skillItems = [];
-                        this.select.skillItems = (await ito.api.common.code.getCodeList({
-                            "idStartLike": "004",
-                            "status": "T",
-                            "skill": skill !== undefined ? skill.text : null,
-                            "rowSize": 1000000
-                        })).data.items.filter(e=> {
-                            if(e.id.startsWith("00401")) return e.id.length > 7;
-                            else return e.id.length > 5;
-                        });
-                    }
-                }
             },
             "methods": {
                 "init": async function() {
@@ -129,6 +110,7 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                         await ito.alert("필수값을 입력해주세요.");
                     }else if(await ito.confirm("저장하시겠습니까?")) {
                         if(data.id !== undefined && data.id !== null && data.id !== ""){
+                            console.log(data);
                             await ito.api.common.project.modifyProject(data.id, data);
                         } else {
                             await ito.api.common.project.createProject(data);
