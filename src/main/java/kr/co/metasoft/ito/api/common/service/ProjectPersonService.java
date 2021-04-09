@@ -12,12 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-
 import kr.co.metasoft.ito.api.common.dto.ProjectPersonParamDto;
-import kr.co.metasoft.ito.api.common.entity.PersonEntity;
-import kr.co.metasoft.ito.api.common.entity.PersonLanguageEntity;
 import kr.co.metasoft.ito.api.common.entity.ProjectPersonEntity;
-import kr.co.metasoft.ito.api.common.entity.id.PersonLanguageEntityId;
 import kr.co.metasoft.ito.api.common.entity.id.ProjectPersonEntityId;
 import kr.co.metasoft.ito.api.common.mapper.ProjectPersonMapper;
 import kr.co.metasoft.ito.api.common.repository.ProjectPersonRepository;
@@ -25,7 +21,6 @@ import kr.co.metasoft.ito.common.util.PageRequest;
 import kr.co.metasoft.ito.common.util.PageResponse;
 import kr.co.metasoft.ito.common.validation.group.CreateValidationGroup;
 import kr.co.metasoft.ito.common.validation.group.ReadValidationGroup;
-import kr.co.metasoft.ito.common.validation.group.ModifyValidationGroup;
 import kr.co.metasoft.ito.common.validation.group.RemoveValidationGroup;
 
 
@@ -46,9 +41,9 @@ public class ProjectPersonService {
     public PageResponse<ProjectPersonEntity> getprojectPersonList(
             @Valid ProjectPersonParamDto projectPersonParamDto,
             PageRequest pageRequest){
-        Integer ProjectPersonListCount = projectPersonMapper.selectProjectPersonListCount(projectPersonParamDto);
+        Integer projectPersonListCount = projectPersonMapper.selectProjectPersonListCount(projectPersonParamDto);
         List<ProjectPersonEntity> projectPersonList = projectPersonMapper.selectProjectPersonList(projectPersonParamDto, pageRequest);
-        PageResponse<ProjectPersonEntity> pageResponse = new PageResponse<>(pageRequest, ProjectPersonListCount);
+        PageResponse<ProjectPersonEntity> pageResponse = new PageResponse<>(pageRequest, projectPersonListCount);
         pageResponse.setItems(projectPersonList);
         return pageResponse;
     }
