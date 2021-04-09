@@ -151,6 +151,7 @@
                                             label="평가점수"
                                             suffix="점"
                                             :items="select.ratingScroe.items"
+                                            v-model="user.query.ratingScore"
                                             @keydown.enter="search();"
                                         ></v-select>
                                     </v-col>
@@ -204,6 +205,8 @@
                             :add-hide="true"
                             :remove-hide="true"
                             :import-hide="true"
+                            :cellItems="{'autocomplete':{'projectName': [1,2,3,4,5]}}"
+                            @change:autocomplete="e=>{console.log(e);}"
                         ></data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>

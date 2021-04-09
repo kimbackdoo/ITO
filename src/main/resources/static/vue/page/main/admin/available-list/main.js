@@ -24,6 +24,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                             {"text": "생년월일(나이)", "value": "birthDate", cellClass:"text-truncate"},
                             {"text": "희망 월급여", "value": "pay", cellClass:"text-truncate"},
                             {"text": "지역", "value": "address", cellClass:"text-truncate"},
+                            {"text": "프로젝트명", "value": "projectName", cellClass:"text-truncate", "type": "autocomplete"},
                             {"text": "투입여부", "value": "inputStatus", cellClass:"text-truncate"},
                             {"text": "업무 가능일", "value": "workableDay", cellClass:"text-truncate"}
                         ],
@@ -59,6 +60,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                         "inputStatus": null,
                         "birthDate": null,
                         "workableDay": null,
+                        "ratingScore": null
                     },
                 },
                 "select": {
@@ -260,6 +262,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 this.user.query.birthDate = null;
                 this.user.query.job = null;
                 this.user.query.skillList = [];
+                this.user.query.ratingScore = null;
             },
             "delimit": function(v) {
                 let reducer = (a, e) => [...a, ...e.split(/[, ]+/)]
