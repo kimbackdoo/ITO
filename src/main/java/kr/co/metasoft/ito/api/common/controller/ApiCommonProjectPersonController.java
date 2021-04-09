@@ -46,6 +46,7 @@ public class ApiCommonProjectPersonController {
             ProjectPersonEntity projectPersonEntity = ProjectPersonEntity.builder()
                     .projectId(projectPersonDto.getProjectId())
                     .personId(projectPersonDto.getPersonId())
+                    .status(projectPersonDto.getStatus())
                     .build();
         return projectPersonService.createProjectPerson(projectPersonEntity);
     }
