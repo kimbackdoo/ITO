@@ -317,7 +317,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     params.endBirthDate= !_.isEmpty(endBirth) ? endBirth : null;
                     params.gender = !_.isEmpty(self.user.query.gender) ? self.user.query.gender : null;
                     params.ratingScore = !_.isEmpty(self.user.query.ratingScore) ? Number(self.user.query.ratingScore) : null;
-                    params.skillList = !_.isEmpty(self.user.query.skillList) ? self.user.query.skillList : [];
+                    params.skillListLike = !_.isEmpty(self.user.query.skillList) ? self.user.query.skillList : [];
 
                     self.user.dataTable.loading = true;
 

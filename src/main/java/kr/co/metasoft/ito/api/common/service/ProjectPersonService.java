@@ -61,6 +61,14 @@ public class ProjectPersonService {
         return projectPersonRepository.save(projectPersonEntity);
     }
 
+
+    @Validated(CreateValidationGroup.class)
+    @Transactional
+    public ProjectPersonEntity modifyProjectPerson(
+            @Valid @NotNull (groups= {CreateValidationGroup.class}) ProjectPersonEntity projectPersonEntity) {
+        return projectPersonRepository.save(projectPersonEntity);
+    }
+
     @Validated(RemoveValidationGroup.class)
     @Transactional
     public void removeProjectPerson(

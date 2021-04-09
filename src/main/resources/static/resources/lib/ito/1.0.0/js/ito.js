@@ -302,6 +302,7 @@ ito = {
             "projectPerson": {
                 "getProjectPersonList": function(params) {return axios({"url": "/api/common/project-person", "method": "get", "params": params}); },
                 "createProjectPerson": function (data) { return axios({"url": "/api/common/project-person", "method": "post", "data": data}); },
+                "modifyProjectPerson": function (personId, projectId, data) { return axios({"url": "/api/common/project-person/" + personId + "," + projectId, "method": "put", "data": data}); },
                 "removeProjectPerson": function (projectId, personId) { return axios({"url": "/api/common/project-person/"+ projectId + "," + personId, "method": "delete"}); },
                 "removeProjectPersonList": function (data) { return axios({"url": "/api/common/project-person","method": "delete" , "data": data}); }
             }
