@@ -32,36 +32,45 @@
                                     v-model="data.project.job"
                                 ></v-select>
                             </v-col>
-                            <v-col cols="12" v-if="data.project.job !== undefined && data.project.job !== null && data.project.job !== ''">
-                                <v-card oulined style="border-color: rgba(0, 0, 0, 0.42) !important;">
-                                    <v-card-text>
-                                        <v-row dense>
-                                            <v-col cols="auto" class="d-flex justify-center align-center">
-                                                <span>보유 스킬&경험<br/>(3개 선택)</span>
-                                            </v-col>
-                                            <v-col class="py-0 d-inline justify-center align-center">
-                                                <table>
-                                                    <tbody>
-                                                    <tr style="border: 1px solid black;">
-                                                        <td scope="row">
-                                                            <v-checkbox
-                                                                class="d-inline-block"
-                                                                style="margin: 5px !important;"
-                                                                hide-details="auto"
-                                                                v-for="item in select.skillItems"
-                                                                v-model="data.project.skill"
-                                                                :value="item.id"
-                                                                :label="item.name"
-                                                            ></v-checkbox>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </v-col>
-                                        </v-row>
-                                    </v-card-text>
-                                </v-card>
+                            <v-col cols="12">
+                                 <v-text-field
+                                    dense
+                                    outlined
+                                    hide-details="auto"
+                                    label="기술"
+                                    v-model="data.project.skill"
+                                 ></v-text-field>
                             </v-col>
+<!--                             <v-col cols="12" v-if="data.project.job !== undefined && data.project.job !== null && data.project.job !== ''"> -->
+<!--                                 <v-card oulined style="border-color: rgba(0, 0, 0, 0.42) !important;"> -->
+<!--                                     <v-card-text> -->
+<!--                                         <v-row dense> -->
+<!--                                             <v-col cols="auto" class="d-flex justify-center align-center"> -->
+<!--                                                 <span>보유 스킬&경험<br/>(3개 선택)</span> -->
+<!--                                             </v-col> -->
+<!--                                             <v-col class="py-0 d-inline justify-center align-center"> -->
+<!--                                                 <table> -->
+<!--                                                     <tbody> -->
+<!--                                                     <tr style="border: 1px solid black;"> -->
+<!--                                                         <td scope="row"> -->
+<!--                                                             <v-checkbox -->
+<!--                                                                 class="d-inline-block" -->
+<!--                                                                 style="margin: 5px !important;" -->
+<!--                                                                 hide-details="auto" -->
+<!--                                                                 v-for="item in select.skillItems" -->
+<!--                                                                 v-model="data.project.skill" -->
+<!--                                                                 :value="item.id" -->
+<!--                                                                 :label="item.name" -->
+<!--                                                             ></v-checkbox> -->
+<!--                                                         </td> -->
+<!--                                                     </tr> -->
+<!--                                                     </tbody> -->
+<!--                                                 </table> -->
+<!--                                             </v-col> -->
+<!--                                         </v-row> -->
+<!--                                     </v-card-text> -->
+<!--                                 </v-card> -->
+<!--                             </v-col> -->
                             <v-col cols="12">
                                 <v-select
                                     dense

@@ -101,6 +101,10 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                     await this.getJobTypeItems();
                     await this.getEducationItems();
                 },
+                "delimit": function(v) {
+                    let reducer = (a, e) => [...a, ...e.split(/[, ]+/)]
+                    this.user.query.skillList = [...new Set(v.reduce(reducer, []))]
+                },
                 "getJobTypeItems": async function () {
                     this.select.jobTypeItems = (await ito.api.common.code.getCodeList({
                         "parentId": "001",
