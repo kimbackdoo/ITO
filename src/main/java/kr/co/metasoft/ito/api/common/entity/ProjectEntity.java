@@ -90,6 +90,9 @@ public class ProjectEntity {
     @Column(name = "prsnl", columnDefinition = "int(11)", nullable = true)
     private Integer prsnl;
 
+    @Column (name = "`memo`", columnDefinition = "text", nullable = true)
+    private String memo;
+
     @Column(name = "status", columnDefinition = "varchar(100)", nullable = true)
     private Character status;
 

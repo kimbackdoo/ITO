@@ -53,6 +53,8 @@ public class ProjectParamDto {
 
     private Integer prsnl;
 
+    private String memo;
+
     private Character status;
 
     private Long salary;

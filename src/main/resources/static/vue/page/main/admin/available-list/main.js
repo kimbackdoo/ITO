@@ -195,6 +195,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "startBirthDate": startBirth,
                     "endBirthDate": endBirth,
                     "workableDay": moment().add("1", "M").format("YYYY-MM-DD"),
+                    "ratingScore": self.user.query.ratingScore,
                 })).data;
 
                 codeList = (await ito.api.common.code.getCodeList({
@@ -228,11 +229,9 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
             },
             "inputProject": async function(value) {
                 if(await ito.confirm("지원하시겠습니까?")) {
-                    console.log(value);
                     await ito.api.common.projectPerson.createProjectPerson({
                         "personId": value.item.id,
                         "projectId": value.id,
-                        "status": "T"
                     });
                     await ito.alert("지원되었습니다.");
                 }
