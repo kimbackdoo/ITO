@@ -62,7 +62,7 @@
                                 dense
                                 outlined
                                 hide-details
-                                :items="autocompleteItems[header.value]"
+                                :items="cellItems[header.type][header.value]"
                                 @click.native.stop
                                 @change="changeAutocomplete($event, item);"
                             ></v-autocomplete>
