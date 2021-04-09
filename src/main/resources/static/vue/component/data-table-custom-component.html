@@ -57,6 +57,16 @@
                                 @click.native.stop="clickEdit(item)"
                             >mdi-pencil</v-icon>
                         </template>
+                        <template v-else-if="header.type === 'autocomplete'">
+                            <v-autocomplete
+                                dense
+                                outlined
+                                hide-details
+                                :items="autocompleteItems[header.value]"
+                                @click.native.stop
+                                @change="changeAutocomplete"
+                            ></v-autocomplete>
+                        </template>
                         <template v-else-if="header.cellClass != null && header.cellClass.indexOf('truncate') !== -1">
                             <template v-if="header.value.toUpperCase().indexOf('TARGET') !== -1">
                                 <v-tooltip top>

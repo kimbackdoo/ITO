@@ -87,6 +87,10 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
                 "front": "전체",
                 "end": "건"
             }
+        },
+        "autocompleteItems": {
+            "type": Object,
+            "default": {}
         }
     },
     "data": function () {
@@ -171,6 +175,9 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
         },
         "clickEdit": function (item) {
             this.$emit("click:edit", item);
+        },
+        "changeAutocomplete": function (id) {
+            this.$emit("change:autocomplete", id);
         }
     },
 }); });
