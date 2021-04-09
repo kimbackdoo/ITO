@@ -276,22 +276,30 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     let idList = [items.map(e=>e.id)];
                     var params=[];
                     var person;
-
+                    var param={};
                     if(items.length == 0){
                         await ito.alert("삭제할 항목이 없습니다.")
                     }else{
                         if(await ito.confirm("삭제하시겠습니까?")){
                             console.log("idList 값 : "+idList);
-                           for(var i in idList){ //
+                            for(var i in idList){
 
                                 idList[i] = Number(idList[i]);
-                                person = (await ito.api.common.person.getPerson(idList[i])).data;
+                                param.personId = idList[i];
+                                var project = (await ito.api.common.projectPerson.getProjectPersonList(param)).data
+                                var projectPersonParams=[];
+                                project.items.forEach(e => {
+                                    projectPersonParams.push({"personId": idList[i], "projectId": e.projectId});
+                                })
+                                await ito.api.common.projectPerson.removeProjectPersonList(projectPersonParams)
 
+                                person = (await ito.api.common.person.getPerson(idList[i])).data; // -> person LIst 삭제 하기
                                 params.push({
                                     "personDto": person,
                                 })
-                             }
-                           await ito.api.app.profile.removeProfileList(params)
+                            }
+                           await ito.api.app.profile.removeProfileList(params);
+                           await ito.api.common.person.removePersonList(idList);
                            await ito.alert("삭제되었습니다.")
                         }
                         self.setUserInfoList();
