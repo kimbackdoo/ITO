@@ -38,9 +38,19 @@ public class ProjectService {
         pageResponse.setItems(projectList);
 
         System.out.println("===========================================================================");
+        System.out.println(projectParamDto);
         System.out.println("NameLike: " + projectParamDto.getNameLike());
         System.out.println("Job: " + projectParamDto.getJob());
-        System.out.println("skillList: " + projectParamDto.getSkillList());
+        if(projectParamDto.getSkillList() == null) {
+            System.out. println("Skill: null");
+        }
+        else {
+            System.out.print("Skill: ");
+            for(String skill : projectParamDto.getSkillList()) {
+                System.out.print(skill + ", ");
+            }
+            System.out.println();
+        }
         System.out.println("stermStart: " + projectParamDto.getStermStart());
         System.out.println("Local: " + projectParamDto.getLocal());
         System.out.println("DetailLocal: " + projectParamDto.getDetailLocal());

@@ -77,7 +77,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                         "query": {
                             "projectName": null,
                             "job": null,
-                            "skill": null,
+                            "skillList": [],
                             "careerYear": null,
                             "careerMonth": null,
                             "degree": [],
@@ -218,7 +218,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
 
                     "nameLike": self.project.dataTable.query.projectName,
                     "job": self.project.dataTable.query.job,
-                    "skillList": self.project.dataTable.query.skill,
+                    "skillList": self.project.dataTable.query.skillList,
                     "career": career,
                     "degree": self.project.dataTable.query.degree,
                     "stermStart": self.project.dataTable.query.stermStart,
@@ -261,7 +261,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
 
                 self.project.dataTable.query.projectName = null;
                 self.project.dataTable.query.job = null;
-                self.project.dataTable.query.skill = null;
+                self.project.dataTable.query.skillList = [];
                 self.project.dataTable.query.careerYear = null;
                 self.project.dataTable.query.careerMonth = null;
                 self.project.dataTable.query.degree = [];
@@ -272,6 +272,10 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 self.project.dataTable.query.status = null;
                 self.project.dataTable.query.salary = null;
             },
+            "delimit": function(v) {
+                let reducer = (a, e) => [...a, ...e.split(/[, ]+/)]
+                this.project.dataTable.query.skillList = [...new Set(v.reduce(reducer, []))]
+            }
         },
         "mounted": function() {
             this.init();

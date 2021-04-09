@@ -1,8 +1,10 @@
 package kr.co.metasoft.ito.api.common.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,10 @@ import org.springframework.validation.annotation.Validated;
 
 import kr.co.metasoft.ito.api.common.dto.ProjectPersonParamDto;
 import kr.co.metasoft.ito.api.common.entity.PersonEntity;
+import kr.co.metasoft.ito.api.common.entity.PersonLanguageEntity;
 import kr.co.metasoft.ito.api.common.entity.ProjectPersonEntity;
+import kr.co.metasoft.ito.api.common.entity.id.PersonLanguageEntityId;
+import kr.co.metasoft.ito.api.common.entity.id.ProjectPersonEntityId;
 import kr.co.metasoft.ito.api.common.mapper.ProjectPersonMapper;
 import kr.co.metasoft.ito.api.common.repository.ProjectPersonRepository;
 import kr.co.metasoft.ito.common.util.PageRequest;
@@ -63,6 +68,22 @@ public class ProjectPersonService {
             @Valid @NotNull (groups= {RemoveValidationGroup.class}) Long personId) {
         projectPersonRepository.delete(ProjectPersonEntity.builder().projectId(projectId).personId(personId).build());
     }
+
+    @Validated(RemoveValidationGroup.class)
+    @Transactional
+    public void removeProjectPersonList(
+            @Valid @NotEmpty (groups= {RemoveValidationGroup.class}) List<@NotNull (groups = {RemoveValidationGroup.class}) ProjectPersonEntityId> projectPersonEntityIdList) {
+        List<ProjectPersonEntity> projectPersonList = new ArrayList<>();
+        for(int i=0;i < projectPersonEntityIdList.size() ;i++) {
+            ProjectPersonEntityId projectPersonEntityId = projectPersonEntityIdList.get(i);
+            Long personId = projectPersonEntityId.getPersonId();
+            Long projectId = projectPersonEntityId.getProjectId();
+            projectPersonList.add(ProjectPersonEntity.builder().projectId(projectId).personId(personId).build());
+        }
+        projectPersonRepository.deleteAll(projectPersonList);
+    }
+
+
 
 
 

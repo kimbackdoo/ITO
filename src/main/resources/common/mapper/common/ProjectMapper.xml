@@ -42,9 +42,6 @@
             <if test="projectParamDto.job != null and projectParamDto.job != ''">
                 AND `job` = #{projectParamDto.job}
             </if>
-            <if test="projectParamDto.skillList != null and projectParamDto.skillList != ''">
-                AND `skill` LIKE CONCAT('%', #{projectParamDto.skillList}, '%')
-            </if>
             <if test="projectParamDto.career != null and projectParamDto.career != ''">
                 AND CAST(`career` AS float) &gt;= CAST(#{projectParamDto.career} AS float)
             </if>

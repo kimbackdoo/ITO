@@ -80,12 +80,17 @@
 <!--                                                <v-divider class="mt-2"></v-divider>-->
 <!--                                            </template>-->
 <!--                                        </v-select>-->
-                                        <v-text-field
+                                        <v-combobox
                                             dense
+                                            multiple
+                                            small-chips
+                                            deletable-chips
+                                            :delimiters="[',',' ']"
                                             label="기술"
-                                            v-model="project.dataTable.query.skill"
+                                            v-model="project.dataTable.query.skillList"
+                                            @change="delimit"
                                             @keyup.enter="loadProjectList()"
-                                        ></v-text-field>
+                                        ></v-combobox>
                                     </v-col>
                                     <v-col cols="3">
                                         <v-select

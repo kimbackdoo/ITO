@@ -1,6 +1,7 @@
 package kr.co.metasoft.ito.api.common.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -24,7 +25,7 @@ public class ProjectParamDto {
 
     private String job;
 
-    private String skillList;
+    private List<String> skillList;
 
     private String career;
 
