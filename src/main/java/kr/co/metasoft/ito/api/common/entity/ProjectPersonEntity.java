@@ -46,6 +46,12 @@ public class ProjectPersonEntity {
     @Column (name = "`person_id`", columnDefinition = "bigint(20)")
     private Long personId;
 
+
+    @NotNull (groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
+    @Column (name = "`status`", columnDefinition = "varchar(100)")
+    private String status;
+
+
     @ManyToOne
     @NotFound (action = NotFoundAction.IGNORE)
     @JoinColumn (name = "`project_id`", referencedColumnName = "`id`", insertable = false, updatable = false)

@@ -22,9 +22,18 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                 {"text": "자격증 유무", "value": "certificateStatus"},
                                 {"text": "희망 급여(최저)",  "value": "minPay"},
                                 {"text": "희망 급여(최고)",  "value": "maxPay"},
-                                {"text": "현황",  "value": "inputStatus"},
-                                {"text": "업무 시작 가능일",  "value": "workableDay"}
+                                {"text": "업무 시작 가능일",  "value": "workableDay"},
+                                {"text": "투입 여부" , "value": "edit","type": "button"},
+//                                {"text": "현황",  "value": "inputStatus"},
                             ],
+                            "cell": {
+                                "button": {
+                                    "edit": {
+                                        "title": "투입!!"
+                                    }
+                                }
+                            },
+
                         },
                         "items": {
                             "id":null,
@@ -65,12 +74,11 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
 
             },
             "methods":{
-                "click": {
+/*                "clickInputStatus": async function(value){
+                    var ;
 
                 },
-
-
-                "setProjectInfo": async function(){
+*/                "setProjectInfo": async function(){
                     var self =this;
                     var id = await self.$route.query.id;
                         console.log(id);
@@ -81,6 +89,8 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                 })
                                 .then(function (response) {
                                     self.project.items = response.data;
+                                    console.log(self.project.items.skill)
+
                                     self.project.items.career += "년 이상"
                                     self.project.items.prsnl += "명"
                                     if(self.project.items.detailAddress != null) self.project.items.address += " "+self.project.items.detailAddress;
@@ -143,8 +153,6 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                     var codeBigData = (await ito.api.common.code.getCodeList()).data.items;
 
                     self.person.dataTable.items.forEach(e => {
-                        console.log(e)
-                        console.log(e.inputStatus)
 
                         if(e.gender == "M") e.gender = "남자";
                         else e.gender = "여자";

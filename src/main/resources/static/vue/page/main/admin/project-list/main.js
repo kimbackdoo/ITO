@@ -139,18 +139,10 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                       if(this.degreeAllSelect) return 'mdi-close-box';
                    if(this.degreeSelect) return 'mdi-minus-box';
                    return 'mdi-checkbox-blank-outline'
-            },
+                },
 
             },
             "watch": {
-/*                 "project.dataTable.itemsPerPage": {
-                    "handler": function (newValue, oldValue) {
-                        Promise.resolve()
-                            .then(this.setUserInfoList)
-                            .then(this.replaceQuery)
-                    }
-                },
-*/
                 "project.query.job": {
                     "handler": async function () {
                         var self = this;

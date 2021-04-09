@@ -19,5 +19,6 @@ public class ProjectPersonDto{
 
     private Long personId;
 
+    private String status;
 
 }
