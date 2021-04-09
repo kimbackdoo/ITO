@@ -104,10 +104,26 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
                 {"text": "30개 보기", "value": 30},
                 {"text": "전체 보기", "value": null}
             ],
-            "data": []
+            "data": [],
+            "options": {
+                "page": 1,
+                "itemsPerPage": 10,
+                "sortBy": [],
+                "sortDesc": [],
+                "groupBy": [],
+                "groupDesc": [],
+                "multiSort": true,
+                "mustSort": false
+            }
         };
     },
     "watch": {
+        "options": {
+            "handler": function (n,o) {
+                this.$emit("reload", n);
+            },
+            "deep": true
+        },
         "page": {
             "handler": function (n,o) {
                 this.$emit("update:page", n);

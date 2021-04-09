@@ -5,20 +5,13 @@
     :headers="headers"
     :items="items"
     :server-items-length="totalRows"
-    :page.sync="page"
-    :items-per-page.sync="itemsPerPage"
-    :sort-by.sync="sortBy"
-    :sort-desc.sync="sortDesc"
-    :group-by.sync="groupBy"
-    :group-desc.sync="groupDesc"
-    :multi-sort.sync="multiSort"
-    :must-sort.sync="mustSort"
+    :options="options"
     :loading="loading"
     :disable-sort="disabled"
     mobile-breakpoint="0"
     hide-default-footer
 >
-    <template v-slot:top>
+    <template v-slot:top="props">
     <v-row class="my-1">
         <v-col class="d-flex justify-start align-center">
             <div style="width: 200px;">
@@ -29,9 +22,9 @@
                     dense
                     outlined
                     hide-details="auto"
-                    :value="itemsPerPage"
+                    :value="options.itemsPerPage"
                     :items="paginationList"
-                    @change="itemsPerPage = $event;"
+                    @change="options.itemsPerPage = $event;"
                 >ratingScore
                 </v-select>
             </div>
@@ -118,9 +111,9 @@
                 <div class="text-center my-2" >
                     <v-pagination
                         class="d-inline-block"
-                        :length="Math.ceil(totalRows / itemsPerPage)"
+                        :length="Math.ceil(totalRows / options.itemsPerPage)"
                         :total-visible="10"
-                        v-model="page"
+                        v-model="options.page"
                         :disabled="disabled"
                     ></v-pagination>
                 </div>
