@@ -59,7 +59,7 @@
                             <div>
                                  <br />
                                  <data-table-custom-component
-                                    :headers="project.dataTable.headers"
+                                    :headers="person.dataTable.headers"
                                     :items="person.dataTable.items"
                                     :totalRows="person.dataTable.totalRows"
                                     :loading="person.dataTable.loading"
@@ -68,7 +68,8 @@
                                     :remove-hide="true"
                                     :count-title="{'front': '지원자 수 :', 'end': '명'}"
                                     @reload="setPersonInfo"
-                                    @click:button=""
+                                    @click:button="clickInputStatus"
+                                    :cell="person.dataTable.cell"
                                  >
                             </div>
                         </v-row>
@@ -78,4 +79,42 @@
         </v-col>
     </v-row>
 </div>
+
+<div class="pa-3">
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="project.panels.list"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-content>
+                        <v-row>
+                            <div>
+                                <data-table-custom-component
+                                   :show-select="true"
+                                   item-key="id"
+                                   :headers="confirmPerson.dataTable.headers"
+                                   :items="confirmPerson.dataTable.items"
+                                   :totalRows="confirmPerson.dataTable.totalRows"
+                                   :loading="confirmPerson.dataTable.loading"
+                                   :import-hide="true"
+                                   :add-hide="true"
+                                   :count-title="{'front': '확정된 지원자 수 :', 'end': '명'}"
+                                   @reload="setConfirmPersonInfo"
+                                   @remove="deleteConfirmPersonInfoList"
+                                >
+                            </div>
+                        </v-row>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+</div>
+
+
+
+
+
 </v-container>

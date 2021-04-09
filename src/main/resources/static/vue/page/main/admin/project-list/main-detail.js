@@ -9,32 +9,6 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                             "search": [0],
                             "list": [0]
                         },
-                        "dataTable": {
-                            "headers": [
-                                {"text": "이름", "value": "name"},
-                                {"text": "전화번호", "value": "phoneNumber"},
-                                {"text": "성별", "value": "gender"},
-                                {"text": "생년월일(나이)",  "value": "birthDate", cellClass:"text-truncate"},
-                                {"text": "직종",  "value": "jobType"},
-                                {"text": "기술",  "value": "skill"},
-                                {"text": "학력", "value": "education"},
-                                {"text": "경력",  "value": "career"},
-                                {"text": "자격증 유무", "value": "certificateStatus"},
-                                {"text": "희망 급여(최저)",  "value": "minPay"},
-                                {"text": "희망 급여(최고)",  "value": "maxPay"},
-                                {"text": "업무 시작 가능일",  "value": "workableDay"},
-                                {"text": "투입 여부" , "value": "edit","type": "button"},
-//                                {"text": "현황",  "value": "inputStatus"},
-                            ],
-                            "cell": {
-                                "button": {
-                                    "edit": {
-                                        "title": "투입!!"
-                                    }
-                                }
-                            },
-
-                        },
                         "items": {
                             "id":null,
                             "name": "",
@@ -55,30 +29,112 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                         }
                     },
                     "person":{
+
                         "dataTable": {
+                            "headers": [
+                                {"text": "이름", "value": "name"},
+                                {"text": "전화번호", "value": "phoneNumber"},
+                                {"text": "성별", "value": "gender"},
+                                {"text": "생년월일(나이)",  "value": "birthDate", cellClass:"text-truncate"},
+                                {"text": "직종",  "value": "jobType"},
+                                {"text": "기술",  "value": "skill"},
+                                {"text": "학력", "value": "education"},
+                                {"text": "경력",  "value": "career"},
+                                {"text": "자격증 유무", "value": "certificateStatus"},
+                                {"text": "희망 급여(최저)",  "value": "minPay"},
+                                {"text": "희망 급여(최고)",  "value": "maxPay"},
+                                {"text": "업무 시작 가능일",  "value": "workableDay"},
+                                {"text": "투입 여부" , "value": "edit","type": "button"},
+//                                {"text": "현황",  "value": "inputStatus"},
+                            ],
+                            "cell": {
+                                "button": {
+                                    "edit": {
+                                        "title": "투입하기"
+                                    }
+                                }
+                            },
                             "items":[],
                             "totalRows": 0,
-                            "page":2,
                             "loading":false,
                         },
-                        "pagination": {
-                            "length": 10,
-                            "totalVisible": 10
-                        },
+                    },
+                    "confirmPerson":{
+                        "dataTable": {
+                            "headers": [
+                                {"text": "이름", "value": "name"},
+                                {"text": "전화번호", "value": "phoneNumber"},
+                                {"text": "성별", "value": "gender"},
+                                {"text": "생년월일(나이)",  "value": "birthDate", cellClass:"text-truncate"},
+                                {"text": "직종",  "value": "jobType"},
+                                {"text": "기술",  "value": "skill"},
+                                {"text": "학력", "value": "education"},
+                                {"text": "경력",  "value": "career"},
+                                {"text": "자격증 유무", "value": "certificateStatus"},
+                                {"text": "희망 급여(최저)",  "value": "minPay"},
+                                {"text": "희망 급여(최고)",  "value": "maxPay"},
+                                {"text": "업무 시작 가능일",  "value": "workableDay"},
+//                                {"text": "현황",  "value": "inputStatus"},
+                            ],
+                            "items":[],
+                            "totalRows": 0,
+                            "loading":false,
+
+                        }
                     }
-
-
                 }
             },
             "watch": {
 
             },
             "methods":{
-/*                "clickInputStatus": async function(value){
-                    var ;
-
+                "editProjectInfo": function(value){
+                    this.$router.push({
+                        "path": "/main/admin/project-info-form",
+                        "query": {
+                            "id": value.item.id
+                        }
+                      });
                 },
-*/                "setProjectInfo": async function(){
+
+                "clickInputStatus": async function(value){
+                    var personId = value.item.id;
+                    var projectId = this.project.items.id;
+                    var param = {};
+                    param.personId = personId;
+                    param.projectId = projectId;
+                    param.status = "T";
+
+                    await ito.alert("투입 시키겠습니까?");
+                    await ito.api.common.projectPerson.modifyProjectPerson(personId,projectId,param);
+                    await ito.alert("완료 되었습니다.");
+                    await this.setConfirmPersonInfo();
+                    await this.setPersonInfo();
+                },
+                "deleteConfirmPersonInfoList": async function(items){
+                    var projectId = this.project.items.id;
+                    var self = this;
+                    var param = {};
+                    let deleteList = items.map(e => e.id);
+
+                    if(items.length == 0){
+                        await ito.alert("삭제할 항목이 없습니다.")
+                    }else {
+                        if(await ito.confirm("삭제하시겠습니까?")){
+                            var projectParam=[];
+                             for(var i in deleteList){
+                                    projectParam.push({"personId": deleteList[i],"projectId": projectId });
+                             }
+
+                            await ito.api.common.projectPerson.removeProjectPersonList(projectParam)
+                            await ito.alert("삭제되었습니다.")
+                        }
+                        await this.setConfirmPersonInfo()
+                        await this.setPersonInfo();
+                    }
+                },
+
+                "setProjectInfo": async function(){
                     var self =this;
                     var id = await self.$route.query.id;
                         console.log(id);
@@ -137,17 +193,94 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                 .then(function () { resolve(); });
                         });
                 },
+                "setConfirmPersonInfo": async function(options){
+                        var self = this;
+                        var projectId = await self.$route.query.id;
+                        var params = {}, count=0;
+                        params.projectId = !_.isEmpty(projectId) ? projectId : null;
+                        self.confirmPerson.dataTable.loading = true;
+                        var data = (await ito.api.common.projectPerson.getProjectPersonList(params)).data
+                        self.confirmPerson.dataTable.items = [];
+                        data.items.forEach(e=> {
+
+                            if(e.status == "T"){
+                                 self.confirmPerson.dataTable.items.push(e.person);
+                                 count++;
+                            }
+                        });
+
+                        var codeBigData = (await ito.api.common.code.getCodeList()).data.items;
+
+                        self.confirmPerson.dataTable.items.forEach(e => {
+
+                            if(e.gender == "M") e.gender = "남자";
+                            else e.gender = "여자";
+
+                            switch(e.inputStatus){
+                                case 'A':
+                                     e.inputStatus = "섭외중"; break;
+                                case 'C':
+                                     e.inputStatus = "섭외완료"; break;
+                                case 'I':
+                                     e.inputStatus = "인터뷰"; break;
+                                case 'P':
+                                     e.inputStatus = "투입중"; break;
+                                case 'N':
+                                     e.inputStatus = "미정"; break;
+                            }
+                            switch(e.education){
+                                case "00701":
+                                     e.education = "학력 무관"; break;
+                                case "00702":
+                                     e.education = "고등학교 졸업"; break;
+                                case "00703":
+                                     e.education = "(2~3년제)전문대 졸업"; break;
+                                case "00704":
+                                     e.education = "(4년제)대학교 졸업"; break;
+                                case "00705":
+                                     e.education = "석사"; break;
+                                case "00706":
+                                     e.education = "박사"; break;
+                            }
+                            for(var i=0; i < codeBigData.length ; i++){
+                                if(e.jobType == codeBigData[i].id)
+                                     e.jobType = codeBigData[i].name;
+                            }
+                            if(e.birthDate != null){
+                                var v = e.birthDate.slice(0,4);
+                                var age = e.birthDate.slice(2,4);
+                                if(Number(v) < 2000){
+                                    var a = 2000 - Number(v);
+                                    e.birthDate =  age+"년생 "+ "("+(Number(moment().format("YY")) + a + 1)+")";
+                                }
+                                else{
+                                    var a = Number(v) - 2000;
+                                    e.birthDate = age+"년생 " + "("+(a + 1 )+")";
+                                }
+                            }
+                            if(e.detailAddress != null) e.address = e.address + e.detailAddress
+                            e.certificateStatus =(e.certificateStatus == "T") ? "있음" : "없음"
+                            e.career = e.career+"년"
+                            e.pay = String(e.minPay) +" ~ " +String(e.maxPay)
+
+                        })
+                        self.confirmPerson.dataTable.totalRows = count;
+                        self.confirmPerson.dataTable.loading = false;
+                  },
 
                 "setPersonInfo": async function(options){
                     var self = this;
                     var projectId = await self.$route.query.id;
-                    var params = {};
+                    var params = {}, count=0;
                     params.projectId = !_.isEmpty(projectId) ? projectId : null;
                     self.person.dataTable.loading = true;
                     var data = (await ito.api.common.projectPerson.getProjectPersonList(params)).data
                     self.person.dataTable.items = [];
                     data.items.forEach(e=> {
-                        self.person.dataTable.items.push(e.person);
+                        if(e.status == "F")  {
+                            self.person.dataTable.items.push(e.person);
+                             count++;
+                            }
                     });
 
                     var codeBigData = (await ito.api.common.code.getCodeList()).data.items;
@@ -206,16 +339,16 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
 
                     })
                     console.log(self.person.dataTable.items);
-                    self.person.dataTable.totalRows = data.totalRows;
+                    self.person.dataTable.totalRows = count;
                     console.log(" items 값  출력      " + self.person.dataTable.items)
                     self.person.dataTable.loading = false;
                 },
-
             },
             "mounted": async function () {
                 var self = this;
                 await self.setProjectInfo();
                 await self.setPersonInfo();
+                await self.setConfirmPersonInfo();
             }
         });
     });
