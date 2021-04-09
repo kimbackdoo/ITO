@@ -43,12 +43,12 @@ public class PersonService {
         System.out.println(personParamDto);
         System.out.println("Name: " + personParamDto.getName());
         System.out.println("JobType: " + personParamDto.getJobType());
-        if(personParamDto.getSkillList() == null) {
+        if(personParamDto.getSkillListLike() == null) {
             System.out. println("Skill: null");
         }
         else {
             System.out.print("Skill: ");
-            for(String skill : personParamDto.getSkillList()) {
+            for(String skill : personParamDto.getSkillListLike()) {
                 System.out.print(skill + ", ");
             }
             System.out.println();
@@ -59,6 +59,7 @@ public class PersonService {
         System.out.println("Education: " + personParamDto.getEducation());
         System.out.println("StartBirthDate: " + personParamDto.getStartBirthDate());
         System.out.println("EndBirthDate: " + personParamDto.getEndBirthDate());
+        System.out.println("WorkableDay: " + personParamDto.getWorkableDay());
         System.out.println("===========================================================================");
 
         Integer personListCount = personMapper.selectPersonListCount(personParamDto);

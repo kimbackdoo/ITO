@@ -77,7 +77,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                         "query": {
                             "projectName": null,
                             "job": null,
-                            "skillList": [],
+                            "skillListLike": [],
                             "careerYear": null,
                             "careerMonth": null,
                             "degree": [],
@@ -92,16 +92,6 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                             "salary": null
                         },
                         "items": [],
-                        "options": {
-                            "page": 1,
-                            "itemsPerPage": 10,
-                            "sortBy": [],
-                            "sortDesc": [],
-                            "groupBy": [],
-                            "groupDesc": [],
-                            "multiSort": true,
-                            "mustSort": false
-                        },
                         "loading" : false,
                         "totalRows": 0,
                     },
@@ -109,25 +99,6 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
             };
         },
         "watch": {
-            "project.dataTable.options.page": {
-                "handler": async function(n ,o) {
-                    await this.loadProjectList();
-                },
-                "deep": true
-            },
-            "project.dataTable.options.itemsPerPage": {
-                "handler": async function(n, o) {
-                    this.project.dataTable.options.page = 1;
-                    await this.loadProjectList();
-                },
-                "deep": true
-            },
-            "project.dataTable.options.sortDesc": {
-                "handler": async function (n, o) {
-                    await this.loadProjectList();
-                },
-                "deep": true
-            },
             // "project.dataTable.query.job": {
             //     "handler": async function () {
             //         let items,
@@ -206,19 +177,19 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 })).data.items.map(e=> ({"text": e.name, "value": e.id}));
                 this.select.degree.items.push(...items);
             },
-            "loadProjectList": async function() {
+            "loadProjectList": async function(options) {
                 let self = this, career, projectList;
                 career = String(self.project.dataTable.query.careerYear + self.project.dataTable.query.careerMonth);
 
                 self.project.dataTable.loading = true;
                 projectList = (await ito.api.common.project.getProjectList({
-                    "page": self.project.dataTable.options.page,
-                    "rowSize": self.project.dataTable.options.itemsPerPage,
-                    "sort": ito.util.sort(self.project.dataTable.options.sortBy, self.project.dataTable.options.sortDesc),
+                    "page": options !== undefined ? self.project.dataTable.options.page : 1,
+                    "rowSize": options !== undefined ? self.project.dataTable.options.itemsPerPage : 10,
+                    "sort": options !== undefined ? ito.util.sort(options.sortBy, options.sortDesc) : [],
 
                     "nameLike": self.project.dataTable.query.projectName,
                     "job": self.project.dataTable.query.job,
-                    "skillList": self.project.dataTable.query.skillList,
+                    "skillListLike": self.project.dataTable.query.skillListLike,
                     "career": career,
                     "degree": self.project.dataTable.query.degree,
                     "stermStart": self.project.dataTable.query.stermStart,
@@ -261,7 +232,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
 
                 self.project.dataTable.query.projectName = null;
                 self.project.dataTable.query.job = null;
-                self.project.dataTable.query.skillList = [];
+                self.project.dataTable.query.skillListLike = [];
                 self.project.dataTable.query.careerYear = null;
                 self.project.dataTable.query.careerMonth = null;
                 self.project.dataTable.query.degree = [];
@@ -274,7 +245,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
             },
             "delimit": function(v) {
                 let reducer = (a, e) => [...a, ...e.split(/[, ]+/)]
-                this.project.dataTable.query.skillList = [...new Set(v.reduce(reducer, []))]
+                this.project.dataTable.query.skillListLike = [...new Set(v.reduce(reducer, []))]
             }
         },
         "mounted": function() {

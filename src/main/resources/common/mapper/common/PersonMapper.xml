@@ -66,6 +66,9 @@
             <if test="personParamDto.detailLocal != null and personParamDto.detailLocal != ''">
                 AND `detail_local` LIKE CONCAT('%', #{personParamDto.detailLocal} ,'%')
             </if>
+            <if test="personParamDto.workableDay != null">
+                AND `workable_day` &lt;= #{personParamDto.workableDay}
+            </if>
             <if test="personParamDto.career != null and personParamDto.career != ''">
                 AND CAST(`career` AS float) &gt;= CAST(#{personParamDto.career} AS float)
             </if>
@@ -84,12 +87,12 @@
             <if test="personParamDto.endBirthDate != null">
                 AND `birth_date` &lt;= #{personParamDto.endBirthDate}
             </if>
-            <if test="personParamDto.skillList != null and !personParamDto.skillList.isEmpty()">
+            <if test="personParamDto.skillListLike != null and !personParamDto.skillListLike.isEmpty()">
                 AND
-                    <foreach collection="personParamDto.skillList"
-                             item="item"
-                             separator=" AND "
-                    >`skill` LIKE CONCAT('%', #{item}, '%')</foreach>
+                <foreach collection="personParamDto.skillListLike"
+                         item="item"
+                         separator=" AND "
+                >`skill` LIKE #{item}</foreach>
             </if>
         </where>
     </sql>

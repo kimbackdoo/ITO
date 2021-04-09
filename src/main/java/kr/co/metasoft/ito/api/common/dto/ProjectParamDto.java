@@ -25,7 +25,7 @@ public class ProjectParamDto {
 
     private String job;
 
-    private List<String> skillList;
+    private List<String> skillListLike;
 
     private String career;
 

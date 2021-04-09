@@ -41,12 +41,12 @@ public class ProjectService {
         System.out.println(projectParamDto);
         System.out.println("NameLike: " + projectParamDto.getNameLike());
         System.out.println("Job: " + projectParamDto.getJob());
-        if(projectParamDto.getSkillList() == null) {
+        if(projectParamDto.getSkillListLike() == null) {
             System.out. println("Skill: null");
         }
         else {
             System.out.print("Skill: ");
-            for(String skill : projectParamDto.getSkillList()) {
+            for(String skill : projectParamDto.getSkillListLike()) {
                 System.out.print(skill + ", ");
             }
             System.out.println();

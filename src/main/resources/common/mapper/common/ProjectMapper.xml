@@ -75,12 +75,12 @@
             <if test="projectParamDto.salary != null">
                 AND `salary` &gt;= #{projectParamDto.salary}
             </if>
-            <if test="projectParamDto.skillList != null and !projectParamDto.skillList.isEmpty()">
+            <if test="projectParamDto.skillListLike != null and !projectParamDto.skillListLike.isEmpty()">
                 AND
-                    <foreach collection="projectParamDto.skillList"
+                    <foreach collection="projectParamDto.skillListLike"
                              item="item"
                              separator=" AND "
-                    >`skill` LIKE CONCAT('%', #{item}, '%')</foreach>
+                    >`skill` LIKE #{item}</foreach>
             </if>
         </where>
     </sql>

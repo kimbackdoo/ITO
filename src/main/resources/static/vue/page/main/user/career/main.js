@@ -46,16 +46,6 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                             {"text": "월급여", "value": "pay"}
                         ],
                         "items": [],
-                        "options": {
-                            "page": 1,
-                            "itemsPerPage": 10,
-                            "sortBy": [],
-                            "sortDesc": [],
-                            "groupBy": [],
-                            "groupDesc": [],
-                            "multiSort": true,
-                            "mustSort": false
-                        },
                         "loading": false,
                         "totalRows": 0,
                         "totalCareer": 0,
@@ -72,37 +62,18 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                 }
             }
         },
-        "watch": {
-            "career.dataTable.options.page": {
-                "handler": async function(n, o) {
-                    await this.loadCareerList();
-                },
-                "deep": true
-            },
-            "career.dataTable.options.itemsPerPage": {
-                "handler": async function(n, o) {
-                    await this.loadCareerList();
-                },
-                "deep": true
-            },
-            "career.dataTable.options.sortDesc": {
-                "handler": async function (n, o) {
-                    await this.loadCareerList();
-                },
-                "deep": true
-            }
-        },
         "methods": {
             "init": async function() {
                 await this.loadCareerList();
             },
-            "loadCareerList": async function() {
+            "loadCareerList": async function(options) {
                 let self = this, careerList;
                 self.career.dataTable.loading = true;
 
                 careerList = (await ito.api.common.career.getCareerList({
-                    "page": self.career.dataTable.options.page,
-                    "rowSize": self.career.dataTable.options.itemsPerPage
+                    "page": options !== undefined ? self.career.dataTable.options.page : 1,
+                    "rowSize": options !== undefined ? self.career.dataTable.options.itemsPerPage : 10,
+                    "sort": options !== undefined ? ito.util.sort(options.sortBy, options.sortDesc) : [],
                 })).data;
 
                 self.career.dataTable.totalRows = careerList.totalRows;

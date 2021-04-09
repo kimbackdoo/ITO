@@ -84,10 +84,11 @@
                                             dense
                                             multiple
                                             small-chips
+                                            append-icon
                                             deletable-chips
                                             :delimiters="[',',' ']"
                                             label="기술"
-                                            v-model="project.dataTable.query.skillList"
+                                            v-model="project.dataTable.query.skillListLike"
                                             @change="delimit"
                                             @keyup.enter="loadProjectList()"
                                         ></v-combobox>
@@ -199,19 +200,12 @@
                             :headers="project.dataTable.headers"
                             :items="project.dataTable.items"
                             :totalRows="project.dataTable.totalRows"
-                            :page.sync="project.dataTable.options.page"
-                            :itemsPerPage.sync="project.dataTable.options.itemsPerPage"
-                            :sortBy.sync="project.dataTable.options.sortBy"
-                            :sortDesc.sync="project.dataTable.options.sortDesc"
-                            :groupBy.sync="project.dataTable.options.groupBy"
-                            :groupDesc.sync="project.dataTable.options.groupDesc"
-                            :multiSort.sync="project.dataTable.options.multiSort"
-                            :mustSort.sync="project.dataTable.options.mustSort"
                             :loading="project.dataTable.loading"
                             :import-hide="true"
                             :add-hide="true"
                             :remove-hide="true"
                             @click:row="handleClick"
+                            @reload="loadProjectList"
                         ></data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>

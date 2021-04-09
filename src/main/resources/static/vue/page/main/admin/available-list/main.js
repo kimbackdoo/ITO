@@ -28,25 +28,22 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                             {"text": "투입여부", "value": "inputStatus", cellClass:"text-truncate"},
                             {"text": "업무 가능일", "value": "workableDay", cellClass:"text-truncate"}
                         ],
+                        "cell": {
+                            "autocomplete": {
+                                "projectName": {
+                                    "items": [1,2,3,4,5]
+                                }
+                            }
+                        },
                         "totalRows":0,
                         "items": [],
                         "loading": false,
-                        "options": {
-                            "page": 1,
-                            "itemsPerPage": 10,
-                            "sortBy": [],
-                            "sortDesc": [],
-                            "groupBy": [],
-                            "groupDesc": [],
-                            "multiSort": true,
-                            "mustSort": false
-                        },
                     },
                     "query": {
                         "name": null,
                         "sex": null,
                         "jobType": null,
-                        "skillList": [],
+                        "skillListLike": [],
                         "careerYear": null,
                         "careerMonth": null,
                         "career": null,
@@ -119,24 +116,6 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
             };
         },
         "watch": {
-            "user.dataTable.options.page": {
-                "handler": async function(n, o) {
-                    await this.setUserInfoList();
-                },
-                "deep": true
-            },
-            "user.dataTable.options.itemsPerPage": {
-                "handler": async function(n, o) {
-                    await this.setUserInfoList();
-                },
-                "deep": true
-            },
-            "user.dataTable.options.sortDesc": {
-                "handler": async function (n, o) {
-                    await this.setUserInfoList();
-                },
-                "deep": true
-            },
             "user.query.local": {
                 "handler": async function(value){
                     let items,
@@ -188,8 +167,8 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 })).data.items.map(e => ({"text": e.name, "value": e.id}));
                 this.select.local.items.push(...items);
             },
-            "setUserInfoList": async function () {
-                let self = this, personList, items, startBirth, endBirth,
+            "setUserInfoList": async function (options) {
+                let self = this, personList, codeList, projectList, startBirth, endBirth, workableDay,
                     careerValue = String(self.user.query.careerYear + self.user.query.careerMonth);
 
                 if(self.user.query.birthDate != null) {
@@ -199,9 +178,9 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
 
                 self.user.dataTable.loading = true;
                 personList = (await ito.api.common.person.getPersonList({
-                    "page": self.user.dataTable.options.page,
-                    "rowSize": self.user.dataTable.options.itemsPerPage,
-                    "sort": ito.util.sort(self.user.dataTable.options.sortBy, self.user.dataTable.options.sortDesc),
+                    "page": options !== undefined ? options.page : 1,
+                    "rowSize": options !== undefined ? options.itemsPerPage : 10,
+                    "sort": options !== undefined ? ito.util.sort(options.sortBy, options.sortDesc) : [],
 
                     "name": self.user.query.name,
                     "jobType": self.user.query.jobType,
@@ -212,23 +191,30 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "inputStatus": self.user.query.inputStatus,
                     "education": self.user.query.education,
                     "certificateStatus": self.user.query.certificateStatus,
-                    "skillList": self.user.query.skillList,
+                    "skillListLike": self.user.query.skillListLike,
                     "startBirthDate": startBirth,
                     "endBirthDate": endBirth,
+                    "workableDay": moment().add("1", "M").format("YYYY-MM-DD"),
                 })).data;
 
-                items = (await ito.api.common.code.getCodeList({
+                codeList = (await ito.api.common.code.getCodeList({
                     "parentId": "001",
                     "sort": ["ranking, asc"],
                     "rowSize": 1000000
                 })).data.items.map(e=>({"text": e.name, "value": e.id}));
 
+                projectList = (await ito.api.common.project.getProjectList({
+                    "stermStart": moment().format("YYYY-MM-DD")
+                })).data.items;
+
+                console.log(projectList);
+
                 self.user.dataTable.totalRows = personList.totalRows;
                 self.user.dataTable.items = personList.items;
                 self.user.dataTable.items.forEach(e => {
-                    for(var i=0; i<items.length; i++) {
-                        if(e.jobType === items[i].value) {
-                            e.jobType = items[i].text;
+                    for(var i=0; i<codeList.length; i++) {
+                        if(e.jobType === codeList[i].value) {
+                            e.jobType = codeList[i].text;
                             break;
                         }
                     }
@@ -242,11 +228,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 self.user.dataTable.loading = false;
             },
             "search": async function () {
-                if(this.user.dataTable.options.page !== 1) {
-                    this.user.dataTable.options.page = 1;
-                }else {
-                    await this.setUserInfoList();
-                }
+                await this.setUserInfoList();
             },
             "reset": function () {
                 this.user.query.name = null;
@@ -261,12 +243,12 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 this.user.query.certificateStatus = null;
                 this.user.query.birthDate = null;
                 this.user.query.job = null;
-                this.user.query.skillList = [];
+                this.user.query.skillListLike = [];
                 this.user.query.ratingScore = null;
             },
             "delimit": function(v) {
                 let reducer = (a, e) => [...a, ...e.split(/[, ]+/)]
-                this.user.query.skillList = [...new Set(v.reduce(reducer, []))]
+                this.user.query.skillListLike = [...new Set(v.reduce(reducer, []))]
             }
         },
         "mounted": async function () {

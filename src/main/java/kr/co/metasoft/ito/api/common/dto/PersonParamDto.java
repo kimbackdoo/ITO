@@ -33,7 +33,6 @@ public class PersonParamDto {
 
     private Long ratingScore;
 
-
     private String jobType;
 
     private List<String> memo;
@@ -42,7 +41,7 @@ public class PersonParamDto {
 
     private String certificateStatus;
 
-    private List<String> skillList;
+    private List<String> skillListLike;
 
     private String career;
 
