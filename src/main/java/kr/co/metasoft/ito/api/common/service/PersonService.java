@@ -60,6 +60,7 @@ public class PersonService {
         System.out.println("StartBirthDate: " + personParamDto.getStartBirthDate());
         System.out.println("EndBirthDate: " + personParamDto.getEndBirthDate());
         System.out.println("WorkableDay: " + personParamDto.getWorkableDay());
+        System.out.println("RatingScore: " + personParamDto.getRatingScore());
         System.out.println("===========================================================================");
 
         Integer personListCount = personMapper.selectPersonListCount(personParamDto);

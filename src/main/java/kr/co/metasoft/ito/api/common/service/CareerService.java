@@ -76,6 +76,7 @@ public class CareerService {
     }
 
     // 경력 계산 함수
+    @Transactional
     public CareerEntity careerCalc(CareerEntity careerEntity, String s) {
         Long beforeCareer = 0L, personId = careerEntity.getPersonId(); // 수정하려는 엔티티의 수정 전 경력일
         CareerEntity e = careerRepository.findById(personId).orElse(null);
@@ -125,7 +126,11 @@ public class CareerService {
         }
 
         personEntity.setCareer(result + "");
-        personRepository.save(personEntity);
+        if(s.equals("delete")) {
+            personRepository.deleteById(personEntity.getId());
+        } else {
+            personRepository.save(personEntity);
+        }
 
         return entity;
     }

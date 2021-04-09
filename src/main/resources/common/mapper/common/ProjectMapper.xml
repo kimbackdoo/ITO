@@ -17,6 +17,7 @@
             `proj`.`address`,
             `proj`.`detail_address`,
             `proj`.`prsnl`,
+            `proj`.`memo`,
             `proj`.`status`,
             CASE
                 WHEN `proj`.`status` = 'I' THEN '면접'
@@ -100,6 +101,7 @@
         <result property="address" column="address" />
         <result property="detailAddress" column="detail_address" />
         <result property="prsnl" column="prsnl" />
+        <result property="memo" column="memo" />
         <result property="status" column="status" />
         <result property="salary" column="salary" />
         <result property="term" column="term" />
