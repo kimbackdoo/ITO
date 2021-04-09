@@ -88,11 +88,7 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
                 "end": "건"
             }
         },
-        "cellItems": {
-            "type": Object,
-            "default": {}
-        },
-        "cellTitles": {
+        "cell": {
             "type": Object,
             "default": {}
         }
@@ -177,12 +173,12 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
         "add": function () {
             this.$emit("add");
         },
-        "clickEdit": function (item) {
-            this.$emit("click:edit", item);
+        "clickIcon": function (item, header) {
+            const clicked = { item, header };
+            this.$emit("click:icon", clicked);
         },
-        "changeAutocomplete": function (id, item) {
-            let selected;
-            selected = {id, item};
+        "changeAutocomplete": function (id, header, item) {
+            const selected = { id, header, item };
             this.$emit("change:autocomplete", selected);
         }
     },

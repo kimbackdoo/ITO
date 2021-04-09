@@ -51,20 +51,20 @@
                         />
                     </td>
                     <td :class="'text-'+header.align + ' ' + header.cellClass" v-for="header in headers" @click="clickRow(item)">
-                        <template v-if="header.type === 'edit'">
+                        <template v-if="header.type === 'icon'">
                             <v-icon
                                 class="mr-2"
-                                @click.native.stop="clickEdit(item)"
-                            >mdi-pencil</v-icon>
+                                @click.native.stop="clickIcon(item, header.value)"
+                            >{{cell[header.type][header.value].title}}</v-icon>
                         </template>
                         <template v-else-if="header.type === 'autocomplete'">
                             <v-autocomplete
                                 dense
                                 outlined
                                 hide-details
-                                :items="cellItems[header.type][header.value]"
+                                :items="cell[header.type][header.value].items"
                                 @click.native.stop
-                                @change="changeAutocomplete($event, item);"
+                                @change="changeAutocomplete($event, header.value, item);"
                             ></v-autocomplete>
                         </template>
                         <template v-else-if="header.cellClass != null && header.cellClass.indexOf('truncate') !== -1">
