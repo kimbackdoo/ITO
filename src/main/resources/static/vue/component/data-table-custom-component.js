@@ -25,38 +25,6 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
             "type": Number,
             "default": 0
         },
-        "page": {
-            "type": Number,
-            "default": 1
-        },
-        "itemsPerPage": {
-            "type": Number,
-            "default": 10
-        },
-        "sortBy": {
-            "type": Array,
-            "default": []
-        },
-        "sortDesc": {
-            "type": Array,
-            "default": []
-        },
-        "groupBy": {
-            "type": Array,
-            "default": []
-        },
-        "groupDesc": {
-            "type": Array,
-            "default": []
-        },
-        "multiSort": {
-            "type": Boolean,
-            "default": false
-        },
-        "mustSort": {
-            "type": Boolean,
-            "default": false
-        },
         "loading": {
             "type": Boolean,
             "default": false
@@ -123,37 +91,6 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
                 this.$emit("reload", n);
             },
             "deep": true
-        },
-        "page": {
-            "handler": function (n,o) {
-                this.$emit("update:page", n);
-            }
-        },
-        "itemsPerPage": {
-            "handler": function (n,o) {
-                this.$emit("update:itemsPerPage", n);
-                this.$emit("update:page", 1);
-            }
-        },
-        "sortBy": {
-            "handler": function (n,o) {
-                this.$emit("update:sortBy", n);
-            }
-        },
-        "sortDesc": {
-            "handler": function (n,o) {
-                this.$emit("update:sortDesc", n);
-            }
-        },
-        "groupBy": {
-            "handler": function (n,o) {
-                this.$emit("update:groupBy",n);
-            }
-        },
-        "groupDesc": {
-            "handler": function (n,o) {
-                this.$emit("update:groupDesc", n);
-            }
         },
         "totalRows": {
             "handler": function (n,o) {
