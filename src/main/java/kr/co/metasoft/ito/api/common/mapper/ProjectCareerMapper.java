@@ -21,5 +21,7 @@ public interface ProjectCareerMapper {
     public Integer selectProjectCareerListCount(
             @Param (value = "projectCareerParamDto") ProjectCareerParamDto projectCareerParamDto);
 
+    public List<ProjectCareerEntity> selectCareerIdList (
+            @Param(value = "projectCareerParamDto") ProjectCareerParamDto projectCareerParamDto);
 
 }

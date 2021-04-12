@@ -50,6 +50,27 @@
 
     </sql>
 
+    <sql id="selectCareerIdForm">
+        SELECT
+            `project_career`.`project_id`,
+            `project_career`.`career_id`,
+            `project_career_career`.`person_career_id` AS `project_career_careerperson_career_id`,
+            `project_career_career`.`person_id` AS `project_career_careerperson_id`,
+            `project_career_career`.`pay` AS `project_career_careerpay`
+        FROM
+            `tb_project_career` `project_career`
+        LEFT OUTER JOIN
+            `tb_career` `project_career_career`
+        ON
+            `project_career`.`career_id` = `project_career_career`.`person_career_id`
+        LEFT OUTER JOIN
+            `tb_proj` `project_career_project`
+        ON
+            `project_career`.`project_id` = `project_career_project`.`id`
+
+    </sql>
+
+
     <sql id="where">
         <where>
             <if test="projectCareerParamDto.projectId != null and projectCareerParamDto.projectId != ''">
@@ -57,6 +78,18 @@
             </if>
             <if test="projectCareerParamDto.careerId != null and projectCareerParamDto.careerId != ''">
                 AND `project_career`.`career_id` = #{projectCareerParamDto.careerId}
+            </if>
+        </where>
+    </sql>
+
+
+    <sql id="CareerIdWhere">
+        <where>
+            <if test="projectCareerParamDto.projectId != null and projectCareerParamDto.projectId != ''">
+                AND `project_career`.`project_id` = #{projectCareerParamDto.projectId}
+            </if>
+            <if test="projectCareerParamDto.personId != null and projectCareerParamDto.personId != ''">
+                AND `project_career_career`.`person_id` = #{projectCareerParamDto.personId}
             </if>
         </where>
     </sql>
@@ -101,6 +134,17 @@
             <result property="modifyDt" column="modify_dt"/>
         </association>
     </resultMap>
+
+
+
+    <select
+        id="selectCareerIdList"
+        parameterType="java.util.Map"
+        resultMap="careerResultMap"
+    >
+        <include refid="selectCareerIdForm"/>
+        <include refid="CareerIdWhere"/>
+    </select>
 
     <select
         id="selectProjectCareerList"

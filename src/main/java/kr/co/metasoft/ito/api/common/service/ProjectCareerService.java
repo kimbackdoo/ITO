@@ -48,6 +48,18 @@ public class ProjectCareerService {
         return pageResponse;
     }
 
+    @Validated(ReadValidationGroup.class)
+    @Transactional (readOnly = true)
+    public List<Long> selectCareerIdList(
+            @Valid ProjectCareerParamDto projectCareerParamDto){
+        List<ProjectCareerEntity> projectCareerList = projectCareerMapper.selectCareerIdList(projectCareerParamDto);
+        List<Long> careerIdList = new ArrayList<>();
+        for(int i=0;i < projectCareerList.size() ;i++) {
+            careerIdList.add(projectCareerList.get(i).getCareerId());
+        }
+        return careerIdList;
+    }
+
 
     @Validated(CreateValidationGroup.class)
     @Transactional

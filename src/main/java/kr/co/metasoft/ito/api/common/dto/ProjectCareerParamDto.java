@@ -19,4 +19,6 @@ public class ProjectCareerParamDto{
 
     private Long careerId;
 
+    private Long personId;
+
 }

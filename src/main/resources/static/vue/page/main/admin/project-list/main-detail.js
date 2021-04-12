@@ -137,11 +137,11 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
 
                     await ito.alert("투입 시키겠습니까?");
                     await ito.api.app.involvement.createInvolvement(involveParam);
-
 //                    await ito.api.common.projectPerson.modifyProjectPerson(personId,projectId,param);
                     await ito.alert("완료 되었습니다.");
                     await this.setConfirmPersonInfo();
                     await this.setPersonInfo();
+
                 },
                 "deleteConfirmPersonInfoList": async function(items){
                     var projectId = this.project.items.id;
@@ -233,13 +233,29 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                         self.confirmPerson.dataTable.loading = true;
                         var data = (await ito.api.common.projectPerson.getProjectPersonList(params)).data
                         self.confirmPerson.dataTable.items = [];
-                        data.items.forEach(e=> {
 
+/*                        data.items.forEach(e=> {
                             if(e.status == "T"){
+                                 let personId = e.person.id;
+                                 var careerId = await ito.api.app.involvement.getCareerIdList(projectId, personId);
+                                 var careerData = await ito.api.common.career.getCareer(careerId);
+                                 e.actualPay = careerData.pay;
                                  self.confirmPerson.dataTable.items.push(e.person);
                                  count++;
                             }
                         });
+*/
+                        for(var i =0; i < data.items.length ; i++ ){
+                            if(data.items[i].status == "T"){
+                                 let personId = data.items[i].person.id;
+                                 let careerId = (await ito.api.app.involvement.getCareerIdList(projectId, personId)).data;
+                                 var careerData = (await ito.api.common.career.getCareer(careerId)).data;
+                                 data.items[i].person.actualPay = careerData.pay;
+                                console.log(data.items[i].actualPay);
+                                 self.confirmPerson.dataTable.items.push(data.items[i].person);
+                                 count++;
+                            }
+                        }
 
                         var codeBigData = (await ito.api.common.code.getCodeList()).data.items;
 

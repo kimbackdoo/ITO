@@ -339,6 +339,7 @@ ito = {
                 "createInvolvement": function (data) { return axios({"url": "/api/app/involvements", "method": "post", "data": data}); },
                 "modifyInvolvement": function (data) { return axios({"url": "/api/app/involvements", "method": "put", "data": data}); },
                 "removeInvolvement": function (data) { return axios({"url": "/api/app/involvements", "method": "delete", "data": data}); },
+                "getCareerIdList": function (projectId, personId)  { return axios({"url": "/api/app/involvements/"+projectId+","+personId, "method": "get"}); },
             },
         },
         "util": {
