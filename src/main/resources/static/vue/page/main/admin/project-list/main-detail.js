@@ -81,8 +81,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                 {"text": "학력", "value": "education"},
                                 {"text": "경력",  "value": "career"},
                                 {"text": "자격증 유무", "value": "certificateStatus"},
-                                {"text": "희망 급여(최저)",  "value": "minPay"},
-                                {"text": "희망 급여(최고)",  "value": "maxPay"},
+                                {"text": "실제 급여",  "value": "actualPay"},
                                 {"text": "업무 시작 가능일",  "value": "workableDay"},
 //                                {"text": "현황",  "value": "inputStatus"},
                             ],
@@ -135,8 +134,10 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                             "pay": pay,
                         }
                     };
+
                     await ito.alert("투입 시키겠습니까?");
                     await ito.api.app.involvement.createInvolvement(involveParam);
+
 //                    await ito.api.common.projectPerson.modifyProjectPerson(personId,projectId,param);
                     await ito.alert("완료 되었습니다.");
                     await this.setConfirmPersonInfo();
