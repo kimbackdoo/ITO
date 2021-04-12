@@ -11,22 +11,22 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     },
                     "dataTable": {
                         "headers": [
-                            {"text": "이름", "value": "name", "class": "text-center", cellClass:"text-truncate"},
-                            {"text": "성별", "value": "gender", "class": "text-center", cellClass:"text-truncate"},
-                            {"text": "평가점수", "value": "ratingScore", "class": "text-center", cellClass:"text-truncate"},
-                            {"text": "평가메모", "value": "memo", "class": "text-center", "width": "120", cellClass:"w-12 text-truncate"},
-                            {"text": "전화번호", "value": "phoneNumber", "class": "text-center", cellClass:"text-truncate"},
-                            {"text": "직종", "value": "jobType", "class": "text-center", cellClass:"text-truncate"},
-                            {"text": "기술", "value": "skill", "class": "text-center", cellClass:"text-truncate"},
-                            {"text": "학력", "value": "education", "class": "text-center", cellClass:"text-truncate"},
-                            {"text": "경력", "value": "career", "class": "text-center", cellClass:"text-truncate"},
-                            {"text": "자격증 유무", "value": "certificateStatus", "class": "text-center", cellClass:"text-truncate"},
-                            {"text": "생년월일(나이)", "value": "birthDate", "class": "text-center", cellClass:"text-truncate"},
-                            {"text": "희망 월급여", "value": "pay", "class": "text-center", cellClass:"text-truncate"},
-                            {"text": "지역", "value": "address", "class": "text-center", cellClass:"text-truncate"},
-                            {"text": "프로젝트명", "value": "projectName", "class": "text-center", cellClass:"text-truncate", "type": "autocomplete"},
-                            {"text": "투입여부", "value": "inputStatus", "class": "text-center", cellClass:"text-truncate"},
-                            {"text": "업무 가능일", "value": "workableDay", "class": "text-center", cellClass:"text-truncate"}
+                            {"text": "이름", "value": "name", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "성별", "value": "gender", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "평가점수", "value": "ratingScore", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "평가메모", "value": "memo", "align": "center", "width": "200", cellClass:"w-12 text-truncate"},
+                            {"text": "전화번호", "value": "phoneNumber", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "직종", "value": "jobType", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "기술", "value": "skill", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "학력", "value": "education", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "경력", "value": "career", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "자격증 유무", "value": "certificateStatus", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "생년월일(나이)", "value": "birthDate", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "희망 월급여", "value": "pay", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "지역", "value": "address", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "프로젝트명", "value": "projectName", "align": "center", "width": "120", cellClass:"text-truncate", "type": "autocomplete"},
+                            {"text": "투입여부", "value": "inputStatus", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "업무 가능일", "value": "workableDay", "align": "center", "width": "120", cellClass:"text-truncate"}
                         ],
                         "cell": {
                             "autocomplete": {
@@ -131,7 +131,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     items = items.filter(e => e.value.length > 5)
                     this.select.detailLocal.items.push(...items);
                 }
-            }
+            },
         },
         "methods": {
             "init": async function() {
@@ -205,7 +205,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 })).data.items.map(e=>({"text": e.name, "value": e.id}));
 
                 projectList = (await ito.api.common.project.getProjectList({
-                    "stermStart": moment().format("YYYY-MM-DD")
+                    "limitDateStart": moment().format("YYYY-MM-DD")
                 })).data.items.map(e=>({"text": e.name, "value": e.id}));
                 this.user.dataTable.cell.autocomplete.projectName.items.push(...projectList);
 
@@ -232,6 +232,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     await ito.api.common.projectPerson.createProjectPerson({
                         "personId": value.item.id,
                         "projectId": value.id,
+                        "status": "F",
                     });
                     await ito.alert("지원되었습니다.");
                 }

@@ -83,6 +83,12 @@
                              separator=" AND "
                     >`skill` LIKE #{item}</foreach>
             </if>
+            <if test="projectParamDto.limitDateStart != null">
+                AND `limit_date` &gt;= #{projectParamDto.limitDateStart}
+            </if>
+            <if test="projectParamDto.limitDateEnd != null">
+                AND `limit_date` &lt;= #{projectParamDto.limitDateEnd}
+            </if>
         </where>
     </sql>
 

@@ -57,6 +57,8 @@ public class ProjectService {
         System.out.println("prsnl: " + projectParamDto.getPrsnl());
         System.out.println("status: " + projectParamDto.getStatus());
         System.out.println("salary: " + projectParamDto.getSalary());
+        System.out.println("LimitDateStart: " + projectParamDto.getLimitDateStart());
+        System.out.println("LimitDateEnd: " + projectParamDto.getLimitDateEnd());
         System.out.println("===========================================================================");
 
         return pageResponse;

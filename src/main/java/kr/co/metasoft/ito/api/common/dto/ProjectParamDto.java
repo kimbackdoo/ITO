@@ -60,4 +60,12 @@ public class ProjectParamDto {
     private Long salary;
 
     private String termLike;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate limitDateStart;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate limitDateEnd;
 }

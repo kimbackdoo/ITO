@@ -81,6 +81,10 @@ public class CareerService {
         Long beforeCareer = 0L, personId = careerEntity.getPersonId(); // 수정하려는 엔티티의 수정 전 경력일
         CareerEntity e = careerRepository.findById(personId).orElse(null);
 
+        if(e == null) {
+            careerRepository.save(careerEntity);
+        }
+
         beforeCareer = ChronoUnit.DAYS.between(e.getStartPeriod(), e.getEndPeriod());
 
         CareerEntity entity =  careerRepository.save(careerEntity);
