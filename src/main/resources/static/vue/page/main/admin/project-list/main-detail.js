@@ -32,20 +32,20 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
 
                         "dataTable": {
                             "headers": [
-                                {"text": "이름", "value": "name"},
-                                {"text": "전화번호", "value": "phoneNumber"},
-                                {"text": "성별", "value": "gender"},
-                                {"text": "생년월일(나이)",  "value": "birthDate", cellClass:"text-truncate"},
-                                {"text": "직종",  "value": "jobType"},
-                                {"text": "기술",  "value": "skill"},
-                                {"text": "학력", "value": "education"},
-                                {"text": "경력",  "value": "career"},
-                                {"text": "자격증 유무", "value": "certificateStatus"},
-                                {"text": "희망 급여(최저)",  "value": "minPay"},
-                                {"text": "희망 급여(최고)",  "value": "maxPay"},
-                                {"text": "실제 급여" , "value": "actualPay","type": "textField"},
-                                {"text": "업무 시작 가능일",  "value": "workableDay"},
-                                {"text": "투입 여부" , "value": "edit","type": "button"},
+                                {"text": "이름", "value": "name","align": "center", cellClass:"text-truncate"},
+                                {"text": "전화번호", "value": "phoneNumber","align": "center", cellClass:"text-truncate"},
+                                {"text": "성별","align": "center", "value": "gender"},
+                                {"text": "생년월일(나이)", "align": "center", "value": "birthDate", cellClass:"text-truncate"},
+                                {"text": "직종","align": "center",  "value": "jobType"},
+                                {"text": "기술", "align": "center", "value": "skill"},
+                                {"text": "학력", "align": "center","value": "education"},
+                                {"text": "경력",  "align": "center","value": "career"},
+                                {"text": "자격증 유무","align": "center", "value": "certificateStatus"},
+                                {"text": "희망 급여(최저)","align": "center",  "value": "minPay"},
+                                {"text": "희망 급여(최고)","align": "center",  "value": "maxPay"},
+                                {"text": "실제 급여" ,"align": "center","width": 170, "value": "actualPay","type": "textField"},
+                                {"text": "업무 시작 가능일",  "value": "workableDay", cellClass:"text-truncate"},
+                                {"text": "투입 여부" ,"align": "center", "value": "edit","type": "button"},
 
 
 //                                {"text": "현황",  "value": "inputStatus"},
@@ -62,6 +62,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                     }
                                 }
                             },
+                            "actualPay": "",
                             "items":[],
                             "textField": null,
                             "totalRows": 0,
@@ -97,25 +98,46 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
 
             },
             "methods":{
+                "setActualPay": async function(item){
+                    var self = this;
+                    console.log(item.value);
+                    self.person.dataTable.actualPay = item.value;
+
+                },
                 "editProjectInfo": function(value){
                     this.$router.push({
                         "path": "/main/admin/project-info-form",
                         "query": {
                             "id": value.item.id
                         }
-                      });
+                    });
                 },
 
                 "clickInputStatus": async function(value){
-                    var personId = value.item.id;
+                    let personId = value.item.id;
                     var projectId = this.project.items.id;
-                    var param = {};
-                    param.personId = personId;
-                    param.projectId = projectId;
-                    param.status = "T";
+                    var param = {
+                            "personId": personId,
+                            "projectId": projectId,
+                            "status": "T",
+                    };
+                    var pay = this.person.dataTable.actualPay;
 
+                    var involveParam = {
+                        "projectPersonDto":param,
+                        "careerDto": {
+                            "personId": personId,
+                            "name": this.project.items.name,
+                            "startPeriod": this.project.items.sterm,
+                            "endPeriod": this.project.items.eterm,
+                            "position": "테스트_대리",
+                            "task": value.item.jobType,
+                            "pay": pay,
+                        }
+                    };
                     await ito.alert("투입 시키겠습니까?");
-                    await ito.api.common.projectPerson.modifyProjectPerson(personId,projectId,param);
+                    await ito.api.app.involvement.createInvolvement(involveParam);
+//                    await ito.api.common.projectPerson.modifyProjectPerson(personId,projectId,param);
                     await ito.alert("완료 되었습니다.");
                     await this.setConfirmPersonInfo();
                     await this.setPersonInfo();

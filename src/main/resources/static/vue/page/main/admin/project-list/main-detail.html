@@ -56,9 +56,11 @@
                             </table>
                         </v-row>
                         <v-row>
+                          <v-col>
                             <div>
                                  <br />
                                  <data-table-custom-component
+                                    dense
                                     :headers="person.dataTable.headers"
                                     :items="person.dataTable.items"
                                     :totalRows="person.dataTable.totalRows"
@@ -73,6 +75,7 @@
                                     :cell="person.dataTable.cell"
                                  >
                             </div>
+                           </v-col>
                         </v-row>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -91,8 +94,10 @@
                 <v-expansion-panel>
                     <v-expansion-panel-content>
                         <v-row>
+                         <v-col>
                             <div>
                                 <data-table-custom-component
+                                   dense
                                    :show-select="true"
                                    item-key="id"
                                    :headers="confirmPerson.dataTable.headers"
@@ -106,6 +111,7 @@
                                    @remove="deleteConfirmPersonInfoList"
                                 >
                             </div>
+                         </v-col>
                         </v-row>
                     </v-expansion-panel-content>
                 </v-expansion-panel>

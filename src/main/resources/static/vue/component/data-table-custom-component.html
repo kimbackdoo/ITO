@@ -62,11 +62,13 @@
                         </template>
                         <template v-else-if="header.type === 'button'">
                             <v-btn
+                                hide-details
                                 @click.native.stop="clickButton(item, header.value)"
                             >{{cell[header.type][header.value].title}}</v-btn>
                         </template>
                         <template v-else-if="header.type === 'textField'">
                             <v-text-field
+                                hide-details
                                 @click.native.stop
                                 @input="inputTextField($event, item, header.value)"
                                 dense
