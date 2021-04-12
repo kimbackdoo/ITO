@@ -118,20 +118,13 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                 else if(await ito.confirm("삭제하시겠습니까?")) {
                     await ito.api.common.career.removeCareerList(deleteList);
                     await ito.alert("삭제되었습니다.");
-
-                    if(self.career.dataTable.options.page === 1) {
-                        self.loadCareerList();
-                    }else {
-                        self.career.dataTable.options.page = 1;
-                    }
+                    self.loadCareerList();
                 }
             },
             "deleteCareer": async function(data) {
                 if(await ito.confirm("삭제하시겠습니까?")) {
                     ito.api.common.career.removeCareer(data.personCareerId);
                     await ito.alert("삭제되었습니다.");
-
-                    this.career.dataTable.options.page = 1;
                     this.loadCareerList();
                 }
             },
@@ -148,7 +141,6 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                     await ito.alert("저장되었습니다.");
 
                     self.dialog = false;
-                    self.career.dataTable.options.page = 1;
                     self.loadCareerList();
                 }
             },

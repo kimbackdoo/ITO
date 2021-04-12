@@ -82,60 +82,64 @@ public class CareerService {
         CareerEntity e = careerRepository.findById(personId).orElse(null);
 
         if(e == null) {
-            careerRepository.save(careerEntity);
-        }
-
-        beforeCareer = ChronoUnit.DAYS.between(e.getStartPeriod(), e.getEndPeriod());
-
-        CareerEntity entity =  careerRepository.save(careerEntity);
-
-        Long career = 0L;
-        LocalDate startPeriod, endPeriod;
-        PersonEntity personEntity = personRepository.findById(personId).orElse(null);
-        int days = Integer.valueOf(personEntity.getDays());
-
-        startPeriod = careerEntity.getStartPeriod();
-        endPeriod = careerEntity.getEndPeriod();
-        career = ChronoUnit.DAYS.between(startPeriod, endPeriod); // 수정 후 경력일
-
-        switch (s) {
-            case "create":
-                days += career;
-                break;
-            case "modify":
-                days -= beforeCareer;
-                days += career;
-                break;
-            case "delete":
-                days -= beforeCareer;
-                break;
-        }
-        personEntity.setDays(days + "");
-
-        // 경력 계산 코드
-        double result; // 계산된 경력 저장 변수
-        if(days/365 == 0) {
-            days /= 30;
-
-            result = days * 0.01;
-            if(result == 0.12) result /= 0.12;
+            return careerRepository.save(careerEntity);
         }
         else {
-            double year = days / 365, month = days % 365 / 30;
+            beforeCareer = ChronoUnit.DAYS.between(e.getStartPeriod(), e.getEndPeriod());
 
-            month *= 0.01;
-            if(month == 0.12) month /= 0.12;
+            CareerEntity entity = careerRepository.save(careerEntity);
 
-            result = year + month;
+            Long career = 0L;
+            LocalDate startPeriod, endPeriod;
+            PersonEntity personEntity = personRepository.findById(personId).orElse(null);
+
+            int days = 0;
+            if(personEntity.getDays() != null) {
+                days = Integer.valueOf(personEntity.getDays());
+            }
+
+            startPeriod = careerEntity.getStartPeriod();
+            endPeriod = careerEntity.getEndPeriod();
+            career = ChronoUnit.DAYS.between(startPeriod, endPeriod); // 수정 후 경력일
+
+            switch (s) {
+                case "create":
+                    days += career;
+                    break;
+                case "modify":
+                    days -= beforeCareer;
+                    days += career;
+                    break;
+                case "delete":
+                    days -= beforeCareer;
+                    break;
+            }
+            personEntity.setDays(days + "");
+
+            // 경력 계산 코드
+            double result; // 계산된 경력 저장 변수
+            if (days / 365 == 0) {
+                days /= 30;
+
+                result = days * 0.01;
+                if (result == 0.12) result /= 0.12;
+            } else {
+                double year = days / 365, month = days % 365 / 30;
+
+                month *= 0.01;
+                if (month == 0.12) month /= 0.12;
+
+                result = year + month;
+            }
+
+            personEntity.setCareer(result + "");
+            if (s.equals("delete")) {
+                personRepository.deleteById(personEntity.getId());
+            } else {
+                personRepository.save(personEntity);
+            }
+
+            return entity;
         }
-
-        personEntity.setCareer(result + "");
-        if(s.equals("delete")) {
-            personRepository.deleteById(personEntity.getId());
-        } else {
-            personRepository.save(personEntity);
-        }
-
-        return entity;
     }
 }

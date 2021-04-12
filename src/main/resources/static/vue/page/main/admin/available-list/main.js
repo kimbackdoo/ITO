@@ -168,8 +168,8 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 this.select.local.items.push(...items);
             },
             "setUserInfoList": async function (options) {
-                let self = this, personList, codeList, projectList, startBirth, endBirth, workableDay,
-                    careerValue = String(self.user.query.careerYear + self.user.query.careerMonth);
+                let self = this, personList, codeList, projectList, startBirth, endBirth, projectPersonPromiseList;
+                let careerValue = String(self.user.query.careerYear + self.user.query.careerMonth);
 
                 if(self.user.query.birthDate != null) {
                     startBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-01-01");
@@ -198,6 +198,15 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "ratingScore": self.user.query.ratingScore,
                 })).data;
 
+                projectPersonPromiseList = [];
+                personList.items.forEach(e=> {
+                    projectPersonPromiseList.push(ito.api.common.projectPerson.getProjectPersonList({"personId": e.id}));
+                });
+                (await Promise.all(projectPersonPromiseList)).forEach((e, i) => {
+                    console.log(e.data.items);
+                });
+
+
                 codeList = (await ito.api.common.code.getCodeList({
                     "parentId": "001",
                     "sort": ["ranking, asc"],
@@ -207,6 +216,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 projectList = (await ito.api.common.project.getProjectList({
                     "limitDateStart": moment().format("YYYY-MM-DD")
                 })).data.items.map(e=>({"text": e.name, "value": e.id}));
+                console.log(projectList);
                 this.user.dataTable.cell.autocomplete.projectName.items.push(...projectList);
 
                 self.user.dataTable.totalRows = personList.totalRows;

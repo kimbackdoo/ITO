@@ -118,7 +118,11 @@ public class InvolvementService {
             Long career = 0L;
             LocalDate startPeriod, endPeriod;
             PersonEntity personEntity = personRepository.findById(personId).orElse(null);
-            int days = Integer.valueOf(personEntity.getDays());
+
+            int days = 0;
+            if(personEntity.getDays() != null) {
+                days = Integer.valueOf(personEntity.getDays());
+            }
 
             startPeriod = careerEntity.getStartPeriod();
             endPeriod = careerEntity.getEndPeriod();
