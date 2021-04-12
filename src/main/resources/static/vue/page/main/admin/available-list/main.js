@@ -24,6 +24,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                             {"text": "생년월일(나이)", "value": "birthDate", "align": "center", "width": "120", cellClass:"text-truncate"},
                             {"text": "희망 월급여", "value": "pay", "align": "center", "width": "120", cellClass:"text-truncate"},
                             {"text": "지역", "value": "address", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "현재 지원한 프로젝트", "value": "applyProject", "align": "center", "width": "120", cellClass:"text-truncate"},
                             {"text": "프로젝트명", "value": "projectName", "align": "center", "width": "120", cellClass:"text-truncate", "type": "autocomplete"},
                             {"text": "투입여부", "value": "inputStatus", "align": "center", "width": "120", cellClass:"text-truncate"},
                             {"text": "업무 가능일", "value": "workableDay", "align": "center", "width": "120", cellClass:"text-truncate"}
@@ -197,7 +198,6 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "workableDay": moment().add("1", "M").format("YYYY-MM-DD"),
                     "ratingScore": self.user.query.ratingScore,
                 })).data;
-
                 projectPersonPromiseList = [];
                 personList.items.forEach(e=> {
                     projectPersonPromiseList.push(ito.api.common.projectPerson.getProjectPersonList({"personId": e.id}));
@@ -215,7 +215,6 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 projectList = (await ito.api.common.project.getProjectList({
                     "limitDateStart": moment().format("YYYY-MM-DD")
                 })).data.items.map(e=>({"text": e.name, "value": e.id}));
-                console.log(projectList);
                 this.user.dataTable.cell.autocomplete.projectName.items.push(...projectList);
 
                 self.user.dataTable.totalRows = personList.totalRows;
