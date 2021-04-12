@@ -206,7 +206,6 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     console.log(e.data.items);
                 });
 
-
                 codeList = (await ito.api.common.code.getCodeList({
                     "parentId": "001",
                     "sort": ["ranking, asc"],
