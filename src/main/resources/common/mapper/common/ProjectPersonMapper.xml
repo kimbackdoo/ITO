@@ -32,7 +32,23 @@
             `project_person_person`.`status` AS `project_person_person_status`,
             `project_person_person`.`memo` AS `project_person_person_memo`,
             `project_person_person`.`created_date` AS `project_person_person_created_date`,
-            `project_person_person`.`last_modified_date` AS `project_person_person_last_modified_date`
+            `project_person_person`.`last_modified_date` AS `project_person_person_last_modified_date`,
+            `project_person_project`.`id` AS `project_person_project_id`,
+            `project_person_project`.`name` AS `project_person_project_name`,
+            `project_person_project`.`job` AS `project_person_project_job`,
+            `project_person_project`.`skill` AS `project_person_project_skill`,
+            `project_person_project`.`career` AS `project_person_project_career`,
+            `project_person_project`.`degree` AS `project_person_project_degree`,
+            `project_person_project`.`sterm` AS `project_person_project_sterm`,
+            `project_person_project`.`eterm` AS `project_person_project_etrem`,
+            `project_person_project`.`local` AS `project_person_project_local`,
+            `project_person_project`.`detail_local` AS `project_person_project_detail_local`,
+            `project_person_project`.`postcode` AS `project_person_project_postcode`,
+            `project_person_project`.`address` AS `project_person_project_address`,
+            `project_person_project`.`detail_address` AS `project_person_project_detail_address`,
+            `project_person_project`.`prsnl` AS `project_person_project_prsnl`,
+            `project_person_project`.`memo` AS `project_person_project_memo`,
+            `project_person_project`.`status` AS `project_person_project_status`
         FROM
             `tb_project_person` `project_person`
         LEFT OUTER JOIN
@@ -90,7 +106,29 @@
             <result property="createdDate" column="created_date"/>
             <result property="lastModifiedDate" column="last_modified_date"/>
         </association>
-
+        <association property="project" columnPrefix="project_person_project_">
+            <result property="id" column="id" />
+            <result property="name" column="name" />
+            <result property="job" column="job" />
+            <result property="skill" column="skill" />
+            <result property="career" column="career" />
+            <result property="degree" column="degree" />
+            <result property="sterm" column="sterm" />
+            <result property="eterm" column="eterm" />
+            <result property="local" column="local" />
+            <result property="detailLocal" column="detail_local" />
+            <result property="postcode" column="postcode" />
+            <result property="address" column="address" />
+            <result property="detailAddress" column="detail_address" />
+            <result property="prsnl" column="prsnl" />
+            <result property="memo" column="memo" />
+            <result property="status" column="status" />
+            <result property="salary" column="salary" />
+            <result property="term" column="term" />
+            <result property="createdDate" column="created_date" />
+            <result property="lastModifiedDate" column="last_modified_date" />
+            <result property="limitDate" column="limit_date" />
+        </association>
     </resultMap>
 
     <select

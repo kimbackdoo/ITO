@@ -67,7 +67,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                             {"text": "전체", "value": null},
                         ]
                     },
-                    "status": {
+                    "inputStatus": {
                         "items": [
                             {"text": "섭외중", "value": "A"},
                             {"text": "섭외완료", "value": "C"},
@@ -190,6 +190,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "local": self.user.query.local,
                     "detailLocal": self.user.query.detailLocal,
                     "inputStatus": self.user.query.inputStatus,
+                    "gender": self.user.query.sex,
                     "education": self.user.query.education,
                     "certificateStatus": self.user.query.certificateStatus,
                     "skillListLike": self.user.query.skillListLike,
@@ -202,8 +203,12 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 personList.items.forEach(e=> {
                     projectPersonPromiseList.push(ito.api.common.projectPerson.getProjectPersonList({"personId": e.id}));
                 });
-                (await Promise.all(projectPersonPromiseList)).forEach((e, i) => {
-                    console.log(e.data.items);
+                (await Promise.all(projectPersonPromiseList)).forEach(e => {
+                    personList.items.forEach(el=> {
+                        if(e.data.items.length > 0 && el.id === e.data.items[0].personId) {
+                            el.applyProject = e.data.items.map(project => project.project.name);
+                        }
+                    })
                 });
 
                 codeList = (await ito.api.common.code.getCodeList({
@@ -219,8 +224,8 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
 
                 self.user.dataTable.totalRows = personList.totalRows;
                 self.user.dataTable.items = personList.items;
-                self.user.dataTable.items.forEach(e => {
-                    for(var i=0; i<codeList.length; i++) {
+                self.user.dataTable.items.forEach((e, i) => {
+                    for(let i=0; i<codeList.length; i++) { // 가져온 job에 대한 코드를 해당 코드에 대한 이름으로 변환
                         if(e.jobType === codeList[i].value) {
                             e.jobType = codeList[i].text;
                             break;
@@ -232,6 +237,12 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     e.birthDate = moment(e.birthDate).format("YY") + "년생 (" + Number(moment().diff(moment(e.birthDate), "years")+1) + ")";
                     e.career = e.career+"년"
                     e.pay = String(e.minPay) +" ~ " +String(e.maxPay);
+
+                    if(e.applyProject !== undefined) { // 가져온 프로젝트 이름에 대한 배열이 undefined 인지 체크하고 아니면 String으로 변환
+                        e.applyProject = e.applyProject.join(", ");
+                    } else {
+                        e.applyProject = "현재 지원한 프로젝트 없음";
+                    }
                 });
                 self.user.dataTable.loading = false;
             },
@@ -243,6 +254,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                         "status": "F",
                     });
                     await ito.alert("지원되었습니다.");
+                    this.setUserInfoList();
                 }
             },
             "search": async function () {
@@ -257,10 +269,13 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 this.user.query.pay = null;
                 this.user.query.address = null;
                 this.user.query.inputStatus = null;
+                this.user.query.sex = null;
                 this.user.query.education = [];
                 this.user.query.certificateStatus = null;
                 this.user.query.birthDate = null;
                 this.user.query.job = null;
+                this.user.query.local = null;
+                this.user.query.detailLocal = null;
                 this.user.query.skillListLike = [];
                 this.user.query.ratingScore = null;
             },

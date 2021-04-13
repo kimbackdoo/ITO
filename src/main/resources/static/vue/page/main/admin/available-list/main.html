@@ -100,8 +100,9 @@
                                         <v-select
                                             dense
                                             menu-props="auto"
-                                            :items="select.status.items"
                                             label="현황"
+                                            v-model="user.query.inputStatus"
+                                            :items="select.inputStatus.items"
                                             @keydown.enter="search();"
                                         ></v-select>
                                     </v-col>

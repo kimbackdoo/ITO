@@ -79,7 +79,7 @@
                 AND `address` LIKE CONCAT('%', #{personParamDto.address}, '%')
             </if>
             <if test="personParamDto.inputStatus != null and personParamDto.inputStatus != ''">
-                AND NOT (`input_status` LIKE #{personParamDto.inputStatus})
+                AND `input_status` = #{personParamDto.inputStatus}
             </if>
             <if test="personParamDto.startBirthDate != null">
                 AND `birth_date` &gt;= #{personParamDto.startBirthDate}

@@ -221,11 +221,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 self.project.dataTable.loading = false;
             },
             "searchProjectList": async function() {
-                if(this.project.dataTable.options.page !== 1) {
-                    this.project.dataTable.options.page = 1;
-                }else {
-                    this.loadProjectList();
-                }
+                this.loadProjectList();
             },
             "initialize": async function() {
                 let self = this;
