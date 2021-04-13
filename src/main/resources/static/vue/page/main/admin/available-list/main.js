@@ -182,7 +182,6 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "page": options !== undefined ? options.page : 1,
                     "rowSize": options !== undefined ? options.itemsPerPage : 10,
                     "sort": options !== undefined ? ito.util.sort(options.sortBy, options.sortDesc) : [],
-
                     "name": self.user.query.name,
                     "jobType": self.user.query.jobType,
                     "career": careerValue === "0" ? null : careerValue,
@@ -240,8 +239,6 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
 
                     if(e.applyProject !== undefined) { // 가져온 프로젝트 이름에 대한 배열이 undefined 인지 체크하고 아니면 String으로 변환
                         e.applyProject = e.applyProject.join(", ");
-                    } else {
-                        e.applyProject = "현재 지원한 프로젝트 없음";
                     }
                 });
                 self.user.dataTable.loading = false;
