@@ -135,6 +135,14 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
 
             },
             "methods":{
+                "editUserInfo": function(value){
+                    this.$router.push({
+                        "path": "/main/admin/user-info-form",
+                        "query": {
+                            "id": value.id
+                        }
+                       });
+                },
                 "setActualPay": async function(item){
                     var self = this;
                     console.log(item.value);
@@ -172,11 +180,13 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                             "pay": pay,
                         }
                     };
-
+                    console.log(this.project.items);
                     await ito.alert("투입 시키겠습니까?");
                     await ito.api.app.involvement.createInvolvement(involveParam);
                     var personData = (await ito.api.common.person.getPerson(personId)).data
-                    personData.workableDay = this.project.items.eterm;
+                    var new_date = moment(this.project.items.eterm).add(1,"days").format("YYYY-MM-DD");
+                    personData.workableDay = new_date;
+                    console.log(personData.workableDay);
                     await ito.api.common.person.modifyPerson(personId, personData);
                     await ito.alert("완료 되었습니다.");
                     await this.setConfirmPersonInfo();
@@ -277,7 +287,6 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                             e.birthDate = age+"년생 " + "("+(a + 1 )+")";
                                         }
                                     }
-
                                 })
                                 .then(function () { resolve(); });
                         });
@@ -285,25 +294,27 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                 "setConfirmPersonInfo": async function(options){
                         var self = this;
                         var projectId = await self.$route.query.id;
-                        var params = {}, count=0;
+                        var params = {};
                         params.projectId = !_.isEmpty(projectId) ? projectId : null;
+                        params.status="T"
+                        if(options !== undefined) {
+                            params.page = options.page;
+                            params.rowSize = options.itemsPerPage;
+                            params.sort=ito.util.sort(options.sortBy, options.sortDesc);
+                        }
                         self.confirmPerson.dataTable.loading = true;
-                        var data = (await ito.api.common.projectPerson.getProjectPersonList(params)).data
+                        var data = (await ito.api.common.projectPerson.getProjectPersonList(params)).data;
                         self.confirmPerson.dataTable.items = [];
-                        console.log(data)
 
+                        var param=[];
                         for(var i =0; i < data.items.length ; i++ ){
-                            if(data.items[i].status == "T"){
                                  let personId = data.items[i].person.id;
                                  let careerId = (await ito.api.app.involvement.getCareerIdList(projectId, personId)).data;
-                                 console.log(careerId)
                                  var careerData = (await ito.api.common.career.getCareer(careerId)).data;
                                  data.items[i].person.actualPay = careerData.pay;
-                                console.log(data.items[i].actualPay);
-                                 self.confirmPerson.dataTable.items.push(data.items[i].person);
-                                 count++;
-                            }
+                                 param.push(data.items[i].person);
                         }
+                        self.confirmPerson.dataTable.items=param;
 
                         var codeBigData = (await ito.api.common.code.getCodeList()).data.items;
 
@@ -360,20 +371,25 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                             e.pay = String(e.minPay) +" ~ " +String(e.maxPay)
 
                         })
-                        self.confirmPerson.dataTable.totalRows = count;
+                        self.confirmPerson.dataTable.totalRows = data.totalRows;
                         self.confirmPerson.dataTable.loading = false;
                   },
                 "setAvailablePersonInfo": async function(options){
                     var self = this;
                     var projectId = await self.$route.query.id;
+
                     var params = {}, count=0, availablePersonList;
+                    if(options !== undefined) {
+                        params.page = options.page;
+                        params.rowSize = options.itemsPerPage;
+                        params.sort=ito.util.sort(options.sortBy, options.sortDesc);
+                    }
                     params.projectId = !_.isEmpty(projectId) ? projectId : null;
+                    params.workableDay= moment().add("1", "M").format("YYYY-MM-DD")
                     self.availablePerson.dataTable.loading = true;
-                    //workableDay가 현재 날짜 + 한달 뒤까지 전부 가져오기
                     self.availablePerson.dataTable.items=[];
-                    var data = (await ito.api.common.person.getPersonList({
-                        "workableDay": moment().add("1", "M").format("YYYY-MM-DD") //현재 날짜 + 한달
-                    })).data;
+
+                    var data = (await ito.api.common.person.getPersonList(params)).data;
 
                     console.log(data);
 
@@ -441,16 +457,19 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                 "setPersonInfo": async function(options){
                     var self = this;
                     var projectId = await self.$route.query.id;
-                    var params = {}, count=0;
+                    var params = {};
                     params.projectId = !_.isEmpty(projectId) ? projectId : null;
+                    params.status="F";
                     self.person.dataTable.loading = true;
+                    if(options !== undefined) {
+                        params.page = options.page;
+                        params.rowSize = options.itemsPerPage;
+                        params.sort=ito.util.sort(options.sortBy, options.sortDesc);
+                    }
                     var data = (await ito.api.common.projectPerson.getProjectPersonList(params)).data
                     self.person.dataTable.items = [];
                     data.items.forEach(e=> {
-                        if(e.status == "F")  {
                             self.person.dataTable.items.push(e.person);
-                             count++;
-                            }
                     });
 
                     var codeBigData = (await ito.api.common.code.getCodeList()).data.items;
@@ -509,7 +528,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
 
                     })
                     console.log(self.person.dataTable.items);
-                    self.person.dataTable.totalRows = count;
+                    self.person.dataTable.totalRows = data.totalRows;
                     console.log(" items 값  출력      " + self.person.dataTable.items)
                     self.person.dataTable.loading = false;
                 },

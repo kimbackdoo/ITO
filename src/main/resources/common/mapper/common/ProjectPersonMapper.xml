@@ -70,6 +70,9 @@
             <if test="projectPersonParamDto.personId != null and projectPersonParamDto.personId != ''">
                 AND `project_person`.`person_id` = #{projectPersonParamDto.personId}
             </if>
+            <if test="projectPersonParamDto.status != null and projectPersonParamDto.status != ''">
+                AND `project_person`.`status` = #{projectPersonParamDto.status}
+            </if>
         </where>
     </sql>
 
