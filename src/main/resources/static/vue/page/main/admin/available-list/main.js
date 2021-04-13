@@ -244,14 +244,15 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 self.user.dataTable.loading = false;
             },
             "inputProject": async function(value) {
-                let check = 0; // 지원한 프로젝트인지 체크하는 변수
+                let check = 1; // 지원한 프로젝트인지 체크하는 변수
                 let projectIdList = (await ito.api.common.projectPerson.getProjectPersonList({"personId": value.item.id})).data.items.map(e=> e.projectId);
                 for(let i=0; i<projectIdList.length; i++) { // 지원한 적인 있는 프로젝트인지 체크
                     if(projectIdList[i] === value.id) {
+                        check = 0;
                         break;
                     }
-                    check = 1;
                 }
+                console.log(check);
 
                 if(check) { // 지원한 적인 없는 프로젝트면 지원
                     if(await ito.confirm("지원하시겠습니까?")) {
