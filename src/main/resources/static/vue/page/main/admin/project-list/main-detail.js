@@ -137,7 +137,9 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
 
                     await ito.alert("투입 시키겠습니까?");
                     await ito.api.app.involvement.createInvolvement(involveParam);
-//                    await ito.api.common.projectPerson.modifyProjectPerson(personId,projectId,param);
+                    var personData = (await ito.api.common.person.getPerson(personId)).data
+                    personData.workableDay = this.project.items.sterm;
+                    await ito.api.common.person.modifyPerson(personId, personData);
                     await ito.alert("완료 되었습니다.");
                     await this.setConfirmPersonInfo();
                     await this.setPersonInfo();
@@ -156,9 +158,36 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                             var projectParam=[];
                              for(var i in deleteList){
                                     projectParam.push({"personId": deleteList[i],"projectId": projectId });
-                             }
 
-                            await ito.api.common.projectPerson.removeProjectPersonList(projectParam)
+                                    let careerId = (await ito.api.app.involvement.getCareerIdList(projectId, deleteList[i])).data;
+                                    console.log(typeof(careerId));
+                                    console.log(careerId);
+//                                    await ito.api.common.projectCareer.removeProjectCareer(projectId, careerId); //삭제됨
+//                                   await ito.api.common.career.removeCareer(careerId);
+                                    var involveParam = {
+                                        "projectPersonDto":{
+                                            "personId": deleteList[i],
+                                            "projectId": projectId,
+                                            "status": "F",
+                                        },
+                                        "careerDto": {
+                                            "personCareerId": Number(careerId),
+                                            "personId": deleteList[i],
+                                            "name": this.project.items.name,
+                                            "startPeriod": this.project.items.sterm,
+                                            "endPeriod": this.project.items.eterm,
+                                        }
+                                    }
+                                    await ito.api.app.involvement.removeInvolvement(involveParam);
+                                    console.log("토오오오옹과아ㅏㅏㅏㅏㅏㅏ")
+                                    var personData = (await ito.api.common.person.getPerson(deleteList[i])).data
+                                    personData.workableDay = (moment().format("YYYY-MM-DD"));
+                                    await ito.api.common.person.modifyPerson(deleteList[i], personData);
+                                    console.log("통과3")
+
+                             }
+//                            await ito.api.common.projectPerson.removeProjectPersonList(projectParam)
+
                             await ito.alert("삭제되었습니다.")
                         }
                         await this.setConfirmPersonInfo()
@@ -234,17 +263,6 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                         var data = (await ito.api.common.projectPerson.getProjectPersonList(params)).data
                         self.confirmPerson.dataTable.items = [];
 
-/*                        data.items.forEach(e=> {
-                            if(e.status == "T"){
-                                 let personId = e.person.id;
-                                 var careerId = await ito.api.app.involvement.getCareerIdList(projectId, personId);
-                                 var careerData = await ito.api.common.career.getCareer(careerId);
-                                 e.actualPay = careerData.pay;
-                                 self.confirmPerson.dataTable.items.push(e.person);
-                                 count++;
-                            }
-                        });
-*/
                         for(var i =0; i < data.items.length ; i++ ){
                             if(data.items[i].status == "T"){
                                  let personId = data.items[i].person.id;

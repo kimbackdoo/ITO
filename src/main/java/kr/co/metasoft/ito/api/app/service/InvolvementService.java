@@ -75,8 +75,13 @@ public class InvolvementService {
     @Transactional
     public void removeInvolvement(
             @Valid @NotNull (groups = {RemoveValidationGroup.class}) InvolvementDto involvementDto) {
+
+            System.out.println(involvementDto);
+
+
         CareerEntity careerEntity = CareerEntity.builder()
                 .personId(involvementDto.getCareerDto().getPersonId())
+                .personCareerId(involvementDto.getCareerDto().getPersonCareerId())
                 .name(involvementDto.getCareerDto().getName())
                 .startPeriod(involvementDto.getCareerDto().getStartPeriod())
                 .endPeriod(involvementDto.getCareerDto().getEndPeriod())
@@ -85,20 +90,27 @@ public class InvolvementService {
                 .pay(involvementDto.getCareerDto().getPay())
                 .build();
 
-        careerCalc(careerEntity, "delete").getPersonCareerId();
 
-        projectPersonRepository.deleteById(
-            ProjectPersonEntityId.builder()
-                .projectId(involvementDto.getProjectPersonDto().getProjectId())
-                .personId(involvementDto.getProjectPersonDto().getPersonId())
-                .build()
-        );
-        projectCareerRepository.deleteById(
-            ProjectCareerEntityId.builder()
+        projectCareerRepository.delete(
+                ProjectCareerEntity.builder()
                 .projectId(involvementDto.getProjectPersonDto().getProjectId())
                 .careerId(involvementDto.getCareerDto().getPersonCareerId())
                 .build()
-        );
+                );
+        System.out.println("projectCareer 삭제");
+
+        projectPersonRepository.delete(
+                ProjectPersonEntity.builder()
+                .projectId(involvementDto.getProjectPersonDto().getProjectId())
+                .personId(involvementDto.getProjectPersonDto().getPersonId())
+                .build()
+                );
+        System.out.println("projectPerson 삭제");
+
+
+        careerCalc(careerEntity, "delete");
+        System.out.println("통과! ");
+
     }
 
     // 경력 계산 함수
@@ -154,10 +166,9 @@ public class InvolvementService {
         }
         personEntity.setCareer(result + "");
 
+        personRepository.save(personEntity);
         if (s.equals("delete")) {
-            personRepository.deleteById(personEntity.getId());
-        } else {
-            personRepository.save(personEntity);
+            careerRepository.deleteById(careerEntity.getPersonCareerId());
         }
 
         return entity;

@@ -59,7 +59,7 @@ public class CareerEntity {
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "create_dt", columnDefinition = "datetime", nullable = false)
+    @Column(name = "create_dt", columnDefinition = "datetime", nullable = false, updatable = false)
     private LocalDateTime createDt;
 
     @CreatedDate
