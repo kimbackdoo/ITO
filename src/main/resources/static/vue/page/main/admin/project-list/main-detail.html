@@ -120,6 +120,44 @@
     </v-row>
 </div>
 
+<div class="pa-3">
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="project.panels.list"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-content>
+                        <v-row>
+                         <v-col>
+                            <div>
+                                <data-table-custom-component
+                                   dense
+                                   item-key="id"
+                                   :headers="availablePerson.dataTable.headers"
+                                   :items="availablePerson.dataTable.items"
+                                   :totalRows="availablePerson.dataTable.totalRows"
+                                   :loading="availablePerson.dataTable.loading"
+                                   :import-hide="true"
+                                   :add-hide="true"
+                                   :remove-hide="true"
+                                   :count-title="{'front': '가용인력 수 :', 'end': '명'}"
+                                    @reload="setAvailablePersonInfo"
+                                    @click:button="clickInputStatus"
+                                    @input:textField="setActualPay"
+                                    :cell="availablePerson.dataTable.cell"
+                                >
+                            </div>
+                         </v-col>
+                        </v-row>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+</div>
+
 
 
 
