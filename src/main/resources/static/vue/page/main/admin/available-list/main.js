@@ -262,11 +262,11 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                             "status": "F",
                         });
                         await ito.alert("지원되었습니다.");
-                        this.setUserInfoList();
                     }
                 } else { // 지원한적이 있는 프로젝트면 지원 안됨
                     await ito.alert("이미 지원한 프로젝트 입니다.");
                 }
+                this.setUserInfoList();
             },
             "search": async function () {
                 await this.setUserInfoList();
