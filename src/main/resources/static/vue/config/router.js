@@ -117,6 +117,11 @@ router = new VueRouter({
                     "path": "/settings/codes",
                     "component": SettingCodeMainPage
                 },
+                {
+                    "name": "PasswordChanges",
+                    "path": "/password-change",
+                    "component": PasswordChangeMainPage
+                }
             ]
         },
         {
