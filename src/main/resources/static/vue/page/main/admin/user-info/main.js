@@ -306,23 +306,25 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     params.name = !_.isEmpty(self.user.query.name) ? self.user.query.name : null;
                     params.jobType = !_.isEmpty(self.user.query.jobType) ? self.user.query.jobType : null;
                     params.career = !_.isEmpty(careerValue) && careerValue != 0 ? careerValue : null;
-                    params.pay = !_.isEmpty(self.user.query.pay) ? Number(self.user.query.pay) : null;
+                    params.minPay = self.user.query.pay;
                     params.local = !_.isEmpty(self.user.query.local) ? self.user.query.local : null;
                     params.detailLocal = !_.isEmpty(self.user.query.detailLocal) ? self.user.query.detailLocal : null;
                     params.inputStatus = !_.isEmpty(self.user.query.status) ? self.user.query.status : null;
                     params.education = !_.isEmpty(self.user.query.education) ? self.user.query.education : null;
                     params.certificateStatus = !_.isEmpty(self.user.query.certificateStatus) ? self.user.query.certificateStatus : null;
-                    params.memo= !_.isEmpty(self.user.query.skill) ? [self.user.query.skill] : null;
+                    params.skill= !_.isEmpty(self.user.query.skill) ? [self.user.query.skill] : null;
                     params.startBirthDate= !_.isEmpty(startBirth) ? startBirth : null;
                     params.endBirthDate= !_.isEmpty(endBirth) ? endBirth : null;
                     params.gender = !_.isEmpty(self.user.query.gender) ? self.user.query.gender : null;
-                    params.ratingScore = !_.isEmpty(self.user.query.ratingScore) ? Number(self.user.query.ratingScore) : null;
+                    params.ratingScore = self.user.query.ratingScore;
                     params.skillListLike = !_.isEmpty(self.user.query.skillList) ? self.user.query.skillList : [];
 
                     self.user.dataTable.loading = true;
 
-                    console.log("params.memo 값 :  "+ params.memo);
-                    console.log("params.memo 타입 :  "+ typeof(params.memo));
+                    console.log("params 값 :  "+ params.data);
+                    console.log("params.ratingScore 값 :  "+ params.ratingScore);
+                    console.log("ratingScore 값 :  "+ self.user.query.ratingScore);
+                    console.log("params.ratingScore 타입 :  "+ typeof(params.ratingScore));
 
                     data = (await ito.api.common.person.getPersonList(params)).data;
                     self.user.dataTable.items = data.items;
@@ -383,11 +385,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
 
                 },
                 "search": async function () {
-                    if(this.user.dataTable.options.page !== 1) {
-                        this.user.dataTable.options.page = 1;
-                    }else {
-                        await this.setUserInfoList();
-                    }
+                    await this.setUserInfoList();
                 },
                 "reset": function () {
                     var self = this;

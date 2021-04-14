@@ -31,10 +31,11 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     },
                     "status": {
                         "items": [
-                            {"text": "섭외", "value": "A"},
-                            {"text": "완료", "value": "C"},
-                            {"text": "면접", "value": "I"},
-                            {"text": "투입", "value": "P"}
+                            {"text": "섭외중", "value": "A"},
+                            {"text": "섭외 완료", "value": "C"},
+                            {"text": "인터뷰", "value": "I"},
+                            {"text": "투입중", "value": "P"},
+                            {"text": "이외", "value": "N"}
                         ]
                     },
                     "careerYear": {
@@ -209,10 +210,11 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     else projectList.items[i].limitDate = limitDate + " (D-" + limitDay + ")";
 
                     switch (projectList.items[i].status) {
-                        case 'P': projectList.items[i].statusName = "투입"; break;
-                        case 'I': projectList.items[i].statusName = "면접"; break;
-                        case 'C': projectList.items[i].statusName = "완료"; break;
-                        case 'A': projectList.items[i].statusName = "섭외"; break;
+                        case 'P': projectList.items[i].statusName = "투입중"; break;
+                        case 'I': projectList.items[i].statusName = "인터뷰"; break;
+                        case 'C': projectList.items[i].statusName = "섭외 완료"; break;
+                        case 'A': projectList.items[i].statusName = "섭외중"; break;
+                        case 'N': projectList.items[i].statusName = "이외"; break;
                     }
                 }
 
