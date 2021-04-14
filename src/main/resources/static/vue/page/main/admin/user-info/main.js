@@ -126,11 +126,11 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         },
                         "status":{
                             "items":[
-                                {"text": "미정", "value": "N"},
                                 {"text": "섭외중", "value": "A"},
                                 {"text": "섭외완료", "value": "C"},
                                 {"text": "인터뷰", "value": "I"},
-                                {"text": "투입중", "value": "P"}
+                                {"text": "투입중", "value": "P"},
+                                {"text": "이외", "value": "N"}
                             ]
                         },
                         "gender":{
@@ -343,7 +343,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             case 'P':
                                  e.inputStatus = "투입중"; break;
                             case 'N':
-                                 e.inputStatus = "미정"; break;
+                                 e.inputStatus = "이외"; break;
                         }
                         switch(e.education){
                             case "00701":

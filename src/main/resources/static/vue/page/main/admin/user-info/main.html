@@ -143,7 +143,6 @@
                                 <v-col cols="2">
                                     <v-select
                                         dense
-                                        multiple
                                         label="현황"
                                         hide-details="auto"
                                         :items="select.status.items"
@@ -184,7 +183,7 @@
                                     cols="12"
                                     class="text-right"
                                 >
-                                    <v-checkbox
+<!--                                     <v-checkbox
                                       v-model="user.query.inputStatus"
                                       label="투입중인 사람 제외"
                                       color="success"
@@ -192,7 +191,7 @@
                                       hide-details
                                     >
                                     </v-checkbox>
-                                    <v-btn
+ -->                                    <v-btn
                                         class="secondary"
                                         @click="reset()"
                                     >초기화</v-btn>

@@ -124,11 +124,11 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                         },
                         "status":{
                             "items":[
-                                {"text": "미정", "value": null},
                                 {"text": "섭외중", "value": 'A'},
                                 {"text": "섭외완료", "value": 'C'},
                                 {"text": "인터뷰", "value": 'I'},
-                                {"text": "투입중", "value": 'P'}
+                                {"text": "투입중", "value": 'P'},
+                                {"text": "이외", "value": 'N'}
                             ]
                         }
                     }
@@ -324,7 +324,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                         case 'P':
                                              e.status = "투입중"; break;
                                         case 'N':
-                                             e.status = "미정"; break;
+                                             e.status = "이외"; break;
                                     }
                                     switch(e.degree){
                                         case "00701":
@@ -416,9 +416,6 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     }
                 },
                 "search": function () {
-                    if(this.project.dataTable.options.page !== 1) {
-                        this.project.dataTable.options.page = 1;
-                    }else {
                     var self = this;
                     return new Promise(function (resolve, reject) {
                         Promise.resolve()
@@ -432,7 +429,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                              resolve();
                          });
                     });
-                    }
+
 
                 },
                 "reset": function () {
