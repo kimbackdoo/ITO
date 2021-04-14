@@ -195,7 +195,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                         var personData = (await ito.api.common.person.getPerson(personId)).data
                         var new_date = moment(this.project.items.eterm).add(1,"days").format("YYYY-MM-DD");
                         personData.workableDay = new_date;
-                        personData.inputStatus="C"
+                        personData.inputStatus="P"
                         await ito.api.common.person.modifyPerson(personId, personData);
                         await ito.alert("완료 되었습니다.");
                         await this.setConfirmPersonInfo();

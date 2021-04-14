@@ -420,6 +420,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         }
                         if(e.detailAddress != null) e.address = e.address + e.detailAddress
                         e.certificateStatus =(e.certificateStatus == "T") ? "있음" : "없음"
+                        e.gender = (e.gender === "M") ? "남자" : "여자"
                         e.career = e.career+"년"
                         e.pay = String(e.minPay) +" ~ " +String(e.maxPay)
                         if(e.applyProject !== undefined) { // 가져온 프로젝트 이름에 대한 배열이 undefined 인지 체크하고 아니면 String으로 변환
@@ -449,6 +450,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 self.user.query.pay = null;
                                 self.user.query.address = null;
                                 self.user.query.inputStatus = null;
+                                self.user.query.status = null;
                                 self.user.query.education = null;
                                 self.user.query.certificateStatus = null;
                                 self.user.query.job = null;
@@ -459,6 +461,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 self.user.query.gender = null;
                                 self.user.query.ratingScore = null;
                                 self.user.query.skillList = [];
+
                             })
                             .then(function () {
                                 return self.search();
