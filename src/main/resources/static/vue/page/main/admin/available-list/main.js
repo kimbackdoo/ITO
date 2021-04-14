@@ -252,7 +252,6 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                         break;
                     }
                 }
-                console.log(check);
 
                 if(check) { // 지원한 적인 없는 프로젝트면 지원
                     if(await ito.confirm("지원하시겠습니까?")) {
@@ -264,7 +263,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                         await ito.alert("지원되었습니다.");
                     }
                 } else { // 지원한적이 있는 프로젝트면 지원 안됨
-                    await ito.alert("이미 지원한 프로젝트 입니다.");
+                    await ito.alert("이미 지원한 프로젝트입니다.");
                 }
                 this.setUserInfoList();
             },

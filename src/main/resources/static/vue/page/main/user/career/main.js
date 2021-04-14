@@ -71,8 +71,8 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                 self.career.dataTable.loading = true;
 
                 careerList = (await ito.api.common.career.getCareerList({
-                    "page": options !== undefined ? self.career.dataTable.options.page : 1,
-                    "rowSize": options !== undefined ? self.career.dataTable.options.itemsPerPage : 10,
+                    "page": options !== undefined ? options.page : 1,
+                    "rowSize": options !== undefined ? options.itemsPerPage : 10,
                     "sort": options !== undefined ? ito.util.sort(options.sortBy, options.sortDesc) : [],
                 })).data;
 
