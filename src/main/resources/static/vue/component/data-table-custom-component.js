@@ -113,7 +113,16 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
             return this.loading || this.totalRows === 0 ? true : false;
         },
         "count": function () {
-            return this.countTitle.front + " " + this.totalRows + this.countTitle.end;
+            var finalCount=null, temp;
+            var alterCount = this.totalRows;
+            while(alterCount > 1000){
+                temp = alterCount % 1000;
+                alterCount = Math.floor(alterCount / 1000);
+                finalCount = ","+String(temp);
+            }
+            if(finalCount != null) finalCount = String(alterCount) + finalCount;
+            else finalCount = this.totalRows;
+            return this.countTitle.front + " " + finalCount + this.countTitle.end;
         }
     },
     "methods": {
