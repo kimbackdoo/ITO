@@ -46,8 +46,6 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                 {"text": "실제 급여" ,"width": 120,"align": "center","width": 170, "value": "actualPay","type": "textField"},
                                 {"text": "업무 시작 가능일", "width": 120, "value": "workableDay", cellClass:"text-truncate"},
                                 {"text": "투입 여부" ,"width": 120,"align": "center", "value": "edit","type": "button"},
-
-//                                {"text": "현황",  "value": "inputStatus"},
                             ],
                             "cell": {
                                 "button": {
@@ -71,18 +69,17 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                     "confirmPerson":{
                         "dataTable": {
                             "headers": [
-                                {"text": "이름","width": 120, "value": "name"},
-                                {"text": "전화번호","width": 120, "value": "phoneNumber"},
-                                {"text": "성별","width": 120, "value": "gender"},
-                                {"text": "생년월일(나이)","width": 120,  "value": "birthDate", cellClass:"text-truncate"},
-                                {"text": "직종","width": 120,  "value": "jobType"},
-                                {"text": "기술","width": 120,  "value": "skill"},
-                                {"text": "학력","width": 120, "value": "education"},
-                                {"text": "경력","width": 120,  "value": "career"},
-                                {"text": "자격증 유무","width": 120, "value": "certificateStatus"},
-                                {"text": "실제 급여","width": 120,  "value": "actualPay"},
-                                {"text": "업무 시작 가능일","width": 120,  "value": "workableDay"},
-//                                {"text": "현황",  "value": "inputStatus"},
+                                {"text": "이름","width": 120, "value": "name","align": "center", cellClass:"text-truncate"},
+                                {"text": "전화번호","width": 120, "value": "phoneNumber","align": "center", cellClass:"text-truncate"},
+                                {"text": "성별","width": 120, "value": "gender","align": "center", cellClass:"text-truncate"},
+                                {"text": "생년월일(나이)","width": 120,  "value": "birthDate", cellClass:"text-truncate",},
+                                {"text": "직종","width": 120,  "value": "jobType","align": "center", cellClass:"text-truncate"},
+                                {"text": "기술","width": 120,  "value": "skill","align": "center", cellClass:"text-truncate"},
+                                {"text": "학력","width": 120, "value": "education","align": "center", cellClass:"text-truncate"},
+                                {"text": "경력","width": 120,  "value": "career","align": "center", cellClass:"text-truncate"},
+                                {"text": "자격증 유무","width": 120, "value": "certificateStatus","align": "center", cellClass:"text-truncate"},
+                                {"text": "실제 급여","width": 120,  "value": "actualPay","align": "center", cellClass:"text-truncate"},
+                                {"text": "업무 시작 가능일","width": 120,  "value": "workableDay","align": "center", cellClass:"text-truncate"},
                             ],
                             "items":[],
                             "totalRows": 0,
@@ -181,8 +178,6 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                         }
                     };
                     await ito.alert("투입 시키겠습니까?");
-                    //projectPerson Table에서 personId 값으로 status = T 인값이 존재하면 return
-                    // 확정된 프로젝트 이름하고
                    var value = (await ito.api.common.projectPerson.getProjectPersonList({
                         "personId": personId,
                         "status": "T"
