@@ -59,6 +59,10 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
         "cell": {
             "type": Object,
             "default": {}
+        },
+        "downloadHide": {
+            "type": Boolean,
+            "defualt": false
         }
     },
     "data": function () {
@@ -140,6 +144,9 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
         "inputTextField": function (value, item, header) {
             const clicked = {value, item, header};
             this.$emit("input:textField", clicked);
+        },
+        "download": function(){
+            this.$emit("download")
         }
     },
 }); });

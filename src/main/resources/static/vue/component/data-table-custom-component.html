@@ -17,17 +17,18 @@
             <div style="width: 200px;">
                 <h3 class="text-left">{{count}}</h3>
             </div>
-            <div style="width: 130px;" class="ml-auto">
-                <v-select
-                    dense
-                    outlined
-                    hide-details="auto"
-                    :value="options.itemsPerPage"
-                    :items="paginationList"
-                    @change="options.itemsPerPage = $event;"
-                >ratingScore
-                </v-select>
-            </div>
+            <v-btn v-if="!downloadHide" depressed color="primary" class="ml-auto" @click="download">Excel Download</v-btn>
+            <div style="width: 130px;" :class="downloadHide ? 'ml-auto' : 'ml-3'">
+              <v-select
+                  dense
+                  outlined
+                  hide-details="auto"
+                  :value="options.itemsPerPage"
+                  :items="paginationList"
+                  @change="options.itemsPerPage = $event;"
+                 >ratingScore
+              </v-select>
+           </div>
         </v-col>
     </v-row>
     </template>
