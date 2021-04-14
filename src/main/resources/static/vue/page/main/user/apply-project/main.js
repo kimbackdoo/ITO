@@ -183,8 +183,8 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
 
                 self.project.dataTable.loading = true;
                 projectList = (await ito.api.common.project.getProjectList({
-                    "page": options !== undefined ? self.project.dataTable.options.page : 1,
-                    "rowSize": options !== undefined ? self.project.dataTable.options.itemsPerPage : 10,
+                    "page": options !== undefined ? options.page : 1,
+                    "rowSize": options !== undefined ? options.itemsPerPage : 10,
                     "sort": options !== undefined ? ito.util.sort(options.sortBy, options.sortDesc) : [],
 
                     "nameLike": self.project.dataTable.query.projectName,
