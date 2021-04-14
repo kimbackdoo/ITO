@@ -104,33 +104,40 @@ public class AccountService {
         List<PersonSkillEntity> personSkillEntityList = new ArrayList<>();
         List<PersonLanguageEntity> personLanguageEntityList = new ArrayList<>();
 
-        for(PersonSectorDto dto : accountDto.getPersonSectorDtoList()) {
-            dto.setPersonId(personId);
-            personSectorEntityList.add(PersonSectorEntity.builder()
-                    .sector(dto.getSector())
-                    .personId(personId)
-                    .build()
-            );
+        if(accountDto.getPersonSectorDtoList() != null) {
+            for(PersonSectorDto dto : accountDto.getPersonSectorDtoList()) {
+                dto.setPersonId(personId);
+                personSectorEntityList.add(PersonSectorEntity.builder()
+                        .sector(dto.getSector())
+                        .personId(personId)
+                        .build()
+                );
+            }
         }
         result.setPersonSectorDtoList(accountDto.getPersonSectorDtoList());
 
-        for(PersonSkillDto dto : accountDto.getPersonSkillDtoList()) {
-            dto.setPersonId(personId);
-            personSkillEntityList.add(PersonSkillEntity.builder()
-                    .skill(dto.getSkill())
-                    .personId(personId)
-                    .build()
-            );
+
+        if(accountDto.getPersonSkillDtoList() != null) {
+            for(PersonSkillDto dto : accountDto.getPersonSkillDtoList()) {
+                dto.setPersonId(personId);
+                personSkillEntityList.add(PersonSkillEntity.builder()
+                        .skill(dto.getSkill())
+                        .personId(personId)
+                        .build()
+                );
+            }
         }
         result.setPersonSkillDtoList(accountDto.getPersonSkillDtoList());
 
-        for(PersonLanguageDto dto : accountDto.getPersonLanguageDtoList()) {
-            dto.setPersonId(personId);
-            personLanguageEntityList.add(PersonLanguageEntity.builder()
-                    .language(dto.getLanguage())
-                    .personId(personId)
-                    .build()
-            );
+        if(accountDto.getPersonLanguageDtoList() != null) {
+            for(PersonLanguageDto dto : accountDto.getPersonLanguageDtoList()) {
+                dto.setPersonId(personId);
+                personLanguageEntityList.add(PersonLanguageEntity.builder()
+                        .language(dto.getLanguage())
+                        .personId(personId)
+                        .build()
+                );
+            }
         }
         result.setPersonLanguageDtoList(accountDto.getPersonLanguageDtoList());
 
