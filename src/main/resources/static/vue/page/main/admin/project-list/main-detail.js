@@ -180,19 +180,32 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                             "pay": pay,
                         }
                     };
-                    console.log(this.project.items);
                     await ito.alert("투입 시키겠습니까?");
-                    await ito.api.app.involvement.createInvolvement(involveParam);
-                    var personData = (await ito.api.common.person.getPerson(personId)).data
-                    var new_date = moment(this.project.items.eterm).add(1,"days").format("YYYY-MM-DD");
-                    personData.workableDay = new_date;
-                    console.log(personData.workableDay);
-                    await ito.api.common.person.modifyPerson(personId, personData);
-                    await ito.alert("완료 되었습니다.");
-                    await this.setConfirmPersonInfo();
-                    await this.setPersonInfo();
-                    await this.setAvailablePersonInfo();
-
+                    //projectPerson Table에서 personId 값으로 status = T 인값이 존재하면 return
+                    // 확정된 프로젝트 이름하고
+                   var value = (await ito.api.common.projectPerson.getProjectPersonList({
+                        "personId": personId,
+                        "status": "T"
+                    })).data;
+                    var projectNameList = "";
+                    value.items.forEach( e=> {
+                        projectNameList += e.project.name + " ";
+                    })
+                   var a =value ? true : false;
+                    if(a === true){
+                        await ito.alert("이미 [ " + projectNameList +" ] 프로젝트에 확정 되었습니다.");
+                    }
+                    else{
+                        await ito.api.app.involvement.createInvolvement(involveParam);
+                        var personData = (await ito.api.common.person.getPerson(personId)).data
+                        var new_date = moment(this.project.items.eterm).add(1,"days").format("YYYY-MM-DD");
+                        personData.workableDay = new_date;
+                        await ito.api.common.person.modifyPerson(personId, personData);
+                        await ito.alert("완료 되었습니다.");
+                        await this.setConfirmPersonInfo();
+                        await this.setPersonInfo();
+                        await this.setAvailablePersonInfo();
+                    }
                 },
                 "deleteConfirmPersonInfoList": async function(items){
                     var projectId = this.project.items.id;
@@ -445,6 +458,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                 e.birthDate = age+"년생 " + "("+(a + 1 )+")";
                             }
                         }
+
                         if(e.detailAddress != null) e.address = e.address + e.detailAddress
                         e.certificateStatus =(e.certificateStatus == "T") ? "있음" : "없음"
                         e.career = e.career+"년"
