@@ -34,18 +34,18 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                             "headers": [
                                 {"text": "이름","width": 120, "value": "name","align": "center", cellClass:"text-truncate"},
                                 {"text": "전화번호","width": 120, "value": "phoneNumber","align": "center", cellClass:"text-truncate"},
-                                {"text": "성별","width": 120,"align": "center", "value": "gender"},
+                                {"text": "성별","width": 120,"align": "center", "value": "gender",cellClass:"text-truncate"},
                                 {"text": "생년월일(나이)","width": 120, "align": "center", "value": "birthDate", cellClass:"text-truncate"},
-                                {"text": "직종","width": 120,"align": "center",  "value": "jobType"},
-                                {"text": "기술","width": 120, "align": "center", "value": "skill"},
-                                {"text": "학력","width": 120, "align": "center","value": "education"},
-                                {"text": "경력","width": 120,  "align": "center","value": "career"},
-                                {"text": "자격증 유무","width": 120,"align": "center", "value": "certificateStatus"},
-                                {"text": "희망 급여(최저)","width": 120,"align": "center",  "value": "minPay"},
-                                {"text": "희망 급여(최고)","width": 120,"align": "center",  "value": "maxPay"},
-                                {"text": "실제 급여" ,"width": 120,"align": "center","width": 170, "value": "actualPay","type": "textField"},
+                                {"text": "직종","width": 120,"align": "center",  "value": "jobType",cellClass:"text-truncate"},
+                                {"text": "기술","width": 120, "align": "center", "value": "skill",cellClass:"text-truncate"},
+                                {"text": "학력","width": 120, "align": "center","value": "education",cellClass:"text-truncate"},
+                                {"text": "경력","width": 120,  "align": "center","value": "career",cellClass:"text-truncate"},
+                                {"text": "자격증 유무","width": 120,"align": "center", "value": "certificateStatus",cellClass:"text-truncate"},
+                                {"text": "희망 급여(최저)","width": 120,"align": "center",  "value": "minPay",cellClass:"text-truncate"},
+                                {"text": "희망 급여(최고)","width": 120,"align": "center",  "value": "maxPay",cellClass:"text-truncate"},
+                                {"text": "실제 급여" ,"width": 120,"align": "center","width": 170, "value": "actualPay","type": "textField",cellClass:"text-truncate"},
                                 {"text": "업무 시작 가능일", "width": 120, "value": "workableDay", cellClass:"text-truncate"},
-                                {"text": "투입 여부" ,"width": 120,"align": "center", "value": "edit","type": "button"},
+                                {"text": "투입 여부" ,"width": 120,"align": "center", "value": "edit","type": "button",cellClass:"text-truncate"},
                             ],
                             "cell": {
                                 "button": {
@@ -93,19 +93,19 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                 {"text": "이름", "value": "name","width": 120,"align": "center", cellClass:"text-truncate"},
                                 {"text": "평가점수", "width": 120,"value": "ratingScore","align": "center", cellClass:"text-truncate"},
                                 {"text": "메모", "width": 120,"value": "memo","align": "center", cellClass:"text-truncate"},
-                                {"text": "성별","width": 120,"align": "center", "value": "gender"},
+                                {"text": "성별","width": 120,"align": "center", "value": "gender",cellClass:"text-truncate"},
                                 {"text": "생년월일(나이)","width": 120, "align": "center", "value": "birthDate", cellClass:"text-truncate"},
                                 {"text": "전화번호", "width": 120,"value": "phoneNumber","align": "center", cellClass:"text-truncate"},
-                                {"text": "직종","width": 120,"align": "center",  "value": "jobType"},
-                                {"text": "기술","width": 120, "align": "center", "value": "skill"},
-                                {"text": "학력","width": 120, "align": "center","value": "education"},
-                                {"text": "경력","width": 120,  "align": "center","value": "career"},
-                                {"text": "자격증 유무","width": 120,"align": "center", "value": "certificateStatus"},
-                                {"text": "희망 급여(최저)","width": 120,"align": "center",  "value": "minPay"},
-                                {"text": "희망 급여(최고)","width": 120,"align": "center",  "value": "maxPay"},
-                                {"text": "실제 급여" ,"align": "center","width": 170, "value": "actualPay","type": "textField"},
+                                {"text": "직종","width": 120,"align": "center",  "value": "jobType",cellClass:"text-truncate"},
+                                {"text": "기술","width": 120, "align": "center", "value": "skill",cellClass:"text-truncate"},
+                                {"text": "학력","width": 120, "align": "center","value": "education",cellClass:"text-truncate"},
+                                {"text": "경력","width": 120,  "align": "center","value": "career",cellClass:"text-truncate"},
+                                {"text": "자격증 유무","width": 120,"align": "center", "value": "certificateStatus",cellClass:"text-truncate"},
+                                {"text": "희망 급여(최저)","width": 120,"align": "center",  "value": "minPay",cellClass:"text-truncate"},
+                                {"text": "희망 급여(최고)","width": 120,"align": "center",  "value": "maxPay",cellClass:"text-truncate"},
+                                {"text": "실제 급여" ,"align": "center","width": 170, "value": "actualPay","type": "textField",cellClass:"text-truncate"},
                                 {"text": "업무 시작 가능일", "width": 120, "value": "workableDay", cellClass:"text-truncate"},
-                                {"text": "투입 여부", "width": 120,"align": "center", "value": "edit","type": "button"},
+                                {"text": "투입 여부", "width": 120,"align": "center", "value": "edit","type": "button",cellClass:"text-truncate"},
                             ],
                             "cell": {
                                 "button": {
@@ -195,6 +195,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                         var personData = (await ito.api.common.person.getPerson(personId)).data
                         var new_date = moment(this.project.items.eterm).add(1,"days").format("YYYY-MM-DD");
                         personData.workableDay = new_date;
+                        personData.inputStatus="C"
                         await ito.api.common.person.modifyPerson(personId, personData);
                         await ito.alert("완료 되었습니다.");
                         await this.setConfirmPersonInfo();
@@ -231,6 +232,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                     await ito.api.app.involvement.removeInvolvement(involveParam);
                                     var personData = (await ito.api.common.person.getPerson(deleteList[i])).data
                                     personData.workableDay = (moment().format("YYYY-MM-DD"));
+                                    personData.inputStatus = "N";
                                     await ito.api.common.person.modifyPerson(deleteList[i], personData);
                              }
                             await ito.alert("삭제되었습니다.")

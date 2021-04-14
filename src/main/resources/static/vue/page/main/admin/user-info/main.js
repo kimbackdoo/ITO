@@ -12,21 +12,22 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         },
                         "dataTable": {
                             "headers": [
-                                {"text": "이름", "value": "name",cellClass:"text-truncate"},
-                                {"text": "성별", "value": "gender",cellClass:"text-truncate"},
-                                {"text": "평가점수", "value": "ratingScore",cellClass:"text-truncate"},
-                                {"text": "전화번호", "value": "phoneNumber", cellClass:"text-truncate"},
-                                {"text": "생년월일(나이)",  "value": "birthDate", cellClass:"text-truncate"},
-                                {"text": "직종",  "value": "jobType", cellClass:"text-truncate"},
-                                {"text": "기술",  "value": "skill",cellClass:"text-truncate"},
-                                {"text": "학력", "value": "education", cellClass:"text-truncate"},
-                                {"text": "경력",  "value": "career", cellClass:"text-truncate"},
-                                {"text": "자격증 유무", "value": "certificateStatus",cellClass:"text-truncate"},
-                                {"text": "희망 급여",  "value": "pay", cellClass:"text-truncate"},
-                                {"text": "지역",  "value": "address", cellClass:"text-truncate"},
-                                {"text": "현황",  "value": "inputStatus", cellClass:"text-truncate"},
-                                {"text": "업무 가능일",  "value": "workableDay", cellClass:"text-truncate"}
-                                //성별
+                                {"text": "이름", "value": "name",width:120,cellClass:"text-truncate"},
+                                {"text": "성별", "value": "gender",width:120,cellClass:"text-truncate"},
+                                {"text": "평가점수", "value": "ratingScore",width:120,cellClass:"text-truncate"},
+                                {"text": "전화번호", "value": "phoneNumber", width:120,cellClass:"text-truncate"},
+                                {"text": "생년월일(나이)",  "value": "birthDate",width:120, cellClass:"text-truncate"},
+                                {"text": "직종",  "value": "jobType",width:120, cellClass:"text-truncate"},
+                                {"text": "기술",  "value": "skill",width:120,cellClass:"text-truncate"},
+                                {"text": "학력", "value": "education",width:120, cellClass:"text-truncate"},
+                                {"text": "경력",  "value": "career",width:120, cellClass:"text-truncate"},
+                                {"text": "자격증 유무", "value": "certificateStatus",width:120,cellClass:"text-truncate"},
+                                {"text": "희망 급여",  "value": "pay",width:120, cellClass:"text-truncate"},
+                                {"text": "지역",  "value": "address",width:120, cellClass:"text-truncate"},
+                                {"text": "현재 지원한 프로젝트", "value": "applyProject", "align": "center", "width": "120", cellClass:"text-truncate"},
+                                {"text": "프로젝트명", "value": "projectName", "align": "center", "width": "120", cellClass:"text-truncate", "type": "autocomplete"},
+                                {"text": "투입여부",  "value": "inputStatus",width:120, cellClass:"text-truncate"},
+                                {"text": "업무 가능일",  "value": "workableDay",width:120, cellClass:"text-truncate"}
                             ],
                             "totalRows":0,
                             "items": [],
@@ -71,6 +72,13 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 {"text":"11", "value": 0.11}
                             ],
                             "checkbox:": [],
+                            "cell": {
+                                "autocomplete": {
+                                    "projectName": {
+                                        "items": []
+                                    }
+                                }
+                            }
                         },
                         "query": {
                             "id":0,
@@ -203,6 +211,30 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 }
             },
             "methods": {
+                "inputProject": async function(value) {
+                    let check = 1; // 지원한 프로젝트인지 체크하는 변수
+                    let projectIdList = (await ito.api.common.projectPerson.getProjectPersonList({"personId": value.item.id})).data.items.map(e=> e.projectId);
+                    for(let i=0; i<projectIdList.length; i++) { // 지원한 적인 있는 프로젝트인지 체크
+                        if(projectIdList[i] === value.id) {
+                            check = 0;
+                            break;
+                        }
+                    }
+
+                    if(check) { // 지원한 적인 없는 프로젝트면 지원
+                        if(await ito.confirm("지원하시겠습니까?")) {
+                            await ito.api.common.projectPerson.createProjectPerson({
+                                "personId": value.item.id,
+                                "projectId": value.id,
+                                "status": "F",
+                            });
+                            await ito.alert("지원되었습니다.");
+                        }
+                    } else { // 지원한적이 있는 프로젝트면 지원 안됨
+                        await ito.alert("이미 지원한 프로젝트입니다.");
+                    }
+                    this.setUserInfoList();
+                },
                 "delimit": function(v) {
                     let reducer = (a, e) => [...a, ...e.split(/[, ]+/)]
                     this.user.query.skillList = [...new Set(v.reduce(reducer, []))]
@@ -321,16 +353,27 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
 
                     self.user.dataTable.loading = true;
 
-                    console.log("params 값 :  "+ params.data);
-                    console.log("params.ratingScore 값 :  "+ params.ratingScore);
-                    console.log("ratingScore 값 :  "+ self.user.query.ratingScore);
-                    console.log("params.ratingScore 타입 :  "+ typeof(params.ratingScore));
-
                     data = (await ito.api.common.person.getPersonList(params)).data;
                     self.user.dataTable.items = data.items;
                     self.user.dataTable.totalRows = data.totalRows;
-
                     var codeBigData = (await ito.api.common.code.getCodeList()).data.items;
+
+                    let projectList = (await ito.api.common.project.getProjectList({
+                    })).data.items.map(e=>({"text": e.name, "value": e.id}));
+                    this.user.dataTable.cell.autocomplete.projectName.items.push(...projectList);
+
+                    let projectPersonPromiseList = [];
+                    data.items.forEach(e=> {
+                        projectPersonPromiseList.push(ito.api.common.projectPerson.getProjectPersonList({"personId": e.id}));
+                    });
+                    (await Promise.all(projectPersonPromiseList)).forEach(e => {
+                        data.items.forEach(el=> {
+                            if(e.data.items.length > 0 && el.id === e.data.items[0].personId) {
+                                el.applyProject = e.data.items.map(project => project.project.name);
+                            }
+                        })
+                    });
+
 
                     self.user.dataTable.items.forEach(e => {
                         switch(e.inputStatus){
@@ -379,6 +422,10 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         e.certificateStatus =(e.certificateStatus == "T") ? "있음" : "없음"
                         e.career = e.career+"년"
                         e.pay = String(e.minPay) +" ~ " +String(e.maxPay)
+                        if(e.applyProject !== undefined) { // 가져온 프로젝트 이름에 대한 배열이 undefined 인지 체크하고 아니면 String으로 변환
+                            e.applyProject = e.applyProject.join(", ");
+                        }
+
                     });
                     self.user.dataTable.loading = false;
 
