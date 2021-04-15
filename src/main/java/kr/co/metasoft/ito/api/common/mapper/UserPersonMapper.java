@@ -24,4 +24,7 @@ public interface UserPersonMapper {
     public UserPersonEntity selectUserPerson(
             @Param (value = "userId") Long userId);
 
+    public UserPersonEntity selectUserId(
+            @Param (value = "personId") Long personId);
+
 }

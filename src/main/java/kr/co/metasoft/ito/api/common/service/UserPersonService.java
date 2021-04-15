@@ -52,6 +52,13 @@ public class UserPersonService {
         return userPersonMapper.selectUserPerson(userId);
     }
 
+    @Validated (value = {ReadValidationGroup.class})
+    @Transactional (readOnly = true)
+    public UserPersonEntity getUserId(
+            @Valid @NotNull (groups = {ReadValidationGroup.class}) Long personId) {
+        return userPersonMapper.selectUserId(personId);
+    }
+
     @Validated (value = {CreateValidationGroup.class})
     @Transactional
     public List<UserPersonEntity> createUserPersonList(

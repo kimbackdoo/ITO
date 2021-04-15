@@ -291,13 +291,32 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 idList[i] = Number(idList[i]);
                                 param.personId = idList[i];
                                 var project = (await ito.api.common.projectPerson.getProjectPersonList(param)).data
-                                if(project != null){
-                                    var projectPersonParams=[];
-                                    project.items.forEach(e => {
-                                        projectPersonParams.push({"personId": idList[i], "projectId": e.projectId});
-                                    })
+
+                                var projectPersonParams=[];
+                                project.items.forEach(e => {
+                                    projectPersonParams.push({"personId": idList[i], "projectId": e.projectId});
+                                })
+                                if(Array.isArray(projectPersonParams) && projectPersonParams.length !== 0){
                                     await ito.api.common.projectPerson.removeProjectPersonList(projectPersonParams)
                                 }
+                                var careerIdList=[],projectId;
+                                var careerData = (await ito.api.common.career.getCareerList({
+                                    "personId": idList[i]
+                                    })).data.items.forEach(e => {
+                                        careerIdList.push(e.personCareerId);
+                                });
+                                if(Array.isArray(careerIdList) && careerIdList.length !== 0) {
+                                    //projectCareer 삭제
+                                    for(let i =0;i<careerIdList.length;i++){
+                                        let projectEntity = (await ito.api.common.projectCareer.getProjectCareerList({"careerId":careerIdList[i]})).data.items;
+                                        projectEntity.forEach(e=> { projectId = e.projectId})
+                                        await ito.api.common.projectCareer.removeProjectCareer(projectId, careerIdList[i]);
+                                    }
+                                    //career 삭제
+                                    await ito.api.common.career.removeCareerList(careerIdList);
+                                }
+                                var userId = (await ito.api.common.userPerson.getUserId(idList[i])).data.userId;
+                                if(userId != null) await ito.api.common.userPerson.removeUserPerson(userId);
                                 person = (await ito.api.common.person.getPerson(idList[i])).data;
                                 params.push({
                                     "personDto": person,

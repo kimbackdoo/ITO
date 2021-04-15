@@ -41,6 +41,12 @@ public class ApiCommonUserPersonController {
         return userPersonService.getUserPerson(userId);
     }
 
+    @GetMapping (path = "id{personId}")
+    public UserPersonEntity getUserId(
+            @PathVariable (name = "personId") Long personId) {
+        return userPersonService.getUserId(personId);
+    }
+
     @PostMapping (path = "", params = {"bulk"})
     public List<UserPersonEntity> createUserPersonList(
             @RequestBody List<UserPersonDto> userPersonDtoList) {

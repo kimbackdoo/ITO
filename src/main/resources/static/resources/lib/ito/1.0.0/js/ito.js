@@ -212,6 +212,7 @@ ito = {
             "userPerson": {
                 "getUserPersonList": function (params) { return axios({"url": "/api/common/user-people", "method": "get", "params": params}); },
                 "getUserPerson": function (userId) { return axios({"url": "/api/common/user-people/" + userId, "method": "get"}); },
+                "getUserId": function (personId) { return axios({"url": "/api/common/user-people/id" + personId, "method": "get"}); },
                 "createUserPersonList": function (data) { return axios({"url": "/api/common/user-people?bulk", "method": "post", "data": data}); },
                 "createUserPerson": function (data) { return axios({"url": "/api/common/user-people", "method": "post", "data": data}); },
                 "modifyUserPersonList": function (data) { return axios({"url": "/api/common/user-people", "method": "put", "data": data}); },

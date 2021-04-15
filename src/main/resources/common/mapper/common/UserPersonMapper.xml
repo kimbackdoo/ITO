@@ -123,4 +123,13 @@
             `user_person`.`user_id` = #{userId}
     </select>
 
+    <select
+        id="selectUserId"
+        parameterType="java.util.Map"
+        resultMap="userPersonResultMap"
+    >
+        <include refid="selectFrom"/>
+        WHERE
+            `user_person`.`person_id` = #{personId}
+    </select>
 </mapper>
