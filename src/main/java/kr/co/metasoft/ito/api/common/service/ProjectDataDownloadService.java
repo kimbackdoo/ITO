@@ -9,7 +9,6 @@ import kr.co.metasoft.ito.common.util.PageRequest;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.usermodel.*;
-import org.aspectj.apache.bcel.classfile.Code;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -149,7 +148,7 @@ public class ProjectDataDownloadService {
                 cell = row.createCell(6); cell.setCellStyle(bodyCellStyle); cell.setCellValue(eterm);
                 cell = row.createCell(7); cell.setCellStyle(bodyCellStyle); cell.setCellValue(local);
                 cell = row.createCell(8); cell.setCellStyle(bodyCellStyle); cell.setCellValue(detailLocal);
-                cell = row.createCell(8); cell.setCellStyle(bodyCellStyle); cell.setCellValue(prsnl);
+                cell = row.createCell(9); cell.setCellStyle(bodyCellStyle); cell.setCellValue(prsnl);
                 cell = row.createCell(10); cell.setCellStyle(bodyCellStyle); cell.setCellValue(inputStatus);
                 cell = row.createCell(11); cell.setCellStyle(bodyCellStyle); cell.setCellValue(salary);
                 cell = row.createCell(12); cell.setCellStyle(bodyCellStyle); cell.setCellValue(limitDate);

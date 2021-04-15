@@ -70,7 +70,7 @@
             <if test="projectParamDto.prsnl != null">
                 AND `prsnl` &gt;= #{projectParamDto.prsnl}
             </if>
-            <if test="projectParamDto.status != null">
+            <if test="projectParamDto.status != null and projectParamDto.status != ''">
                 AND `status` = #{projectParamDto.status}
             </if>
             <if test="projectParamDto.salary != null">

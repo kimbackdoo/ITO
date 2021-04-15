@@ -310,7 +310,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 //데이터값 인계
                                 var data = response.data;
                                 self.project.dataTable.items = data.items;
-                                self.project.dataTable.serverItemsLength = data.totalElements;
+                                self.project.dataTable.serverItemsLength = data.totalRows;
                                 self.project.dataTable.items.forEach(e => {
                                     e.career = e.career+"년"
                                     e.salary = e.salary+"만원"
@@ -469,6 +469,29 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             this.project.query.degree = this.select.education.items.slice();
                         }
                     })
+                },
+                "downloadTable": async function() {
+                    let self = this,
+                        params = {};
+
+                    params.name = !_.isEmpty(self.project.query.name) ? self.project.query.name : null;
+                    params.job = !_.isEmpty(self.project.query.job) ? self.project.query.job : null;
+                    params.skill = !_.isEmpty(self.project.query.skill) ? self.project.query.skill : null;
+                    params.skillListLike = !_.isEmpty(self.project.query.skillList) ? self.project.query.skillList : [];
+                    params.degree = !_.isEmpty(self.project.query.degree) ? self.project.query.degree : null;
+                    params.career = _.isEmpty(self.project.query.career1) && _.isEmpty(self.project.query.career2) ? null : String(self.project.query.career1 + self.project.query.career2);
+                    params.sterm = !_.isEmpty(self.project.query.sterm) ? self.project.query.sterm : null;
+                    params.eterm = !_.isEmpty(self.project.query.eterm) ? self.project.query.eterm : null;
+                    params.local = !_.isEmpty(self.project.query.Local) ? self.project.query.Local : null;
+                    params.detailLocal = !_.isEmpty(self.project.query.detailLocal) ? self.project.query.detailLocal : null;
+                    params.prsnl = !_.isEmpty(self.project.query.prsnl) ? Number(self.project.query.prsnl) : null;
+                    params.status = !_.isEmpty(self.project.query.status) ? (self.project.query.status).charAt(0) : null;
+                    params.salary = !_.isEmpty(self.project.query.salary) ? Number(self.project.query.salary) : null;
+
+                    await ito.api.app.projectDownload.downloadProjectListXlsx({
+                        ...params,
+                        "rowSize": 100000000
+                    });
                 }
             },
             "mounted": async function () {
