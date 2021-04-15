@@ -156,21 +156,6 @@ ito = {
                 "modifyPerson": function (id, data) { return axios({"url": "/api/common/people/" + id, "method": "put", "data": data}); },
                 "removePersonList": function (data) { return axios({"url": "/api/common/people", "method": "delete", "data": data}); },
                 "removePerson": function (id) { return axios({"url": "/api/common/people/"+ id, "method": "delete"}); },
-                "downloadPersonListXlsx": async function(params) {
-                    let a, data, url;
-                    data = (await axios({
-                        "url": "/api/common/people/list.xlsx",
-                        "method": "get",
-                        "responseType": "blob",
-                        "params": params
-                    })).data;
-                    url = window.URL.createObjectURL(data);
-                    a = document.createElement("a");
-                    a.setAttribute("href", url);
-                    a.setAttribute("download", "사용자현황.xlsx");
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                },
             },
             "role": {
                 "getRoleList": function (params) { return axios({"url": "/api/common/roles", "method": "get", "params": params}); },
@@ -329,7 +314,6 @@ ito = {
                 "removeProjectCareerList": function (data) { return axios({"url": "/api/common/project-careers", "method": "delete", "data": data}); },
                 "removeProjectCareer": function (projectId, careerId) { return axios({"url": "/api/common/project-careers/"+ projectId + "," + careerId, "method": "delete"}); }
             },
-
         },
         "app": {
             "account": {
@@ -357,6 +341,23 @@ ito = {
                 "removeInvolvement": function (data) { return axios({"url": "/api/app/involvements", "method": "delete", "data": data}); },
                 "getCareerIdList": function (projectId, personId)  { return axios({"url": "/api/app/involvements/"+projectId+","+personId, "method": "get"}); },
             },
+            "personDownload": {
+                "downloadPersonListXlsx": async function(params) {
+                    let a, data, url;
+                    data = (await axios({
+                        "url": "/api/app/person-downloads/list.xlsx",
+                        "method": "get",
+                        "responseType": "blob",
+                        "params": params
+                    })).data;
+                    url = window.URL.createObjectURL(data);
+                    a = document.createElement("a");
+                    a.setAttribute("href", url);
+                    a.setAttribute("download", "사용자현황.xlsx");
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                },
+            }
         },
         "util": {
             "menu": {

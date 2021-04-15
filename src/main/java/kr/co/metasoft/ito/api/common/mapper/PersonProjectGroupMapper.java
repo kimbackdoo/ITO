@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 @Mapper
 public interface PersonProjectGroupMapper {
-    List<PersonEntity> selectProjectPersonList(
+    List<PersonEntity> selectPersonProjectList(
             @Param(value = "personParamDto") PersonParamDto personParamDto,
             @Param(value = "pageRequest") PageRequest pageRequest);
 }

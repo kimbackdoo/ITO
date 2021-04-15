@@ -33,7 +33,7 @@
             `person`.`memo`,
             `person`.`created_date`,
             `person`.`last_modified_date`,
-            GROUP_CONCAT(`person_project`.`name`) AS `project_name_list`
+            GROUP_CONCAT(`person_project`.`name` SEPARATOR ', ') AS `project_name_list`
         FROM
             `tb_person` `person`
         LEFT OUTER JOIN
@@ -44,8 +44,6 @@
             `tb_proj` `person_project`
         ON
             `person_project`.`id` = `person_project_person`.`project_id`
-        GROUP BY
-            `person`.`id`
     </sql>
 
     <sql id="where">
@@ -142,115 +140,15 @@
     </resultMap>
 
     <select
-            id="selectPersonList"
+            id="selectPersonProjectList"
             parameterType="java.util.Map"
             resultMap="personResultMap"
     >
         <include refid="PageFragment.sortStart"/>
         <include refid="selectFrom"/>
         <include refid="where"/>
+        GROUP BY `person`.`id`
         <include refid="PageFragment.sortEnd"/>
         <include refid="PageFragment.limitOffset"/>
     </select>
-
-    <select
-            id="selectPersonListCount"
-            parameterType="java.util.Map"
-            resultType="java.lang.Integer"
-    >
-        <include refid="PageFragment.countStart"/>
-        <include refid="selectFrom"/>
-        <include refid="where"/>
-        <include refid="PageFragment.countEnd"/>
-    </select>
-
-    <select
-            id="selectPerson"
-            parameterType="java.util.Map"
-            resultMap="personResultMap"
-    >
-        <include refid="selectFrom"/>
-        WHERE
-        `person`.`id` = #{id}
-    </select>
-
-    <insert id="insertXlsx" parameterType="java.util.Map">
-        insert into `tb_person`(
-        `id`,
-        `name`,
-        `gender`,
-        `actual_pay`,
-        `rating_score`,
-        `phone_number`,
-        `job_type`,
-        `input_status`,
-        `certificate_status`,
-        `role`,
-        `career`,
-        `min_pay`,
-        `max_pay`,
-        `local`,
-        `detail_local`,
-        `workable_day`,
-        `postcode`,
-        `address`,
-        `detail_address`,
-        `email`,
-        `website`,
-        `education`,
-        `birth_date`,
-        `created_date`,
-        `last_modified_date`
-        )
-        values
-        <foreach collection="list" item="item" index="idx" open="(" separator="),(" close=")">
-            #{item.name},
-            #{item.gender},
-            #{item.actualPay},
-            #{item.ratingScore},
-            #{item.phoneNumber},
-            #{item.jobType},
-            #{item.inputStatus},
-            #{item.certificateStatus},
-            #{item.role},
-            #{item.career},
-            #{item.minPay},
-            #{item.maxPay},
-            #{item.local},
-            #{item.detailLocal},
-            #{item.workableDay},
-            #{item.postcode},
-            #{item.address},
-            #{item.detailAddress},
-            #{item.email},
-            #{item.website},
-            #{item.education},
-            #{item.birthDate},
-            NOW(),
-            NOW()
-        </foreach>
-        ON DUPLICATE KEY UPDATE
-        `name` = VALUES(`name`),
-        `gender` = VALUES(`gender`),
-        `actual_pay` = VALUES(`actual_pay`),
-        `rating_score` = VALUES(`rating_score`),
-        `phone_number` = VALUES(`phone_number`) ,
-        `job_type` = VALUES(`job_type`) ,
-        `input_status` = VALUES(`input_status`) ,
-        `role` = VALUES(`role`) ,
-        `career` = VALUES(`career`) ,
-        `min_pay` = VALUES(`min_pay`) ,
-        `max_pay` = VALUES(`max_pay`) ,
-        `local` = VALUES(`local`) ,
-        `detail_local` = VALUES(`deatil_local`) ,
-        `workable_day` = VALUES(`workable_day`) ,
-        `postcode` = VALUES(`postcode`) ,
-        `address` = VALUES(`address`) ,
-        `detail_address` = VALUES(`detail_address`) ,
-        `email` = VALUES(`email`) ,
-        `website` = VALUES(`website`) ,
-        `education` = VALUES(`education`) ,
-        `birth_date` = VALUES(`birth_date`)
-    </insert>
-
 </mapper>

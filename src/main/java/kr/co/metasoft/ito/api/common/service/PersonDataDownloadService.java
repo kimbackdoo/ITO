@@ -1,8 +1,10 @@
 package kr.co.metasoft.ito.api.common.service;
 
+import kr.co.metasoft.ito.api.common.dto.CodeParamDto;
 import kr.co.metasoft.ito.api.common.dto.PersonParamDto;
 import kr.co.metasoft.ito.api.common.entity.CodeEntity;
 import kr.co.metasoft.ito.api.common.entity.PersonEntity;
+import kr.co.metasoft.ito.api.common.mapper.PersonProjectGroupMapper;
 import kr.co.metasoft.ito.common.util.PageRequest;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -14,13 +16,17 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.Valid;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @Valid
 @Service
-public class DataDownloadService {
+public class PersonDataDownloadService {
     @Autowired
-    private PersonService personService;
+    private PersonProjectGroupMapper personProjectGroupMapper;
+
+    @Autowired
+    private CodeService codeService;
 
     @Transactional(readOnly = true)
     public byte[] getPersonListXlsx(PersonParamDto personParamDto, PageRequest pageRequest) {
@@ -56,82 +62,83 @@ public class DataDownloadService {
             bodyCellStyle.setFont(bodyFont);
             sheet = workbook.createSheet("사용자 현황");
             row = sheet.createRow(0);
-            cell = row.createCell(0);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("이름");
-            cell = row.createCell(1);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("성별");
-            cell = row.createCell(2);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("평가점수");
-            cell = row.createCell(3);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("평가메모");
-            cell = row.createCell(4);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("전화번호");
-            cell = row.createCell(5);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("직종");
-            cell = row.createCell(6);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("기술");
-            cell = row.createCell(7);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("학력");
-            cell = row.createCell(8);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("경력");
-            cell = row.createCell(9);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("자격증유무");
-            cell = row.createCell(10);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("생년월일(나이)");
-            cell = row.createCell(11);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("희망월급여");
-            cell = row.createCell(12);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("지역");
-            cell = row.createCell(13);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("현재 지원한 프로젝트");
-            cell = row.createCell(14);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("투입여부");
-            cell = row.createCell(15);
-            cell.setCellStyle(headerCellStyle);
-            cell.setCellValue("업무가능일");
+            cell = row.createCell(0);cell.setCellStyle(headerCellStyle);cell.setCellValue("이름");
+            cell = row.createCell(1);cell.setCellStyle(headerCellStyle);cell.setCellValue("성별");
+            cell = row.createCell(2);cell.setCellStyle(headerCellStyle);cell.setCellValue("평가점수");
+            cell = row.createCell(3);cell.setCellStyle(headerCellStyle);cell.setCellValue("평가메모");
+            cell = row.createCell(4);cell.setCellStyle(headerCellStyle);cell.setCellValue("전화번호");
+            cell = row.createCell(5);cell.setCellStyle(headerCellStyle);cell.setCellValue("직종");
+            cell = row.createCell(6);cell.setCellStyle(headerCellStyle);cell.setCellValue("기술");
+            cell = row.createCell(7);cell.setCellStyle(headerCellStyle);cell.setCellValue("학력");
+            cell = row.createCell(8);cell.setCellStyle(headerCellStyle);cell.setCellValue("경력");
+            cell = row.createCell(9);cell.setCellStyle(headerCellStyle);cell.setCellValue("자격증유무");
+            cell = row.createCell(10);cell.setCellStyle(headerCellStyle);cell.setCellValue("생년월일(나이)");
+            cell = row.createCell(11);cell.setCellStyle(headerCellStyle);cell.setCellValue("희망월급여");
+            cell = row.createCell(12);cell.setCellStyle(headerCellStyle);cell.setCellValue("지역");
+            cell = row.createCell(13);cell.setCellStyle(headerCellStyle);cell.setCellValue("현재 지원한 프로젝트");
+            cell = row.createCell(14);cell.setCellStyle(headerCellStyle);cell.setCellValue("투입여부");
+            cell = row.createCell(15);cell.setCellStyle(headerCellStyle);cell.setCellValue("업무가능일");
 
-            System.out.println("==================================================================");
-            System.out.println("File Download");
-            System.out.println(personParamDto);
-            System.out.println("==================================================================");
-            List<PersonEntity> personList = personService.getPersonList(personParamDto, pageRequest).getItems();
+            CodeParamDto job = CodeParamDto.builder().parentId("001").build();
+            PageRequest codePageRequest = new PageRequest();
+            codePageRequest.setRowSize(100000000);
+
+            List<CodeEntity> jobCodeList = codeService.getCodeList(job, codePageRequest).getItems();
+            HashMap<String, String> jobCodeMap = new HashMap<>();
+            for(CodeEntity e : jobCodeList) {
+                jobCodeMap.put(e.getId(), e.getName());
+            }
+            List<PersonEntity> personList = personProjectGroupMapper.selectPersonProjectList(personParamDto, pageRequest);
             for (int i = 0; i < personList.size(); i++) {
                 PersonEntity entity = personList.get(i);
-                CodeEntity codeEntity = CodeEntity.builder().id(entity.getJobType()).build();
-                System.out.println("=====================================================");
-                System.out.println("Job: " + codeEntity.getName());
-                System.out.println("=====================================================");
+                String jobCodeName = jobCodeMap.get(entity.getJobType());
 
                 String name = entity.getName();
-                String gender = entity.getGender();
+
+                String gender = "";
+                if(entity.getGender() == null) gender = "비공개";
+                else if(entity.getGender().equals("M")) gender = "남자";
+                else if(entity.getGender().equals("F")) gender = "여자";
+
                 Long ratingScore = entity.getRatingScore();
                 String memo = entity.getMemo();
                 String phoneNumber = entity.getPhoneNumber();
-                String jobType = entity.getJobType();
+                String jobType = jobCodeName;
                 String skill = entity.getSkill();
                 String education = entity.getEducation();
                 String career = entity.getCareer();
-                String certificateStatus = entity.getCertificateStatus();
-                String birthDate = String.valueOf(entity.getBirthDate());
-                String pay = entity.getMinPay() + " ~ " + entity.getMaxPay();
+
+                String certificateStatus = "";
+                if(entity.getCertificateStatus().equals("T")) certificateStatus = "있음";
+                else if(entity.getCertificateStatus().equals("F")) certificateStatus = "없음";
+
+                String birthDate = "";
+                if(entity.getBirthDate() != null) {
+                    birthDate = String.valueOf(entity.getBirthDate());
+                }
+
+                String pay = "";
+                if(entity.getMinPay() != null) { // 최소희망월급여가 null이 아닐경우
+                    pay = entity.getMinPay() + ""; // 최소희망월급여 출력
+                    if(entity.getMaxPay() != null) { // 최대희망월급여가 null이 아닐경우
+                        pay += " ~ " + entity.getMaxPay(); // 최소희망월급여 ~ 최대희망월급여 출력
+                    }
+                }
+
                 String address = entity.getAddress();
+
                 String applyProject = "";
-                String inputStatus = entity.getInputStatus();
+                if(entity.getProjectNameList() != null) applyProject = entity.getProjectNameList();
+
+                String inputStatus = "";
+                switch (entity.getInputStatus()) {
+                    case "P": inputStatus = "투입중"; break;
+                    case "I": inputStatus = "인터뷰"; break;
+                    case "C": inputStatus = "섭외 완료"; break;
+                    case "A": inputStatus = "섭외중"; break;
+                    default: inputStatus = "이외";
+                }
+
                 String workableDay = String.valueOf(entity.getWorkableDay());
 
                 row = sheet.createRow(i + 1);
@@ -159,7 +166,8 @@ public class DataDownloadService {
                 sheet.setColumnWidth(i, Math.min(124 * 125, sheet.getColumnWidth(i) + (256 * 5)));
             }
             workbook.write(baos);
-        } catch (IOException e) { }
+        } catch (IOException e) {
+        }
 
         return baos.toByteArray();
     }

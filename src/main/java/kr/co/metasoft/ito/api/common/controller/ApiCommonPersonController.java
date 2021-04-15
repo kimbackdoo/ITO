@@ -198,11 +198,4 @@ public class ApiCommonPersonController {
             @PathVariable (name = "id") Long id) {
         personService.removePerson(id);
     }
-
-    @GetMapping(path = "list.xlsx", produces = {"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
-    public byte[] getPersonListXlsx(
-            @ModelAttribute PersonParamDto personParamDto,
-            @ModelAttribute PageRequest pageRequest) {
-        return personService.getPersonListXlsx(personParamDto, pageRequest);
-    }
 }

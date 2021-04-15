@@ -314,7 +314,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     endBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-12-31");
                 }
 
-                await ito.api.common.person.downloadPersonListXlsx({
+                await ito.api.app.personDownload.downloadPersonListXlsx({
                     "rowSize": 100000000,
 
                     "name": self.user.query.name,
