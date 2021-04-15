@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.metasoft.ito.api.common.mapper.PersonProjectGroupMapper">
+
+    <sql id="selectFrom">
+        SELECT
+            `person`.`id`,
+            `person`.`name`,
+            `person`.`phone_number`,
+            `person`.`gender`,
+            `person`.`actual_pay`,
+            `person`.`rating_score`,
+            `person`.`job_type`,
+            `person`.`input_status`,
+            `person`.`certificate_status`,
+            `person`.`skill`,
+            `person`.`role`,
+            `person`.`career`,
+            `person`.`days`,
+            `person`.`min_pay`,
+            `person`.`max_pay`,
+            `person`.`local`,
+            `person`.`detail_local`,
+            `person`.`workable_day`,
+            `person`.`postcode`,
+            `person`.`address`,
+            `person`.`detail_address`,
+            `person`.`email`,
+            `person`.`website`,
+            `person`.`education`,
+            `person`.`birth_date`,
+            `person`.`status`,
+            `person`.`memo`,
+            `person`.`created_date`,
+            `person`.`last_modified_date`,
+            GROUP_CONCAT(`person_project`.`name`) AS `project_name_list`
+        FROM
+            `tb_person` `person`
+        LEFT OUTER JOIN
+            `tb_project_person` `person_project_person`
+        ON
+            `person_project_person`.`person_id` = `person`.`id`
+        LEFT OUTER JOIN
+            `tb_proj` `person_project`
+        ON
+            `person_project`.`id` = `person_project_person`.`project_id`
+        GROUP BY
+            `person`.`id`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="personParamDto.name != null and personParamDto.name != ''">
+                AND `name` LIKE CONCAT('%', #{personParamDto.name} , '%')
+            </if>
+            <if test="personParamDto.jobType != null and personParamDto.jobType != ''">
+                AND `job_type` LIKE CONCAT(#{personParamDto.jobType})
+            </if>
+            <if test="personParamDto.gender != null and personParamDto.gender != ''">
+                AND `gender` LIKE CONCAT(#{personParamDto.gender})
+            </if>
+            <if test="personParamDto.ratingScore != null">
+                AND `rating_score` &gt;= #{personParamDto.ratingScore}
+            </if>
+            <if test="personParamDto.education != null and personParamDto.education != ''">
+                AND `education` &gt;= #{personParamDto.education}
+            </if>
+            <if test="personParamDto.minPay != null">
+                AND CAST(`min_pay` AS float) &gt;= CAST(#{personParamDto.minPay} AS float)
+            </if>
+            <if test="personParamDto.maxPay != null">
+                AND CAST(`max_pay` AS float) &lt;= CAST(#{personParamDto.maxPay} AS float)
+            </if>
+            <if test="personParamDto.local != null and personParamDto.local != ''">
+                AND `local` LIKE CONCAT('%', #{personParamDto.local} ,'%')
+            </if>
+            <if test="personParamDto.detailLocal != null and personParamDto.detailLocal != ''">
+                AND `detail_local` LIKE CONCAT('%', #{personParamDto.detailLocal} ,'%')
+            </if>
+            <if test="personParamDto.workableDay != null">
+                AND `workable_day` &lt;= #{personParamDto.workableDay}
+            </if>
+            <if test="personParamDto.career != null and personParamDto.career != ''">
+                AND CAST(`career` AS float) &gt;= CAST(#{personParamDto.career} AS float)
+            </if>
+            <if test="personParamDto.certificateStatus != null and personParamDto.certificateStatus != ''">
+                AND `certificate_status` LIKE CONCAT('%', #{personParamDto.certificateStatus} ,'%')
+            </if>
+            <if test="personParamDto.address != null and personParamDto.address != ''">
+                AND `address` LIKE CONCAT('%', #{personParamDto.address}, '%')
+            </if>
+            <if test="personParamDto.inputStatus != null and personParamDto.inputStatus != ''">
+                AND `input_status` = #{personParamDto.inputStatus}
+            </if>
+            <if test="personParamDto.startBirthDate != null">
+                AND `birth_date` &gt;= #{personParamDto.startBirthDate}
+            </if>
+            <if test="personParamDto.endBirthDate != null">
+                AND `birth_date` &lt;= #{personParamDto.endBirthDate}
+            </if>
+            <if test="personParamDto.skillListLike != null and !personParamDto.skillListLike.isEmpty()">
+                AND
+                <foreach collection="personParamDto.skillListLike"
+                         item="item"
+                         separator=" AND "
+                >`skill` LIKE #{item}</foreach>
+            </if>
+        </where>
+    </sql>
+
+    <resultMap id="personResultMap" type="kr.co.metasoft.ito.api.common.entity.PersonEntity">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="actualPay" column="actual_pay"/>
+        <result property="ratingScore" column="rating_score"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="jobType" column="job_type"/>
+        <result property="inputStatus" column="input_status"/>
+        <result property="certificateStatus" column="certificate_status"/>
+        <result property="role" column="role"/>
+        <result property="skill" column="skill"/>
+        <result property="career" column="career"/>
+        <result property="days" column="days"/>
+        <result property="minPay" column="min_pay"/>
+        <result property="maxPay" column="max_pay"/>
+        <result property="local" column="local"/>
+        <result property="detailLocal" column="detail_local"/>
+        <result property="workableDay" column="workable_day"/>
+        <result property="postcode" column="postcode"/>
+        <result property="address" column="address"/>
+        <result property="detailAddress" column="detail_address"/>
+        <result property="email" column="email"/>
+        <result property="website" column="website"/>
+        <result property="education" column="education"/>
+        <result property="birthDate" column="birth_date"/>
+        <result property="status" column="status"/>
+        <result property="memo" column="memo"/>
+        <result property="createdDate" column="created_date"/>
+        <result property="lastModifiedDate" column="last_modified_date"/>
+        <result property="projectNameList" column="project_name_list"/>
+    </resultMap>
+
+    <select
+            id="selectPersonList"
+            parameterType="java.util.Map"
+            resultMap="personResultMap"
+    >
+        <include refid="PageFragment.sortStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.sortEnd"/>
+        <include refid="PageFragment.limitOffset"/>
+    </select>
+
+    <select
+            id="selectPersonListCount"
+            parameterType="java.util.Map"
+            resultType="java.lang.Integer"
+    >
+        <include refid="PageFragment.countStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.countEnd"/>
+    </select>
+
+    <select
+            id="selectPerson"
+            parameterType="java.util.Map"
+            resultMap="personResultMap"
+    >
+        <include refid="selectFrom"/>
+        WHERE
+        `person`.`id` = #{id}
+    </select>
+
+    <insert id="insertXlsx" parameterType="java.util.Map">
+        insert into `tb_person`(
+        `id`,
+        `name`,
+        `gender`,
+        `actual_pay`,
+        `rating_score`,
+        `phone_number`,
+        `job_type`,
+        `input_status`,
+        `certificate_status`,
+        `role`,
+        `career`,
+        `min_pay`,
+        `max_pay`,
+        `local`,
+        `detail_local`,
+        `workable_day`,
+        `postcode`,
+        `address`,
+        `detail_address`,
+        `email`,
+        `website`,
+        `education`,
+        `birth_date`,
+        `created_date`,
+        `last_modified_date`
+        )
+        values
+        <foreach collection="list" item="item" index="idx" open="(" separator="),(" close=")">
+            #{item.name},
+            #{item.gender},
+            #{item.actualPay},
+            #{item.ratingScore},
+            #{item.phoneNumber},
+            #{item.jobType},
+            #{item.inputStatus},
+            #{item.certificateStatus},
+            #{item.role},
+            #{item.career},
+            #{item.minPay},
+            #{item.maxPay},
+            #{item.local},
+            #{item.detailLocal},
+            #{item.workableDay},
+            #{item.postcode},
+            #{item.address},
+            #{item.detailAddress},
+            #{item.email},
+            #{item.website},
+            #{item.education},
+            #{item.birthDate},
+            NOW(),
+            NOW()
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        `name` = VALUES(`name`),
+        `gender` = VALUES(`gender`),
+        `actual_pay` = VALUES(`actual_pay`),
+        `rating_score` = VALUES(`rating_score`),
+        `phone_number` = VALUES(`phone_number`) ,
+        `job_type` = VALUES(`job_type`) ,
+        `input_status` = VALUES(`input_status`) ,
+        `role` = VALUES(`role`) ,
+        `career` = VALUES(`career`) ,
+        `min_pay` = VALUES(`min_pay`) ,
+        `max_pay` = VALUES(`max_pay`) ,
+        `local` = VALUES(`local`) ,
+        `detail_local` = VALUES(`deatil_local`) ,
+        `workable_day` = VALUES(`workable_day`) ,
+        `postcode` = VALUES(`postcode`) ,
+        `address` = VALUES(`address`) ,
+        `detail_address` = VALUES(`detail_address`) ,
+        `email` = VALUES(`email`) ,
+        `website` = VALUES(`website`) ,
+        `education` = VALUES(`education`) ,
+        `birth_date` = VALUES(`birth_date`)
+    </insert>
+
+</mapper>

@@ -38,12 +38,12 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                     "selected": [],
                     "dataTable": {
                         "headers": [
-                            {"text": "프로젝트명", "value": "name"},
-                            {"text": "시작 기간", "value": "startPeriod"},
-                            {"text": "종료 기간", "value": "endPeriod"},
-                            {"text": "직급", "value": "position"},
-                            {"text": "담당업무", "value": "task"},
-                            {"text": "월급여", "value": "pay"}
+                            {"text": "프로젝트명", "value": "name", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "시작 기간", "value": "startPeriod", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "종료 기간", "value": "endPeriod", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "직급", "value": "position", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "담당업무", "value": "task", "align": "center", "width": "120", cellClass:"text-truncate"},
+                            {"text": "월급여", "value": "pay", "align": "center", "width": "120", cellClass:"text-truncate"}
                         ],
                         "items": [],
                         "loading": false,

@@ -25,8 +25,6 @@ import kr.co.metasoft.ito.common.util.PageResponse;
 @RequestMapping (path = "api/common/people")
 public class ApiCommonPersonController {
 
-
-
     @Autowired
     private PersonService personService;
 
@@ -201,4 +199,10 @@ public class ApiCommonPersonController {
         personService.removePerson(id);
     }
 
+    @GetMapping(path = "list.xlsx", produces = {"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
+    public byte[] getPersonListXlsx(
+            @ModelAttribute PersonParamDto personParamDto,
+            @ModelAttribute PageRequest pageRequest) {
+        return personService.getPersonListXlsx(personParamDto, pageRequest);
+    }
 }

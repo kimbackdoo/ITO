@@ -3,13 +3,7 @@ package kr.co.metasoft.ito.api.common.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
@@ -86,7 +80,6 @@ public class PersonEntity {
     @Column (name = "`actual_pay`", columnDefinition = "bigint(20)", nullable = true)
     private Long actualPay;
 
-
     @Column (name = "`local`", columnDefinition = "varchar(100)", nullable = true)
     private String local;
 
@@ -142,4 +135,6 @@ public class PersonEntity {
     @Column (name = "`last_modified_date`", columnDefinition = "datetime", nullable = false)
     private LocalDateTime lastModifiedDate;
 
+    @Transient
+    private String projectNameList;
 }

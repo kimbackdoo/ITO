@@ -230,13 +230,26 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                             break;
                         }
                     }
-                    e.gender = (e.gender === "M") ? "남자" : "여자"
+
+                    switch (e.gender) {
+                        case "M": e.gender = "남자"; break;
+                        case "M": e.gender = "남자"; break;
+                        default: e.gender = "비공개";
+                    }
                     e.inputStatus = (e.inputStatus == "T") ? "투입중" : "섭외중"
                     e.certificateStatus = (e.certificateStatus == "T") ? "있음" : "없음"
-                    e.birthDate = moment(e.birthDate).format("YY") + "년생 (" + Number(moment().diff(moment(e.birthDate), "years")+1) + ")";
-                    e.career = e.career+"년"
-                    e.pay = String(e.minPay) +" ~ " +String(e.maxPay);
-
+                    if(e.birthDate != null) {
+                        e.birthDate = moment(e.birthDate).format("YY") + "년생 (" + Number(moment().diff(moment(e.birthDate), "years")+1) + ")";
+                    }
+                    if(e.career !== null) {
+                        e.career = e.career+"년"
+                    }
+                    if(e.minPay != null) {
+                        e.pay = String(e.minPay);
+                        if(e.maxPay != null) {
+                            e.pay += " ~ " +String(e.maxPay);
+                        }
+                    }
                     if(e.applyProject !== undefined) { // 가져온 프로젝트 이름에 대한 배열이 undefined 인지 체크하고 아니면 String으로 변환
                         e.applyProject = e.applyProject.join(", ");
                     }
@@ -244,16 +257,16 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 self.user.dataTable.loading = false;
             },
             "inputProject": async function(value) {
-                let check = 1; // 지원한 프로젝트인지 체크하는 변수
+                let projectCheck = 1; // 지원한 프로젝트인지 체크하는 변수
                 let projectIdList = (await ito.api.common.projectPerson.getProjectPersonList({"personId": value.item.id})).data.items.map(e=> e.projectId);
                 for(let i=0; i<projectIdList.length; i++) { // 지원한 적인 있는 프로젝트인지 체크
                     if(projectIdList[i] === value.id) {
-                        check = 0;
+                        projectCheck = 0;
                         break;
                     }
                 }
 
-                if(check) { // 지원한 적인 없는 프로젝트면 지원
+                if(projectCheck) { // 지원한 적인 없는 프로젝트면 지원
                     if(await ito.confirm("지원하시겠습니까?")) {
                         await ito.api.common.projectPerson.createProjectPerson({
                             "personId": value.item.id,
@@ -276,7 +289,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 this.user.query.career = null;
                 this.user.query.careerYear = null;
                 this.user.query.careerMonth = null;
-                this.user.query.pay = null;
+                this.user.query.minPay = null;
                 this.user.query.address = null;
                 this.user.query.inputStatus = null;
                 this.user.query.sex = null;
@@ -292,6 +305,34 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
             "delimit": function(v) {
                 let reducer = (a, e) => [...a, ...e.split(/[, ]+/)]
                 this.user.query.skillListLike = [...new Set(v.reduce(reducer, []))]
+            },
+            "downloadTable": async function() {
+                let self = this, startBirth, endBirth;
+                let careerValue = String(self.user.query.careerYear + self.user.query.careerMonth);
+                if(self.user.query.birthDate != null) {
+                    startBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-01-01");
+                    endBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-12-31");
+                }
+
+                await ito.api.common.person.downloadPersonListXlsx({
+                    "rowSize": 100000000,
+
+                    "name": self.user.query.name,
+                    "jobType": self.user.query.jobType,
+                    "career": careerValue === "0" ? null : careerValue,
+                    "minPay": self.user.query.minPay,
+                    "local": self.user.query.local,
+                    "detailLocal": self.user.query.detailLocal,
+                    "inputStatus": self.user.query.inputStatus,
+                    "gender": self.user.query.sex,
+                    "education": self.user.query.education,
+                    "certificateStatus": self.user.query.certificateStatus,
+                    "skillListLike": self.user.query.skillListLike,
+                    "startBirthDate": startBirth,
+                    "endBirthDate": endBirth,
+                    "workableDay": moment().add("1", "M").format("YYYY-MM-DD"),
+                    "ratingScore": self.user.query.ratingScore,
+                });
             }
         },
         "mounted": async function () {

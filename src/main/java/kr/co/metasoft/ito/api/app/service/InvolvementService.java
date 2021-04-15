@@ -118,6 +118,8 @@ public class InvolvementService {
     public CareerEntity careerCalc(CareerEntity careerEntity, String s) {
         Long beforeCareer = 0L; // 수정하려는 엔티티의 수정 전 경력일
         Long personId = careerEntity.getPersonId();
+        CareerEntity e = careerRepository.findById(personId).orElse(null);
+        beforeCareer = ChronoUnit.DAYS.between(e.getStartPeriod(), e.getEndPeriod());
         CareerEntity entity = careerRepository.save(careerEntity);
 
         PersonEntity personEntity = personRepository.findById(personId).orElse(null);
@@ -137,9 +139,6 @@ public class InvolvementService {
                 days += career;
                 break;
             case "modify":
-                CareerEntity e = careerRepository.findById(personId).orElse(null);
-                beforeCareer = ChronoUnit.DAYS.between(e.getStartPeriod(), e.getEndPeriod());
-
                 days -= beforeCareer;
                 days += career;
                 break;

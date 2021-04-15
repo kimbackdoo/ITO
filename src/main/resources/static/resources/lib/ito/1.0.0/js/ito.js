@@ -155,7 +155,22 @@ ito = {
                 "modifyPersonList": function (data) { return axios({"url": "/api/common/people", "method": "put", "data": data}); },
                 "modifyPerson": function (id, data) { return axios({"url": "/api/common/people/" + id, "method": "put", "data": data}); },
                 "removePersonList": function (data) { return axios({"url": "/api/common/people", "method": "delete", "data": data}); },
-                "removePerson": function (id) { return axios({"url": "/api/common/people/"+ id, "method": "delete"}); }
+                "removePerson": function (id) { return axios({"url": "/api/common/people/"+ id, "method": "delete"}); },
+                "downloadPersonListXlsx": async function(params) {
+                    let a, data, url;
+                    data = (await axios({
+                        "url": "/api/common/people/list.xlsx",
+                        "method": "get",
+                        "responseType": "blob",
+                        "params": params
+                    })).data;
+                    url = window.URL.createObjectURL(data);
+                    a = document.createElement("a");
+                    a.setAttribute("href", url);
+                    a.setAttribute("download", "사용자현황.xlsx");
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                },
             },
             "role": {
                 "getRoleList": function (params) { return axios({"url": "/api/common/roles", "method": "get", "params": params}); },
