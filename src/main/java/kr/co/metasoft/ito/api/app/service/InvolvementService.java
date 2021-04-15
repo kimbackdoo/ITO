@@ -119,7 +119,7 @@ public class InvolvementService {
         Long beforeCareer = 0L; // 수정하려는 엔티티의 수정 전 경력일
         Long personId = careerEntity.getPersonId();
         CareerEntity e = careerRepository.findById(personId).orElse(null);
-        beforeCareer = ChronoUnit.DAYS.between(e.getStartPeriod(), e.getEndPeriod());
+        if(e != null) beforeCareer = ChronoUnit.DAYS.between(e.getStartPeriod(), e.getEndPeriod());
         CareerEntity entity = careerRepository.save(careerEntity);
 
         PersonEntity personEntity = personRepository.findById(personId).orElse(null);
