@@ -137,4 +137,11 @@ public class PersonEntity {
 
     @Transient
     private String projectNameList;
+
+    @Transient
+    private String projectPersonStatus;
+
+    @Transient
+    private Long projectPersonProjectId;
+
 }

@@ -4,6 +4,8 @@
 
     <sql id="selectFrom">
         SELECT
+            `person_project_person`.`status` AS `project_person_status`,
+            `person_project_person`.`projectId` AS `project_person_projectId`,
             `person`.`id`,
             `person`.`name`,
             `person`.`phone_number`,
@@ -103,6 +105,12 @@
                          separator=" AND "
                 >`skill` LIKE #{item}</foreach>
             </if>
+            <if test="projectPersonParamDto.status != null and projectPersonParamDto.status != ''">
+                AND `person_project_person`.`status` = #{personParamDto.status}
+            </if>
+            <if test="projectPersonParamDto.projectId != null and projectPersonParamDto.projectId != ''">
+                AND `person_project_person`.`projectId` = #{personParamDto.projectId}
+            </if>
         </where>
     </sql>
 
@@ -137,6 +145,8 @@
         <result property="createdDate" column="created_date"/>
         <result property="lastModifiedDate" column="last_modified_date"/>
         <result property="projectNameList" column="project_name_list"/>
+        <result property="projectPersonStatus" column="project_person_status"/>
+        <result property="projectPersonProjectId" column="project_person_projectId"/>
     </resultMap>
 
     <select
@@ -147,7 +157,7 @@
         <include refid="PageFragment.sortStart"/>
         <include refid="selectFrom"/>
         <include refid="where"/>
-        GROUP BY `person`.`id`
+            GROUP BY `person`.`id`
         <include refid="PageFragment.sortEnd"/>
         <include refid="PageFragment.limitOffset"/>
     </select>

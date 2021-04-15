@@ -206,7 +206,6 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         })).data.items.map(e => ({"text": e.name, "value": e.id}))
                         items = items.filter(e => e.value.length > 5)
                         this.user.select.detailLocal.items.push(...items)
-                        console.log(this.user.select.detailLocal.items)
                     }
                 }
             },
@@ -253,9 +252,7 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         "status": "T",
                         "rowSize": 1000000
                     })).data.items.map(e => ({"text": e.name , "value": e.id}));
-                    console.log(items)
                     items = items.filter(e => e.value.length > 5)
-                    console.log(items)
                     self.user.select.skill.items.push(...items)
 
                 },
@@ -295,16 +292,12 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         person = response.data;
                         personSkillList = (await ito.api.common.personSkill.getPersonSkillList({personId})).data.items;
                         skillList = [];
-                        console.log(personSkillList);
                         this.test = {skill: personSkillList.map(e=> e.skill)};
-                        console.log(person);
                         self.data = _.cloneDeep(person);
-                        console.log(self.data);
                         self.data.career1 = Number(Math.floor(self.data.career))
                         self.data.career2 = (((self.data.career) * 100)%100) * (0.01);
                         self.data2.skill = person.skill
                         self.data.jobType = [person.jobType];
-                        console.log(self.data);
                     }
                 },
                 "saveUserInfo": function () {
@@ -333,8 +326,7 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                                         "skillList": person.skill,
                                                         "languageList": languageList
                                                     });
-*/													console.log( typeof(data.jobType));
-                                                    console.log( data);
+*/
 
                                                     return ito.api.common.person.createPerson(data);
                                                 } else {

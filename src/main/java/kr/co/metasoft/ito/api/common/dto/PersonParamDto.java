@@ -21,6 +21,10 @@ import lombok.ToString;
 @ToString
 public class PersonParamDto {
 
+    private Long projectId;
+
+    private String status;
+
     private Long id;
 
     private String name;

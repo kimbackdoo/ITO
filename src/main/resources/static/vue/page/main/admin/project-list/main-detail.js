@@ -142,7 +142,6 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                 },
                 "setActualPay": async function(item){
                     var self = this;
-                    console.log(item.value);
                     self.person.dataTable.actualPay = item.value;
 
                 },
@@ -152,6 +151,32 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                         "query": {
                             "id": value.item.id
                         }
+                    });
+                },
+                //프로젝트- 가용 인력 엑셀 다운로드
+                "availableDownloadTable": async function() {
+                    let self = this, startBirth, endBirth;
+                    await ito.api.app.personDownload.downloadPersonListXlsx({
+                        "rowSize": 100000000,
+                        "workableDay": moment().add("1", "M").format("YYYY-MM-DD"),
+                    });
+                },
+                "confirmDownloadTable": async function(){
+                    let self = this, startBirth, endBirth;
+                    var projectId = await self.$route.query.id;
+                    await ito.api.app.personDownload.downloadPersonListXlsx({
+                        "rowSize": 100000000,
+                        "projectId": projectId,
+                        "status": "T"
+                    });
+                },
+                "applyDownloadTable": async function(){
+                    let self = this, startBirth, endBirth;
+                    var projectId = await self.$route.query.id;
+                    await ito.api.app.personDownload.downloadPersonListXlsx({
+                        "rowSize": 100000000,
+                        "projectId": projectId,
+                        "status": "F"
                     });
                 },
 
@@ -256,7 +281,6 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                                 })
                                 .then(function (response) {
                                     self.project.items = response.data;
-                                    console.log(self.project.items.skill)
 
                                     self.project.items.career += "년 이상"
                                     self.project.items.prsnl += "명"
@@ -403,8 +427,6 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
 
                     var data = (await ito.api.common.person.getPersonList(params)).data;
 
-                    console.log(data);
-
                     self.availablePerson.dataTable.items = data.items;
                     self.availablePerson.dataTable.totalRows = data.totalRows;
 
@@ -540,9 +562,7 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                         e.pay = String(e.minPay) +" ~ " +String(e.maxPay)
 
                     })
-                    console.log(self.person.dataTable.items);
                     self.person.dataTable.totalRows = data.totalRows;
-                    console.log(" items 값  출력      " + self.person.dataTable.items)
                     self.person.dataTable.loading = false;
                 },
             },
