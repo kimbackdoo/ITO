@@ -55,7 +55,7 @@ public class ProjectParamDto {
 
     private String memo;
 
-    private Character status;
+    private String status;
 
     private Long salary;
 

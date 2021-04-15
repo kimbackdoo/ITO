@@ -94,7 +94,7 @@ public class ProjectEntity {
     private String memo;
 
     @Column(name = "status", columnDefinition = "varchar(100)", nullable = true)
-    private Character status;
+    private String status;
 
     @Column(name = "salary", columnDefinition = "bigint(20)", nullable = true)
     private Long salary;

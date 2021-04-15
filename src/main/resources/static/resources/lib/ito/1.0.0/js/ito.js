@@ -357,6 +357,23 @@ ito = {
                     a.click();
                     window.URL.revokeObjectURL(url);
                 },
+            },
+            "projectDownload": {
+                "downloadProjectListXlsx": async function(params) {
+                    let a, data, url;
+                    data = (await axios({
+                        "url": "/api/app/project-downloads/list.xlsx",
+                        "method": "get",
+                        "responseType": "blob",
+                        "params": params
+                    })).data;
+                    url = window.URL.createObjectURL(data);
+                    a = document.createElement("a");
+                    a.setAttribute("href", url);
+                    a.setAttribute("download", "프로젝트목록.xlsx");
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                },
             }
         },
         "util": {
