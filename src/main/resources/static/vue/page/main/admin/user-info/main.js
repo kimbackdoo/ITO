@@ -296,6 +296,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 project.items.forEach(e => {
                                     projectPersonParams.push({"personId": idList[i], "projectId": e.projectId});
                                 })
+                                //projectPerson 삭제
                                 if(Array.isArray(projectPersonParams) && projectPersonParams.length !== 0){
                                     await ito.api.common.projectPerson.removeProjectPersonList(projectPersonParams)
                                 }
@@ -315,6 +316,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                     //career 삭제
                                     await ito.api.common.career.removeCareerList(careerIdList);
                                 }
+                                //userPerson 삭제
                                 var userId = (await ito.api.common.userPerson.getUserId(idList[i])).data.userId;
                                 if(userId != null) await ito.api.common.userPerson.removeUserPerson(userId);
                                 person = (await ito.api.common.person.getPerson(idList[i])).data;
@@ -323,6 +325,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 })
                             }
                            await ito.api.app.profile.removeProfileList(params);
+                           //person 삭제
                            await ito.api.common.person.removePersonList(idList);
                            await ito.alert("삭제되었습니다.")
                         }
@@ -448,6 +451,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
 
                     });
                     self.user.dataTable.loading = false;
+
 
 
                 },

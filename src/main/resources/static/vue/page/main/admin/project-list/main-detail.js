@@ -178,16 +178,18 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                         }
                     };
                     await ito.alert("투입 시키겠습니까?");
-                   var value = (await ito.api.common.projectPerson.getProjectPersonList({
+                   var valueProjectPerson = (await ito.api.common.projectPerson.getProjectPersonList({
                         "personId": personId,
                         "status": "T"
                     })).data;
                     var projectNameList = "";
-                    value.items.forEach( e=> {
-                        projectNameList += e.project.name + " ";
-                    })
-                   var a =value ? true : false;
-                    if(a === true){
+                    if(valueProjectPerson.items.length != 0){
+                        valueProjectPerson.items.forEach( e=> {
+                            projectNameList += e.project.name + " ";
+                        })
+                    }
+                   var a =valueProjectPerson ? true : false;
+                    if(projectNameList !== "" ){
                         await ito.alert("이미 [ " + projectNameList +" ] 프로젝트에 확정 되었습니다.");
                     }
                     else{

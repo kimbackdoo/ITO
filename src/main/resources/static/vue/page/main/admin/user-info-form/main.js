@@ -122,7 +122,7 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                         },
                         "status":{
                             "items":[
-                                {"text": "미정", "value": null},
+                                {"text": "미정", "value": "N"},
                                 {"text": "섭외중", "value": "A"},
                                 {"text": "섭외완료", "value": "C"},
                                 {"text": "인터뷰", "value": "I"},
@@ -325,7 +325,7 @@ var MainAdminFormPage = Vue.component('main-admin-userInfo-form-page', function 
                                                 data.jobType = String(data.jobType)
                                                 data.detailLocal = String(data.detailLocal)
                                                 data.jobType = String(data.jobType)
-
+                                                data.days = Number(data.career1)*365 + (Number(data.career2)*3000);
                                                 if (!data.id) {
 /*                                                    await ito.api.app.profile.createProfile({
                                                         "personDto": person,

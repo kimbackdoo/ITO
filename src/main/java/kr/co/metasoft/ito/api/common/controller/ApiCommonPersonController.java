@@ -74,6 +74,7 @@ public class ApiCommonPersonController {
                     .education(personDto.getEducation())
                     .birthDate(personDto.getBirthDate())
                     .memo(personDto.getMemo())
+                    .days(personDto.getDays())
                     .build();
             personList.add(personEntity);
         }
@@ -108,6 +109,7 @@ public class ApiCommonPersonController {
                 .education(personDto.getEducation())
                 .birthDate(personDto.getBirthDate())
                 .memo(personDto.getMemo())
+                .days(personDto.getDays())
                 .build();
         return personService.createPerson(personEntity);
     }
@@ -144,6 +146,7 @@ public class ApiCommonPersonController {
                     .education(personDto.getEducation())
                     .birthDate(personDto.getBirthDate())
                     .memo(personDto.getMemo())
+                    .days(personDto.getDays())
                     .build();
             personList.add(personEntity);
         }
@@ -181,6 +184,7 @@ public class ApiCommonPersonController {
                 .birthDate(personDto.getBirthDate())
                 .status(personDto.getStatus())
                 .memo(personDto.getMemo())
+                .days(personDto.getDays())
                 .build();
         return personService.modifyPerson(personEntity);
     }
