@@ -229,9 +229,9 @@
                             @add="addUserInfo"
                             @import="openDialog"
                             @reload="setUserInfoList"
-                            :download-hide="true"
                             :cell="user.dataTable.cell"
                             @change:autocomplete="inputProject"
+                            @download="userDownloadTable();"
                         ></data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>

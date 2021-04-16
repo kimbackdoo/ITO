@@ -74,6 +74,7 @@
                                     @input:textField="setActualPay"
                                     :cell="person.dataTable.cell"
                                     @click:row="editUserInfo"
+                                    @download="applyDownloadTable()"
                                  >
                              </div>
                            </v-col>
@@ -111,6 +112,7 @@
                                    @reload="setConfirmPersonInfo"
                                    @remove="deleteConfirmPersonInfoList"
                                    @click:row="editUserInfo"
+                                   @download="confirmDownloadTable()"
                                 >
                             </div>
                          </v-col>
@@ -150,6 +152,7 @@
                                     @input:textField="setActualPay"
                                     :cell="availablePerson.dataTable.cell"
                                     @click:row="editUserInfo"
+                                    @download="availableDownloadTable()"
                                 >
                             </div>
                          </v-col>

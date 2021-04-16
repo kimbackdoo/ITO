@@ -54,10 +54,11 @@ var MainAdminProjectFormPage = Vue.component('main-admin-project-form-page', fun
                             {"text":"9명", "value": 9},
                         ],
                         "statusItems": [
-                            {"text": "섭외", "value": "A"},
-                            {"text": "완료", "value": "C"},
-                            {"text": "면접", "value": "I"},
-                            {"text": "투입", "value": "P"},
+                                {"text": "섭외중", "value": 'A'},
+                                {"text": "섭외완료", "value": 'C'},
+                                {"text": "인터뷰", "value": 'I'},
+                                {"text": "투입중", "value": 'P'},
+                                {"text": "이외", "value": 'N'}
                         ],
                     },
                    "panels": {

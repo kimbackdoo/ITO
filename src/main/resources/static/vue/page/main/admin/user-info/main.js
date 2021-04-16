@@ -451,9 +451,6 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
 
                     });
                     self.user.dataTable.loading = false;
-
-
-
                 },
                 "search": async function () {
                     await this.setUserInfoList();
@@ -511,6 +508,33 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         this.setUserInfoList();
                         this.loadJobItems();
                     }
+                },
+                "userDownloadTable": async function() {
+                    let self = this, startBirth, endBirth,
+                        careerValue = String(self.user.query.career1 + self.user.query.career2);
+                    if(self.user.query.birthDate != null) {
+                        startBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-01-01");
+                        endBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-12-31");
+                    }
+
+                    await ito.api.app.personDownload.downloadPersonListXlsx({
+                        "rowSize": 100000000,
+
+                        "name": self.user.query.name,
+                        "jobType": self.user.query.jobType,
+                        "career": careerValue === "0" ? null : careerValue,
+                        "minPay": self.user.query.pay,
+                        "local": self.user.query.local,
+                        "detailLocal": self.user.query.detailLocal,
+                        "inputStatus": self.user.query.status,
+                        "gender": self.user.query.gender,
+                        "education": self.user.query.education,
+                        "certificateStatus": self.user.query.certificateStatus,
+                        "skillListLike": self.user.query.skillList,
+                        "startBirthDate": startBirth,
+                        "endBirthDate": endBirth,
+                        "ratingScore": self.user.query.ratingScore,
+                    });
                 }
             },
             "mounted": async function () {

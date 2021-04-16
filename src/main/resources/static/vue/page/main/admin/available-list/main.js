@@ -332,7 +332,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     "endBirthDate": endBirth,
                     "workableDay": moment().add("1", "M").format("YYYY-MM-DD"),
                     "ratingScore": self.user.query.ratingScore,
-                });
+                }, "available");
             }
         },
         "mounted": async function () {

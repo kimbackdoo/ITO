@@ -342,7 +342,7 @@ ito = {
                 "getCareerIdList": function (projectId, personId)  { return axios({"url": "/api/app/involvements/"+projectId+","+personId, "method": "get"}); },
             },
             "personDownload": {
-                "downloadPersonListXlsx": async function(params) {
+                "downloadPersonListXlsx": async function(params, title) {
                     let a, data, url;
                     data = (await axios({
                         "url": "/api/app/person-downloads/list.xlsx",
@@ -353,7 +353,12 @@ ito = {
                     url = window.URL.createObjectURL(data);
                     a = document.createElement("a");
                     a.setAttribute("href", url);
-                    a.setAttribute("download", "사용자현황.xlsx");
+                    switch(title) {
+                        case "available": a.setAttribute("download", "가용인력 현황.xlsx"); break;
+                        case "confirm": a.setAttribute("download", "확정 현황.xlsx"); break;
+                        case "apply": a.setAttribute("download", "지원자 현황.xlsx"); break;
+                        default: a.setAttribute("download", "사용자 현황.xlsx");
+                    }
                     a.click();
                     window.URL.revokeObjectURL(url);
                 },
