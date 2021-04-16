@@ -379,7 +379,17 @@ ito = {
                     a.click();
                     window.URL.revokeObjectURL(url);
                 },
+            },
+            "homepage": {
+                "notice": {
+                    "getNoticeList": function (params) { return axios({"url": "/api/app/homepages/notices", "method": "get", "params": params}); },
+                },
+                "contact": {
+                    "getContactList": function (params) { return axios({"url": "/api/app/homepages/contacts", "method": "get", "params": params}); },
+                }
+
             }
+
         },
         "util": {
             "menu": {
