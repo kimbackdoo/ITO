@@ -78,6 +78,21 @@ router = new VueRouter({
                     "component": MainAdminAvailableListPage
                 },
                 {
+                    "name": "Homepages",
+                    "path": "/homepages",
+                    "redirect": "/homepages/contacts",
+                },
+                {
+                    "name": "Contacts",
+                    "path": "/homepages/contacts",
+                    "component": HomepageContactMainPage
+                },
+                {
+                    "name": "Notices",
+                    "path": "/homepages/notices",
+                    "component": HomepageNoticeMainPage
+                },
+                {
                     "name": "Settings",
                     "path": "/settings",
                     "redirect": "/settings/apis",
