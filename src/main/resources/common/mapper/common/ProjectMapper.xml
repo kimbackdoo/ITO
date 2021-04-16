@@ -81,7 +81,7 @@
                     <foreach collection="projectParamDto.skillListLike"
                              item="item"
                              separator=" AND "
-                    >`skill` LIKE #{item}</foreach>
+                    >`skill` REGEXP CONCAT('^', #{item}, '$|\\W', #{item}, '$|^', #{item}, '\\W|\\W', #{item}, '\\W')</foreach>
             </if>
             <if test="projectParamDto.limitDateStart != null">
                 AND `limit_date` &gt;= #{projectParamDto.limitDateStart}

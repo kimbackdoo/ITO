@@ -50,7 +50,9 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                         "items": []
                     },
                     "detailLocal": {
-                        "items": []
+                        "items": [
+                            {"text": "전체", "value": null}
+                        ]
                     },
                 },
                 "dialog": false,
@@ -179,8 +181,10 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 this.select.degree.items.push(...items);
             },
             "loadProjectList": async function(options) {
-                let self = this, career, projectList;
-                career = String(self.project.dataTable.query.careerYear + self.project.dataTable.query.careerMonth);
+                let self = this, career, projectList, jobCodeList, degreeCodeList, localCodeList, detailLocalCodeList;
+                if(self.project.dataTable.query.careerYear !== null && self.project.dataTable.query.careerMonth !== null) {
+                    career = String(self.project.dataTable.query.careerYear + self.project.dataTable.query.careerMonth);
+                }
 
                 self.project.dataTable.loading = true;
                 projectList = (await ito.api.common.project.getProjectList({
@@ -200,6 +204,57 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     "status": self.project.dataTable.query.status,
                     "salary": self.project.dataTable.query.salary,
                 })).data;
+
+                jobCodeList = (await ito.api.common.code.getCodeList({
+                    "parentId": "001",
+                    "sort": ["ranking, asc"],
+                    "rowSize": 100000000,
+                })).data.items.map(e=> ({"text": e.name, "value": e.id}));
+
+                degreeCodeList = (await ito.api.common.code.getCodeList({
+                    "parentId": "007",
+                    "sort": ["ranking, asc"],
+                    "rowSize": 1000000000,
+                })).data.items.map(e=> ({"text": e.name, "value": e.id}))
+
+                localCodeList = (await ito.api.common.code.getCodeList({
+                    "parentId": "006",
+                    "sort": ["ranking, asc"],
+                    "rowSize": 1000000000,
+                })).data.items.map(e=> ({"text": e.name, "value": e.id}));
+
+                detailLocalCodeList = (await ito.api.common.code.getCodeList({
+                    "idStartLike": "006_____",
+                    "sort": ["ranking, asc"],
+                     "rowSize": 1000000000,
+                })).data.items.map(e=> ({"text": e.name, "value": e.id}));
+
+                projectList.items.forEach(e=> {
+                    for(let i=0; i<jobCodeList.length; i++) {
+                        if(e.job === jobCodeList[i].value) {
+                            e.job = jobCodeList[i].text;
+                            break;
+                        }
+                    }
+                    for(let i=0; i<degreeCodeList.length; i++) {
+                        if(e.degree === degreeCodeList[i].value) {
+                            e.degree = degreeCodeList[i].text;
+                            break;
+                        }
+                    }
+                    for(let i=0; i<localCodeList.length; i++) {
+                        if(e.local === localCodeList[i].value) {
+                            e.local = localCodeList[i].text;
+                            break;
+                        }
+                    }
+                    for(let i=0; i<detailLocalCodeList.length; i++) {
+                        if(e.detailLocal === detailLocalCodeList[i].value) {
+                            e.detailLocal = detailLocalCodeList[i].text;
+                            break;
+                        }
+                    }
+                });
 
                 let limitDate, limitDay;
                 for(var i=0; i<projectList.items.length; i++) {

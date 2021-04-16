@@ -189,7 +189,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
             "methods": {
                 "delimit": function(v) {
                     let reducer = (a, e) => [...a, ...e.split(/[, ]+/)]
-                    this.user.query.skillList = [...new Set(v.reduce(reducer, []))]
+                    this.project.query.skillList = [...new Set(v.reduce(reducer, []))]
                 },
                 "loadEducation": async function() {
                     var self = this;
