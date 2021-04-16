@@ -155,29 +155,28 @@ var MainAdminProjectDetailPage = Vue.component('main-admin-project-detail-page',
                 },
                 //프로젝트- 가용 인력 엑셀 다운로드
                 "availableDownloadTable": async function() {
-                    let self = this, startBirth, endBirth;
                     await ito.api.app.personDownload.downloadPersonListXlsx({
                         "rowSize": 100000000,
                         "workableDay": moment().add("1", "M").format("YYYY-MM-DD"),
-                    });
+                    }, "available");
                 },
                 "confirmDownloadTable": async function(){
-                    let self = this, startBirth, endBirth;
+                    let self = this;
                     var projectId = await self.$route.query.id;
                     await ito.api.app.personDownload.downloadPersonListXlsx({
                         "rowSize": 100000000,
                         "projectId": projectId,
                         "status": "T"
-                    });
+                    }, "confirm");
                 },
                 "applyDownloadTable": async function(){
-                    let self = this, startBirth, endBirth;
+                    let self = this;
                     var projectId = await self.$route.query.id;
                     await ito.api.app.personDownload.downloadPersonListXlsx({
                         "rowSize": 100000000,
                         "projectId": projectId,
                         "status": "F"
-                    });
+                    }, "apply");
                 },
 
                 "clickInputStatus": async function(value){

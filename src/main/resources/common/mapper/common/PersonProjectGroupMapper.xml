@@ -5,7 +5,7 @@
     <sql id="selectFrom">
         SELECT
             `person_project_person`.`status` AS `project_person_status`,
-            `person_project_person`.`projectId` AS `project_person_projectId`,
+            `person_project_person`.`project_id` AS `project_person_projectId`,
             `person`.`id`,
             `person`.`name`,
             `person`.`phone_number`,
@@ -51,7 +51,7 @@
     <sql id="where">
         <where>
             <if test="personParamDto.name != null and personParamDto.name != ''">
-                AND `name` LIKE CONCAT('%', #{personParamDto.name} , '%')
+                AND `person`.`name` LIKE CONCAT('%', #{personParamDto.name} , '%')
             </if>
             <if test="personParamDto.jobType != null and personParamDto.jobType != ''">
                 AND `job_type` LIKE CONCAT(#{personParamDto.jobType})
@@ -105,11 +105,11 @@
                          separator=" AND "
                 >`skill` LIKE #{item}</foreach>
             </if>
-            <if test="projectPersonParamDto.status != null and projectPersonParamDto.status != ''">
+            <if test="personParamDto.status != null and personParamDto.status != ''">
                 AND `person_project_person`.`status` = #{personParamDto.status}
             </if>
-            <if test="projectPersonParamDto.projectId != null and projectPersonParamDto.projectId != ''">
-                AND `person_project_person`.`projectId` = #{personParamDto.projectId}
+            <if test="personParamDto.projectId != null">
+                AND `person_project_person`.`project_id` = #{personParamDto.projectId}
             </if>
         </where>
     </sql>
