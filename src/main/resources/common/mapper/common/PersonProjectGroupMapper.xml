@@ -103,7 +103,7 @@
                 <foreach collection="personParamDto.skillListLike"
                          item="item"
                          separator=" AND "
-                >`skill` LIKE #{item}</foreach>
+                >`person`.`skill` LIKE #{item}</foreach>
             </if>
             <if test="personParamDto.status != null and personParamDto.status != ''">
                 AND `person_project_person`.`status` = #{personParamDto.status}
