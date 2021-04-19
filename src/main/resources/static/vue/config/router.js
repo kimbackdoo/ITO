@@ -88,9 +88,19 @@ router = new VueRouter({
                     "component": HomepageContactMainPage
                 },
                 {
+                    "name": "ContactDetails",
+                    "path": "/homepages/contacts/details",
+                    "component": HomepageContactDetailPage
+                },
+                {
                     "name": "Notices",
                     "path": "/homepages/notices",
                     "component": HomepageNoticeMainPage
+                },
+                {
+                    "name": "NoticeDetails",
+                    "path": "/homepages/notices/details",
+                    "component": HomepageNoticeDetailPage
                 },
                 {
                     "name": "Settings",

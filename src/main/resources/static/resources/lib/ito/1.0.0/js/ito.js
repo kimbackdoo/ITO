@@ -383,9 +383,23 @@ ito = {
             "homepage": {
                 "notice": {
                     "getNoticeList": function (params) { return axios({"url": "/api/app/homepages/notices", "method": "get", "params": params}); },
+                    "getNotice": function (id) { return axios({"url": "/api/app/homepages/notices/" + id, "method": "get"}); },
+                    "createNoticeList": function (data) { return axios({"url": "/api/app/homepages/notices?bulk", "method": "post", "data": data}); },
+                    "createNotice": function (data) { return axios({"url": "/api/app/homepages/notices", "method": "post", "data": data}); },
+                    "modifyNoticeList": function (data) { return axios({"url": "/api/app/homepages/notices", "method": "put", "data": data}); },
+                    "modifyNotice": function (id, data) { return axios({"url": "/api/app/homepages/notices/" + id, "method": "put", "data": data}); },
+                    "removeNoticeList": function (data) { return axios({"url": "/api/app/homepages/notices", "method": "delete", "data": data}); },
+                    "removeNotice": function (id) { return axios({"url": "/api/app/homepages/notices/"+ id, "method": "delete"}); },
                 },
                 "contact": {
                     "getContactList": function (params) { return axios({"url": "/api/app/homepages/contacts", "method": "get", "params": params}); },
+                    "getContact": function (id) { return axios({"url": "/api/app/homepages/contacts/" + id, "method": "get"}); },
+                    "createContactList": function (data) { return axios({"url": "/api/app/homepages/contacts?bulk", "method": "post", "data": data}); },
+                    "createContact": function (data) { return axios({"url": "/api/app/homepages/contacts", "method": "post", "data": data}); },
+                    "modifyContactList": function (data) { return axios({"url": "/api/app/homepages/contacts", "method": "put", "data": data}); },
+                    "modifyContact": function (id, data) { return axios({"url": "/api/app/homepages/contacts/" + id, "method": "put", "data": data}); },
+                    "removeContactList": function (data) { return axios({"url": "/api/app/homepages/contacts", "method": "delete", "data": data}); },
+                    "removeContact": function (id) { return axios({"url": "/api/app/homepages/contacts/"+ id, "method": "delete"}); },
                 }
 
             }
