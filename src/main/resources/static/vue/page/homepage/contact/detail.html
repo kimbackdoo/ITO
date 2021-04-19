@@ -1,0 +1,94 @@
+<v-container fluid>
+    <v-row dense>
+        <v-col>
+            <h1>문의사항 관리</h1>
+        </v-col>
+    </v-row>
+    <v-row dense>
+        <v-col cols="12">
+            <v-card>
+                <v-card-title>문의사항 상세</v-card-title>
+                <v-card-text>
+                    <v-row dense>
+                        <v-col cols="12">
+                            <v-text-field
+                                dense
+                                outlined
+                                clearable
+                                label="제목"
+                                readonly
+                                hide-details="auto"
+                                v-model="data.contact.title"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <v-text-field
+                                dense
+                                outlined
+                                clearable
+                                label="회사"
+                                readonly
+                                hide-details="auto"
+                                v-model="data.contact.company"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <v-text-field
+                                dense
+                                outlined
+                                clearable
+                                label="이름"
+                                readonly
+                                hide-details="auto"
+                                v-model="data.contact.name"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="4">
+                            <v-text-field
+                                dense
+                                outlined
+                                clearable
+                                label="전화번호"
+                                readonly
+                                hide-details="auto"
+                                v-model="data.contact.phone"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="4">
+                            <v-text-field
+                                dense
+                                outlined
+                                clearable
+                                label="이메일"
+                                readonly
+                                hide-details="auto"
+                                v-model="data.contact.email"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="4">
+                            <v-text-field
+                                dense
+                                outlined
+                                clearable
+                                label="문의유형"
+                                readonly
+                                hide-details="auto"
+                                v-model="data.contact.contactType"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-textarea
+                                dense
+                                outlined
+                                label="내용"
+                                readonly
+                                hide-details="auto"
+                                v-model="data.contact.content"
+                            ></v-textarea>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+            </v-card>
+        </v-col>
+    </v-row>
+</v-container>

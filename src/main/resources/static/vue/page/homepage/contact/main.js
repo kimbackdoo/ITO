@@ -42,8 +42,7 @@ HomepageContactMainPage = Vue.component("homepage-contact-main-page", async func
                 contact = (await ito.api.app.homepage.contact.getContactList()).data;
                 this.dataTable.totalRows = contact.totalRows;
                 this.dataTable.items = contact.items;
-
-            }
+            },
         },
         "mounted": async function () {
             this.loadContactList();
