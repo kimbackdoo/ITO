@@ -20,8 +20,8 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 {"text": "경력요건", "value": "career","width": 120,"align": "center", cellClass:"text-truncate"},
                                 {"text": "프로젝트 시작", "value": "sterm","width": 120,"align": "center", cellClass:"text-truncate"},
                                 {"text": "프로젝트 끝 ", "value": "eterm","width": 120,"align": "center", cellClass:"text-truncate"},
-                                {"text": "장소(시,구)", "value": "local","width": 120,"align": "center", cellClass:"text-truncate"},
-                                {"text": "장소(시,구)", "value": "detailLocal","width": 120,"align": "center", cellClass:"text-truncate"},
+                                {"text": "장소(시,도)", "value": "local","width": 120,"align": "center", cellClass:"text-truncate"},
+                                {"text": "장소(구,시)", "value": "detailLocal","width": 120,"align": "center", cellClass:"text-truncate"},
                                 {"text": "필요인원", "value": "prsnl","width": 120,"align": "center", cellClass:"text-truncate"},
                                 {"text": "현황", "value": "status","width": 120,"align": "center", cellClass:"text-truncate"},
                                 {"text": "희망 급여", "value": "salary","width": 120,"align": "center", cellClass:"text-truncate"},
@@ -306,12 +306,14 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 self.project.dataTable.loading = true;
                                 return ito.api.common.project.getProjectList(params);
                             })
-                            .then(function (response) {
+                            .then(async function (response) {
                                 //데이터값 인계
                                 var data = response.data;
                                 self.project.dataTable.items = data.items;
                                 self.project.dataTable.serverItemsLength = data.totalRows;
+                                var codeBigData = (await ito.api.common.code.getCodeList()).data.items;
                                 self.project.dataTable.items.forEach(e => {
+
                                     e.career = e.career+"년"
                                     e.salary = e.salary+"만원"
                                     switch(e.status){
@@ -340,7 +342,16 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                         case "00706":
                                              e.degree = "박사"; break;
                                     }
-                                    var limitDat, limitDay;
+                                    for(var i=0; i < codeBigData.length ; i++){
+                                        if(e.job == codeBigData[i].id)
+                                             e.job = codeBigData[i].name;
+                                        else if(e.local == codeBigData[i].id)
+                                            e.local = codeBigData[i].name;
+                                        else if(e.detailLocal == codeBigData[i].id)
+                                            e.detailLocal = codeBigData[i].name;
+                                    }
+
+                                    var limitDate, limitDay;
                                     limitDate = moment(e.limitDate).format("MM-DD");
                                     limitDay = moment(e.limitDate).diff(moment(), "day");
 
@@ -439,7 +450,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             .then(function () {
                             })
                             .then(function () {
-                                self.project.dataTable.local=null;
+                                self.project.query.local=null;
                                 self.project.query.name = null;
                                 self.project.query.job = null;
                                 self.project.query.skill = null;
@@ -482,7 +493,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     params.career = _.isEmpty(self.project.query.career1) && _.isEmpty(self.project.query.career2) ? null : String(self.project.query.career1 + self.project.query.career2);
                     params.sterm = !_.isEmpty(self.project.query.sterm) ? self.project.query.sterm : null;
                     params.eterm = !_.isEmpty(self.project.query.eterm) ? self.project.query.eterm : null;
-                    params.local = !_.isEmpty(self.project.query.Local) ? self.project.query.Local : null;
+                    params.local = !_.isEmpty(self.project.query.local) ? self.project.query.local : null;
                     params.detailLocal = !_.isEmpty(self.project.query.detailLocal) ? self.project.query.detailLocal : null;
                     params.prsnl = !_.isEmpty(self.project.query.prsnl) ? Number(self.project.query.prsnl) : null;
                     params.status = !_.isEmpty(self.project.query.status) ? (self.project.query.status).charAt(0) : null;
