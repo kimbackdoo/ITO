@@ -103,7 +103,7 @@
                 <foreach collection="personParamDto.skillListLike"
                          item="item"
                          separator=" AND "
-                >`person`.`skill` LIKE #{item}</foreach>
+                >`person`.`skill` REGEXP CONCAT('^', #{item}, '$|\\W', #{item}, '$|^', #{item}, '\\W|\\W', #{item}, '\\W')</foreach>
             </if>
             <if test="personParamDto.status != null and personParamDto.status != ''">
                 AND `person_project_person`.`status` = #{personParamDto.status}
