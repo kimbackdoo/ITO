@@ -1,4 +1,4 @@
-var MainAdminAvailableListPage
+var MainAdminAvailableListPage;
 MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', async function (resolve) {
     resolve({
         "template": (await axios.get("/vue/page/main/admin/available-list/main.html")).data,

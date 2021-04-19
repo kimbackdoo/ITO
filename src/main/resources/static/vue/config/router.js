@@ -146,6 +146,28 @@ router = new VueRouter({
                     "name": "PasswordChanges",
                     "path": "/password-change",
                     "component": PasswordChangeMainPage
+                },
+
+                // 그룹웨어 메뉴
+                {
+                    "name": "GroupwareMenu",
+                    "path": "/groupware",
+                    "redirect": "/groupware/main"
+                },
+                {
+                    "name": "GroupwareInfo",
+                    "path": "/groupware/main",
+                    "component": GroupwareMainPage
+                },
+                {
+                    "name": "GroupwareNotice",
+                    "path": "/groupware/notices",
+                    "component": GroupwareNoticePage
+                },
+                {
+                    "name": "GroupwareApprovalList",
+                    "path": "/groupware/approval-list",
+                    "component": GroupwareApprovalListPage
                 }
             ]
         },
