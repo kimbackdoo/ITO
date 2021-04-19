@@ -92,7 +92,7 @@
                 <foreach collection="personParamDto.skillListLike"
                          item="item"
                          separator=" AND "
-                >`skill` LIKE #{item}</foreach>
+                >`skill` REGEXP CONCAT('^', #{item}, '$|\\W', #{item}, '$|^', #{item}, '\\W|\\W', #{item}, '\\W')</foreach>
             </if>
         </where>
     </sql>
