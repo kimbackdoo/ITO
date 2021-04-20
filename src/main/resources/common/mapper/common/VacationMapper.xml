@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.metasoft.ito.api.common.mapper.VacationMapper">
+
+    <sql id="selectFrom">
+        SELECT
+            `vacation`.`id`,
+            `vacation`.`user_id`,
+            `vacation`.`department`,
+            `vacation`.`emergency_num`,
+            `vacation`.`type`,
+            `vacation`.`sterm`,
+            `vacation`.`eterm`,
+            `vacation`.`detail`,
+            `vacation_approval`.`team_leader`,
+            `vacation_approval`.`director`,
+            `vacation_approval`.`president`
+        FROM
+            `tb_vacation` `vacation`
+        LEFT OUTER JOIN
+            `tb_approval` `vacation_approval`
+        ON
+            `vacation`.`id` = `vacation_approval`.`vacation_id`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="vacationDto.status != null and vacationDto.status != ''">
+                AND `vacation_approval`.`team_leader` = #{vacationDto.status}
+            </if>
+            <if test="vacationDto.status != null and vacationDto.status != ''">
+                AND `vacation_approval`.`team_leader` = #{vacationDto.status}
+            </if>
+            <if test="vacationDto.status != null and vacationDto.status != ''">
+                AND `vacation_approval`.`team_leader` = #{vacationDto.status}
+            </if>
+        </where>
+    </sql>
+
+
+</mapper>
