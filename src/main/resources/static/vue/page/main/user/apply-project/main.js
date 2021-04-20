@@ -4,17 +4,6 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
         "template": (await axios.get("/vue/page/main/user/apply-project/main.html")).data,
         "data": function() {
             return {
-                "data": {
-                    "paginationList": [
-                        {"text": "5개 보기", "value": 5},
-                        {"text": "10개 보기", "value": 10},
-                        {"text": "15개 보기", "value": 15},
-                        {"text": "20개 보기", "value": 20},
-                        {"text": "25개 보기", "value": 25},
-                        {"text": "30개 보기", "value": 30},
-                        {"text": "전체 보기", "value": null}
-                    ],
-                },
                 "select": {
                     "job": {
                         "items": [
