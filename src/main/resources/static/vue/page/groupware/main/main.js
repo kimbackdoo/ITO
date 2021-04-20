@@ -41,7 +41,6 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                         "timed": !allDay,
                     });
                 }
-                console.log(events);
                 this.events = events;
             },
             "rnd": function(a, b) {
