@@ -34,7 +34,6 @@ public class VacationService {
     private VacationMapper vacationMapper;
 
 
-    //getVacationList
     @Validated(value = {ReadValidationGroup.class})
     @Transactional
     public PageResponse<VacationEntity> getVacationList(
@@ -48,6 +47,9 @@ public class VacationService {
         return pageResponse;
     }
 
+    
+    
+    
     @Validated(value = {ReadValidationGroup.class})
     @Transactional
     public VacationEntity getVacation(
