@@ -20,10 +20,11 @@ public interface VacationMapper {
             @Param (value = "id") Long id);
 
     public List<VacationEntity> selectVacationList(
-            @Valid VacationParamDto vacationParamDto, PageRequest pageRequest);
+            @Param (value = "vacationParamDto") VacationParamDto vacationParamDto,
+            @Param (value = "pageRequest") PageRequest pageRequest);
 
     public int selectVacationListCount(
-            @Valid VacationParamDto vacationParamDto);
+            @Param (value = "vacationParamDto") VacationParamDto vacationParamDto);
 
 
 

@@ -70,7 +70,15 @@
         <include refid="PageFragment.countEnd"/>
     </select>
 
-
+    <select
+        id="selectVacation"
+        parameterType="java.util.Map"
+        resultMap="vacationResultMap"
+    >
+        <include refid="selectFrom" />
+        WHERE
+            `vacation`.`id` = #{id}
+    </select>
 
 
 
