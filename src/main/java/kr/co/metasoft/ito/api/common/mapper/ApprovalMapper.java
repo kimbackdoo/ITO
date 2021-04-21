@@ -19,12 +19,12 @@ import kr.co.metasoft.ito.common.util.PageResponse;
 public interface ApprovalMapper {
 
     public List<ApprovalEntity> selectApprovalList(
-            @Param (value = "approvalDto") @Valid ApprovalParamDto approvalParamDto,
+            @Param (value = "approvalParamDto") @Valid ApprovalParamDto approvalParamDto,
             @Param (value = "pageRequest") PageRequest pageRequest);
 
 
     public Integer selectApprovalListCount(
-            @Param (value = "approvalDto") @Valid ApprovalParamDto approvalParamDto);
+            @Param (value = "approvalParamDto") @Valid ApprovalParamDto approvalParamDto);
 
     public ApprovalEntity selectApproval(
             @Param (value = "id") Long id);

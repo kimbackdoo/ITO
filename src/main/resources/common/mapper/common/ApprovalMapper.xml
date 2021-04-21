@@ -60,7 +60,7 @@
     <select
         id="selectApproval"
         parameterType="java.util.Map"
-        resultType="approvalResultMap"
+        resultMap="approvalResultMap"
     >
         <include refid="selectFrom" />
         WHERE
