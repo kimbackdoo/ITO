@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -38,6 +39,14 @@ public class ApprovalEntity {
     @Column (name = "`id`", columnDefinition = "bigint(20)")
     private Long id;
 
+    @NotNull(groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
+    @Column (name = "`vacation_id`", columnDefinition = "bigint(20)")
+    private Long vacationId;
+
+    @NotNull(groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
+    @Column (name = "`step`", columnDefinition = "bigint(20)", nullable = true)
+    private Long step;
+
     @NotNull (groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
     @Column (name = "`team_leader`", columnDefinition = "enum('T','F')", nullable = true)
     private String teamLeader;
@@ -54,5 +63,18 @@ public class ApprovalEntity {
     @DateTimeFormat (pattern = "yyyy-MM-dd")
     @Column (name = "`approval_date`", columnDefinition = "date", nullable = true)
     private LocalDate approvalDate;
+
+    @CreatedDate
+    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column (name = "`created_date`", columnDefinition = "datetime", nullable = false, updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column (name = "`last_modified_date`", columnDefinition = "datetime", nullable = false)
+    private LocalDateTime lastModifiedDate;
+
 
 }

@@ -12,9 +12,10 @@
             `vacation`.`sterm`,
             `vacation`.`eterm`,
             `vacation`.`detail`,
-            `vacation_approval`.`team_leader`,
-            `vacation_approval`.`director`,
-            `vacation_approval`.`president`
+            `vacation_approval`.`team_leader` AS `vacation_approval_team_leader`,
+            `vacation_approval`.`director` AS `vacation_approval_director`,
+            `vacation_approval`.`president` AS `vacation_approval_president`,
+            `vacation_approval`.`step` AS `vacation_approval_step`
         FROM
             `tb_vacation` `vacation`
         LEFT OUTER JOIN
@@ -25,17 +26,54 @@
 
     <sql id="where">
         <where>
-            <if test="vacationDto.status != null and vacationDto.status != ''">
-                AND `vacation_approval`.`team_leader` = #{vacationDto.status}
-            </if>
-            <if test="vacationDto.status != null and vacationDto.status != ''">
-                AND `vacation_approval`.`team_leader` = #{vacationDto.status}
-            </if>
-            <if test="vacationDto.status != null and vacationDto.status != ''">
-                AND `vacation_approval`.`team_leader` = #{vacationDto.status}
+            <if test="vacationParmaDto.step != null and vacationParamDto.step != ''">
+                AND `vacation_approval`.`step` &lt; #{vacationParmaDto.step}
             </if>
         </where>
     </sql>
+
+    <resultMap id="vacationResultMap" type ="kr.co.metasoft.ito.api.common.entity.VacationEntity" >
+        <result property="id" column="id" />
+        <result property="userId" column="user_id" />
+        <result property="department" column="department" />
+        <result property="emergencyNum" column="emergency_num" />
+        <result property="type" column="type" />
+        <result property="sterm" column="sterm" />
+        <result property="eterm" column="eterm" />
+        <result property="detail" column="detail" />
+        <result property="team_leader" column="vacation_approval_team_leader" />
+        <result property="director" column="vacation_approval_director" />
+        <result property="president" column="vacation_approval_president" />
+        <result property="step" column="vacation_approval_step" />
+    </resultMap>
+
+    <select
+        id="selectVacationList"
+        parameterType="java.util.Map"
+        resultMap="vacationResultMap"
+    >
+        <include refid="PageFragment.sortStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.sortEnd"/>
+        <include refid="PageFragment.limitOffset"/>
+    </select>
+
+    <select
+        id="selectVacationListCount"
+        parameterType="java.util.Map"
+        resultType="java.lang.Integer"
+    >
+        <include refid="PageFragment.countStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.countEnd"/>
+    </select>
+
+
+
+
+
 
 
 </mapper>

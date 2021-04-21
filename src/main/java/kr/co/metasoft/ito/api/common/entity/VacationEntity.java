@@ -54,7 +54,7 @@ public class VacationEntity {
     private String department;
 
     @Column (name = "`emergency_num`", columnDefinition = "varchar(100)", nullable = true)
-    private String emergencyNun;
+    private String emergencyNum;
 
     @Column (name = "`type`", columnDefinition = "varchar(10)", nullable = true)
     private String type;

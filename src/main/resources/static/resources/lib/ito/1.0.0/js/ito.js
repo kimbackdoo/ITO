@@ -402,8 +402,23 @@ ito = {
                     "removeContact": function (id) { return axios({"url": "/api/app/homepages/contacts/"+ id, "method": "delete"}); },
                 }
 
+            },
+            "vacation": {
+                "getVacationList": function (params) {return axios({"url": "/api/app/vacations", "method": "get", "params":params}); },
+                "getVacationInfo": function (id) {return axios({"url": "/api/app/vacations/"+id, "method": "get"}); },
+                "createVacation": function (data) { return axios({"url": "/api/app/vacations", "method": "post", "data": data}); },
+                "modifyVacation": function (id, data) { return axios({"url": "/api/app/vacations/" + id, "method": "put", "data": data}); },
+                "removeVacationList": function (data) { return axios({"url": "/api/app/vacations", "method": "delete", "data": data}); },
+                "removeVacation": function (id) { return axios({"url": "/api/app/vacations/"+ id, "method": "delete"}); },
+            },
+            "approval": {
+                "getApprovalList": function (params) {return axios({"url": "/api/app/approvals", "method": "get", "params":params}); },
+                "getApproval": function (id) {return axios({"url": "/api/app/approvals/"+id, "method": "get"}); },
+                "createApproval": function (data) { return axios({"url": "/api/app/approvals", "method": "post", "data": data}); },
+                "modifyApproval": function (id, data) { return axios({"url": "/api/app/approvals/" + id, "method": "put", "data": data}); },
+                "removeApprovalList": function (data) { return axios({"url": "/api/app/approvals", "method": "delete", "data": data}); },
+                "removeApproval": function (id) { return axios({"url": "/api/app/approvals/"+ id, "method": "delete"}); },
             }
-
         },
         "util": {
             "menu": {

@@ -15,10 +15,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class VacationParamDto {
-
-    //approval parameter 값
-    private long step;
+public class VacationDto {
 
     private Long id;
 

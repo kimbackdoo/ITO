@@ -15,25 +15,22 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class VacationParamDto {
-
-    //approval parameter 값
-    private long step;
+public class ApprovalParamDto {
 
     private Long id;
 
-    private Long userId;
+    private Long vacationId;
 
-    private String department;
+    private Long step;
 
-    private String emergencyNum;
+    private String teamLeader;
 
-    private String type;
+    private String director;
 
-    private LocalDate sterm;
+    private String president;
 
-    private LocalDate eterm;
+    private LocalDate approvalDate;
 
-    private String detail;
+
 
 }

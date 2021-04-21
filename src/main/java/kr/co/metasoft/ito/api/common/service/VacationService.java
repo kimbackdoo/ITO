@@ -47,9 +47,7 @@ public class VacationService {
         return pageResponse;
     }
 
-    
-    
-    
+
     @Validated(value = {ReadValidationGroup.class})
     @Transactional
     public VacationEntity getVacation(
@@ -81,5 +79,16 @@ public class VacationService {
         vacationRepository.deleteById(id);
     }
 
+
+    @Validated(value = {RemoveValidationGroup.class})
+    @Transactional
+    public void removeVacationList(
+        @Valid @NotEmpty (groups = {RemoveValidationGroup.class}) List< @NotNull (groups = {RemoveValidationGroup.class}) Long> idList) {
+        List<VacationEntity> vacationEntityList = new ArrayList<>();
+        for(int i=0;i<idList.size();i++) {
+            vacationEntityList.add(VacationEntity.builder().id(idList.get(i)).build());
+        }
+        vacationRepository.deleteAll(vacationEntityList);
+    }
 
 }
