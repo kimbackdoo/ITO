@@ -40,13 +40,15 @@
                                 {{ $refs.calendar.title }}
                             </v-toolbar-title>
                         </v-toolbar>
-                        <v-calendar
-                            ref="calendar"
-                            v-model="calendar.focus"
-                            color="primary"
-                            :events="calendar.events"
-                            @change = "updateRange"
-                        ></v-calendar>
+                        <div>
+                            <v-calendar
+                                ref="calendar"
+                                v-model="calendar.focus"
+                                color="primary"
+                                :events="calendar.events"
+                                @change = "loadCalendar"
+                            ></v-calendar>
+                        </div>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>

@@ -21,7 +21,7 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
             "next": function() {
                 this.$refs.calendar.next();
             },
-            "updateRange": function({start, end}) {
+            "loadCalendar": function({start, end}) {
                 let events = [];
                 let min = new Date(`${start.date}T00:00:00`),
                     max = new Date(`${end.date}T23:59:59`),
@@ -41,7 +41,7 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                         "timed": !allDay,
                     });
                 }
-                this.events = events;
+                this.calendar.events = events;
             },
             "rnd": function(a, b) {
                 return Math.floor((b-a+1) * Math.random() + a);
