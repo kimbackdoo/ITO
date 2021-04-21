@@ -46,12 +46,24 @@
                                 v-model="calendar.focus"
                                 color="primary"
                                 :events="calendar.events"
+                                @click:event="showEvent"
+                                @click:date="registerNotice"
                                 @change = "loadCalendar"
                             ></v-calendar>
+                        </div>
+                        <div class="text-right mt-2">
+                            <v-btn
+                                color="primary"
+                                @click="openVacationDialog"
+                            >휴가 신청하기</v-btn>
                         </div>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
         </v-col>
     </v-row>
+    <vacation-dialog-component
+        :dialog="dialogVacation"
+        @save=""
+    ></vacation-dialog-component>
 </v-container>

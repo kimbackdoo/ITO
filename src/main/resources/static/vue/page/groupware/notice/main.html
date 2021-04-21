@@ -21,6 +21,7 @@
                             :loading="dataTable.loading"
                             import-hide
                             download-hide
+                            @add="$router.push({path: '/groupware/notices/details'})"
                         >
                         </data-table-custom-component>
                     </v-expansion-panel-content>

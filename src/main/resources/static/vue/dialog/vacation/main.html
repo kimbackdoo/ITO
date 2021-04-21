@@ -1,0 +1,95 @@
+<v-dialog
+    scrollable
+    v-model="dialog.visible"
+    max-width="600px"
+>
+    <v-card>
+        <v-card-title>
+            <span class="headline">{{ dialog.title }}</span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text>
+            <v-container>
+                <v-row>
+                    <v-col cols="12" sm="7" md="5">
+                        <v-text-field
+                            dense
+                            v-model="vacation.department"
+                            label="부서"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="7" md="5">
+                        <v-text-field
+                            dense
+                            v-model="vacation.position"
+                            label="직급"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="7" md="5">
+                        <v-text-field
+                            dense
+                            v-model="vacation.name"
+                            label="성명"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="7" md="5">
+                        <v-text-field
+                            dense
+                            v-model="vacation.phone"
+                            label="비상연락망"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="10" md="8">
+                        <v-select
+                            dense
+                            :items="select.division.items"
+                            label="구분"
+                            v-model="vacation.division"
+                        ></v-select>
+                    </v-col>
+                    <v-col cols="12" sm="7" md="5">
+                        <date-picker-component
+                            dense
+                            label="시작일"
+                            append-icon="mdi-calendar"
+                            hide-details="auto"
+                            v-model="vacation.startPeriod"
+                        ></date-picker-component>
+                    </v-col>
+                    <v-col cols="2" md="auto" class="d-flex align-center">~</v-col>
+                    <v-col cols="12" sm="7" md="5">
+                        <date-picker-component
+                            dense
+                            label="종료일"
+                            append-icon="mdi-calendar"
+                            hide-details="auto"
+                            v-model="vacation.endPeriod"
+                        ></date-picker-component>
+                    </v-col>
+                    <v-col cols="12" sm="10" md="8">
+                        <v-textarea
+                            dense
+                            outlined
+                            v-model="vacation.detailContent"
+                            label="세부사항"
+                        ></v-textarea>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-card-text>
+        <v-card-actions>
+            <v-btn
+                text
+                color="primary"
+                class="ml-auto"
+                @click="saveVacation"
+            >저장</v-btn>
+            <v-btn
+                text
+                color="error"
+                class="ml-1"
+                @click="initialize"
+            >초기화</v-btn>
+        </v-card-actions>
+    </v-card>
+</v-dialog>

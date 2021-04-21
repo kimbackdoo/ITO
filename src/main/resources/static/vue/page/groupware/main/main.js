@@ -9,8 +9,16 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                         "list": [0]
                     },
                     "focus": '',
+                    "selectedEvent": {},
+                    "selectedElement": null,
+                    "selectedOpen": false,
                     "events": [],
                     "names": []
+                },
+                "dialogVacation": {
+                    "visible": false,
+                    "title": "휴가 신청서",
+                    "data": {}
                 }
             };
         },
@@ -20,6 +28,9 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
             },
             "next": function() {
                 this.$refs.calendar.next();
+            },
+            "showEvent": function({nativeEvent, event}) {
+                console.log(nativeEvent, event);
             },
             "loadCalendar": function({start, end}) {
                 let events = [];
@@ -46,6 +57,15 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
             "rnd": function(a, b) {
                 return Math.floor((b-a+1) * Math.random() + a);
             },
+            "registerNotice": function() {
+                this.$router.push({
+                    "path": "/groupware/notices/details"
+                });
+            },
+            "openVacationDialog": function() {
+                this.dialogVacation.data = {};
+                this.dialogVacation.visible = true;
+            }
         },
     });
 });

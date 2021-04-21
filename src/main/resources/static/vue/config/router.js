@@ -160,9 +160,14 @@ router = new VueRouter({
                     "component": GroupwareMainPage
                 },
                 {
-                    "name": "GroupwareNotice",
+                    "name": "GroupwareNotices",
                     "path": "/groupware/notices",
                     "component": GroupwareNoticePage
+                },
+                {
+                    "name": "GroupwareNoticeDetails",
+                    "path": "/groupware/notices/details",
+                    "component": GroupwareNoticeDetailPage
                 },
                 {
                     "name": "GroupwareApprovalList",
