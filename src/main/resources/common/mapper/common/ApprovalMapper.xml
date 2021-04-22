@@ -10,15 +10,15 @@
             `approval`.`team_leader`,
             `approval`.`director`,
             `approval`.`president`,
-            `approval`.`approval_date`,
+            `approval`.`approval_date`
         FROM
             `tb_approval` `approval`
     </sql>
 
     <sql id="where">
         <where>
-            <if test="approvalParmaDto.step != null and approvalParmaDto.step != ''">
-                AND `approval`.`step` = #{approvalParmaDto.step}
+            <if test="approvalParamDto.step != null and approvalParamDto.step != ''">
+                AND `approval`.`step` = #{approvalParamDto.step}
             </if>
         </where>
     </sql>

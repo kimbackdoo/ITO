@@ -27,8 +27,6 @@ import kr.co.metasoft.ito.common.util.PageResponse;
 @RequestMapping(path = "api/app/approvals")
 public class ApiCommonApprovalController {
 
-    @Autowired
-    private VacationService vacationService;
 
     @Autowired
     private ApprovalService approvalService;
