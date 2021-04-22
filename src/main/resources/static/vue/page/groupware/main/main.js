@@ -8,7 +8,6 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                     "panels": {
                         "list": [0]
                     },
-                    "focus": '',
                     "selectedEvent": {},
                     "selectedElement": null,
                     "selectedOpen": false,
@@ -32,36 +31,30 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
             "showEvent": function({nativeEvent, event}) {
                 console.log(nativeEvent, event);
             },
-            "loadCalendar": async function({start, end}) {
-                let vacationList = [];
+            "loadCalendar": async function() {
+                let userName, color, vacationList = [];
                 vacationList = (await ito.api.app.vacation.getVacationList({
                     "rowSize": 100000000,
-                })).data;
+                })).data.items;
                 console.log(vacationList);
 
-                let events = [];
-                let min = new Date(`${start.date}T00:00:00`),
-                    max = new Date(`${end.date}T23:59:59`),
-                    days = (max.getTime() - min.getTime()) / 86400000,
-                    eventCount = this.rnd(days, days+20)
+                for(let i=0; i<vacationList.length; i++) {
+                    userName = (await ito.api.common.user.getUser(vacationList[i].userId)).data.username;
+                    switch(vacationList[i].type) {
+                        case "M": color="green"; break;
+                        case "O": color="deep-purple"; break;
+                        case "S": color="grey darken-1"; break;
+                        case "E": color="orange"; break;
+                    }
 
-                for(let i=0; i<eventCount; i++) {
-                    let allDay = this.rnd(0,3) === 0,
-                        firstTimeStamp = this.rnd(min.getTime(), max.getTime()),
-                        first = new Date(firstTimeStamp - (firstTimeStamp % 900000)),
-                        secondTimeStamp = this.rnd(2, allDay ? 288 : 8) * 900000,
-                        second = new Date(first.getTime() + secondTimeStamp);
-
-                    events.push({
-                        "start": first,
-                        "end": second,
-                        "timed": !allDay,
+                    this.calendar.events.push({
+                        "name": userName,
+                        "start": vacationList[i].sterm,
+                        "end": vacationList[i].eterm,
+                        "color": color,
                     });
                 }
-                this.calendar.events = events;
-            },
-            "rnd": function(a, b) {
-                return Math.floor((b-a+1) * Math.random() + a);
+                console.log(this.calendar.events);
             },
             "registerNotice": function() {
                 this.$router.push({

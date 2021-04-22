@@ -27,10 +27,10 @@ VacationDialogComponent = Vue.component('vacation-dialog-component', async funct
                 "select": {
                     "division": {
                         "items": [
-                            {"text": "월차", "value": "m"},
-                            {"text": "반차", "value": "o"},
-                            {"text": "병가", "value": "s"},
-                            {"text": "기타", "value": "e"},
+                            {"text": "월차", "value": "M"},
+                            {"text": "반차", "value": "O"},
+                            {"text": "병가", "value": "S"},
+                            {"text": "기타", "value": "E"},
                         ]
                     }
                 }

@@ -17,11 +17,13 @@
                             :show-select="true"
                             item-key="id"
                             :headers="dataTable.headers"
-                            :totalRows="dataTable.items"
+                            :items="dataTable.items"
+                            :totalRows="dataTable.totalRows"
                             :loading="dataTable.loading"
                             import-hide
                             download-hide
                             @add="$router.push({path: '/groupware/notices/details'})"
+                            @remove="removeNoticeList"
                         >
                         </data-table-custom-component>
                     </v-expansion-panel-content>

@@ -24,14 +24,12 @@
             `vacation`.`id` = `vacation_approval`.`vacation_id`
     </sql>
 
-     <sql id="where">
-<!--
+    <sql id="where">
         <where>
-            <if test="vacationParamDto.step != null">
-                 AND `vacation_approval`.`step` &lt; CAST(#{vacationParamDto.step} AS Long)
-             </if>
+<!--            <if test="vacationParamDto.step != null">-->
+<!--                AND `vacation_approval`.`step` &lt; #{vacationParamDto.step}-->
+<!--            </if>-->
         </where>
- -->
     </sql>
 
     <resultMap id="vacationResultMap" type ="kr.co.metasoft.ito.api.common.entity.VacationEntity" >

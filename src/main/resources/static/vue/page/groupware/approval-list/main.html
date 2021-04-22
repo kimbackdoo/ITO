@@ -14,13 +14,14 @@
                     <v-expansion-panel-header>결재내역</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <data-table-custom-component
-                                :show-select="true"
-                                item-key="id"
                                 :headers="dataTable.headers"
-                                :totalRows="dataTable.items"
+                                :items="dataTable.items"
+                                :totalRows="dataTable.totalRows"
                                 :loading="dataTable.loading"
                                 import-hide
                                 download-hide
+                                add-hide
+                                remove-hide
                         >
                         </data-table-custom-component>
                     </v-expansion-panel-content>
