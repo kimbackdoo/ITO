@@ -38,6 +38,7 @@
         parameterType="java.util.Map"
         resultType="java.lang.Integer"
     >
+
         <include refid="PageFragment.countStart"/>
         <include refid="selectFrom"/>
         <include refid="where"/>
