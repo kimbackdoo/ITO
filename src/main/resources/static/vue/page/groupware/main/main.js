@@ -32,7 +32,13 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
             "showEvent": function({nativeEvent, event}) {
                 console.log(nativeEvent, event);
             },
-            "loadCalendar": function({start, end}) {
+            "loadCalendar": async function({start, end}) {
+                let vacationList = [];
+                vacationList = (await ito.api.app.vacation.getVacationList({
+                    "rowSize": 100000000,
+                })).data;
+                console.log(vacationList);
+
                 let events = [];
                 let min = new Date(`${start.date}T00:00:00`),
                     max = new Date(`${end.date}T23:59:59`),

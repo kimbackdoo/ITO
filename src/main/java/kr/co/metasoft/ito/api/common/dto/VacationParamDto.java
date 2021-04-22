@@ -18,7 +18,7 @@ import lombok.ToString;
 public class VacationParamDto {
 
     //approval parameter 값
-    private long step;
+    private Long step;
 
     private Long id;
 
