@@ -2,6 +2,10 @@ package kr.co.metasoft.ito.api.common.dto;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,31 +13,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Setter
 @Getter
-@Builder
+@Setter
 @ToString
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class VacationParamDto {
-
-    //approval parameter 값
-    private String step;
+public class Notice2Dto {
 
     private Long id;
 
     private Long userId;
 
-    private String department;
+    private String title;
 
-    private String emergencyNum;
+    private String contents;
 
-    private String type;
 
-    private LocalDate sterm;
-
-    private LocalDate eterm;
-
-    private String detail;
 
 }

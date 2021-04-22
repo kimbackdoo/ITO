@@ -24,7 +24,7 @@ public interface VacationMapper {
             @Param (value = "pageRequest") PageRequest pageRequest);
 
     public Integer selectVacationListCount(
-            @Param (value = "vacationParamDto") VacationParamDto vacationParamDto);
+            @Param (value = "vacationParamDto") @Valid VacationParamDto vacationParamDto);
 
 
 

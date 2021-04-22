@@ -1,19 +1,15 @@
 package kr.co.metasoft.ito.api.common.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -28,16 +24,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
-@Table(name = "`tb_vacation`")
-@EntityListeners(value = {AuditingEntityListener.class})
 @Getter
 @Setter
 @ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class VacationEntity {
+@Entity
+@Table(name = "`tb_notice`")
+@EntityListeners(value = {AuditingEntityListener.class})
+public class NoticeEntity {
 
 
     @NotNull(groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
@@ -45,56 +41,26 @@ public class VacationEntity {
     @Column(name = "`id`", columnDefinition="bigint(20)")
     private Long id;
 
-
     @NotNull(groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
     @Column(name = "`user_id`", columnDefinition="bigint(20)")
     private Long userId;
 
+    @Column(name = "`title`", columnDefinition = "varchar(100)")
+    private String title;
 
-    @Column (name = "`department`", columnDefinition = "varchar(100)", nullable = true)
-    private String department;
-
-    @Column (name = "`emergency_num`", columnDefinition = "varchar(100)", nullable = true)
-    private String emergencyNum;
-
-    @Column (name = "`type`", columnDefinition = "varchar(10)", nullable = true)
-    private String type;
-
-    @Column (name = "`detail`", columnDefinition = "varchar(100)", nullable = true)
-    private String detail;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column (name = "`sterm`", columnDefinition = "date", nullable = true)
-    private LocalDate sterm;
-
-    @JsonFormat (pattern = "yyyy-MM-dd")
-    @DateTimeFormat (pattern = "yyyy-MM-dd")
-    @Column (name = "`eterm`", columnDefinition = "date", nullable = true)
-    private LocalDate eterm;
+    @Column(name = "`contents`", columnDefinition = "varchar(100)")
+    private String contents;
 
     @CreatedDate
     @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     @Column (name = "`created_date`", columnDefinition = "datetime", nullable = false, updatable = false)
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
-    @LastModifiedDate
+    @CreatedDate
     @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column (name = "`last_modified_date`", columnDefinition = "datetime", nullable = false)
-    private LocalDateTime lastModifiedDate;
-
-    @Transient
-    private String teamLeader;
-
-    @Transient
-    private String director;
-
-    @Transient
-    private String president;
-
-    @Transient
-    private String step;
+    @Column (name = "`last_modified_date`", columnDefinition = "datetime", nullable = false, updatable = false)
+    private LocalDate lastModifiedDate;
 
 }

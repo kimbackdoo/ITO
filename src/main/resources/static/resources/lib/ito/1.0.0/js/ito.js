@@ -418,7 +418,15 @@ ito = {
                 "modifyApproval": function (id, data) { return axios({"url": "/api/app/approvals/" + id, "method": "put", "data": data}); },
                 "removeApprovalList": function (data) { return axios({"url": "/api/app/approvals", "method": "delete", "data": data}); },
                 "removeApproval": function (id) { return axios({"url": "/api/app/approvals/"+ id, "method": "delete"}); },
-            }
+            },
+            "notice": {
+                "getNoticeList": function (params) {return axios({"url": "/api/app/notices", "method": "get", "params":params}); },
+                "getNotice": function (id) {return axios({"url": "/api/app/notices/"+id, "method": "get"}); },
+                "createNotice": function (data) { return axios({"url": "/api/app/notices", "method": "post", "data": data}); },
+                "modifyNotice": function (id, data) { return axios({"url": "/api/app/notices/" + id, "method": "put", "data": data}); },
+                "removeNoticeList": function (data) { return axios({"url": "/api/app/notices", "method": "delete", "data": data}); },
+                "removeNotice": function (id) { return axios({"url": "/api/app/notices/"+ id, "method": "delete"}); },
+            },
         },
         "util": {
             "menu": {
