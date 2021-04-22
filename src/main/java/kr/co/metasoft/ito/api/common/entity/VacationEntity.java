@@ -9,6 +9,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -84,5 +85,16 @@ public class VacationEntity {
     @Column (name = "`last_modified_date`", columnDefinition = "datetime", nullable = false)
     private LocalDateTime lastModifiedDate;
 
+    @Transient
+    private String teamLeader;
+
+    @Transient
+    private String director;
+
+    @Transient
+    private String president;
+
+    @Transient
+    private Long step;
 
 }

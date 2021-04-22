@@ -41,7 +41,7 @@
         <result property="sterm" column="sterm" />
         <result property="eterm" column="eterm" />
         <result property="detail" column="detail" />
-        <result property="team_leader" column="vacation_approval_team_leader" />
+        <result property="teamLeader" column="vacation_approval_team_leader" />
         <result property="director" column="vacation_approval_director" />
         <result property="president" column="vacation_approval_president" />
         <result property="step" column="vacation_approval_step" />
