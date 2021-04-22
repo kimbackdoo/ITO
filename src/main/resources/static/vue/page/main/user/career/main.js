@@ -114,7 +114,7 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                 });
 
                 if(self.career.selected.length == 0)
-                    await ito.alert("삭제한 경력이 없습니다.");
+                    await ito.alert("삭제할 경력이 없습니다.");
                 else if(await ito.confirm("삭제하시겠습니까?")) {
                     await ito.api.common.career.removeCareerList(deleteList);
                     await ito.alert("삭제되었습니다.");

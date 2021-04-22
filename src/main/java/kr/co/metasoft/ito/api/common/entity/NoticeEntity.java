@@ -52,14 +52,14 @@ public class NoticeEntity {
     private String contents;
 
     @CreatedDate
-    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
     @Column (name = "`created_date`", columnDefinition = "datetime", nullable = false, updatable = false)
     private LocalDate createdDate;
 
     @CreatedDate
-    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
     @Column (name = "`last_modified_date`", columnDefinition = "datetime", nullable = false, updatable = false)
     private LocalDate lastModifiedDate;
 

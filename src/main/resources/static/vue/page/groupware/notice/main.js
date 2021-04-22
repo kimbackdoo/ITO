@@ -9,12 +9,11 @@ GroupwareNoticePage = Vue.component('groupware-notice-page', async function (res
                         "list": [0]
                     }
                 },
-                "selected": [],
                 "dataTable": {
                     "headers": [
                         {"text": "제목", "value": "title", "width": 120, "align": "center", cellClass:"text-truncate"},
-                        {"text": "내용", "value": "content", "width": 120, "align": "center", cellClass:"text-truncate"},
-                        {"text": "공지일자", "value": "createDate", "width": 120, "align": "center", cellClass:"text-truncate"}
+                        {"text": "내용", "value": "contents", "width": 120, "align": "center", cellClass:"text-truncate"},
+                        {"text": "공지일자", "value": "createdDate", "width": 120, "align": "center", cellClass:"text-truncate"}
                     ],
                     "cell": {
                         "icon": {
@@ -51,10 +50,10 @@ GroupwareNoticePage = Vue.component('groupware-notice-page', async function (res
 
                 console.log(self.dataTable.items);
             },
-            "removeNoticeList": async function() {
+            "removeNoticeList": async function(data) {
                 let self = this, removeList = [];
 
-                console.log(self.selected);
+                console.log(data);
             },
         },
         "mounted": function() {

@@ -29,6 +29,12 @@ public class Notice2Dto {
 
     private String contents;
 
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
+    private LocalDate createdDate;
 
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
+    private LocalDate lastModifiedDate;
 
 }

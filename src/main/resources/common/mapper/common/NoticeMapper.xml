@@ -7,7 +7,8 @@
             `notice`.`id`,
             `notice`.`user_id`,
             `notice`.`title`,
-            `notice`.`contents`
+            `notice`.`contents`,
+            `notice`.`created_date`
         FROM
             `tb_notice` `notice`
     </sql>
@@ -19,12 +20,13 @@
         <result property="userId" column="user_id" />
         <result property="title" column="title" />
         <result property="contents" column="contents" />
+        <result property="createdDate" column="created_date" />
     </resultMap>
 
     <select
-        id="selectNoticeList"
-        parameterType="java.util.Map"
-        resultMap="noticeResultMap"
+            id="selectNoticeList"
+            parameterType="java.util.Map"
+            resultMap="noticeResultMap"
     >
         <include refid="PageFragment.sortStart"/>
         <include refid="selectFrom"/>
@@ -34,9 +36,9 @@
     </select>
 
     <select
-        id="selectNoticeListCount"
-        parameterType="java.util.Map"
-        resultType="java.lang.Integer"
+            id="selectNoticeListCount"
+            parameterType="java.util.Map"
+            resultType="java.lang.Integer"
     >
 
         <include refid="PageFragment.countStart"/>
@@ -47,17 +49,12 @@
 
 
     <select
-        id="selectNotice"
-        parameterType="java.util.Map"
-        resultMap="noticeResultMap"
+            id="selectNotice"
+            parameterType="java.util.Map"
+            resultMap="noticeResultMap"
     >
         <include refid="selectFrom" />
         WHERE
-            `notice`.`id` = #{id}
+        `notice`.`id` = #{id}
     </select>
-
-
-
-
-
 </mapper>

@@ -37,12 +37,12 @@ public class Notice2ParamDto {
 
     private String contents;
 
-    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
     private LocalDate createdDate;
 
-    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
     private LocalDate lastModifiedDate;
 
 
