@@ -26,8 +26,8 @@
 
     <sql id="where">
         <where>
-            <if test="vacationParmaDto.step != null">
-                AND `vacation_approval`.`step` &lt; #{vacationParmaDto.step}
+            <if test="vacationParamDto.step != null">
+                AND `vacation_approval`.`step` &lt; #{vacationParamDto.step}
             </if>
         </where>
     </sql>
