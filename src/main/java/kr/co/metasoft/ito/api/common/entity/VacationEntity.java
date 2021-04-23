@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -41,15 +42,14 @@ import lombok.ToString;
 public class VacationEntity {
 
 
-    @NotNull(groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
+    @Null (groups = {CreateValidationGroup.class})
+    @NotNull (groups = {ModifyValidationGroup.class})
     @Id
-    @Column(name = "`id`", columnDefinition="bigint(20)")
     @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column(name = "`id`", columnDefinition="bigint(20)")
     private Long id;
 
-
-    @NotNull(groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
-    @Column(name = "`user_id`", columnDefinition="bigint(20)")
+    @Column(name = "`user_id`", columnDefinition="bigint(20)", nullable = true)
     private Long userId;
 
 

@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -39,7 +40,8 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ApprovalEntity {
 
-    @NotNull(groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
+    @Null (groups = {CreateValidationGroup.class})
+    @NotNull (groups = {ModifyValidationGroup.class})
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column (name = "`id`", columnDefinition = "bigint(20)")
