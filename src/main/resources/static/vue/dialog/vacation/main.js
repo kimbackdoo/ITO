@@ -16,16 +16,15 @@ VacationDialogComponent = Vue.component('vacation-dialog-component', async funct
             return {
                 "vacation": {
                     "name": null,
-                    "phone": null,
+                    "emergencyNum": null,
                     "department": null,
-                    "position": null,
-                    "startPeriod": null,
-                    "endPeriod": null,
-                    "detailContent": null,
-                    "division": null
+                    "sterm": null,
+                    "eterm": null,
+                    "detail": null,
+                    "type": null
                 },
                 "select": {
-                    "division": {
+                    "type": {
                         "items": [
                             {"text": "월차", "value": "M"},
                             {"text": "반차", "value": "O"},
@@ -51,13 +50,12 @@ VacationDialogComponent = Vue.component('vacation-dialog-component', async funct
             "initialize": async function() {
                 let self = this;
                 self.vacation.name = null;
-                self.vacation.phone = null;
+                self.vacation.emergencyNum = null;
                 self.vacation.department = null;
-                self.vacation.position = null;
-                self.vacation.startPeriod = null;
-                self.vacation.endPeriod = null;
-                self.vacation.detailContent = null;
-                self.vacation.division = null;
+                self.vacation.sterm = null;
+                self.vacation.eterm = null;
+                self.vacation.detail = null;
+                self.vacation.type = null;
             },
             "saveVacation": function() {
                 this.$emit("save", this.vacation);

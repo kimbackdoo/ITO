@@ -19,13 +19,6 @@
                     </v-col>
                     <v-col cols="12" sm="7" md="5">
                         <v-text-field
-                            v-model="vacation.position"
-                            label="직급"
-                        ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="7" md="5">
-                        <v-text-field
-                            dense
                             v-model="vacation.name"
                             label="성명"
                         ></v-text-field>
@@ -33,16 +26,16 @@
                     <v-col cols="12" sm="7" md="5">
                         <v-text-field
                             dense
-                            v-model="vacation.phone"
+                            v-model="vacation.emergencyNum"
                             label="비상연락망"
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="10" md="8">
+                    <v-col cols="12" sm="7" md="5">
                         <v-select
                             dense
-                            :items="select.division.items"
+                            :items="select.type.items"
                             label="구분"
-                            v-model="vacation.division"
+                            v-model="vacation.type"
                         ></v-select>
                     </v-col>
                     <v-col cols="12" sm="7" md="5">
@@ -51,7 +44,7 @@
                             label="시작일"
                             append-icon="mdi-calendar"
                             hide-details="auto"
-                            v-model="vacation.startPeriod"
+                            v-model="vacation.sterm"
                         ></date-picker-component>
                     </v-col>
                     <v-col cols="2" md="auto" class="d-flex align-center">~</v-col>
@@ -61,14 +54,14 @@
                             label="종료일"
                             append-icon="mdi-calendar"
                             hide-details="auto"
-                            v-model="vacation.endPeriod"
+                            v-model="vacation.eterm"
                         ></date-picker-component>
                     </v-col>
                     <v-col cols="12" sm="10" md="8">
                         <v-textarea
                             dense
                             outlined
-                            v-model="vacation.detailContent"
+                            v-model="vacation.detail"
                             label="세부사항"
                         ></v-textarea>
                     </v-col>
