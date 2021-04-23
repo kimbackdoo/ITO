@@ -50,6 +50,14 @@ GroupwareNoticePage = Vue.component('groupware-notice-page', async function (res
 
                 console.log(self.dataTable.items);
             },
+            "setNotice": async function(value) {
+                this.$router.push({
+                    "path": "/groupware/notices/details",
+                    "query": {
+                        "id": value.id
+                    }
+                });
+            },
             "removeNoticeList": async function(data) {
                 let self = this, removeList = [];
 
