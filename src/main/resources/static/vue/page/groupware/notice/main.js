@@ -42,13 +42,9 @@ GroupwareNoticePage = Vue.component('groupware-notice-page', async function (res
                     "sort": options !== undefined ? ito.util.sort(options.sortBy, options.sortDesc) : [],
                 })).data;
 
-                console.log(noticeList);
-
                 self.dataTable.totalRows = noticeList.totalRows;
                 self.dataTable.items = noticeList.items;
                 self.dataTable.loading = false;
-
-                console.log(self.dataTable.items);
             },
             "setNotice": async function(value) {
                 this.$router.push({
@@ -59,9 +55,13 @@ GroupwareNoticePage = Vue.component('groupware-notice-page', async function (res
                 });
             },
             "removeNoticeList": async function(data) {
-                let self = this, removeList = [];
-
-                console.log(data);
+                if(data.length === 0) {
+                    await ito.alert("삭제할 데이터를 선택해주세요.");
+                } else if(await ito.confirm("삭제하시겠습니까?")) {
+                    await ito.api.app.notice.removeNoticeList(data.map(e=>e.id));
+                    await ito.alert("삭제했습니다.");
+                    await this.loadNoticeList();
+                }
             },
         },
         "mounted": function() {

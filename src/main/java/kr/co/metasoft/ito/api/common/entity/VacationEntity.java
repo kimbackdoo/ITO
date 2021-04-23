@@ -76,14 +76,14 @@ public class VacationEntity {
     private LocalDate eterm;
 
     @CreatedDate
-    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
     @Column (name = "`created_date`", columnDefinition = "datetime", nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
     @Column (name = "`last_modified_date`", columnDefinition = "datetime", nullable = false)
     private LocalDateTime lastModifiedDate;
 

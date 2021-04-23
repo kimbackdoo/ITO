@@ -5,7 +5,7 @@ GroupwareNoticeDetailPage = Vue.component('roupware-notice-detail-page', async f
         "data": function() {
             return {
                 "data": {
-                    "notice": []
+                    "notice": {}
                 }
             };
         },
@@ -19,7 +19,8 @@ GroupwareNoticeDetailPage = Vue.component('roupware-notice-detail-page', async f
                 }
             },
             "saveNotice": async function() {
-                let notice = _.cloneDeep(this.data.notice);
+                let userId = store.state.app.user.id,
+                    notice = _.cloneDeep(this.data.notice);
 
                 delete notice.createdDate;
                 delete notice.lastModifiedDate;
@@ -28,6 +29,7 @@ GroupwareNoticeDetailPage = Vue.component('roupware-notice-detail-page', async f
                     if(notice.id !== undefined && notice.id !== null) {
                         await ito.api.app.notice.modifyNotice(notice.id, notice);
                     } else {
+                        notice.userId = userId;
                         await ito.api.app.notice.createNotice(notice);
                     }
                     await ito.alert("저장했습니다.");

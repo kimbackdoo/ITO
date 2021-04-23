@@ -36,7 +36,6 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                 vacationList = (await ito.api.app.vacation.getVacationList({
                     "rowSize": 100000000,
                 })).data.items;
-                console.log(vacationList);
 
                 for(let i=0; i<vacationList.length; i++) {
                     userName = (await ito.api.common.user.getUser(vacationList[i].userId)).data.username;
@@ -54,7 +53,18 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                         "color": color,
                     });
                 }
-                console.log(this.calendar.events);
+            },
+            "saveNotice": async function(data) {
+                let self = this;
+
+                console.log(data);
+
+                data.userId = store.state.app.user.id;
+                if(await ito.confirm("저장하시겠습니까?")) {
+                    await ito.api.app.vacation.createVacation(data);
+                    await ito.alert("저장되었습니다.")
+                    this.dialog = false;
+                }
             },
             "registerNotice": function() {
                 this.$router.push({
