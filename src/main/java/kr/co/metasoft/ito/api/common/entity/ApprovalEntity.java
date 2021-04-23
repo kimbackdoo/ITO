@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -39,6 +41,7 @@ public class ApprovalEntity {
 
     @NotNull(groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
     @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column (name = "`id`", columnDefinition = "bigint(20)")
     private Long id;
 
