@@ -53,7 +53,7 @@ public class ApiCommonNoticeController {
     }
 
     @PostMapping(path = "{id}")
-    public NoticeEntity createNotice(
+    public NoticeEntity modifyNotice(
             @PathVariable (name = "id") Long id,
             @RequestBody Notice2Dto notice2Dto) {
         NoticeEntity noticeEntity = NoticeEntity.builder()
