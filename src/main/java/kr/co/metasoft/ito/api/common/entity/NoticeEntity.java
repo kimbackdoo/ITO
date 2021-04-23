@@ -1,6 +1,7 @@
 package kr.co.metasoft.ito.api.common.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -41,7 +43,7 @@ public class NoticeEntity {
     @Column(name = "`id`", columnDefinition="bigint(20)")
     private Long id;
 
-    @NotNull(groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
+    @NotNull(groups = {ModifyValidationGroup.class})
     @Column(name = "`user_id`", columnDefinition="bigint(20)")
     private Long userId;
 
@@ -52,15 +54,15 @@ public class NoticeEntity {
     private String contents;
 
     @CreatedDate
-    @JsonFormat (pattern = "yyyy-MM-dd")
-    @DateTimeFormat (pattern = "yyyy-MM-dd")
+    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     @Column (name = "`created_date`", columnDefinition = "datetime", nullable = false, updatable = false)
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
-    @CreatedDate
-    @JsonFormat (pattern = "yyyy-MM-dd")
-    @DateTimeFormat (pattern = "yyyy-MM-dd")
-    @Column (name = "`last_modified_date`", columnDefinition = "datetime", nullable = false, updatable = false)
-    private LocalDate lastModifiedDate;
+    @LastModifiedDate
+    @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column (name = "`last_modified_date`", columnDefinition = "datetime", nullable = false)
+    private LocalDateTime lastModifiedDate;
 
 }

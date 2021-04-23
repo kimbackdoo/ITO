@@ -33,11 +33,10 @@ public class ApiCommonNoticeController {
         return noticeService.selectNotice(id);
     }
 
-    @PostMapping(path = "", params = "{!bulk}")
+    @PostMapping(path = "")
     public NoticeEntity createNotice(
             @RequestBody Notice2Dto notice2Dto) {
         NoticeEntity noticeEntity = NoticeEntity.builder()
-                .id(notice2Dto.getId())
                 .userId(notice2Dto.getUserId())
                 .title(notice2Dto.getTitle())
                 .contents(notice2Dto.getContents())
