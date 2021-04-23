@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,12 +41,11 @@ public class ApiCommonVacationController {
         return vacationService.getVacation(id);
     }
 
-    @PostMapping(path = "", params = {"!bulk"})
+    @PostMapping(path = "")
     public VacationEntity createVacation(
             @RequestBody VacationDto vacationDto) {
 
         VacationEntity vacationEntity = VacationEntity.builder()
-                .id(vacationDto.getId())
                 .userId(vacationDto.getUserId())
                 .department(vacationDto.getDepartment())
                 .emergencyNum(vacationDto.getEmergencyNum())
@@ -57,7 +57,7 @@ public class ApiCommonVacationController {
         return vacationService.createVacation(vacationEntity);
     }
 
-    @PostMapping(path = "{id}")
+    @PutMapping(path = "{id}")
     public VacationEntity modifyVacation(
             @PathVariable (name = "id") Long id,
             @RequestBody VacationDto vacationDto) {
