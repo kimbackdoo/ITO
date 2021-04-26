@@ -29,10 +29,26 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
             "nextCalendar": function() {
                 this.$refs.calendar.next();
             },
-            "showEvent": function({nativeEvent, event}) {
-                console.log(nativeEvent, event);
+            "showEvent": async function({nativeEvent, event}) {
+                let self = this;
+                if(this.calendar.selectedOpen) {
+                    self.calendar.selectedOpen = false;
+                    await setTimeout(()=>{
+                        self.calendar.selectedOpen = true;
+                    },10);
+                }else {
+                    self.calendar.selectedOpen = true;
+                }
+                event.term = event.start + " ~ " + event.end;
+                self.calendar.selectedEvent = event;
+                self.calendar.selectedElement = nativeEvent.target;
+                nativeEvent.stopPropagation();
             },
             "loadCalendar": async function({start, end}) {
+                await this.getVacationList({start, end});
+                await this.getNoticeList({start});
+            },
+            "getVacationList": async function({start, end}) {
                 let userName, color, vacationList;
                 vacationList = (await ito.api.app.vacation.getVacationList({
                     "rowSize": 100000000,
@@ -40,25 +56,55 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                     "eterm": end.date
                 })).data.items;
 
-                console.log(vacationList);
-
+                this.calendar.events = [];
                 for(let i=0; i<vacationList.length; i++) {
                     userName = (await ito.api.common.user.getUser(vacationList[i].userId)).data.username;
                     switch(vacationList[i].type) {
-                        case "M": color="green"; break;
-                        case "O": color="deep-purple"; break;
-                        case "S": color="grey darken-1"; break;
-                        case "E": color="orange"; break;
+                        case "M":
+                            color="green";
+                            vacationList[i].type = "월차";
+                            break;
+                        case "O":
+                            color="deep-purple";
+                            vacationList[i].type = "반차";
+                            break;
+                        case "S":
+                            color="grey darken-1";
+                            vacationList[i].type = "병가";
+                            break;
+                        case "E":
+                            color="orange";
+                            vacationList[i].type = "기타";
+                            break;
                     }
 
                     this.calendar.events.push({
                         "name": userName,
+                        "type": vacationList[i].type,
                         "start": vacationList[i].sterm,
                         "end": vacationList[i].eterm,
                         "color": color,
+                        "sep": "휴가"
                     });
                 }
-                console.log(this.calendar.events);
+            },
+            "getNoticeList": async function ({start}) {
+                let noticeList;
+                noticeList = (await ito.api.app.notice.getNoticeList({
+                    "rowSize": 100000000,
+                    "postingDate": start.date
+                })).data.items;
+
+                for(let i=0; i<noticeList.length; i++) {
+                    this.calendar.events.push({
+                        "name": noticeList[i].title,
+                        "contents": noticeList[i].contents,
+                        "start": noticeList[i].postingDate,
+                        "end": noticeList[i].postingDate,
+                        "color": "red",
+                        "sep": "공지사항"
+                    });
+                }
             },
             "saveNotice": async function(data) {
                 console.log(data);

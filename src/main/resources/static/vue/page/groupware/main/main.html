@@ -50,6 +50,37 @@
                                 @click:date="registerNotice"
                                 @change="loadCalendar"
                             ></v-calendar>
+                            <v-menu
+                                v-model="calendar.selectedOpen"
+                                :close-on-content-click="false"
+                                :activator="calendar.selectedElement"
+                                offset-x
+                            >
+                                <template v-if="calendar.selectedEvent.sep === '휴가'">
+                                    <v-card
+                                            color="grey lighten-4"
+                                            min-width="200px"
+                                            flat
+                                    >
+                                        <v-toolbar
+                                                :color="calendar.selectedEvent.color"
+                                                dark
+                                        >
+                                            <v-toolbar-title v-html="calendar.selectedEvent.name"></v-toolbar-title>
+                                            <v-spacer></v-spacer>
+                                        </v-toolbar>
+                                        <v-card-text>
+                                            <span>구분 : </span>
+                                            <span v-html="calendar.selectedEvent.type"></span><br/>
+                                            <span>기간 : </span>
+                                            <span v-html="calendar.selectedEvent.term"></span>
+                                        </v-card-text>
+                                    </v-card>
+                                </template>
+                                <template v-else-if="calendar.selectedEvent.sep === '공지사항'">
+
+                                </template>
+                            </v-menu>
                         </div>
                         <div class="text-right mt-2">
                             <v-btn

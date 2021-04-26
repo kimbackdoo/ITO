@@ -27,10 +27,10 @@
     <sql id="where">
         <where>
             <if test="vacationParamDto.sterm != null">
-                AND `sterm` &gt;= #{vacationParamDto.sterm}
+                    AND `sterm` &gt;= #{vacationParamDto.sterm}
             </if>
             <if test="vacationParamDto.eterm != null">
-                AND `eterm` &lt;= #{vacationParamDto.eterm}
+                    AND `eterm` &lt;= #{vacationParamDto.eterm}
             </if>
            <if test="vacationParamDto.step != null">
                AND `vacation_approval`.`step` &lt; #{vacationParamDto.step}

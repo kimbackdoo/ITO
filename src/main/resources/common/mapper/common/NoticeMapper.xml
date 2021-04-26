@@ -17,7 +17,7 @@
     <sql id="where">
         <where>
             <if test="noticeParamDto.postingDate != null" >
-                AND mid(`notice`.`posting_date`,6,2) = mid(#{noticeParamDto.postingDate} , 6,2)
+                AND mid(`notice`.`posting_date`,6,2) = mid(#{noticeParamDto.postingDate}, 6,2)
             </if>
         </where>
     </sql>
