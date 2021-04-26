@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import kr.co.metasoft.ito.api.common.dto.VacationParamDto;
