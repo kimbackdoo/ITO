@@ -173,8 +173,8 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 let careerValue = String(self.user.query.careerYear + self.user.query.careerMonth);
 
                 if(self.user.query.birthDate != null) {
-                    startBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-01-01");
-                    endBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-12-31");
+                    startBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y").format("YYYY-01-01");
+                    endBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y").format("YYYY-12-31");
                 }
 
                 self.user.dataTable.loading = true;

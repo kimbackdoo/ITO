@@ -19,7 +19,7 @@
                                 text
                                 small
                                 color="grey darken-2"
-                                @click="prev"
+                                @click="prevCalendar"
                             >
                                 <v-icon small>
                                     mdi-chevron-left
@@ -30,7 +30,7 @@
                                 text
                                 small
                                 color="grey darken-2"
-                                @click="next"
+                                @click="nextCalendar"
                             >
                                 <v-icon small>
                                     mdi-chevron-right
@@ -43,11 +43,12 @@
                         <div>
                             <v-calendar
                                 ref="calendar"
+                                v-model="calendar.move"
                                 color="primary"
                                 :events="calendar.events"
                                 @click:event="showEvent"
                                 @click:date="registerNotice"
-                                @change = "loadCalendar"
+                                @change="loadCalendar"
                             ></v-calendar>
                         </div>
                         <div class="text-right mt-2">
