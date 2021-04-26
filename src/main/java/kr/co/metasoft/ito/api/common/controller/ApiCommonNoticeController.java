@@ -40,6 +40,7 @@ public class ApiCommonNoticeController {
                 .userId(notice2Dto.getUserId())
                 .title(notice2Dto.getTitle())
                 .contents(notice2Dto.getContents())
+                .postingDate(notice2Dto.getPostingDate())
                 .build();
         return noticeService.createNotice(noticeEntity);
     }
@@ -53,6 +54,7 @@ public class ApiCommonNoticeController {
                 .userId(notice2Dto.getUserId())
                 .title(notice2Dto.getTitle())
                 .contents(notice2Dto.getContents())
+                .postingDate(notice2Dto.getPostingDate())
                 .build();
         return noticeService.modifyNotice(noticeEntity);
     }

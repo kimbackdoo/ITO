@@ -58,6 +58,11 @@ public class NoticeEntity {
     @Column(name = "`contents`", columnDefinition = "varchar(100)")
     private String contents;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column (name = "`posting_date`", columnDefinition = "date", nullable = true)
+    private LocalDate postingDate;
+
     @CreatedDate
     @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")

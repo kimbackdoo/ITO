@@ -36,9 +36,10 @@ public class NoticeService {
     public PageResponse<NoticeEntity> selectNoticeList(
             @Valid Notice2ParamDto notice2ParamDto,
             PageRequest pageRequest){
+
         int totalRows = noticeMapper.selectNoticeListCount(notice2ParamDto);
         List<NoticeEntity> noticeList = noticeMapper.selectNoticeList(notice2ParamDto, pageRequest);
-        PageResponse<NoticeEntity> pageResponse = new PageResponse<NoticeEntity>(pageRequest, totalRows);
+        PageResponse<NoticeEntity> pageResponse = new PageResponse<>(pageRequest, totalRows);
         pageResponse.setItems(noticeList);
         return pageResponse;
     }
