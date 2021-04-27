@@ -92,7 +92,7 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                 let noticeList;
                 noticeList = (await ito.api.app.notice.getNoticeList({
                     "rowSize": 100000000,
-                    "postingDate": start.date
+                    "postingDate": start.date,
                 })).data.items;
 
                 for(let i=0; i<noticeList.length; i++) {

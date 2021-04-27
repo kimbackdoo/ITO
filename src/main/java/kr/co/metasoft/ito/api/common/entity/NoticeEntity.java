@@ -60,7 +60,7 @@ public class NoticeEntity {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column (name = "`posting_date`", columnDefinition = "date", nullable = true)
+    @Column (name = "`posting_date`", columnDefinition = "datetime", nullable = true)
     private LocalDate postingDate;
 
     @CreatedDate

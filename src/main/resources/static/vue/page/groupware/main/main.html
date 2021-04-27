@@ -78,7 +78,25 @@
                                     </v-card>
                                 </template>
                                 <template v-else-if="calendar.selectedEvent.sep === '공지사항'">
-
+                                    <v-card
+                                        color="grey lighten-4"
+                                        min-width="200px"
+                                        flat
+                                    >
+                                        <v-toolbar
+                                            :color="calendar.selectedEvent.color"
+                                            dark
+                                        >
+                                            <v-toolbar-title v-html="calendar.selectedEvent.name"></v-toolbar-title>
+                                            <v-spacer></v-spacer>
+                                        </v-toolbar>
+                                        <v-card-text>
+                                            <span>기간 : </span>
+                                            <span v-html="calendar.selectedEvent.term"></span><br/>
+                                            <span>내용 : </span>
+                                            <span v-html="calendar.selectedEvent.contents"></span>
+                                        </v-card-text>
+                                    </v-card>
                                 </template>
                             </v-menu>
                         </div>
