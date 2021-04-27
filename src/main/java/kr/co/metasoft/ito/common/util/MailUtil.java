@@ -40,7 +40,7 @@ public class MailUtil {
          * properties.setProperty("mail.smtp.starttls.enable", "true");
          */
 
-        //세션 설정
+        //session 생성
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -52,20 +52,25 @@ public class MailUtil {
 
         //MimeMessage 생성
         MimeMessage mimeMessage = new MimeMessage(session);
-        File logoEmailFile = new ClassPathResource("static/resources/lib/hkpif-crm/0.0.1/images/logo-email.png").getFile();
-        DataSource imageFile = new FileDataSource(logoEmailFile);
+
+        /*
+         * File logoEmailFile = new ClassPathResource(
+         * "static/resources/lib/hkpif-crm/0.0.1/images/logo-email.png").getFile();
+         * DataSource imageFile = new FileDataSource(logoEmailFile);
+         */
 
         //발신자 셋팅,
-        mimeMessage.setFrom("order@hkpif.com");
+        mimeMessage.setFrom("dbwlgna98@naver.com");
 
         List<String> toList = mailDto.getToList();
         if(toList != null) {
             for(int i = 0; i < toList.size(); i++) {
                 //수신자셋팅
-                //.TO : 외에, .CC : 참조 , .BCC : 숨은 참조
+                //.TO : 외에
                 mimeMessage.addRecipients(RecipientType.TO, toList.get(i));
             }
         }
+/*
         List<String> ccList = mailDto.getCcList();
         if(ccList != null) {
             for(int i = 0; i < ccList.size(); i++) {
@@ -73,17 +78,27 @@ public class MailUtil {
                 mimeMessage.addRecipients(RecipientType.CC, ccList.get(i));
             }
         }
+*/
 
         //제목 셋팅
         mimeMessage.setSubject(mailDto.getSubject());
+
         Multipart multipart = new MimeMultipart();
+
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
+
+        //내용 셋팅
         mimeBodyPart.setContent(mailDto.getText(), "text/html;charset=UTF-8");
         multipart.addBodyPart(mimeBodyPart);
-        mimeBodyPart = new MimeBodyPart();
-        mimeBodyPart.setDataHandler(new DataHandler(imageFile));
-        mimeBodyPart.setHeader("Content-ID", "<image>");
-        multipart.addBodyPart(mimeBodyPart);
+
+        //이미지 추가
+        /*
+         * mimeBodyPart = new MimeBodyPart(); mimeBodyPart.setDataHandler(new
+         * DataHandler(imageFile)); mimeBodyPart.setHeader("Content-ID", "<image>");
+         * multipart.addBodyPart(mimeBodyPart);
+         */
+
+        //파일 있을 시
         if(mailDto.getFileData() != null && mailDto.getFileName() != null) {
             dataHandler = new DataHandler(mailDto.getFileData());
             mimeBodyPart = new MimeBodyPart();
@@ -92,6 +107,7 @@ public class MailUtil {
             mimeBodyPart.setFileName(mailDto.getFileName());
             multipart.addBodyPart(mimeBodyPart);
         }
+
         mimeMessage.setContent(multipart);
 
         //보내기

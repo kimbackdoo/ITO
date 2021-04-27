@@ -63,7 +63,7 @@ public class VacationService {
     @Validated( value = {CreateValidationGroup.class})
     @Transactional
     public VacationEntity createVacation(
-            @Valid @NotNull (groups = {CreateValidationGroup.class}) VacationEntity vacationEntity) {
+             @Valid @NotNull (groups = {CreateValidationGroup.class}) VacationEntity vacationEntity) {
         return vacationRepository.save(vacationEntity);
     }
 
