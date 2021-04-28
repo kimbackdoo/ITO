@@ -15,9 +15,18 @@ GroupwareApprovalListPage = Vue.component('groupware-approval-list-page', async 
                         {"text": "구분", "value": "type", "align": "center", "width": "120", cellClass: "text-truncate"},
                         {"text": "휴가기간", "value": "term", "align": "center", "width": "120", cellClass: "text-truncate"},
                         {"text": "팀장 결재", "value": "teamLeader", "align": "center", "width": "120", cellClass: "text-truncate"},
+                        {"text": "이사 결재", "value": "director", "align": "center", "width": "120", cellClass: "text-truncate"},
                         {"text": "대표 결재", "value": "president", "align": "center", "width": "120", cellClass: "text-truncate"},
                         {"text": "최종승인날짜", "value": "approvalDate", "align": "center", "width": "120", cellClass: "text-truncate"},
+                        {"text": "엑셀 다운로드", "value": "download", "type": "button", "align": "center", "width": "120", cellClass: "text-truncate"},
                     ],
+                    "cell": {
+                        "button": {
+                            "download": {
+                                "title": "엑셀 다운로드"
+                            }
+                        }
+                    },
                     "items": [],
                     "totalRows": 0,
                     "loading": false,
@@ -56,6 +65,10 @@ GroupwareApprovalListPage = Vue.component('groupware-approval-list-page', async 
                         case "T": approvalList.items[i].teamLeader = "O"; break;
                         case "F": approvalList.items[i].teamLeader = "X"; break;
                     }
+                    switch(approvalList.items[i].director) {
+                        case "T": approvalList.items[i].director = "O"; break;
+                        case "F": approvalList.items[i].director = "X"; break;
+                    }
                     switch(approvalList.items[i].president) {
                         case "T": approvalList.items[i].president = "O"; break;
                         case "F": approvalList.items[i].president = "X"; break;
@@ -65,7 +78,18 @@ GroupwareApprovalListPage = Vue.component('groupware-approval-list-page', async 
                 self.dataTable.totalRows = approvalList.totalRows;
                 self.dataTable.items = approvalList.items;
                 self.dataTable.loading = false;
-                console.log(approvalList);
+            },
+            "vacationDownload": async function(data) {
+                let step = data.item.step, vacationId = data.item.vacationId;
+                if(step !== 3) {
+                    await ito.alert("모든 승인이 되지 않았습니다.");
+                } else {
+                    await ito.api.app.vacationDownload.getVacationDataXlsx({
+                        "id": vacationId,
+                        "takingUser": ""
+                    });
+                    await ito.alert("다운로드를 완료하였습니다.");
+                }
             }
         },
         "mounted": function() {

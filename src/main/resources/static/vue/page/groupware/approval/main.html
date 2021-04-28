@@ -1,0 +1,19 @@
+<v-container fluid style="height: 100%;">
+    <v-row dense style="height: 100%">
+        <v-col class="d-flex justify-center align-center">
+            <v-card width="400px" style="text-align: center;">
+                <v-card-title>결재 승인</v-card-title>
+                <v-card-text>
+                    <v-btn
+                        class="primary"
+                        @click="saveApproval"
+                    >승인</v-btn>
+                    <v-btn
+                        class="error"
+                        @click="rejectApproval"
+                    >거절</v-btn>
+                </v-card-text>
+            </v-card>
+        </v-col>
+    </v-row>
+</v-container>

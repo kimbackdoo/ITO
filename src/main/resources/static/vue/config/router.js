@@ -173,6 +173,11 @@ router = new VueRouter({
                     "name": "GroupwareApprovalList",
                     "path": "/groupware/approval-list",
                     "component": GroupwareApprovalListPage
+                },
+                {
+                    "name": "GroupwareApproval",
+                    "path": "/groupware/approval",
+                    "component": GroupwareApprovalPage
                 }
             ]
         },

@@ -140,9 +140,8 @@ CareerMainComponent = Vue.component('career-main-component', async function(reso
                         ito.api.common.career.createCareer(data);
                     await ito.alert("저장되었습니다.");
 
-
                     self.dialog = false;
-                    self.loadCareerList();
+                    await self.loadCareerList();
                 }
             },
             "openNewCareerDialog": function () {

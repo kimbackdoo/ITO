@@ -56,16 +56,11 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                     "eterm": end.date
                 })).data.items;
 
-                for(let i=0; i<vacationList.length; i++) {
-                    step = (await ito.api.app.approval.getApprovalList({
-                        "vacationId": vacationList[i].id,
-                    })).data.items;
-                    console.log(step);
-                }
-                console.log(vacationList);
-
                 this.calendar.events = [];
                 for(let i=0; i<vacationList.length; i++) {
+                    step = (await ito.api.app.approval.getApproval(vacationList[i].id)).data.step;
+                    if(step !== 3) continue;
+
                     userName = (await ito.api.common.user.getUser(vacationList[i].userId)).data.username;
                     switch(vacationList[i].type) {
                         case "M":
