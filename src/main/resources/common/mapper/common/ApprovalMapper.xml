@@ -26,6 +26,15 @@
         </where>
     </sql>
 
+    <sql id="where1">
+        <where>
+            <if test="vacationId != null">
+                AND `approval`.`vacation_id` = #{vacationId}
+            </if>
+        </where>
+    </sql>
+
+
 
 
     <resultMap id="approvalResultMap" type ="kr.co.metasoft.ito.api.common.entity.ApprovalEntity" >
@@ -68,7 +77,8 @@
         resultMap="approvalResultMap"
     >
         <include refid="selectFrom" />
-        <include refid="where"/>
+        WHERE
+            `approval`.`vacation_id` = #{vacationId}
     </select>
 
 

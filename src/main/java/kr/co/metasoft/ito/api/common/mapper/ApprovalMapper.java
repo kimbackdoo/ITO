@@ -27,6 +27,6 @@ public interface ApprovalMapper {
             @Param (value = "approvalParamDto") @Valid ApprovalParamDto approvalParamDto);
 
     public ApprovalEntity selectApproval(
-            @Param (value = "approvalParamDto") @Valid ApprovalParamDto approvalParamDto);
+            @Param (value = "vacationId") @Valid Long vacationId);
 
 }
