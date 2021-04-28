@@ -64,6 +64,9 @@ public class ApiCommonApprovalController {
     public ApprovalEntity modifyApproval(
             @PathVariable (name = "id") Long id,
             @RequestBody ApprovalDto approvalDto) {
+        if(approvalDto.getTeamLeader() == "T") approvalDto.setStep(1L);
+        if(approvalDto.getDirector() == "T") approvalDto.setStep(2L);
+        if(approvalDto.getPresident() == "T") approvalDto.setStep(3L);
         ApprovalEntity approvalEntity = ApprovalEntity.builder()
                 .id(id)
                 .vacationId(approvalDto.getVacationId())
