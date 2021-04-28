@@ -39,10 +39,10 @@ public class ApiCommonApprovalController {
     }
 
 
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "vacationId")
     public ApprovalEntity getApproval(
-            @PathVariable (name = "id") Long id) {
-        return approvalService.getApprovalEntity(id);
+            @RequestBody ApprovalParamDto approvalParamDto) {
+        return approvalService.getApprovalEntity(approvalParamDto);
     }
 
     @PostMapping(path = "", params = {"!bulk"})

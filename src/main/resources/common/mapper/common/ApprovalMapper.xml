@@ -26,6 +26,8 @@
         </where>
     </sql>
 
+
+
     <resultMap id="approvalResultMap" type ="kr.co.metasoft.ito.api.common.entity.ApprovalEntity" >
         <result property="id" column="id" />
         <result property="vacationId" column="vacation_id" />
@@ -66,8 +68,7 @@
         resultMap="approvalResultMap"
     >
         <include refid="selectFrom" />
-        WHERE
-            `approval`.`id` = #{id}
+        <include refid="where"/>
     </select>
 
 

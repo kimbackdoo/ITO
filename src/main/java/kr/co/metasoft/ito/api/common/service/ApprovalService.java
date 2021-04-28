@@ -49,11 +49,12 @@ public class ApprovalService {
         return pageResponse;
     }
 
+
     @Validated(value = {ReadValidationGroup.class})
     @Transactional
     public ApprovalEntity getApprovalEntity (
-            @Valid @NotNull (groups = {ReadValidationGroup.class}) Long id ) {
-        return approvalMapper.selectApproval(id);
+            @Valid ApprovalParamDto approvalParamDto) {
+        return approvalMapper.selectApproval(approvalParamDto);
     }
 
 
