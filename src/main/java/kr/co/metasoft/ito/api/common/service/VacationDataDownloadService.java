@@ -196,10 +196,11 @@ public class VacationDataDownloadService {
 
 //            //모르겠...
 //            workbook.write(baos);
-
-
         }catch (Exception e) {
             // TODO: handle exception
+            System.out.println("=========================================");
+            System.out.println(e);
+            System.out.println("=========================================");
         }
 
         //baos 출력
