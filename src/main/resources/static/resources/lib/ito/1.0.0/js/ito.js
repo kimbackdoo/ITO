@@ -413,7 +413,7 @@ ito = {
             },
             "approval": {
                 "getApprovalList": function (params) {return axios({"url": "/api/app/approvals", "method": "get", "params":params}); },
-                "getApproval": function (id) {return axios({"url": "/api/app/approvals/"+id, "method": "get"}); },
+                "getApproval": function (params) {return axios({"url": "/api/app/approvals/vacationId", "method": "get" , "params":params}); },
                 "createApproval": function (data) { return axios({"url": "/api/app/approvals", "method": "post", "data": data}); },
                 "modifyApproval": function (id, data) { return axios({"url": "/api/app/approvals/" + id, "method": "put", "data": data}); },
                 "removeApprovalList": function (data) { return axios({"url": "/api/app/approvals", "method": "delete", "data": data}); },
