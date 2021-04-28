@@ -23,6 +23,8 @@ public class VacationParamDto {
     //approval parameter 값
     private String step;
 
+    private String takingUser;
+
     private Long id;
 
     private Long userId;

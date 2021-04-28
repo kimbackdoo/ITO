@@ -427,6 +427,12 @@ ito = {
                 "removeNoticeList": function (data) { return axios({"url": "/api/app/notices", "method": "delete", "data": data}); },
                 "removeNotice": function (id) { return axios({"url": "/api/app/notices/"+ id, "method": "delete"}); },
             },
+            "vacationDownload": {
+                "getVacationDataXlsx": function (params) {return axios({"url": "/api/app/vacationDataXlsx", "method":"get", "params": params}); },
+            }
+
+
+
         },
         "util": {
             "menu": {
