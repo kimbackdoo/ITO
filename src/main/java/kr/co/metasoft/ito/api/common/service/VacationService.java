@@ -13,8 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.metasoft.ito.api.common.dto.VacationParamDto;
+import kr.co.metasoft.ito.api.common.entity.ApprovalEntity;
 import kr.co.metasoft.ito.api.common.entity.VacationEntity;
 import kr.co.metasoft.ito.api.common.mapper.VacationMapper;
+import kr.co.metasoft.ito.api.common.repository.ApprovalRepository;
 import kr.co.metasoft.ito.api.common.repository.VacationRepository;
 import kr.co.metasoft.ito.common.util.PageRequest;
 import kr.co.metasoft.ito.common.util.PageResponse;
@@ -32,6 +34,10 @@ public class VacationService {
 
     @Autowired
     private VacationMapper vacationMapper;
+
+    @Autowired
+    private ApprovalRepository approvalRepository;
+
 
 
     @Validated(value = {ReadValidationGroup.class})
@@ -64,7 +70,16 @@ public class VacationService {
     @Transactional
     public VacationEntity createVacation(
              @Valid @NotNull (groups = {CreateValidationGroup.class}) VacationEntity vacationEntity) {
-        return vacationRepository.save(vacationEntity);
+        VacationEntity v = vacationRepository.save(vacationEntity);
+        Long id = v.getId();
+        approvalRepository.save(ApprovalEntity.builder()
+                .vacationId(id)
+                .step(0L)
+                .teamLeader("F")
+                .director("F")
+                .president("F")
+                .build());
+        return v;
     }
 
 
