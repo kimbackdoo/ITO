@@ -39,12 +39,17 @@ VacationDialogComponent = Vue.component('vacation-dialog-component', async funct
         },
         "watch": {
             "dialog.visible": {
-                "handler": function(n) {
+                "handler": async function(n) {
+                    let self = this, userId = store.state.app.user.id;
+
                     if(n) {
-                        this.vacation = _.cloneDeep(this.dialog.data);
-                        this.vacation.type = "M";
+                        user = (await ito.api.common.user.getUser(userId)).data;
+
+                        self.vacation = _.cloneDeep(self.dialog.data);
+                        self.vacation.name = user.username;
+                        self.vacation.type = "M";
                     } else {
-                        Object.assign(this.$data, this.$options.data.apply(this));
+                        Object.assign(self.$data, self.$options.data.apply(self));
                     }
                 }
             }
@@ -60,6 +65,13 @@ VacationDialogComponent = Vue.component('vacation-dialog-component', async funct
                 self.vacation.eterm = null;
                 self.vacation.detail = null;
                 self.vacation.type = null;
+            },
+            "setUser": async function() {
+                let userId = store.state.app.user.id;
+                user = (await ito.api.common.user.getUser(userId)).data;
+
+                self.vacation.name = user.username;
+                console.log(self.vacation.name);
             },
             "saveVacation": function() {
                 this.$emit("save", this.vacation);
