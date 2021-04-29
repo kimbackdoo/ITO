@@ -107,7 +107,7 @@ class ITOApplicationTests {
             mimeMessage.setFrom(new InternetAddress("smpark@meta-soft.co.kr"));
 
             //수신자 셋팅
-            mimeMessage.addRecipients(RecipientType.TO, "dbwlgna98@naver.com");
+            mimeMessage.addRecipients(RecipientType.TO, "kdk7121743@naver.com");
 
 
 

@@ -28,6 +28,7 @@ VacationDialogComponent = Vue.component('vacation-dialog-component', async funct
                     "type": {
                         "items": [
                             {"text": "월차", "value": "M"},
+                            {"text": "연차", "value": "N"},
                             {"text": "반차", "value": "O"},
                             {"text": "병가", "value": "S"},
                             {"text": "기타", "value": "E"},

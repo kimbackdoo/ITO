@@ -24,8 +24,13 @@ SignInMainPage = Vue.component("sign-in-main-page", async function (resolve) { r
                 alert("비밀번호를 입력해주세요.");
             } else {
                 try {
+                    let from = this.$route.query.from;
                     await ito.auth.login(this.data.username, this.data.password);
-                    this.$router.replace("/");
+                    if(from !== undefined && from !== null && from !== "") {
+                        this.$router.replace(from);
+                    } else{
+                        this.$router.replace("/");
+                    }
                 } catch (e) {
                     alert(e.response.data.message);
                 }

@@ -224,8 +224,6 @@ router.beforeEach(async function (to, from, next) {
     mainTitle = "ITO";
     regex = to.matched.length > 0 ? to.matched[to.matched.length - 1].regex : null;
 
-    console.log(this.$router.go(-1));
-
     token = ito.auth.getToken();
     if (await ito.auth.authenticated(token)) {
         if (!store.state.app.token) {
@@ -250,6 +248,7 @@ router.beforeEach(async function (to, from, next) {
         store.state.app.showMenuPathName = titlePath.join(" > ");
         titlePath = titlePath.reverse();
         title = titlePath.join(" < ");
+
         if (authenticated) {
             document.title = title;
             next();
@@ -265,7 +264,7 @@ router.beforeEach(async function (to, from, next) {
         if (to.path === "/sign-in" || to.path === "/sign-up") {
             next();
         } else {
-            next("/sign-in");
+            next("/sign-in?from=" + to.fullPath);
         }
     }
 });
