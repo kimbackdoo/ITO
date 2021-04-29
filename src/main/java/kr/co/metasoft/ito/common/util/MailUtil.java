@@ -16,6 +16,7 @@ import javax.mail.Part;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -30,21 +31,27 @@ public class MailUtil {
 
     public void sendMail(MailDto mailDto) throws MessagingException, IOException {
 
+
+//        String text = "<a href=http://localhost:81/groupware/approval" +
+//                "?userId=1" + ">" +
+//                "http://localhost:81/groupware/approval</a>";
+//        String subject = "제목";
+
         Properties properties = new Properties();
 
         //SMTP 서버 정보 설정
-        /*
-         * properties.setProperty("mail.smtp.host", "smtp.office365.com");
-         * properties.setProperty("mail.smtp.port", "587");
-         * properties.setProperty("mail.smtp.auth", "true");
-         * properties.setProperty("mail.smtp.starttls.enable", "true");
-         */
+          properties.setProperty("mail.smtp.host", "smtp.cafe24.com");
+          properties.setProperty("mail.smtp.port", "587");
+          properties.setProperty("mail.smtp.auth", "true");
+          properties.setProperty("mail.smtp.timeout", "5000");
+          properties.setProperty("mail.smtp.starttls.enable", "true");
+
 
         //session 생성
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("이메일", "비밀번호");
+                return new PasswordAuthentication("smpark@meta-soft.co.kr", "metasoft1@");
             }
         });
 
@@ -53,32 +60,14 @@ public class MailUtil {
         //MimeMessage 생성
         MimeMessage mimeMessage = new MimeMessage(session);
 
-        /*
-         * File logoEmailFile = new ClassPathResource(
-         * "static/resources/lib/hkpif-crm/0.0.1/images/logo-email.png").getFile();
-         * DataSource imageFile = new FileDataSource(logoEmailFile);
-         */
 
         //발신자 셋팅,
-        mimeMessage.setFrom("dbwlgna98@naver.com");
+        mimeMessage.setFrom(new InternetAddress("smpark@meta-soft.co.kr"));
 
-        List<String> toList = mailDto.getToList();
-        if(toList != null) {
-            for(int i = 0; i < toList.size(); i++) {
-                //수신자셋팅
-                //.TO : 외에
-                mimeMessage.addRecipients(RecipientType.TO, toList.get(i));
-            }
-        }
-/*
-        List<String> ccList = mailDto.getCcList();
-        if(ccList != null) {
-            for(int i = 0; i < ccList.size(); i++) {
-                //CC : 참조
-                mimeMessage.addRecipients(RecipientType.CC, ccList.get(i));
-            }
-        }
-*/
+        //수신자 셋팅
+        mimeMessage.addRecipients(RecipientType.TO, mailDto.getTo());
+
+
 
         //제목 셋팅
         mimeMessage.setSubject(mailDto.getSubject());
@@ -87,30 +76,18 @@ public class MailUtil {
 
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
 
+
+
         //내용 셋팅
         mimeBodyPart.setContent(mailDto.getText(), "text/html;charset=UTF-8");
         multipart.addBodyPart(mimeBodyPart);
 
-        //이미지 추가
-        /*
-         * mimeBodyPart = new MimeBodyPart(); mimeBodyPart.setDataHandler(new
-         * DataHandler(imageFile)); mimeBodyPart.setHeader("Content-ID", "<image>");
-         * multipart.addBodyPart(mimeBodyPart);
-         */
-
-        //파일 있을 시
-        if(mailDto.getFileData() != null && mailDto.getFileName() != null) {
-            dataHandler = new DataHandler(mailDto.getFileData());
-            mimeBodyPart = new MimeBodyPart();
-            mimeBodyPart.setDataHandler(dataHandler);
-            mimeBodyPart.setDisposition(Part.ATTACHMENT);
-            mimeBodyPart.setFileName(mailDto.getFileName());
-            multipart.addBodyPart(mimeBodyPart);
-        }
 
         mimeMessage.setContent(multipart);
 
         //보내기
         Transport.send(mimeMessage);
+
+        System.out.println("보내기 성공");
     }
 }

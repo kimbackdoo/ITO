@@ -13,16 +13,19 @@ import lombok.ToString;
 @ToString
 public class MailDto {
 
+    //발신자
     private String from;
 
-    private List<String> toList;
+    //수신자
+    private String to;
 
+    //제목
     private String subject;
 
+    //내용
     private String text;
 
-    private List<String> ccList;
-
+    //파일이름
     private String fileName;
 
     private ByteArrayDataSource fileData;
