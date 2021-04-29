@@ -3,19 +3,15 @@ package kr.co.metasoft.ito.api.common.service;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -29,18 +25,14 @@ import org.apache.poi.xssf.usermodel.XSSFShape;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.co.metasoft.ito.api.common.dto.CodeParamDto;
-import kr.co.metasoft.ito.api.common.dto.ProjectParamDto;
 import kr.co.metasoft.ito.api.common.dto.VacationParamDto;
 import kr.co.metasoft.ito.api.common.entity.ApprovalEntity;
-import kr.co.metasoft.ito.api.common.entity.CodeEntity;
-import kr.co.metasoft.ito.api.common.entity.ProjectEntity;
 import kr.co.metasoft.ito.api.common.entity.UserEntity;
 import kr.co.metasoft.ito.api.common.entity.VacationEntity;
-import kr.co.metasoft.ito.common.util.PageRequest;
 
 @Valid
 @Service
@@ -55,8 +47,22 @@ public class VacationDataDownloadService {
     @Autowired
     private UserService userService;
 
+
+    @Value (value = "${ito.file.load.url.vacation.vacation.form}")
+    private String filePath;
+
+    @Value (value = "${ito.file.load.url.vacation.testImage.sign}")
+    private String signPath;
+
+    @Value (value = "${ito.file.load.url.vacation.testImage.seal}")
+    private String sealPath;
+
+
     @Transactional(readOnly = true)
     public byte[] getVacationXlsx(VacationParamDto vacationParamDto) throws IOException {
+        System.out.println(filePath);
+        System.out.println(signPath);
+        System.out.println(sealPath);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -67,21 +73,19 @@ public class VacationDataDownloadService {
 
 
         //불러올 파일 경로 수정필요
-        FileInputStream file = new FileInputStream("\\\\192.168.0.200\\Share\\04_공통\\양식\\테스트_휴가신청서.xlsx");
-
+        FileInputStream file = new FileInputStream(filePath);
 
         try(XSSFWorkbook workbook = new XSSFWorkbook(file)){
 
             XSSFSheet sheet = workbook.getSheetAt(0);
 
             //신청자 싸인, 경로 수정
-            addExcelImage(workbook, sheet, "\\\\192.168.0.200\\Share\\04_공통\\양식\\testImage\\testSign.png", 27, 6, 0.3);
+            addExcelImage(workbook, sheet, signPath, 27, 6, 0.3);
 
             //결제 도장, 경로 수정
-            addExcelImage(workbook, sheet, "\\\\192.168.0.200\\Share\\04_공통\\양식\\testImage\\seal.png", 4, 7, 0.15);
-            addExcelImage(workbook, sheet, "\\\\192.168.0.200\\Share\\04_공통\\양식\\testImage\\seal.png", 4, 8, 0.15);
-            addExcelImage(workbook, sheet, "\\\\192.168.0.200\\Share\\04_공통\\양식\\testImage\\seal.png", 4, 9, 0.15);
-
+            addExcelImage(workbook, sheet, sealPath, 4, 7, 0.15);
+            addExcelImage(workbook, sheet, sealPath, 4, 8, 0.15);
+            addExcelImage(workbook, sheet, sealPath, 4, 9, 0.15);
 
             XSSFRow row = null;
             XSSFCell cell = null;
