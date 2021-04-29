@@ -18,6 +18,7 @@ VacationDialogComponent = Vue.component('vacation-dialog-component', async funct
                     "name": null,
                     "emergencyNum": null,
                     "department": null,
+                    "takingUser": null,
                     "sterm": null,
                     "eterm": null,
                     "detail": null,
@@ -40,6 +41,7 @@ VacationDialogComponent = Vue.component('vacation-dialog-component', async funct
                 "handler": function(n) {
                     if(n) {
                         this.vacation = _.cloneDeep(this.dialog.data);
+                        this.vacation.type = "M";
                     } else {
                         Object.assign(this.$data, this.$options.data.apply(this));
                     }
@@ -52,6 +54,7 @@ VacationDialogComponent = Vue.component('vacation-dialog-component', async funct
                 self.vacation.name = null;
                 self.vacation.emergencyNum = null;
                 self.vacation.department = null;
+                self.vacation.takingUser = null;
                 self.vacation.sterm = null;
                 self.vacation.eterm = null;
                 self.vacation.detail = null;

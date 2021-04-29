@@ -158,6 +158,15 @@ router = new VueRouter({
                     "name": "GroupwareInfo",
                     "path": "/groupware/main",
                     "component": GroupwareMainPage
+                    // "beforeEach": async function (to, from, next) {
+                    //     // store.state.app.
+                    //     if() {
+                    //         next();
+                    //     }else {
+                    //         await ito.alert("권한이 없습니다.");
+                    //         next(to);
+                    //     }
+                    // }
                 },
                 {
                     "name": "GroupwareNotices",
@@ -214,6 +223,8 @@ router.beforeEach(async function (to, from, next) {
         i;
     mainTitle = "ITO";
     regex = to.matched.length > 0 ? to.matched[to.matched.length - 1].regex : null;
+
+    console.log(this.$router.go(-1));
 
     token = ito.auth.getToken();
     if (await ito.auth.authenticated(token)) {

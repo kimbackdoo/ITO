@@ -8,6 +8,9 @@ GroupwareApprovalPage = Vue.component('groupware-approval-page', async function(
            };
        },
        "methods": {
+           "approvalTitle": async function() {
+               console.log(this.$route.query)
+           },
            "saveApproval": async function() {
                let userId = store.state.app.user.id;
 

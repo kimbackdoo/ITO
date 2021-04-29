@@ -11,21 +11,20 @@
         <v-card-text>
             <v-container>
                 <v-row>
-                    <v-col cols="12" sm="7" md="5">
+                    <v-col cols="12" sm="6" md="4">
                         <v-text-field
                             v-model="vacation.department"
                             label="부서"
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="7" md="5">
+                    <v-col cols="12" sm="6" md="4">
                         <v-text-field
                             v-model="vacation.name"
                             label="성명"
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="7" md="5">
+                    <v-col cols="12" sm="6" md="4">
                         <v-text-field
-                            dense
                             v-model="vacation.emergencyNum"
                             label="비상연락망"
                         ></v-text-field>
@@ -37,6 +36,13 @@
                             label="구분"
                             v-model="vacation.type"
                         ></v-select>
+                    </v-col>
+                    <v-col cols="12" sm="7" md="5">
+                        <v-text-field
+                            dense
+                            v-model="vacation.takingUser"
+                            label="인수인계자"
+                        ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="7" md="5">
                         <date-picker-component

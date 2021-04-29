@@ -110,12 +110,14 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                 }
             },
             "saveNotice": async function(data) {
-                console.log(data);
                 data.userId = store.state.app.user.id;
                 if(await ito.confirm("저장하시겠습니까?")) {
                     await ito.api.app.vacation.createVacation(data);
-                    await ito.alert("저장되었습니다.");
+                    "<a href=http://localhost:81/groupware/approval" +
+                    "?userId=" + data.userId + ">" +
+                    "http://localhost:81/groupware/approval</a>"
 
+                    await ito.alert("저장되었습니다.");
                     this.loadCalendar();
                 }
             },
