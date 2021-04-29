@@ -429,8 +429,10 @@ ito = {
             },
             "vacationDownload": {
                 "getVacationDataXlsx": function (params) {return axios({"url": "/api/app/vacationDataXlsx", "method":"get", "params": params}); },
+            },
+            "mailSend": {
+                "getMailSend": function (params) {return axios({"url": "/api/app/mails", "method": "get", "params":params}); },
             }
-
 
 
         },
