@@ -55,6 +55,9 @@ public class UserSealEntity {
     @Column(name = "`image_url`", columnDefinition = "varchar(100)", nullable = true)
     private String imageUrl;
 
+    @Column(name = "`sign_url`", columnDefinition = "varchar(100)", nullable = true)
+    private String signUrl;
+
     @CreatedDate
     @JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")

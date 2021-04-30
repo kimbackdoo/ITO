@@ -6,6 +6,7 @@
         SELECT
             `vacation`.`id`,
             `vacation`.`user_id`,
+            `vacation`.`taking_user`,
             `vacation`.`department`,
             `vacation`.`emergency_num`,
             `vacation`.`type`,
@@ -41,6 +42,7 @@
     <resultMap id="vacationResultMap" type ="kr.co.metasoft.ito.api.common.entity.VacationEntity" >
         <result property="id" column="id" />
         <result property="userId" column="user_id" />
+        <result property="takingUser" column="taking_user" />
         <result property="department" column="department" />
         <result property="emergencyNum" column="emergency_num" />
         <result property="type" column="type" />

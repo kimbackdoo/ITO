@@ -52,6 +52,8 @@ public class VacationEntity {
     @Column(name = "`user_id`", columnDefinition="bigint(20)", nullable = true)
     private Long userId;
 
+    @Column (name = "`taking_user`", columnDefinition = "varchar(100)", nullable = true)
+    private String takingUser;
 
     @Column (name = "`department`", columnDefinition = "varchar(100)", nullable = true)
     private String department;

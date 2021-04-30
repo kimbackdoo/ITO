@@ -33,6 +33,7 @@ public class ApiCommonUserSealController {
         UserSealEntity userSealEntity = UserSealEntity.builder()
                 .userId(userSealDto.getUserId())
                 .imageUrl(userSealDto.getImageUrl())
+                .signUrl(userSealDto.getSignUrl())
                 .build();
         return userSealService.createUserSeal(userSealEntity);
     }
@@ -46,6 +47,7 @@ public class ApiCommonUserSealController {
                 .id(id)
                 .userId(userSealDto.getUserId())
                 .imageUrl(userSealDto.getImageUrl())
+                .signUrl(userSealDto.getSignUrl())
                 .build();
         return userSealService.modifyUserSeal(userSealEntity);
     }

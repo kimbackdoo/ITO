@@ -25,6 +25,8 @@ public class VacationDto {
 
     private Long userId;
 
+    private String takingUser;
+
     private String department;
 
     private String emergencyNum;

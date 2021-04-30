@@ -47,6 +47,7 @@ public class ApiCommonVacationController {
 
         VacationEntity vacationEntity = VacationEntity.builder()
                 .userId(vacationDto.getUserId())
+                .takingUser(vacationDto.getTakingUser())
                 .department(vacationDto.getDepartment())
                 .emergencyNum(vacationDto.getEmergencyNum())
                 .type(vacationDto.getType())
@@ -65,6 +66,7 @@ public class ApiCommonVacationController {
         VacationEntity vacationEntity = VacationEntity.builder()
                 .id(id)
                 .userId(vacationDto.getUserId())
+                .takingUser(vacationDto.getTakingUser())
                 .department(vacationDto.getDepartment())
                 .emergencyNum(vacationDto.getEmergencyNum())
                 .type(vacationDto.getType())

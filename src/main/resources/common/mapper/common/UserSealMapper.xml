@@ -6,7 +6,8 @@
         SELECT
             `seal`.`id`,
             `seal`.`user_id`,
-            `seal`.`image_url`
+            `seal`.`image_url`,
+            `seal`.`sign_url`
         FROM
             `tb_seal` `seal`
     </sql>
@@ -18,8 +19,8 @@
         <result property="id" column="id" />
         <result property="userId" column="user_id" />
         <result property="imageUrl" column="image_url" />
+        <result property="signUrl" column="sign_url" />
     </resultMap>
-
 
     <select
         id="selectUserSeal"

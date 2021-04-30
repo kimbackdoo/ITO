@@ -25,5 +25,6 @@ public class UserSealDto {
 
     private String imageUrl;
 
+    private String signUrl;
 
 }
