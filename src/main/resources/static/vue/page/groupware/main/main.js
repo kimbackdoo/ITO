@@ -112,11 +112,10 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
             "saveNotice": async function(data) {
                 let vacation, roleValue;
                 data.userId = store.state.app.user.id;
-                roleValue = (await ito.api.common.roleUser.getRoleUserList({"userId": data.userId})).data.items[0].role.value;
 
                 if(await ito.confirm("저장하시겠습니까?")) {
                     vacation = await ito.api.app.vacation.createVacation(data);
-                    role = await ito.api.common.roleUser.getRoleUser(data.userId).data;
+                    roleValue = (await ito.api.common.roleUser.getRoleUserList({"userId": data.userId})).data.items[0].role.value;
                     await ito.api.app.mailSend.getMailSend({
                         "to": "kdk7121743@naver.com",
                         "subject": data.name + "님의 휴가신청서",
