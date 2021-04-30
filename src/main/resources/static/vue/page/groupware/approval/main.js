@@ -36,10 +36,7 @@ GroupwareApprovalPage = Vue.component('groupware-approval-page', async function(
                if(await ito.confirm("승인하시겠습니까?")) {
                    switch (role) {
                        case "ROLE_EMPLOYEE":
-                           await ito.api.app.approval.modifyApproval(vacationId, {
-                               "vacationId": vacationId,
-                               "teamLeader": "T"
-                           });
+                           await ito.api.app.approval.modifyApproval(vacationId, {"teamLeader": "T"});
                            await ito.api.app.mailSend.getMailSend({
                                "to": "dbwlgna98@naver.com",
                                "subject": userName + "님의 휴가신청서",
