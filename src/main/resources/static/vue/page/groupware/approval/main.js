@@ -35,8 +35,18 @@ GroupwareApprovalPage = Vue.component('groupware-approval-page', async function(
 
                if(await ito.confirm("승인하시겠습니까?")) {
                    switch (role) {
-                       case "ROLE_TEAMLEADER":
+                       case "ROLE_EMPLOYEE":
                            await ito.api.app.approval.modifyApproval(vacationId, {"teamLeader": "T"});
+                           await ito.api.app.mailSend.getMailSend({
+                               "to": "dbwlgna98@naver.com",
+                               "subject": userName + "님의 휴가신청서",
+                               "text": "<a href=http://localhost:81/groupware/approval?vacationId=" + vacationId + "&role=ROLE_DIRECTOR>" +
+                                   "http://localhost:81/groupware/approval" +
+                                   "</a>"
+                           });
+                           break;
+                       case "ROLE_TEAMLEADER":
+                           await ito.api.app.approval.modifyApproval(vacationId, {"director": "T"});
                            await ito.api.app.mailSend.getMailSend({
                                "to": "dbwlgna98@naver.com",
                                "subject": userName + "님의 휴가신청서",
@@ -46,7 +56,7 @@ GroupwareApprovalPage = Vue.component('groupware-approval-page', async function(
                            });
                            break;
                        case "ROLE_DIRECTOR":
-                           await ito.api.app.approval.modifyApproval(vacationId, {"director": "T"});
+                           await ito.api.app.approval.modifyApproval(vacationId, {"president": "T"});
                            await ito.api.app.mailSend.getMailSend({
                                "to": "kdk7121743@naver.com",
                                "subject": userName + "님의 휴가신청서",
@@ -54,9 +64,6 @@ GroupwareApprovalPage = Vue.component('groupware-approval-page', async function(
                                             "http://localhost:81/groupware/approval" +
                                         "</a>"
                            });
-                           break;
-                       case "ROLE_ADMIN":
-                           await ito.api.app.approval.modifyApproval(vacationId, {"president": "T"});
                            break;
                    }
 
