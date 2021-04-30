@@ -40,7 +40,7 @@ GroupwareApprovalPage = Vue.component('groupware-approval-page', async function(
                            await ito.api.app.mailSend.getMailSend({
                                "to": "dbwlgna98@naver.com",
                                "subject": userName + "님의 휴가신청서",
-                               "text": "<a href=http://localhost:81/groupware/approval?vacationId=" + vacationId + "&role=ROLE_DIRECTOR>" +
+                               "text": "<a href=http://localhost:81/groupware/approval?vacationId=" + vacationId + "&role=ROLE_TEAMLEADER>" +
                                    "http://localhost:81/groupware/approval" +
                                    "</a>"
                            });
