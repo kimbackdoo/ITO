@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -29,10 +30,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.metasoft.ito.api.common.dto.RoleUserDto;
+import kr.co.metasoft.ito.api.common.dto.RoleUserParamDto;
 import kr.co.metasoft.ito.api.common.dto.VacationParamDto;
 import kr.co.metasoft.ito.api.common.entity.ApprovalEntity;
+import kr.co.metasoft.ito.api.common.entity.RoleUserEntity;
 import kr.co.metasoft.ito.api.common.entity.UserEntity;
 import kr.co.metasoft.ito.api.common.entity.VacationEntity;
+import kr.co.metasoft.ito.api.common.mapper.RoleUserMapper;
+import kr.co.metasoft.ito.common.util.PageRequest;
+import kr.co.metasoft.ito.common.util.PageResponse;
 
 @Valid
 @Service
@@ -47,22 +54,19 @@ public class VacationDataDownloadService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserSealService userSealService;
+
+    @Autowired
+    private RoleUserMapper roleUserMapper;
 
     @Value (value = "${ito.file.load.url.vacation.vacation.form}")
     private String filePath;
 
-    @Value (value = "${ito.file.load.url.vacation.testImage.sign}")
-    private String signPath;
-
-    @Value (value = "${ito.file.load.url.vacation.testImage.seal}")
-    private String sealPath;
-
 
     @Transactional(readOnly = true)
     public byte[] getVacationXlsx(VacationParamDto vacationParamDto) throws IOException {
-        System.out.println(filePath);
-        System.out.println(signPath);
-        System.out.println(sealPath);
+        System.out.println(filePath); //이건 그대로 유지
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -79,13 +83,49 @@ public class VacationDataDownloadService {
 
             XSSFSheet sheet = workbook.getSheetAt(0);
 
-            //신청자 싸인, 경로 수정
+
+            //결제 도장
+            //팀장(userId = 16), 이사(userId = 17), 대표이사(userId = 1) => 결재 도장 url 불러오기
+            String teamLeaderSeal = userSealService.selectUserseal(16L).getImageUrl();
+            String directorSeal = userSealService.selectUserseal(17L).getImageUrl();
+            String presidentSeal = userSealService.selectUserseal(1L).getImageUrl();
+
+            //먼저 role 값이 사원, 팀장, 이사, 대표이사 인지 구분
+            RoleUserParamDto r = RoleUserParamDto.builder().userId(userEntity.getId()).build();
+            PageRequest p = new PageRequest();
+            List<RoleUserEntity> list = roleUserMapper.selectRoleUserList(r,p);
+
+            //휴가신청자 싸인
+            String signPath = userSealService.selectUserseal(userEntity.getId()).getSignUrl();
             addExcelImage(workbook, sheet, signPath, 27, 6, 0.3);
 
-            //결제 도장, 경로 수정
-            addExcelImage(workbook, sheet, sealPath, 4, 7, 0.15);
-            addExcelImage(workbook, sheet, sealPath, 4, 8, 0.15);
-            addExcelImage(workbook, sheet, sealPath, 4, 9, 0.15);
+            //휴가신청자 직급
+            String roleValue = list.get(0).getRole().getValue();
+
+            //해당 approval에 각각
+            switch (roleValue) {
+            case "ROLE_EMPLOYEE":
+                roleValue = "사원";
+                addExcelImage(workbook, sheet, teamLeaderSeal, 4, 7, 0.15);
+                addExcelImage(workbook, sheet, directorSeal, 4, 8, 0.15);
+                addExcelImage(workbook, sheet, presidentSeal, 4, 9, 0.15);
+                break;
+            case "ROLE_TEAMLEADER":
+                roleValue = "팀장";
+                addExcelImage(workbook, sheet, directorSeal, 4, 8, 0.15);
+                addExcelImage(workbook, sheet, presidentSeal, 4, 9, 0.15);
+                break;
+            case "ROLE_DIRECTOR":
+                roleValue = "이사";
+                addExcelImage(workbook, sheet, presidentSeal, 4, 9, 0.15);
+                break;
+            case "ROLE_ADMIN":
+                roleValue = "대표 이사";
+                addExcelImage(workbook, sheet, presidentSeal, 4, 9, 0.15);
+                break;
+            default:
+                break;
+            }
 
             XSSFRow row = null;
             XSSFCell cell = null;
@@ -120,7 +160,7 @@ public class VacationDataDownloadService {
             row = sheet.getRow(8); cell = row.getCell(1); cell.setCellValue(vacationEntity.getDepartment());
 
             //직급
-            row = sheet.getRow(8); cell = row.getCell(6); cell.setCellValue("사원");
+            row = sheet.getRow(8); cell = row.getCell(6); cell.setCellValue(roleValue);
 
             //성 명
             row = sheet.getRow(9); cell = row.getCell(1); cell.setCellValue(userEntity.getUsername());
@@ -165,8 +205,10 @@ public class VacationDataDownloadService {
             row = sheet.getRow(12); cell = row.getCell(1); cell.setCellValue(vacationEntity.getDetail());
 
             //인수 인계자
+            String takingUser = vacationEntity.getTakingUser();
+            if(takingUser == null) takingUser = "";
             row = sheet.getRow(18); cell = row.getCell(1); cell.setCellValue(
-                    "                             인수인계자 :    " + vacationParamDto.getTakingUser());
+                    "                             인수인계자 :    " + takingUser);
 
             //휴가 신청 날짜 입력 + 신청자 인
             Calendar cal = Calendar.getInstance();
@@ -200,8 +242,10 @@ public class VacationDataDownloadService {
 
 //            //모르겠...
 //            workbook.write(baos);
+
         }catch (Exception e) {
             // TODO: handle exception
+
             System.out.println("=========================================");
             System.out.println(e);
             System.out.println("=========================================");
