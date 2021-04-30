@@ -28,6 +28,10 @@ SignInMainPage = Vue.component("sign-in-main-page", async function (resolve) { r
                         role = "&role=" + this.$route.query.role,
                         path = from + role;
 
+                    console.log(from);
+                    console.log(role);
+                    console.log(path);
+
                     await ito.auth.login(this.data.username, this.data.password);
                     if(from !== undefined && from !== null && from !== "") {
                         this.$router.replace(path);

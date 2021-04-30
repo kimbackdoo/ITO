@@ -117,7 +117,7 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                     vacation = await ito.api.app.vacation.createVacation(data);
                     roleValue = (await ito.api.common.roleUser.getRoleUserList({"userId": data.userId})).data.items[0].role.value;
                     await ito.api.app.mailSend.getMailSend({
-                        "to": "kdk7121743@naver.com",
+                        "to": "dbwlgna98@naver.com",
                         "subject": data.name + "님의 휴가신청서",
                         "text": "<a href=http://localhost:81/groupware/approval?vacationId=" + vacation.id + "&role=" + roleValue + ">" +
                                     "http://localhost:81/groupware/approval" +
