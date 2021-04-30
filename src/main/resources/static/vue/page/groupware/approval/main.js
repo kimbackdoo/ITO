@@ -32,8 +32,6 @@ GroupwareApprovalPage = Vue.component('groupware-approval-page', async function(
                vacationId = this.$route.query.vacationId;
                userId = (await ito.api.app.vacation.getVacationInfo(vacationId)).data.userId;
                userName = (await ito.api.common.user.getUser(userId)).data.username;
-               console.log(this.$route);
-               console.log(vacationId);
 
                if(await ito.confirm("승인하시겠습니까?")) {
                    switch (role) {
