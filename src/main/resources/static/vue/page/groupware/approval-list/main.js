@@ -84,7 +84,7 @@ GroupwareApprovalListPage = Vue.component('groupware-approval-list-page', async 
                 if(step !== 3) {
                     await ito.alert("모든 승인이 되지 않았습니다.");
                 } else {
-                    await ito.api.app.vacationDownload.getVacationDataXlsx({
+                    await ito.api.app.vacationDownload.downloadVacationXlsx({
                         "id": vacationId,
                         "takingUser": ""
                     });

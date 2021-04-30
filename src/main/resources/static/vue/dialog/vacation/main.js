@@ -66,13 +66,6 @@ VacationDialogComponent = Vue.component('vacation-dialog-component', async funct
                 self.vacation.detail = null;
                 self.vacation.type = null;
             },
-            "setUser": async function() {
-                let userId = store.state.app.user.id;
-                user = (await ito.api.common.user.getUser(userId)).data;
-
-                self.vacation.name = user.username;
-                console.log(self.vacation.name);
-            },
             "saveVacation": function() {
                 this.$emit("save", this.vacation);
                 this.dialog.visible = false;

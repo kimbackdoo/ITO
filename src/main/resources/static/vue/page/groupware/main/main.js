@@ -110,14 +110,20 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                 }
             },
             "saveNotice": async function(data) {
+                let vacation, roleValue;
                 data.userId = store.state.app.user.id;
-                console.log(data);
+                roleValue = (await ito.api.common.roleUser.getRoleUserList({"userId": data.userId})).data.items[0].role.value;
+
                 if(await ito.confirm("저장하시겠습니까?")) {
-                    await ito.api.app.vacation.createVacation(data);
-                    // await ito.api.app.mailSend.getMailSend({
-                    //     "to": "kdk7121743@naver.com",
-                    //     "subject":
-                    // })
+                    vacation = await ito.api.app.vacation.createVacation(data);
+                    role = await ito.api.common.roleUser.getRoleUser(data.userId).data;
+                    await ito.api.app.mailSend.getMailSend({
+                        "to": "kdk7121743@naver.com",
+                        "subject": data.name + "님의 휴가신청서",
+                        "text": "<a href=http://localhost:81/groupware/approval?vacationId=" + vacation.id + "&role=" + roleValue + ">" +
+                                    "http://localhost:81/groupware/approval" +
+                                "</a>"
+                    });
                     await ito.alert("저장되었습니다.");
                     this.loadCalendar();
                 }
@@ -126,6 +132,9 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                 this.$router.push({
                     "path": "/groupware/notices/details"
                 });
+            },
+            "expenditureDownload": async function() {
+                await ito.api.app.expenditureDownload.downloadExpenditureXlsx();
             },
             "openVacationDialog": function() {
                 this.dialogVacation.data = {};
