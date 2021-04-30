@@ -429,6 +429,21 @@ ito = {
             },
             "vacationDownload": {
                 "getVacationDataXlsx": function (params) {return axios({"url": "/api/app/vacationDataXlsx", "method":"get", "params": params}); },
+                "downloadVacationXlsx": async function (params){
+                    var a,data,url;
+                    data = (await axios({
+                        "url": "/api/app/vacationDataXlsx",
+                        "method":"get",
+                        "responseType": "blob",
+                        "params": params
+                    })).data;
+                    url = window.URL.createObjectURL(data);
+                    a = document.createElement("a");
+                    a.setAttribute("href",url);
+                    a.setAttribute("download", "휴가신청서.xlsx");
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                }
             },
             "mailSend": {
                 "getMailSend": function (params) {return axios({"url": "/api/app/mails", "method": "get", "params":params}); },

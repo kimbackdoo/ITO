@@ -66,10 +66,8 @@ public class VacationDataDownloadService {
 
     @Transactional(readOnly = true)
     public byte[] getVacationXlsx(VacationParamDto vacationParamDto) throws IOException {
-        System.out.println(filePath); //이건 그대로 유지
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
 
         VacationEntity vacationEntity = vacationService.getVacation(vacationParamDto.getId());
         ApprovalEntity approvalEntity = approvalService.getApprovalEntity(vacationEntity.getId());
@@ -234,17 +232,15 @@ public class VacationDataDownloadService {
                     "      (인)");
 
 
-            String path = "C:\\";
-            String fileName = "휴가신청서_"+userEntity.getUsername()+"("+vacationEntity.getId()+")"+".xlsx";
-            File xlsxFile = new File(path + fileName);
-            FileOutputStream fileOut = new FileOutputStream(xlsxFile);
-            workbook.write(fileOut);
+//            String path = "C:\\";
+//            String fileName = "휴가신청서_"+userEntity.getUsername()+"("+vacationEntity.getId()+")"+".xlsx";
+//            File xlsxFile = new File(path + fileName);
+//            FileOutputStream fileOut = new FileOutputStream(xlsxFile);
+//            workbook.write(fileOut);
 
-//            //모르겠...
-//            workbook.write(baos);
+            workbook.write(baos);
 
         }catch (Exception e) {
-            // TODO: handle exception
 
             System.out.println("=========================================");
             System.out.println(e);
@@ -256,9 +252,9 @@ public class VacationDataDownloadService {
     }
 
     public void addExcelImage(XSSFWorkbook workbook, XSSFSheet sheet,String fileUrl, int row, int col,double size) throws IOException {
-        String filePath = fileUrl;
+        String picturePath = fileUrl;
 
-        InputStream is = new FileInputStream(filePath);
+        InputStream is = new FileInputStream(picturePath);
         byte[] bytes = IOUtils.toByteArray(is);
         int picIdx = workbook.addPicture(bytes, XSSFWorkbook.PICTURE_TYPE_PNG);
         is.close();
