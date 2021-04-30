@@ -57,12 +57,18 @@ GroupwareApprovalPage = Vue.component('groupware-approval-page', async function(
                            break;
                        case "ROLE_DIRECTOR":
                            await ito.api.app.approval.modifyApproval(vacationId, {"president": "T"});
+
+                           let fileData = (await ito.api.app.vacationDownload.downloadVacationXlsx({
+                               "id": vacationId,
+                               "takingUser": this.vacation.takingUser
+                           })).data;
+
                            await ito.api.app.mailSend.getMailSend({
                                "to": "kdk7121743@naver.com",
                                "subject": userName + "님의 휴가신청서",
-                               "text": "<a href=http://localhost:81/groupware/approval?vacationId=" + vacationId + "&role=ROLE_ADMIN>" +
-                                            "http://localhost:81/groupware/approval" +
-                                        "</a>"
+                               "text": userName + "님의 휴가신청서 최종 파일입니다.",
+                               "fileName": userName + " 휴가신청서.xlsx",
+                               "fileData": fileData
                            });
                            break;
                    }
