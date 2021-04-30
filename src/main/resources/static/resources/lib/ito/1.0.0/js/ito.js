@@ -445,6 +445,22 @@ ito = {
                     window.URL.revokeObjectURL(url);
                 }
             },
+            "expenditureDownload": {
+                "downloadExpenditureXlsx": async function (){
+                    var a,data,url;
+                    data = (await axios({
+                        "url": "/api/app/expenditureXlsx",
+                        "method":"get",
+                        "responseType": "blob"
+                    })).data;
+                    url = window.URL.createObjectURL(data);
+                    a = document.createElement("a");
+                    a.setAttribute("href",url);
+                    a.setAttribute("download", "지출결의서.xlsx");
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                }
+            },
             "mailSend": {
                 "getMailSend": function (params) {return axios({"url": "/api/app/mails", "method": "get", "params":params}); },
             }

@@ -45,14 +45,9 @@ public class VacationService {
     public PageResponse<VacationEntity> getVacationList(
             @Valid VacationParamDto vacationParamDto,
             PageRequest pageRequest) {
-
-        System.out.println("=============통과1==========================");
         int totalRows = vacationMapper.selectVacationListCount(vacationParamDto);
-        System.out.println("=============통과2==========================");
         List<VacationEntity> vacationList = vacationMapper.selectVacationList(vacationParamDto, pageRequest);
-        System.out.println("=============통과3==========================");
         PageResponse<VacationEntity> pageResponse = new PageResponse<VacationEntity>(pageRequest, totalRows);
-        System.out.println("=============통과4==========================");
         pageResponse.setItems(vacationList);
         return pageResponse;
     }
