@@ -47,6 +47,7 @@ public class ApprovalEntity {
     @Column (name = "`id`", columnDefinition = "bigint(20)")
     private Long id;
 
+
     @Column (name = "`vacation_id`", columnDefinition = "bigint(20)")
     private Long vacationId;
 
