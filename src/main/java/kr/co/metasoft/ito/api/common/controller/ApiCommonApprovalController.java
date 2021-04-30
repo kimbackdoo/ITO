@@ -60,15 +60,17 @@ public class ApiCommonApprovalController {
         return approvalService.createApprovalEntity(approvalEntity);
     }
 
-    @PostMapping(path = "{id}")
+    @PostMapping(path = "{id}") //vacationId
     public ApprovalEntity modifyApproval(
             @PathVariable (name = "id") Long id,
             @RequestBody ApprovalDto approvalDto) {
         if(approvalDto.getTeamLeader() == "T") approvalDto.setStep(1L);
         if(approvalDto.getDirector() == "T") approvalDto.setStep(2L);
         if(approvalDto.getPresident() == "T") approvalDto.setStep(3L);
+
+        Long approvalId = getApproval(id).getId();
         ApprovalEntity approvalEntity = ApprovalEntity.builder()
-                .id(id)
+                .id(approvalId)
                 .vacationId(approvalDto.getVacationId())
                 .step(approvalDto.getStep())
                 .teamLeader(approvalDto.getTeamLeader())
