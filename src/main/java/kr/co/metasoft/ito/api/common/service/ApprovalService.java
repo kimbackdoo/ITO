@@ -70,6 +70,10 @@ public class ApprovalService {
     @Transactional
     public ApprovalEntity modifyApprovalEntity(
             @Valid @NotNull (groups = {ModifyValidationGroup.class}) ApprovalEntity approvalEntity) {
+        System.out.println("modiftApprova Service : "+ approvalEntity.getId());
+        System.out.println("modiftApprova Service : "+ approvalEntity.getVacationId());
+        System.out.println("modiftApprova Service : "+ approvalEntity.getTeamLeader());
+
         return approvalRepository.save(approvalEntity);
     }
 

@@ -65,23 +65,25 @@ public class ApiCommonApprovalController {
     public ApprovalEntity modifyApproval(
             @PathVariable (name = "id") Long id,
             @RequestBody ApprovalDto approvalDto) {
-        if(approvalDto.getTeamLeader() == "T") approvalDto.setStep(1L);
-        if(approvalDto.getDirector() == "T") approvalDto.setStep(2L);
-        if(approvalDto.getPresident() == "T") approvalDto.setStep(3L);
+        if(approvalDto.getTeamLeader().equals("T")) approvalDto.setStep(1L);
+        if(approvalDto.getDirector().equals("T")) approvalDto.setStep(2L);
+        if(approvalDto.getPresident().equals("T")) approvalDto.setStep(3L);
 
         Long approvalId = getApproval(id).getId();
-        System.out.println(approvalId);
+        System.out.println("approvalId : "+ approvalId);
         System.out.println("통과");
 
         ApprovalEntity approvalEntity = ApprovalEntity.builder()
                 .id(approvalId)
-                .vacationId(approvalDto.getVacationId())
+                .vacationId(id)
                 .step(approvalDto.getStep())
                 .teamLeader(approvalDto.getTeamLeader())
                 .director(approvalDto.getDirector())
                 .president(approvalDto.getPresident())
                 .approvalDate(approvalDto.getApprovalDate())
                 .build();
+        System.out.println("approvalId : "+ approvalEntity.getId());
+
         return approvalService.modifyApprovalEntity(approvalEntity);
     }
 
