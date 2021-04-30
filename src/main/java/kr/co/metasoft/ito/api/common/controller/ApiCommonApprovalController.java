@@ -1,6 +1,7 @@
 package kr.co.metasoft.ito.api.common.controller;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,9 +66,9 @@ public class ApiCommonApprovalController {
     public ApprovalEntity modifyApproval(
             @PathVariable (name = "id") Long id,
             @RequestBody ApprovalDto approvalDto) {
-        if(approvalDto.getTeamLeader().equals("T")) approvalDto.setStep(1L);
-        if(approvalDto.getDirector().equals("T")) approvalDto.setStep(2L);
-        if(approvalDto.getPresident().equals("T")) approvalDto.setStep(3L);
+        if(Objects.equals(approvalDto.getTeamLeader(), "T")) approvalDto.setStep(1L);
+        if(Objects.equals(approvalDto.getDirector(), "T")) approvalDto.setStep(2L);
+        if(Objects.equals(approvalDto.getPresident(), "T")) approvalDto.setStep(3L);
 
         Long approvalId = getApproval(id).getId();
         System.out.println("approvalId : "+ approvalId);

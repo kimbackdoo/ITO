@@ -7,6 +7,7 @@ import javax.activation.DataHandler;
 import javax.mail.Authenticator;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.Part;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -72,8 +73,14 @@ public class MailSendService {
         Multipart multipart = new MimeMultipart();
 
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
-
-
+        if(mailDto.getFileData() != null && mailDto.getFileName() != null) {
+            dataHandler = new DataHandler(mailDto.getFileData());
+            mimeBodyPart = new MimeBodyPart();
+            mimeBodyPart.setDataHandler(dataHandler);
+            mimeBodyPart.setDisposition(Part.ATTACHMENT);
+            mimeBodyPart.setFileName(mailDto.getFileName());
+            multipart.addBodyPart(mimeBodyPart);
+        }
 
         //내용 셋팅
         mimeBodyPart.setContent(mailDto.getText(), "text/html;charset=UTF-8");
