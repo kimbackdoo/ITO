@@ -47,7 +47,7 @@ public class ApprovalEntity {
     @Column (name = "`id`", columnDefinition = "bigint(20)")
     private Long id;
 
-    @NotNull(groups = {CreateValidationGroup.class, ModifyValidationGroup.class})
+    @NotNull(groups = {ModifyValidationGroup.class})
     @Column (name = "`vacation_id`", columnDefinition = "bigint(20)")
     private Long vacationId;
 

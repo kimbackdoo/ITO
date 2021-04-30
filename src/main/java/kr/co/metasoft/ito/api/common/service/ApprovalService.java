@@ -53,7 +53,7 @@ public class ApprovalService {
     @Validated(value = {ReadValidationGroup.class})
     @Transactional
     public ApprovalEntity getApprovalEntity (
-            @Valid @NotNull (groups = {RemoveValidationGroup.class}) Long id) {
+            @Valid @NotNull (groups = {ReadValidationGroup.class}) Long id) {
         return approvalMapper.selectApproval(id);
     }
 

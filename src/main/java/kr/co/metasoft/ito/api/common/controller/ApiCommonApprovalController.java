@@ -70,6 +70,9 @@ public class ApiCommonApprovalController {
         if(approvalDto.getPresident() == "T") approvalDto.setStep(3L);
 
         Long approvalId = getApproval(id).getId();
+        System.out.println(approvalId);
+        System.out.println("통과");
+
         ApprovalEntity approvalEntity = ApprovalEntity.builder()
                 .id(approvalId)
                 .vacationId(approvalDto.getVacationId())
