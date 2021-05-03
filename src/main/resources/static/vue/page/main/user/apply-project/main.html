@@ -197,16 +197,17 @@
                     <v-expansion-panel-header>프로젝트 현황</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <data-table-custom-component
+                            import-hide
+                            add-hide
+                            remove-hide
+                            download-hide
                             :headers="project.dataTable.headers"
                             :items="project.dataTable.items"
                             :totalRows="project.dataTable.totalRows"
                             :loading="project.dataTable.loading"
-                            :import-hide="true"
-                            :add-hide="true"
-                            :remove-hide="true"
+                            :search="project.dataTable.search"
                             @click:row="handleClick"
                             @reload="loadProjectList"
-                            :download-hide="true"
                         ></data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
