@@ -66,25 +66,32 @@ public class ApiCommonApprovalController {
     public ApprovalEntity modifyApproval(
             @PathVariable (name = "id") Long id,
             @RequestBody ApprovalDto approvalDto) {
-        if(Objects.equals(approvalDto.getTeamLeader(), "T")) approvalDto.setStep(1L);
-        if(Objects.equals(approvalDto.getDirector(), "T")) approvalDto.setStep(2L);
-        if(Objects.equals(approvalDto.getPresident(), "T")) approvalDto.setStep(3L);
-
-        Long approvalId = getApproval(id).getId();
-        System.out.println("approvalId : "+ approvalId);
-        System.out.println("통과");
-
+        ApprovalEntity approval = getApproval(id);
+        String teamStatus = approval.getTeamLeader();
+        String directorStatus = approval.getDirector();
+        String presidentStatus = approval.getPresident();
+        if(Objects.equals(approvalDto.getTeamLeader(), "T")) {
+            teamStatus = approvalDto.getTeamLeader();
+            approvalDto.setStep(1L);
+        }
+        if(Objects.equals(approvalDto.getDirector(), "T")) {
+            directorStatus = approvalDto.getDirector();
+            approvalDto.setStep(2L);
+        }
+        if(Objects.equals(approvalDto.getPresident(), "T")) {
+            presidentStatus = approval.getPresident();
+            approvalDto.setStep(3L);
+        }
+        Long approvalId = approval.getId();
         ApprovalEntity approvalEntity = ApprovalEntity.builder()
                 .id(approvalId)
                 .vacationId(id)
                 .step(approvalDto.getStep())
-                .teamLeader(approvalDto.getTeamLeader())
-                .director(approvalDto.getDirector())
-                .president(approvalDto.getPresident())
+                .teamLeader(teamStatus)
+                .director(directorStatus)
+                .president(presidentStatus)
                 .approvalDate(approvalDto.getApprovalDate())
                 .build();
-        System.out.println("approvalId : "+ approvalEntity.getId());
-
         return approvalService.modifyApprovalEntity(approvalEntity);
     }
 
