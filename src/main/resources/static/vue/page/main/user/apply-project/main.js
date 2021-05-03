@@ -83,6 +83,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                             "status": null,
                             "salary": null
                         },
+                        "search": false,
                         "items": [],
                         "loading" : false,
                         "totalRows": 0,
@@ -142,7 +143,6 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 await this.loadJobItems();
                 await this.loadLocalItems();
                 await this.loadDegreeItems();
-                await this.loadProjectList();
             },
             "loadJobItems": async function() {
                 let items;
@@ -175,6 +175,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     career = String(self.project.dataTable.query.careerYear + self.project.dataTable.query.careerMonth);
                 }
 
+                self.project.dataTable.search = false;
                 self.project.dataTable.loading = true;
                 projectList = (await ito.api.common.project.getProjectList({
                     "page": options !== undefined ? options.page : 1,
@@ -267,7 +268,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                 self.project.dataTable.loading = false;
             },
             "searchProjectList": async function() {
-                this.loadProjectList();
+                this.project.dataTable.search = true;
             },
             "initialize": async function() {
                 let self = this;

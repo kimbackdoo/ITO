@@ -197,9 +197,9 @@
                             :remove-hide="true"
                             :import-hide="true"
                             :cell="user.dataTable.cell"
+                            :search="user.dataTable.search"
                             @change:autocomplete="inputProject"
                             @reload="setUserInfoList"
-                            :search="user.dataTable.search"
                             @download="downloadTable();"
                         ></data-table-custom-component>
                     </v-expansion-panel-content>

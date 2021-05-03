@@ -140,7 +140,6 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 await this.loadJobItems();
                 await this.loadEducation();
                 await this.loadLocal();
-                await this.setUserInfoList();
             },
             "loadJobItems": async function() {
                 let items;
@@ -178,7 +177,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     endBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y").format("YYYY-12-31");
                 }
 
-                this.user.dataTable.search = false;
+                self.user.dataTable.search = false;
                 self.user.dataTable.loading = true;
                 console.log(ito.util.sort(options.sortBy, options.sortDesc));
 
