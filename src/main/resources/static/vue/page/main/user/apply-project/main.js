@@ -182,7 +182,8 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
                     "rowSize": options !== undefined ? options.itemsPerPage : 10,
                     "sort": options !== undefined ? ito.util.sort(options.sortBy, options.sortDesc) : [],
 
-                    "nameLike": self.project.dataTable.query.projectName,
+                    "nameLike": self.project.dataTable.query.projectName
+                    ,
                     "job": self.project.dataTable.query.job,
                     "skillListLike": self.project.dataTable.query.skillListLike,
                     "career": career,
