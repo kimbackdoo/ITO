@@ -179,6 +179,17 @@
 
                             </v-row>
                             <v-row>
+                                <v-col cols="4">
+                                   <date-picker-component
+                                       dense
+                                       hide-details
+                                       append-icon="mdi-calendar"
+                                       label="업무 가능 일"
+                                       v-model="user.query.workableDay"
+                                   ></date-picker-component>
+                                </v-col>
+                            </v-row>
+                            <v-row>
                                 <v-col
                                     cols="12"
                                     class="text-right"
@@ -228,7 +239,7 @@
                             @remove="deleteUserInfoList"
                             @add="addUserInfo"
                             @import="openDialog"
-                            @reload="setUserInfoList"
+                            @reload="setUserInfoList($event)"
                             :cell="user.dataTable.cell"
                             @change:autocomplete="inputProject"
                             @download="userDownloadTable();"

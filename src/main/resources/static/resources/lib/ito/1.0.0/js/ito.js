@@ -445,7 +445,7 @@ ito = {
                     window.URL.revokeObjectURL(url);
                 }
             },
-            "expenditureDownload": {
+			"expenditureDownload": {
                 "downloadExpenditureXlsx": async function (){
                     var a,data,url;
                     data = (await axios({
@@ -460,7 +460,7 @@ ito = {
                     a.click();
                     window.URL.revokeObjectURL(url);
                 }
-            },
+			},
             "mailSend": {
                 "getMailSend": function (params) {return axios({"url": "/api/app/mails", "method": "get", "params":params}); },
             }

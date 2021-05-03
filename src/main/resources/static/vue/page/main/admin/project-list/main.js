@@ -263,7 +263,8 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 console.log(param.projectId)
                                var projectParam=[];
                                var person = (await ito.api.common.projectPerson.getProjectPersonList(param)).data
-                                if(person != null){
+                               console.log(_.isEmpty(person.items));
+                                if(!_.isEmpty(person.items)){
                                     console.log(person.items)
                                    person.items.forEach(e=> {
                                            projectParam.push({"personId": e.personId,"projectId": deleteList[i] });
