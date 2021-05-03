@@ -45,8 +45,10 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                 nativeEvent.stopPropagation();
             },
             "loadCalendar": async function({start, end}) {
-                await this.getVacationList({start, end});
-                await this.getNoticeList({start});
+                if(start !== undefined && end !== undefined) {
+                    await this.getVacationList({start, end});
+                    await this.getNoticeList({start});
+                }
             },
             "getVacationList": async function({start, end}) {
                 let userName, color, step, vacationList;
@@ -110,7 +112,7 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                 }
             },
             "saveNotice": async function(data) {
-                let vacation, roleValue;
+                let vacation, roleValue, start={}, end={};
                 data.userId = store.state.app.user.id;
 
                 if(await ito.confirm("저장하시겠습니까?")) {
@@ -124,7 +126,7 @@ GroupwareMainPage = Vue.component('groupware-main-page', async function (resolve
                                 "</a>"
                     });
                     await ito.alert("저장되었습니다.");
-                    this.loadCalendar();
+                    await this.loadCalendar({});
                 }
             },
             "registerNotice": function() {
