@@ -36,6 +36,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                                 }
                             }
                         },
+                        "search": false,
                         "totalRows":0,
                         "items": [],
                         "loading": false,
@@ -177,6 +178,7 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                     endBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y").format("YYYY-12-31");
                 }
 
+                this.user.dataTable.search = false;
                 self.user.dataTable.loading = true;
                 console.log(ito.util.sort(options.sortBy, options.sortDesc));
 
@@ -280,10 +282,10 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
                 } else { // 지원한적이 있는 프로젝트면 지원 안됨
                     await ito.alert("이미 지원한 프로젝트입니다.");
                 }
-                this.setUserInfoList();
+                this.user.dataTable.search = true;
             },
             "search": async function () {
-                await this.setUserInfoList();
+                this.user.dataTable.search = true;
             },
             "reset": function () {
                 this.user.query.name = null;

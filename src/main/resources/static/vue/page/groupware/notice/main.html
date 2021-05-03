@@ -25,6 +25,7 @@
                             @click:row="setNotice"
                             @add="$router.push({path: '/groupware/notices/details'})"
                             @remove="removeNoticeList"
+                            @reload="loadNoticeList"
                         >
                         </data-table-custom-component>
                     </v-expansion-panel-content>
