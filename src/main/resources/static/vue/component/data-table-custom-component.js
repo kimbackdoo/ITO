@@ -62,7 +62,7 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
         },
         "downloadHide": {
             "type": Boolean,
-            "defualt": false
+            "default": false
         }
     },
     "data": function () {
