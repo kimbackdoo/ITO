@@ -29,6 +29,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                                 {"text": "투입여부",  "value": "inputStatus",width:120, cellClass:"text-truncate"},
                                 {"text": "업무 가능일",  "value": "workableDay",width:120, cellClass:"text-truncate"}
                             ],
+                            "search": false,
                             "totalRows":0,
                             "items": [],
                             "loading": false,
@@ -233,7 +234,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     } else { // 지원한적이 있는 프로젝트면 지원 안됨
                         await ito.alert("이미 지원한 프로젝트입니다.");
                     }
-                    this.setUserInfoList();
+                    this.user.dataTable.search = true;
                 },
                 "delimit": function(v) {
                     let reducer = (a, e) => [...a, ...e.split(/[, ]+/)]
@@ -329,7 +330,8 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                            await ito.api.common.person.removePersonList(idList);
                            await ito.alert("삭제되었습니다.")
                         }
-                        self.setUserInfoList();
+                        this.user.dataTable.search = true;
+
                     }
                 },
 
@@ -390,6 +392,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     params.skillListLike = !_.isEmpty(self.user.query.skillList) ? self.user.query.skillList : [];
                     params.workableDay = !_.isEmpty(self.user.query.workableDay) ? wd : null;
 
+                    this.user.dataTable.search = false;
                     self.user.dataTable.loading = true;
 
                     data = (await ito.api.common.person.getPersonList(params)).data;
@@ -468,9 +471,10 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
 
                     });
                     self.user.dataTable.loading = false;
+
                 },
                 "search": async function () {
-                    await this.setUserInfoList();
+                     this.user.dataTable.search = true;
                 },
                 "reset": function () {
                     var self = this;
@@ -522,7 +526,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     }else{
                         await ito.alert(returnType.data.returnMsg);
                         this.dialog.visible = false;
-                        this.setUserInfoList();
+                        this.user.dataTable.search = true;
                         this.loadJobItems();
                     }
                 },
@@ -558,8 +562,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                 Promise.all([
                     this.loadEducation(),
                     this.loadLocalPlace(),
-                    this.loadJobItems(),
-                    this.setUserInfoList()
+                    this.loadJobItems()
                 ]);
             }
         });

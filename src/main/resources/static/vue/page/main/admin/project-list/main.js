@@ -36,6 +36,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 }
                             },
                             "items": [],
+                            "search": false,
                             "totalRows":0,
                             "loading": false,
                             "certificateStatus": [
@@ -276,7 +277,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                             await ito.api.common.project.removeProjectList(deleteList);
                             await ito.alert("삭제되었습니다.")
                         }
-                        self.setProjectInfoList();
+                        this.project.dataTable.search = true;
                     }
                 },
                 "setProjectInfoList": function (options) {
@@ -304,6 +305,8 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                                 params.status = !_.isEmpty(self.project.query.status) ? (self.project.query.status).charAt(0) : null;
                                 params.salary = !_.isEmpty(self.project.query.salary) ? Number(self.project.query.salary) : null;
 
+
+                                self.project.dataTable.search = false;
                                 self.project.dataTable.loading = true;
                                 return ito.api.common.project.getProjectList(params);
                             })
@@ -432,7 +435,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     return new Promise(function (resolve, reject) {
                         Promise.resolve()
                             .then(function () {
-                                return self.setProjectInfoList();
+                               this.project.dataTable.search = true;
                             })
                             .then(function () {
                                 self.replaceQuery();
@@ -512,8 +515,7 @@ var MainAdminProjectListPage = Vue.component('main-admin-project-list-page', fun
                     await this.loadLocalPlace(),
                     await this.loadJobItems(),
                     await this.setQuery(),
-                    this.replaceQuery(),
-                    this.setProjectInfoList()
+                    this.replaceQuery()
                 ]);
             }
 

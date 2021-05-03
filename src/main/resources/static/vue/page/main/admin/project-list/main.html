@@ -191,94 +191,11 @@
                             @add="addProjectInfo"
                             @reload="setProjectInfoList"
                             @download="downloadTable();"
+                            :search = "project.dataTable.search"
                         >
                         </data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
-
-<!--                 <v-expansion-panel>
-                    <v-expansion-panel-header>목록</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                       <v-row class="my-1">
-                            <v-col class="d-flex justify-start align-center">
-                                <div style="width: 200px;">
-                                    <h3>전체{{project.dataTable.totalRows}}건</h3>
-                                </div>
-                                <div style="width: 140px;" class="ml-auto">
-                                    <v-select
-                                        dense
-                                        font-size="5px"
-                                        outlined
-                                        hide-details="auto"
-                                        v-model="project.dataTable.itemsPerPage"
-                                        :items="project.itemsPerPageItems"
-                                    >
-                                    </v-select>
-                                </div>
-                            </v-col>
-                        </v-row>
-                        <v-data-table
-                            fixed-header
-                            hide-default-footer
-                            height="700px"
-                            :headers="project.dataTable.headers"
-                            :items="project.dataTable.items"
-                            :loading="project.dataTable.loading"
-                            :server-items-length="project.dataTable.serverItemsLength"
-                            :page.sync="project.dataTable.page"
-                            :items-per-page.sync="project.dataTable.itemsPerPage"
-                            @page-count="project.pagination.length = $event"
-                            show-select
-                            item-key="id"
-                            v-model=project.selected
-                            >
-
-                            <template v-slot:item.actions="{item}">
-                                <v-icon
-                                    small
-                                    class="mr-2"
-                                    @click="editProjectInfo(item.id)"
-                                >mdi-pencil</v-icon>
-                            </template>
-
-                           <template v-slot:item.name="{ item }">
-                                <v-btn
-                                    text
-                                    @click="DetailProjectInfo(item)"
-                                >{{ item.name }}</v-btn>
-                            </template>
-
-                        </v-data-table>
-                        <v-pagination
-                            class="mt-2"
-                            v-model="project.dataTable.page"
-                            :length="project.pagination.length"
-                            :total-visible="project.pagination.totalVisible"
-                             ></v-pagination>
-                        <v-row>
-                            <v-col
-                                 cols="12"
-                                 class="text-right"
-                            >
-                            <v-btn
-                              outlined
-                              class="ma-2"
-                              color="primary"
-                              to="/main/admin/project-info-form"
-                            >추가하기</v-btn>
-                            <v-btn
-                              outlined
-                              class="ma-2"
-                              color="error"
-                              @click="deleteProjectInfoList"
-                            >삭제하기</v-btn>
-                            </v-col>
-                        </v-row>
-
-
-                    </v-expansion-panel-content>
-                </v-expansion-panel>
- -->
             </v-expansion-panels>
         </v-col>
     </v-row>
