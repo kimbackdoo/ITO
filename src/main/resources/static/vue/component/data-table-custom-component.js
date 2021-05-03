@@ -63,6 +63,10 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
         "downloadHide": {
             "type": Boolean,
             "default": false
+        },
+        "search": {
+            "type": Boolean,
+            "default": false
         }
     },
     "data": function () {
@@ -107,6 +111,17 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
             },
             "deep": true
         },
+        "search": {
+            "handler": function (n,o) {
+                if(n) {
+                    if(this.options.page !== 1) {
+                        this.options.page = 1;
+                    }else {
+                        this.$emit("reload", this.options);
+                    }
+                }
+            }
+        }
     },
     "computed": {
         "disabled": function () {
