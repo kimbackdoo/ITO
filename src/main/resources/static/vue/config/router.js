@@ -264,7 +264,12 @@ router.beforeEach(async function (to, from, next) {
         if (to.path === "/sign-in" || to.path === "/sign-up") {
             next();
         } else {
-            next("/sign-in?from=" + to.fullPath);
+            if(_.isEmpty(to.query)) {
+                next("/sign-in");
+            } else {
+                next("/sign-in?from=" + to.fullPath);
+            }
+
         }
     }
 });
