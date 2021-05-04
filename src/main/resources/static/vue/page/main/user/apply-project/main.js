@@ -171,7 +171,7 @@ ApplyProjectMainComponent = Vue.component('applyProject-main-component', async f
             },
             "loadProjectList": async function(options) {
                 let self = this, career, projectList, jobCodeList, degreeCodeList, localCodeList, detailLocalCodeList;
-                if(self.project.dataTable.query.careerYear !== null && self.project.dataTable.query.careerMonth !== null) {
+                if(self.project.dataTable.query.careerYear !== null && self.project. dataTable.query.careerMonth !== null) {
                     career = String(self.project.dataTable.query.careerYear + self.project.dataTable.query.careerMonth);
                 }
 
