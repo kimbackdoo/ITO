@@ -184,8 +184,17 @@
                                        dense
                                        hide-details
                                        append-icon="mdi-calendar"
-                                       label="업무 가능 일"
-                                       v-model="user.query.workableDay"
+                                       label="업무 가능 일(시작)"
+                                       v-model="user.query.sterm"
+                                   ></date-picker-component>
+                                </v-col>
+                                <v-col cols="4">
+                                   <date-picker-component
+                                       dense
+                                       hide-details
+                                       append-icon="mdi-calendar"
+                                       label="업무 가능 일(끝)"
+                                       v-model="user.query.eterm"
                                    ></date-picker-component>
                                 </v-col>
                             </v-row>
@@ -243,7 +252,7 @@
                             :cell="user.dataTable.cell"
                             @change:autocomplete="inputProject"
                             @download="userDownloadTable();"
-                            :search="user.dataTable.search"                           
+                            :search="user.dataTable.search"
                         ></data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>

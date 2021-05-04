@@ -69,6 +69,12 @@
             <if test="personParamDto.workableDay != null">
                 AND `workable_day` &lt;= #{personParamDto.workableDay}
             </if>
+            <if test="personParamDto.sterm != null">
+                AND `workable_day` &gt;= #{personParamDto.sterm}
+            </if>
+            <if test="personParamDto.eterm != null">
+                AND `workable_day` &lt;= #{personParamDto.eterm}
+            </if>
             <if test="personParamDto.career != null and personParamDto.career != ''">
                 AND CAST(`career` AS float) &gt;= CAST(#{personParamDto.career} AS float)
             </if>

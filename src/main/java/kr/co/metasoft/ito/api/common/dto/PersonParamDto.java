@@ -63,6 +63,14 @@ public class PersonParamDto {
     @DateTimeFormat (pattern = "yyyy-MM-dd")
     private LocalDate workableDay;
 
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
+    private LocalDate sterm;
+
+    @JsonFormat (pattern = "yyyy-MM-dd")
+    @DateTimeFormat (pattern = "yyyy-MM-dd")
+    private LocalDate eterm;
+
     private Long postcode;
 
     private String address;

@@ -104,7 +104,9 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                             "status":null,
                             "age":null,
                             "gender":null,
-                            "ratingScore":null
+                            "ratingScore":null,
+                            "sterm":null,
+                            "eterm":null
                         },
                     },
                     "select": {
@@ -360,7 +362,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         params.rowSize = options.itemsPerPage;
                         params.sort=ito.util.sort(options.sortBy, options.sortDesc);
                     }
-                    if(self.user.query.workableDay != null){
+/*                    if(self.user.query.workableDay != null){
                         var wd = self.user.query.workableDay;
                         var year = wd.slice(0,4);
                         var month = wd.slice(5,7);
@@ -375,6 +377,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         }
                         wd = year+"-"+month+"-"+day;
                     }
+*/
                     params.name = !_.isEmpty(self.user.query.name) ? self.user.query.name : null;
                     params.jobType = !_.isEmpty(self.user.query.jobType) ? self.user.query.jobType : null;
                     params.career = !_.isEmpty(careerValue) && careerValue != 0 ? careerValue : null;
@@ -390,8 +393,9 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                     params.gender = !_.isEmpty(self.user.query.gender) ? self.user.query.gender : null;
                     params.ratingScore = self.user.query.ratingScore;
                     params.skillListLike = !_.isEmpty(self.user.query.skillList) ? self.user.query.skillList : [];
-                    params.workableDay = !_.isEmpty(self.user.query.workableDay) ? wd : null;
-
+//                    params.workableDay = !_.isEmpty(self.user.query.workableDay) ? wd : null;
+                    params.sterm = !_.isEmpty(self.user.query.sterm) ? self.user.query.sterm : null;
+                    params.eterm = !_.isEmpty(self.user.query.eterm) ? self.user.query.eterm : null;
                     this.user.dataTable.search = false;
                     self.user.dataTable.loading = true;
 
