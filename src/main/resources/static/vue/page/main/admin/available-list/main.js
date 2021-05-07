@@ -179,8 +179,6 @@ MainAdminAvailableListPage = Vue.component('main-admin-availableList-page', asyn
 
                 self.user.dataTable.search = false;
                 self.user.dataTable.loading = true;
-                console.log(ito.util.sort(options.sortBy, options.sortDesc));
-
                 personList = (await ito.api.common.person.getPersonList({
                     "page": options !== undefined ? options.page : 1,
                     "rowSize": options !== undefined ? options.itemsPerPage : 10,
