@@ -56,7 +56,10 @@ GroupwareApprovalPage = Vue.component('groupware-approval-page', async function(
                            });
                            break;
                        case "ROLE_DIRECTOR":
-                           await ito.api.app.approval.modifyApproval(vacationId, {"president": "T"});
+                           await ito.api.app.approval.modifyApproval(vacationId, {
+                               "president": "T",
+                               "aprrovalDate": moment().format("YYYY-MM-DD")
+                           });
                            await ito.api.app.mailSend.getMailSend({
                                "to": "kdk7121743@naver.com",
                                "subject": userName + "님의 휴가신청서",
