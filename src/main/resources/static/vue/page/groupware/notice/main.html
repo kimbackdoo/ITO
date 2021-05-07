@@ -14,20 +14,19 @@
                     <v-expansion-panel-header>공지사항</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <data-table-custom-component
-                            :show-select="true"
                             item-key="id"
                             :headers="dataTable.headers"
                             :items="dataTable.items"
                             :totalRows="dataTable.totalRows"
                             :loading="dataTable.loading"
+                            show-select
                             import-hide
                             download-hide
                             @click:row="setNotice"
                             @add="$router.push({path: '/groupware/notices/details'})"
                             @remove="removeNoticeList"
                             @reload="loadNoticeList"
-                        >
-                        </data-table-custom-component>
+                        ></data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
