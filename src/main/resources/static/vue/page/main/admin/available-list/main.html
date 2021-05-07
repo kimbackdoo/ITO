@@ -187,15 +187,15 @@
                     <v-expansion-panel-header>목록</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <data-table-custom-component
-                            :show-select="true"
                             item-key="id"
                             :headers="user.dataTable.headers"
                             :items="user.dataTable.items"
                             :totalRows="user.dataTable.totalRows"
                             :loading="user.dataTable.loading"
-                            :add-hide="true"
-                            :remove-hide="true"
-                            :import-hide="true"
+                            show-select
+                            add-hide
+                            remove-hide
+                            import-hide
                             :cell="user.dataTable.cell"
                             :search="user.dataTable.search"
                             @change:autocomplete="inputProject"

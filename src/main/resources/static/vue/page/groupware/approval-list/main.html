@@ -23,9 +23,9 @@
                             add-hide
                             remove-hide
                             :cell="dataTable.cell"
+                            @reload="loadApprovalList"
                             @click:button="vacationDownload"
-                        >
-                        </data-table-custom-component>
+                        ></data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
