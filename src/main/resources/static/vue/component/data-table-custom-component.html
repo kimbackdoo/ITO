@@ -5,7 +5,7 @@
     :headers="headers"
     :items="items"
     :server-items-length="totalRows"
-    :options.sync="options"
+    @update:options="options = $event;"
     :loading="loading"
     :disable-sort="disabled"
     mobile-breakpoint="0"
@@ -23,10 +23,10 @@
                   dense
                   outlined
                   hide-details="auto"
-                  :value="options.itemsPerPage"
+                  :value="props.options.itemsPerPage"
                   :items="paginationList"
-                  @change="options.itemsPerPage = $event;"
-                 >ratingScore
+                  @change="props.options.itemsPerPage = $event;"
+                 >
               </v-select>
            </div>
         </v-col>
@@ -123,15 +123,15 @@
             </tr>
         </tbody>
     </template>
-    <template v-slot:footer >
+    <template v-slot:footer = "{props}" >
         <v-row dense>
             <v-col cols="12" class="pa-0">
                 <div class="text-center my-2" >
                     <v-pagination
                         class="d-inline-block"
-                        :length="Math.ceil(totalRows / options.itemsPerPage)"
+                        :length="Math.ceil(totalRows / props.options.itemsPerPage)"
                         :total-visible="10"
-                        v-model="options.page"
+                        v-model="props.options.page"
                         :disabled="disabled"
                     ></v-pagination>
                 </div>
