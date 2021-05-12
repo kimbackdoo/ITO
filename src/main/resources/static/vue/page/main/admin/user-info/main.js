@@ -12,22 +12,22 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         },
                         "dataTable": {
                             "headers": [
-                                {"text": "이름", "value": "name",width:120,cellClass:"text-truncate"},
-                                {"text": "성별", "value": "gender",width:120,cellClass:"text-truncate"},
-                                {"text": "평가점수", "value": "ratingScore",width:120,cellClass:"text-truncate"},
-                                {"text": "전화번호", "value": "phoneNumber", width:120,cellClass:"text-truncate"},
-                                {"text": "생년월일(나이)",  "value": "birthDate",width:120, cellClass:"text-truncate"},
-                                {"text": "직종",  "value": "jobType",width:120, cellClass:"text-truncate"},
-                                {"text": "기술",  "value": "skill",width:120,cellClass:"text-truncate"},
-                                {"text": "학력", "value": "education",width:120, cellClass:"text-truncate"},
-                                {"text": "경력",  "value": "career",width:120, cellClass:"text-truncate"},
-                                {"text": "자격증 유무", "value": "certificateStatus",width:120,cellClass:"text-truncate"},
-                                {"text": "희망 급여",  "value": "pay",width:120, cellClass:"text-truncate"},
-                                {"text": "지역",  "value": "address",width:120, cellClass:"text-truncate"},
+                                {"text": "이름", "value": "name",width:120,cellClass:"text-truncate", "align": "center"},
+                                {"text": "성별", "value": "gender",width:120,cellClass:"text-truncate", "align": "center"},
+                                {"text": "평가점수", "value": "ratingScore",width:120,cellClass:"text-truncate", "align": "center"},
+                                {"text": "전화번호", "value": "phoneNumber", width:120,cellClass:"text-truncate", "align": "center"},
+                                {"text": "생년월일(나이)",  "value": "birthDate",width:120, cellClass:"text-truncate", "align": "center"},
+                                {"text": "직종",  "value": "jobType",width:120, cellClass:"text-truncate", "align": "center"},
+                                {"text": "기술",  "value": "skill",width:120,cellClass:"text-truncate", "align": "center"},
+                                {"text": "학력", "value": "education",width:120, cellClass:"text-truncate", "align": "center"},
+                                {"text": "경력",  "value": "career",width:120, cellClass:"text-truncate", "align": "center"},
+                                {"text": "자격증 유무", "value": "certificateStatus",width:120,cellClass:"text-truncate", "align": "center"},
+                                {"text": "희망 급여",  "value": "pay",width:120, cellClass:"text-truncate", "align": "center"},
+                                {"text": "지역",  "value": "address",width:120, cellClass:"text-truncate", "align": "center"},
                                 {"text": "현재 지원한 프로젝트", "value": "applyProject", "align": "center", "width": "120", cellClass:"text-truncate"},
                                 {"text": "프로젝트명", "value": "projectName", "align": "center", "width": "120", cellClass:"text-truncate", "type": "autocomplete"},
-                                {"text": "투입여부",  "value": "inputStatus",width:120, cellClass:"text-truncate"},
-                                {"text": "업무 가능일",  "value": "workableDay",width:120, cellClass:"text-truncate"}
+                                {"text": "투입여부",  "value": "inputStatus",width:120, cellClass:"text-truncate", "align": "center"},
+                                {"text": "업무 가능일",  "value": "workableDay",width:120, cellClass:"text-truncate", "align": "center"}
                             ],
                             "search": false,
                             "totalRows":0,
@@ -467,8 +467,16 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         if(e.detailAddress != null) e.address = e.address + e.detailAddress
                         e.certificateStatus =(e.certificateStatus == "T") ? "있음" : "없음"
                         e.gender = (e.gender === "M") ? "남자" : "여자"
-                        e.career = e.career+"년"
-                        e.pay = String(e.minPay) +" ~ " +String(e.maxPay)
+                        if(e.career !== null) {
+                            e.career = e.career+"년"
+                        }
+
+                        if(e.minPay != null) {
+                            e.pay = String(e.minPay);
+                            if(e.maxPay != null) {
+                                e.pay += " ~ " +String(e.maxPay);
+                            }
+                        }
                         if(e.applyProject !== undefined) { // 가져온 프로젝트 이름에 대한 배열이 undefined 인지 체크하고 아니면 String으로 변환
                             e.applyProject = e.applyProject.join(", ");
                         }
