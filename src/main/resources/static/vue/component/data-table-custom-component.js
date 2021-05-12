@@ -99,12 +99,6 @@ DataTableCustomComponent = Vue.component("data-table-custom-component", async fu
             },
             "deep": true
         },
-        "totalRows": {
-            "handler": function (n,o) {
-                this.paginationList[this.paginationList.length - 1].value = n;
-            },
-            "deep": true
-        },
         "loading": {
             "handler": function (n,o) {
                 this.data = [];
