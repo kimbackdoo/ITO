@@ -355,7 +355,7 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         var startBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-01-01");
                         var endBirth = moment().subtract(Number(self.user.query.birthDate)-1, "y") .format("YYYY-12-31");
                        }
-                    console.log(options)
+                    console.log(options);
 
                     if(options !== undefined) {
                         params.page = options.page;
