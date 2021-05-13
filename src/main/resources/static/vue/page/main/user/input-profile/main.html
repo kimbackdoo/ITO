@@ -2,14 +2,14 @@
     <v-row>
         <v-col cols="12">
             <v-expansion-panels
-                    multiple
-                    v-model="inputProfile.panels.form"
+                multiple
+                v-model="inputProfile.panels.form"
             >
                 <v-expansion-panel>
                     <v-expansion-panel-header>프로필 입력</v-expansion-panel-header>
                     <v-expansion-panel-content
-                            class="overflow-y-auto"
-                            style="max-height: 600px;"
+                        class="overflow-y-auto"
+                        style="max-height: 600px;"
                     >
                         <v-form>
                             <v-container>
@@ -25,7 +25,7 @@
                                 <v-row class="ma-0">
                                     <v-col cols="4" class="pa-2">
                                         <date-picker-component
-                                            dense
+                                dense
                                             label="생년월일"
                                             append-icon="mdi-calendar"
                                             v-model="inputProfile.form.item.birthDate"

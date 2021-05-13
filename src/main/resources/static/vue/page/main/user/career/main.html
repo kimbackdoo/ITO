@@ -4,23 +4,23 @@
             <v-expansion-panels
                 multiple
                 v-model="career.panels.list"
-                >
+            >
                 <v-expansion-panel>
                     <v-expansion-panel-header>경력 보기</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <data-table-custom-component
-                                :show-select="true"
-                                item-key="personCareerId"
-                                :headers="career.dataTable.headers"
-                                :items="career.dataTable.items"
-                                :totalRows="career.dataTable.totalRows"
-                                :loading="career.dataTable.loading"
-                                @click:row="openCareerDialog"
-                                @remove="deleteCareer"
-                                @add="openNewCareerDialog"
-                                @import="openFileUploadDialog"
-                                @reload="loadCareerList"
-                                :download-hide="true"
+                            :show-select="true"
+                            item-key="personCareerId"
+                            :headers="career.dataTable.headers"
+                            :items="career.dataTable.items"
+                            :totalRows="career.dataTable.totalRows"
+                            :loading="career.dataTable.loading"
+                            @click:row="openCareerDialog"
+                            @remove="deleteCareer"
+                            @add="openNewCareerDialog"
+                            @import="openFileUploadDialog"
+                            @reload="loadCareerList"
+                            :download-hide="true"
                         ></data-table-custom-component>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
