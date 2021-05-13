@@ -472,9 +472,9 @@ var MainAdminPage = Vue.component('main-admin-userInfo-page', function (resolve,
                         }
 
                         if(e.minPay != null) {
-                            e.pay = String(e.minPay);
+                            e.pay = numeral(e.minPay).format('0,0');
                             if(e.maxPay != null) {
-                                e.pay += " ~ " +String(e.maxPay);
+                                e.pay += " ~ " +numeral(e.maxPay).format('0,0');
                             }
                         }
                         if(e.applyProject !== undefined) { // 가져온 프로젝트 이름에 대한 배열이 undefined 인지 체크하고 아니면 String으로 변환
