@@ -78,11 +78,6 @@ public class ExpenditureExcelService {
             bodyCellStyle.setFont(bodyFont);
 
 
-//            String path = "C:\\";
-//            String fileName = "지출결의서"+".xlsx";
-//            File xlsxFile = new File(path + fileName);
-//            FileOutputStream fileOut = new FileOutputStream(xlsxFile);
-//            workbook.write(fileOut);
 
             workbook.write(baos);
 

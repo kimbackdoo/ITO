@@ -1,0 +1,154 @@
+<div class="pa-3">
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="inputProfile.panels.form"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>프로필 입력</v-expansion-panel-header>
+                    <v-expansion-panel-content
+                        class="overflow-y-auto"
+                        style="max-height: 600px;"
+                    >
+                        <v-form>
+                            <v-container>
+                                <v-row class="ma-0">
+                                    <v-col cols="4" class="pa-2">
+                                        <v-text-field
+                                            dense
+                                            label="이름"
+                                            v-model="inputProfile.form.item.name"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row class="ma-0">
+                                    <v-col cols="4" class="pa-2">
+                                        <date-picker-component
+                                            dense
+                                            label="생년월일"
+                                            append-icon="mdi-calendar"
+                                            v-model="inputProfile.form.item.birthDate"
+                                        ></date-picker-component>
+                                    </v-col>
+                                </v-row>
+                                <v-row class="ma-0">
+                                    <v-col cols="4" class="pa-2">
+                                        <v-text-field
+                                            label="E-mail"
+                                            v-model="inputProfile.form.item.email"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row class="ma-0">
+                                    <v-col cols="8">
+                                        <div style="width: 100px; height:55px;">
+                                            <v-text-field
+                                                outlined
+                                                dense
+                                                label="우편번호"
+                                                v-model="inputProfile.form.item.postcode"
+                                                @click="execDaumPostcode"
+                                            ></v-text-field>
+                                        </div>
+                                        <div style="display:flex;">
+                                            <v-text-field
+                                                outlined
+                                                dense
+                                                label="주소"
+                                                v-model="inputProfile.form.item.address"
+                                            ></v-text-field>
+                                            <v-text-field
+                                                outlined
+                                                dense
+                                                class="ml-2"
+                                                label="상세주소"
+                                                ref="detailAddress"
+                                                v-model="inputProfile.form.item.detailAddress"
+                                            ></v-text-field>
+                                        </div>
+                                    </v-col>
+                                </v-row>
+                                <v-row class="ma-0 mb-5">
+                                    <v-col cols="4" class="pa-0">
+                                        <v-select
+                                            dense
+                                            outlined
+                                            label="직종"
+                                            :items="select.job.items"
+                                            v-model="inputProfile.form.item.jobType"
+                                        ></v-select>
+                                    </v-col>
+<!--                                    <v-col cols="6" class="pa-0 pl-2">-->
+<!--                                        <v-autocomplete-->
+<!--                                            dense-->
+<!--                                            outlined-->
+<!--                                            multiple-->
+<!--                                            clearable-->
+<!--                                            hide-no-data-->
+<!--                                            hide-details="auto"-->
+<!--                                            label="기술"-->
+<!--                                            placeholder="기술을 선택해주세요"-->
+<!--                                            :items="autocomplete.skill.items"-->
+<!--                                            v-model="inputProfile.form.item.skill"-->
+<!--                                        ></v-autocomplete>-->
+<!--                                    </v-col>-->
+                                </v-row>
+                                <v-row class="ma-0">
+                                    <v-col cols="4">
+                                        <v-text-field
+                                            dense
+                                            readonly
+                                            label="경력"
+                                            suffix="년"
+                                            v-model="inputProfile.form.item.career"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row class="ma-0">
+                                    <v-col cols="3">
+                                        <v-text-field
+                                            label="최소희망월급여"
+                                            suffix="만원"
+                                            v-model="inputProfile.form.item.minPay"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="1" class="text-center" style="line-height: 60px;">
+                                        ~
+                                    </v-col>
+                                    <v-col cols="3">
+                                        <v-text-field
+                                            label="최대희망월급여"
+                                            suffix="만원"
+                                            v-model="inputProfile.form.item.maxPay"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row class="ma-0">
+                                    <v-col cols="4">
+                                        <v-select
+                                            dense
+                                            outlined
+                                            label="이력서 공개여부"
+                                            hide-details="auto"
+                                            :items="[{'text': '선택', 'value': null},{'text': '공개', 'value': 'T'},{'text': '비공개', 'value': 'F'}]"
+                                            v-model="inputProfile.form.item.status"
+                                        ></v-select>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12" class="text-right">
+                                        <v-btn
+                                            class="primary"
+                                            @click="saveProfile"
+                                        >수정</v-btn>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-form>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+</div>

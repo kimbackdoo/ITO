@@ -1,0 +1,60 @@
+<div class="pa-3">
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="project.panels.list"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>프로젝트 현황</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-row>
+                            <table class="ma-auto">
+                                <tb>
+                                    <tr>
+                                        <td class="pr-15">프로젝트명</td>
+                                        <td>{{ project.items.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">직종</td>
+                                        <td>{{ project.items.job }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15" >필요기술</td>
+                                        <td>{{ project.items.skill }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">경력요건</td>
+                                        <td>{{ project.items.career }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">기간</td>
+                                        <td>{{ project.items.degree }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">장소</td>
+                                        <td>{{ project.items.address }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">필요인원수</td>
+                                        <td>{{ project.items.prsnl }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">현황</td>
+                                        <td>{{ project.items.statusName }}</td>
+                                    </tr>
+                                </tb>
+                            </table>
+                        </v-row>
+                        <div class="text-right">
+                            <v-btn
+                                class="primary"
+                                @click="applyProject"
+                            >프로젝트 지원하기</v-btn>
+                        </div>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+</div>

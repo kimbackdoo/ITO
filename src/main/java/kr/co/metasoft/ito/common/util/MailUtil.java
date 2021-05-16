@@ -32,10 +32,6 @@ public class MailUtil {
     public void sendMail(MailDto mailDto) throws MessagingException, IOException {
 
 
-//        String text = "<a href=http://localhost:81/groupware/approval" +
-//                "?userId=1" + ">" +
-//                "http://localhost:81/groupware/approval</a>";
-//        String subject = "제목";
 
         Properties properties = new Properties();
 

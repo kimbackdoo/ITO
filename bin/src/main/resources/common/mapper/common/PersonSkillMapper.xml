@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.metasoft.ito.api.common.mapper.PersonSkillMapper">
+
+    <sql id="selectFrom">
+        SELECT
+            `person_skill`.`person_id`,
+            `person_skill`.`skill`,
+            `person_skill_person`.`id` AS `person_skill_person_id`,
+            `person_skill_person`.`name` AS `person_skill_person_name`,
+            `person_skill_person`.`phone_number` AS `person_skill_person_phone_number`,
+            `person_skill_person`.`job_type` AS `person_skill_person_job_type`,
+            `person_skill_person`.`input_status` AS `person_skill_person_input_status`,
+            `person_skill_person`.`certificate_status` AS `person_skill_person_certificate_status`,
+            `person_skill_person`.`role` AS `person_skill_person_role`,
+            `person_skill_person`.`career` AS `person_skill_person_career`,
+            `person_skill_person`.`min_pay` AS `person_skill_person_min_pay`,
+            `person_skill_person`.`max_pay` AS `person_skill_person_max_pay`,
+            `person_skill_person`.`workable_day` AS `person_skill_person_workable_day`,
+            `person_skill_person`.`postcode` AS `person_skill_person_postcode`,
+            `person_skill_person`.`address` AS `person_skill_person_address`,
+            `person_skill_person`.`detail_address` AS `person_skill_person_detail_address`,
+            `person_skill_person`.`email` AS `person_skill_person_email`,
+            `person_skill_person`.`website` AS `person_skill_person_website`,
+            `person_skill_person`.`education` AS `person_skill_person_education`,
+            `person_skill_person`.`birth_date` AS `person_skill_person_birth_date`,
+            `person_skill_person`.`status` AS `person_skill_person_status`,
+            `person_skill_person`.`memo` AS `person_skill_person_memo`,
+            `person_skill_person`.`created_date` AS `person_skill_person_created_date`,
+            `person_skill_person`.`last_modified_date` AS `person_skill_person_last_modified_date`,
+            `person_skill_skill`.`id` AS `person_skill_skill_id`,
+            `person_skill_skill`.`parent_id` AS `person_skill_skill_parent_id`,
+            `person_skill_skill`.`name` AS `person_skill_skill_name`,
+            `person_skill_skill`.`value` AS `person_skill_skill_value`,
+            `person_skill_skill`.`ranking` AS `person_skill_skill_ranking`,
+            `person_skill_skill`.`status` AS `person_skill_skill_status`,
+            `person_skill_skill`.`created_date` AS `person_skill_skill_created_date`,
+            `person_skill_skill`.`last_modified_date` AS `person_skill_skill_last_modified_date`
+        FROM
+            `tb_person_skill` `person_skill`
+        LEFT OUTER JOIN
+            `tb_person` `person_skill_person`
+        ON
+            `person_skill`.`person_id` = `person_skill_person`.`id`
+        LEFT OUTER JOIN
+            `tb_code` `person_skill_skill`
+        ON
+            `person_skill`.`skill` = `person_skill_skill`.`id`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="personSkillParamDto.personId != null">
+                AND `person_skill`.`person_id` = #{personSkillParamDto.personId}
+            </if>
+            <if test="personSkillParamDto.skill != null">
+                AND `person_skill`.`skill` = #{personSkillParamDto.skill}
+            </if>
+        </where>
+    </sql>
+
+    <resultMap id="personSkillResultMap" type="kr.co.metasoft.ito.api.common.entity.PersonSkillEntity">
+        <result property="personId" column="person_id"/>
+        <result property="skill" column="skill"/>
+        <association property="person" columnPrefix="person_skill_person_">
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="phoneNumber" column="phone_number"/>
+            <result property="jobType" column="job_type"/>
+            <result property="inputStatus" column="input_status"/>
+            <result property="certificateStatus" column="certificate_status"/>
+            <result property="role" column="role"/>
+            <result property="career" column="career"/>
+            <result property="minPay" column="min_pay"/>
+            <result property="maxPay" column="max_pay"/>
+            <result property="workableDay" column="workable_day"/>
+            <result property="postcode" column="postcode"/>
+            <result property="address" column="address"/>
+            <result property="detailAddress" column="detail_address"/>
+            <result property="email" column="email"/>
+            <result property="website" column="website"/>
+            <result property="education" column="education"/>
+            <result property="birthDate" column="birth_date"/>
+            <result property="status" column="status"/>
+            <result property="memo" column="memo"/>
+            <result property="createdDate" column="created_date"/>
+            <result property="lastModifiedDate" column="last_modified_date"/>
+        </association>
+        <association property="code" columnPrefix="person_skill_skill_">
+            <result property="id" column="id"/>
+            <result property="parentId" column="parent_id"/>
+            <result property="name" column="name"/>
+            <result property="value" column="value"/>
+            <result property="ranking" column="ranking"/>
+            <result property="status" column="status"/>
+            <result property="createdDate" column="created_date"/>
+            <result property="lastModifiedDate" column="last_modified_date"/>
+        </association>
+    </resultMap>
+
+    <select
+        id="selectPersonSkillList"
+        parameterType="java.util.Map"
+        resultMap="personSkillResultMap"
+    >
+        <include refid="PageFragment.sortStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.sortEnd"/>
+        <include refid="PageFragment.limitOffset"/>
+    </select>
+
+    <select
+        id="selectPersonSkillListCount"
+        parameterType="java.util.Map"
+        resultType="java.lang.Integer"
+    >
+        <include refid="PageFragment.countStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.countEnd"/>
+    </select>
+
+    <select
+        id="selectPersonSkill"
+        parameterType="java.util.Map"
+        resultMap="personSkillResultMap"
+    >
+        <include refid="selectFrom"/>
+        WHERE
+            `person_skill`.`person_id` = #{personId}
+            AND `person_skill`.`skill` = #{skill}
+    </select>
+
+</mapper>

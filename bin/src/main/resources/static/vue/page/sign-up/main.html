@@ -1,0 +1,119 @@
+<v-main>
+    <v-container class="fill-height">
+        <v-row>
+            <v-col align="center">
+                <v-card max-width="800">
+                    <v-card-title>인력관리시스템 회원가입</v-card-title>
+                    <v-card-text>
+                        <v-stepper v-model="stepper.complete">
+                            <v-stepper-header>
+                                <template v-for="(category, i) in stepper.category">
+                                    <v-stepper-step
+                                        :key="`${category}-step`"
+                                        :complete="stepper.complete > i+1"
+                                        :step="i+1"
+                                    >{{category}}</v-stepper-step>
+                                    <v-divider
+                                        v-if="i !== stepper.category.length-1"
+                                    ></v-divider>
+                                </template>
+                            </v-stepper-header>
+                            <v-stepper-items>
+                                <v-stepper-content
+                                    :key="`${stepper.category[0]}-content`"
+                                    :step="1"
+                                >
+                                {{1}}
+                                        <v-row dense>
+                                            <v-col cols="12" class="text-right">
+                                                <v-btn
+                                                    color="primary"
+                                                    @click="nextStep(1);"
+                                                >다음</v-btn>
+                                            </v-col>
+                                        </v-row>
+                                </v-stepper-content>
+                                <v-stepper-content
+                                    :key="`${stepper.category[1]}-content`"
+                                    :step="2"
+                                >
+                                    <v-row dense>
+                                        <v-col>
+                                            <sign-up-main-join-fragment
+                                                ref="userForm"
+                                                @update:person="(e)=>{data.person = e;}"
+                                                @update:user="(e)=>{data.user = e;}"
+                                            ></sign-up-main-join-fragment>
+                                        </v-col>
+                                        <v-col cols="12" class="text-right">
+                                            <v-btn
+                                                color="primary"
+                                                @click="nextStep(2);"
+                                            >다음</v-btn>
+                                        </v-col>
+                                    </v-row>
+                                </v-stepper-content>
+                                <v-stepper-content
+                                    :key="`${stepper.category[2]}-content`"
+                                    :step="3"
+                                >
+                                    <v-row dense>
+                                        <v-col>
+                                            <template v-if="data.person.jobType">
+                                                <sign-up-main-technic-fragment
+                                                    :jobName="code.job.items.find(e=>e.id === data.person.jobType).name"
+                                                    @update:language="(e)=>{data.language = e;}"
+                                                    @update:sector="(e)=>{data.sector = e;}"
+                                                    @update:role="(e)=>{data.role = e;}"
+                                                    @update:skill="(e)=>{data.skill = e;}"
+                                                ></sign-up-main-technic-fragment>
+                                            </template>
+                                        </v-col>
+                                        <v-col cols="12" class="text-right">
+                                            <v-btn
+                                                color="primary"
+                                                @click="nextStep(3);"
+                                            >다음</v-btn>
+                                        </v-col>
+                                    </v-row>
+                                </v-stepper-content>
+                                <v-stepper-content
+                                    :key="`${stepper.category[3]}-content`"
+                                    :step="4"
+                                >
+                                    <v-row dense>
+                                        <v-col>
+                                            <sign-up-main-career-fragment
+                                                    @update:career="(e)=>{data.career = e;}"
+                                            ></sign-up-main-career-fragment>
+                                        </v-col>
+                                        <v-col cols="12" class="text-right">
+                                            <v-btn
+                                                color="primary"
+                                                @click="nextStep(4);"
+                                            >다음</v-btn>
+                                        </v-col>
+                                    </v-row>
+                                </v-stepper-content>
+                                <v-stepper-content
+                                    :key="`${stepper.category[4]}-content`"
+                                    :step="5"
+                                >
+                                {{5}}
+                                        <v-row dense>
+                                            <v-col cols="12" class="text-right">
+                                                <v-btn
+                                                    color="primary"
+                                                    @click="nextStep(5);"
+                                                >다음</v-btn>
+                                            </v-col>
+                                        </v-row>
+                                </v-stepper-content>
+                            </v-stepper-items>
+                        </v-stepper>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
+</v-main>

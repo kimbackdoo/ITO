@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.metasoft.ito.api.common.mapper.CareerMapper">
+    <sql id="selectFrom">
+        SELECT
+            `career`.`person_career_id`,
+            `career`.`person_id`,
+            `career`.`name`,
+            `career`.`start_period`,
+            `career`.`end_period`,
+            `career`.`position`,
+            `career`.`task`,
+            `career`.`pay`,
+            `career`.`create_dt`,
+            `career`.`modify_dt`
+        FROM
+            `tb_career` `career`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="careerParamDto.personId != null">
+                AND `person_id` = #{careerParamDto.personId}
+            </if>
+        </where>
+    </sql>
+
+    <resultMap id="careerResultMap" type="kr.co.metasoft.ito.api.common.entity.CareerEntity">
+        <result property="personCareerId" column="person_career_id" />
+        <result property="name" column="name" />
+        <result property="startPeriod" column="start_period" />
+        <result property="endPeriod" column="end_period" />
+        <result property="position" column="position" />
+        <result property="task" column="task" />
+        <result property="pay" column="pay" />
+        <result property="createDt" column="create_dt" />
+        <result property="modifyDt" column="modify_dt" />
+    </resultMap>
+
+    <select
+            id="selectCareerList"
+            parameterType="java.util.Map"
+            resultMap="careerResultMap"
+    >
+        <include refid="PageFragment.sortStart" />
+        <include refid="selectFrom" />
+        <include refid="where"/>
+        <include refid="PageFragment.sortEnd" />
+        <include refid="PageFragment.limitOffset" />
+    </select>
+
+    <select
+            id="selectCareerListCount"
+            parameterType="java.util.Map"
+            resultType="java.lang.Integer"
+    >
+        <include refid="PageFragment.countStart" />
+        <include refid="selectFrom" />
+        <include refid="where"/>
+        <include refid="PageFragment.countEnd" />
+    </select>
+
+    <delete id="deleteCareerList" parameterType="java.util.List">
+        DELETE FROM tb_career
+        WHERE
+        person_career_id IN (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+</mapper>

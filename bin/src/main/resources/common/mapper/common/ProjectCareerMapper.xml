@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.metasoft.ito.api.common.mapper.ProjectCareerMapper">
+
+    <sql id="selectFrom">
+        SELECT
+            `project_career`.`project_id`,
+            `project_career`.`career_id`,
+            `project_career_project`.`id` AS `project_career_project_id`,
+            `project_career_project`.`name` AS `project_career_project_name`,
+            `project_career_project`.`job` AS `project_career_project_job`,
+            `project_career_project`.`skill` AS `project_career_project_skill`,
+            `project_career_project`.`career` AS `project_career_project_career`,
+            `project_career_project`.`degree` AS `project_career_project_degree`,
+            `project_career_project`.`sterm` AS `project_career_project_sterm`,
+            `project_career_project`.`eterm` AS `project_career_project_eterm`,
+            `project_career_project`.`local` AS `project_career_project_local`,
+            `project_career_project`.`detail_local` AS `project_career_project_detail_local`,
+            `project_career_project`.`postcode` AS `project_career_project_postcode`,
+            `project_career_project`.`address` AS `project_career_project_address`,
+            `project_career_project`.`detail_address` AS `project_career_project_detail_address`,
+            `project_career_project`.`prsnl` AS `project_career_project_prsnl`,
+            `project_career_project`.`status` AS `project_career_project_status`,
+            `project_career_project`.`salary` AS `project_career_project_salary`,
+            `project_career_project`.`term` AS `project_career_project_term`,
+            `project_career_project`.`limit_date` AS `project_career_project_limit_date`,
+            `project_career_project`.`memo` AS `project_career_project_memo`,
+            `project_career_project`.`created_date` AS `project_career_project_created_date`,
+            `project_career_project`.`last_modified_date` AS `project_career_project_last_modified_date`,
+            `project_career_career`.`person_career_id` AS `project_career_careerperson_career_id`,
+            `project_career_career`.`person_id` AS `project_career_careerperson_id`,
+            `project_career_career`.`name` AS `project_career_careername`,
+            `project_career_career`.`start_period` AS `project_career_careerstart_period`,
+            `project_career_career`.`end_period` AS `project_career_careerend_period`,
+            `project_career_career`.`position` AS `project_career_careerposition`,
+            `project_career_career`.`task` AS `project_career_careertask`,
+            `project_career_career`.`pay` AS `project_career_careerpay`,
+            `project_career_career`.`create_dt` AS `project_career_careercreate_dt`,
+            `project_career_career`.`modify_dt` AS `project_career_careermodify_dt`
+        FROM
+            `tb_project_career` `project_career`
+        LEFT OUTER JOIN
+            `tb_career` `project_career_career`
+        ON
+            `project_career`.`career_id` = `project_career_career`.`person_career_id`
+        LEFT OUTER JOIN
+            `tb_proj` `project_career_project`
+        ON
+            `project_career`.`project_id` = `project_career_project`.`id`
+
+    </sql>
+
+    <sql id="selectCareerIdForm">
+        SELECT
+            `project_career`.`project_id`,
+            `project_career`.`career_id`,
+            `project_career_career`.`person_career_id` AS `project_career_careerperson_career_id`,
+            `project_career_career`.`person_id` AS `project_career_careerperson_id`,
+            `project_career_career`.`pay` AS `project_career_careerpay`
+        FROM
+            `tb_project_career` `project_career`
+        LEFT OUTER JOIN
+            `tb_career` `project_career_career`
+        ON
+            `project_career`.`career_id` = `project_career_career`.`person_career_id`
+        LEFT OUTER JOIN
+            `tb_proj` `project_career_project`
+        ON
+            `project_career`.`project_id` = `project_career_project`.`id`
+
+    </sql>
+
+
+    <sql id="where">
+        <where>
+            <if test="projectCareerParamDto.projectId != null and projectCareerParamDto.projectId != ''">
+                AND `project_career`.`project_id` = #{projectCareerParamDto.projectId}
+            </if>
+            <if test="projectCareerParamDto.careerId != null and projectCareerParamDto.careerId != ''">
+                AND `project_career`.`career_id` = #{projectCareerParamDto.careerId}
+            </if>
+        </where>
+    </sql>
+
+
+    <sql id="CareerIdWhere">
+        <where>
+            <if test="projectCareerParamDto.projectId != null and projectCareerParamDto.projectId != ''">
+                AND `project_career`.`project_id` = #{projectCareerParamDto.projectId}
+            </if>
+            <if test="projectCareerParamDto.personId != null and projectCareerParamDto.personId != ''">
+                AND `project_career_career`.`person_id` = #{projectCareerParamDto.personId}
+            </if>
+        </where>
+    </sql>
+
+
+    <resultMap id="careerResultMap" type="kr.co.metasoft.ito.api.common.entity.ProjectCareerEntity">
+        <result property="projectId" column="project_id" />
+        <result property="careerId" column="career_id" />
+        <association property="project" columnPrefix="project_career_project_">
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="job" column="job"/>
+            <result property="skill" column="skill"/>
+            <result property="career" column="career"/>
+            <result property="degree" column="degree"/>
+            <result property="sterm" column="sterm"/>
+            <result property="eterm" column="eterm"/>
+            <result property="local" column="local"/>
+            <result property="detailLocal" column="detail_local"/>
+            <result property="postcode" column="postcode"/>
+            <result property="address" column="address"/>
+            <result property="detailAddress" column="detail_address"/>
+            <result property="prsnl" column="prsnl"/>
+            <result property="status" column="status"/>
+            <result property="salary" column="salary"/>
+            <result property="term" column="term"/>
+            <result property="limitDate" column="limit_date"/>
+            <result property="memo" column="memo"/>
+            <result property="createdDate" column="created_date"/>
+            <result property="lastModifiedDate" column="last_modified_date"/>
+        </association>
+        <association property="career" columnPrefix="project_career_career_">
+            <result property="personCareerId" column="person_career_id"/>
+            <result property="personId" column="person_id"/>
+            <result property="name" column="name"/>
+            <result property="startPeriod" column="start_period"/>
+            <result property="endPeriod" column="end_period"/>
+            <result property="position" column="position"/>
+            <result property="task" column="task"/>
+            <result property="pay" column="pay"/>
+            <result property="createDt" column="create_dt"/>
+            <result property="modifyDt" column="modify_dt"/>
+        </association>
+    </resultMap>
+
+
+
+    <select
+        id="selectCareerIdList"
+        parameterType="java.util.Map"
+        resultMap="careerResultMap"
+    >
+        <include refid="selectCareerIdForm"/>
+        <include refid="CareerIdWhere"/>
+    </select>
+
+    <select
+        id="selectProjectCareerList"
+        parameterType="java.util.Map"
+        resultMap="careerResultMap"
+    >
+        <include refid="PageFragment.sortStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.sortEnd"/>
+        <include refid="PageFragment.limitOffset"/>
+    </select>
+
+    <select
+        id="selectProjectCareerListCount"
+        parameterType="java.util.Map"
+        resultType="java.lang.Integer"
+    >
+        <include refid="PageFragment.countStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.countEnd"/>
+    </select>
+
+
+
+</mapper>

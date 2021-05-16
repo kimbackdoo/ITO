@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.metasoft.ito.api.common.mapper.ProjectPersonMapper">
+
+    <sql id="selectFrom">
+        SELECT
+            `project_person`.`project_id`,
+            `project_person`.`person_id`,
+            `project_person`.`status`,
+            `project_person_person`.`id` AS `project_person_person_id`,
+            `project_person_person`.`name` AS `project_person_person_name`,
+            `project_person_person`.`phone_number` AS `project_person_person_phone_number`,
+            `project_person_person`.`gender` AS `project_person_person_gender`,
+            `project_person_person`.`skill` AS `project_person_person_skill`,
+            `project_person_person`.`job_type` AS `project_person_person_job_type`,
+            `project_person_person`.`input_status` AS `project_person_person_input_status`,
+            `project_person_person`.`certificate_status` AS `project_person_person_certificate_status`,
+            `project_person_person`.`career` AS `project_person_person_career`,
+            `project_person_person`.`role` AS `project_person_person_role`,
+            `project_person_person`.`min_pay` AS `project_person_person_min_pay`,
+            `project_person_person`.`max_pay` AS `project_person_person_max_pay`,
+            `project_person_person`.`local` AS `project_person_person_local`,
+            `project_person_person`.`detail_local` AS `project_person_person_detail_local`,
+            `project_person_person`.`workable_day` AS `project_person_person_workable_day`,
+            `project_person_person`.`postcode` AS `project_person_person_postcode`,
+            `project_person_person`.`address` AS `project_person_person_address`,
+            `project_person_person`.`detail_address` AS `project_person_person_detail_address`,
+            `project_person_person`.`email` AS `project_person_person_email`,
+            `project_person_person`.`website` AS `project_person_person_website`,
+            `project_person_person`.`education` AS `project_person_person_education`,
+            `project_person_person`.`birth_date` AS `project_person_person_birth_date`,
+            `project_person_person`.`status` AS `project_person_person_status`,
+            `project_person_person`.`memo` AS `project_person_person_memo`,
+            `project_person_person`.`created_date` AS `project_person_person_created_date`,
+            `project_person_person`.`last_modified_date` AS `project_person_person_last_modified_date`,
+            `project_person_project`.`id` AS `project_person_project_id`,
+            `project_person_project`.`name` AS `project_person_project_name`,
+            `project_person_project`.`job` AS `project_person_project_job`,
+            `project_person_project`.`skill` AS `project_person_project_skill`,
+            `project_person_project`.`career` AS `project_person_project_career`,
+            `project_person_project`.`degree` AS `project_person_project_degree`,
+            `project_person_project`.`sterm` AS `project_person_project_sterm`,
+            `project_person_project`.`eterm` AS `project_person_project_etrem`,
+            `project_person_project`.`local` AS `project_person_project_local`,
+            `project_person_project`.`detail_local` AS `project_person_project_detail_local`,
+            `project_person_project`.`postcode` AS `project_person_project_postcode`,
+            `project_person_project`.`address` AS `project_person_project_address`,
+            `project_person_project`.`detail_address` AS `project_person_project_detail_address`,
+            `project_person_project`.`prsnl` AS `project_person_project_prsnl`,
+            `project_person_project`.`memo` AS `project_person_project_memo`,
+            `project_person_project`.`status` AS `project_person_project_status`
+        FROM
+            `tb_project_person` `project_person`
+        LEFT OUTER JOIN
+            `tb_person` `project_person_person`
+        ON
+            `project_person`.`person_id` = `project_person_person`.`id`
+        LEFT OUTER JOIN
+            `tb_proj` `project_person_project`
+        ON
+            `project_person`.`project_id` = `project_person_project`.`id`
+
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="projectPersonParamDto.projectId != null and projectPersonParamDto.projectId != ''">
+                AND `project_person`.`project_id` = #{projectPersonParamDto.projectId}
+            </if>
+            <if test="projectPersonParamDto.personId != null and projectPersonParamDto.personId != ''">
+                AND `project_person`.`person_id` = #{projectPersonParamDto.personId}
+            </if>
+            <if test="projectPersonParamDto.status != null and projectPersonParamDto.status != ''">
+                AND `project_person`.`status` = #{projectPersonParamDto.status}
+            </if>
+        </where>
+    </sql>
+
+
+    <resultMap id="personResultMap" type="kr.co.metasoft.ito.api.common.entity.ProjectPersonEntity">
+        <result property="projectId" column="project_id" />
+        <result property="personId" column="person_id" />
+        <result property="status" column="status" />
+        <association property="person" columnPrefix="project_person_person_">
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="skill" column="skill"/>
+            <result property="gender" column="gender"/>
+            <result property="phoneNumber" column="phone_number"/>
+            <result property="jobType" column="job_type"/>
+            <result property="inputStatus" column="input_status"/>
+            <result property="certificateStatus" column="certificate_status"/>
+            <result property="role" column="role"/>
+            <result property="career" column="career"/>
+            <result property="minPay" column="min_pay"/>
+            <result property="maxPay" column="max_pay"/>
+            <result property="local" column="local"/>
+            <result property="detailLocal" column="detail_local"/>
+            <result property="workableDay" column="workable_day"/>
+            <result property="postcode" column="postcode"/>
+            <result property="address" column="address"/>
+            <result property="detailAddress" column="detail_address"/>
+            <result property="email" column="email"/>
+            <result property="website" column="website"/>
+            <result property="education" column="education"/>
+            <result property="birthDate" column="birth_date"/>
+            <result property="status" column="status"/>
+            <result property="memo" column="memo"/>
+            <result property="createdDate" column="created_date"/>
+            <result property="lastModifiedDate" column="last_modified_date"/>
+            <result property="projectNameList" column="project_person_project_name_list"/>
+
+        </association>
+        <association property="project" columnPrefix="project_person_project_">
+            <result property="id" column="id" />
+            <result property="name" column="name" />
+            <result property="job" column="job" />
+            <result property="skill" column="skill" />
+            <result property="career" column="career" />
+            <result property="degree" column="degree" />
+            <result property="sterm" column="sterm" />
+            <result property="eterm" column="eterm" />
+            <result property="local" column="local" />
+            <result property="detailLocal" column="detail_local" />
+            <result property="postcode" column="postcode" />
+            <result property="address" column="address" />
+            <result property="detailAddress" column="detail_address" />
+            <result property="prsnl" column="prsnl" />
+            <result property="memo" column="memo" />
+            <result property="status" column="status" />
+            <result property="salary" column="salary" />
+            <result property="term" column="term" />
+            <result property="createdDate" column="created_date" />
+            <result property="lastModifiedDate" column="last_modified_date" />
+            <result property="limitDate" column="limit_date" />
+        </association>
+    </resultMap>
+
+    <select
+        id="selectProjectPersonList"
+        parameterType="java.util.Map"
+        resultMap="personResultMap"
+    >
+        <include refid="PageFragment.sortStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.sortEnd"/>
+        <include refid="PageFragment.limitOffset"/>
+    </select>
+
+    <select
+        id="selectProjectPersonListCount"
+        parameterType="java.util.Map"
+        resultType="java.lang.Integer"
+    >
+        <include refid="PageFragment.countStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.countEnd"/>
+    </select>
+
+
+
+</mapper>

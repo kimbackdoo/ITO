@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.metasoft.ito.api.common.mapper.PersonSectorMapper">
+
+    <sql id="selectFrom">
+        SELECT
+            `person_sector`.`person_id`,
+            `person_sector`.`sector`,
+            `person_sector_person`.`id` AS `person_sector_person_id`,
+            `person_sector_person`.`name` AS `person_sector_person_name`,
+            `person_sector_person`.`phone_number` AS `person_sector_person_phone_number`,
+            `person_sector_person`.`job_type` AS `person_sector_person_job_type`,
+            `person_sector_person`.`input_status` AS `person_sector_person_input_status`,
+            `person_sector_person`.`certificate_status` AS `person_sector_person_certificate_status`,
+            `person_sector_person`.`role` AS `person_sector_person_role`,
+            `person_sector_person`.`career` AS `person_sector_person_career`,
+            `person_sector_person`.`min_pay` AS `person_sector_person_min_pay`,
+            `person_sector_person`.`max_pay` AS `person_sector_person_max_pay`,
+            `person_sector_person`.`workable_day` AS `person_sector_person_workable_day`,
+            `person_sector_person`.`postcode` AS `person_sector_person_postcode`,
+            `person_sector_person`.`address` AS `person_sector_person_address`,
+            `person_sector_person`.`detail_address` AS `person_sector_person_detail_address`,
+            `person_sector_person`.`email` AS `person_sector_person_email`,
+            `person_sector_person`.`website` AS `person_sector_person_website`,
+            `person_sector_person`.`education` AS `person_sector_person_education`,
+            `person_sector_person`.`birth_date` AS `person_sector_person_birth_date`,
+            `person_sector_person`.`status` AS `person_sector_person_status`,
+            `person_sector_person`.`memo` AS `person_sector_person_memo`,
+            `person_sector_person`.`created_date` AS `person_sector_person_created_date`,
+            `person_sector_person`.`last_modified_date` AS `person_sector_person_last_modified_date`,
+            `person_sector_sector`.`id` AS `person_sector_sector_id`,
+            `person_sector_sector`.`parent_id` AS `person_sector_sector_parent_id`,
+            `person_sector_sector`.`name` AS `person_sector_sector_name`,
+            `person_sector_sector`.`value` AS `person_sector_sector_value`,
+            `person_sector_sector`.`ranking` AS `person_sector_sector_ranking`,
+            `person_sector_sector`.`status` AS `person_sector_sector_status`,
+            `person_sector_sector`.`created_date` AS `person_sector_sector_created_date`,
+            `person_sector_sector`.`last_modified_date` AS `person_sector_sector_last_modified_date`
+        FROM
+            `tb_person_sector` `person_sector`
+        LEFT OUTER JOIN
+            `tb_person` `person_sector_person`
+        ON
+            `person_sector`.`person_id` = `person_sector_person`.`id`
+        LEFT OUTER JOIN
+            `tb_code` `person_sector_sector`
+        ON
+            `person_sector`.`sector` = `person_sector_sector`.`id`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="personSectorParamDto.personId != null">
+                AND `person_sector`.`person_id` = #{personSectorParamDto.personId}
+            </if>
+            <if test="personSectorParamDto.sector != null">
+                AND `person_sector`.`sector` = #{personSectorParamDto.sector}
+            </if>
+        </where>
+    </sql>
+
+    <resultMap id="personSectorResultMap" type="kr.co.metasoft.ito.api.common.entity.PersonSectorEntity">
+        <result property="personId" column="person_id"/>
+        <result property="sector" column="sector"/>
+        <association property="person" columnPrefix="person_sector_person_">
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="phoneNumber" column="phone_number"/>
+            <result property="jobType" column="job_type"/>
+            <result property="inputStatus" column="input_status"/>
+            <result property="certificateStatus" column="certificate_status"/>
+            <result property="role" column="role"/>
+            <result property="career" column="career"/>
+            <result property="minPay" column="min_pay"/>
+            <result property="maxPay" column="max_pay"/>
+            <result property="workableDay" column="workable_day"/>
+            <result property="postcode" column="postcode"/>
+            <result property="address" column="address"/>
+            <result property="detailAddress" column="detail_address"/>
+            <result property="email" column="email"/>
+            <result property="website" column="website"/>
+            <result property="education" column="education"/>
+            <result property="birthDate" column="birth_date"/>
+            <result property="status" column="status"/>
+            <result property="memo" column="memo"/>
+            <result property="createdDate" column="created_date"/>
+            <result property="lastModifiedDate" column="last_modified_date"/>
+        </association>
+        <association property="code" columnPrefix="person_sector_sector_">
+            <result property="id" column="id"/>
+            <result property="parentId" column="parent_id"/>
+            <result property="name" column="name"/>
+            <result property="value" column="value"/>
+            <result property="ranking" column="ranking"/>
+            <result property="status" column="status"/>
+            <result property="createdDate" column="created_date"/>
+            <result property="lastModifiedDate" column="last_modified_date"/>
+        </association>
+    </resultMap>
+
+    <select
+        id="selectPersonSectorList"
+        parameterType="java.util.Map"
+        resultMap="personSectorResultMap"
+    >
+        <include refid="PageFragment.sortStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.sortEnd"/>
+        <include refid="PageFragment.limitOffset"/>
+    </select>
+
+    <select
+        id="selectPersonSectorListCount"
+        parameterType="java.util.Map"
+        resultType="java.lang.Integer"
+    >
+        <include refid="PageFragment.countStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.countEnd"/>
+    </select>
+
+    <select
+        id="selectPersonSector"
+        parameterType="java.util.Map"
+        resultMap="personSectorResultMap"
+    >
+        <include refid="selectFrom"/>
+        WHERE
+            `person_sector`.`person_id` = #{personId}
+            AND `person_sector`.`sector` = #{sector}
+    </select>
+
+</mapper>

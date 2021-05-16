@@ -60,9 +60,6 @@ import kr.co.metasoft.ito.api.app.dto.MailDto;
 @SpringBootTest
 class ITOApplicationTests {
 
-//    private static final String path = "\\\\192.168.0.200\\Share\\04_공통\\양식\\★휴가신청서.xlsx";
-//    private static final String path = "C:\\originExcel\\휴가신청서.xlsx";
-//    private static final String Workbook = "Workbook";
 
     @Test
     public void testMail() {
@@ -104,10 +101,10 @@ class ITOApplicationTests {
              */
 
             //발신자 셋팅,
-            mimeMessage.setFrom(new InternetAddress("smpark@meta-soft.co.kr"));
+            mimeMessage.setFrom(new InternetAddress(""));
 
             //수신자 셋팅
-            mimeMessage.addRecipients(RecipientType.TO, "kdk7121743@naver.com");
+            mimeMessage.addRecipients(RecipientType.TO, "");
 
 
 

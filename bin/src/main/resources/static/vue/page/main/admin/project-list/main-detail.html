@@ -1,0 +1,171 @@
+<v-container fluid>
+
+<div class="pa-3">
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="project.panels.list"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-header>프로젝트 현황</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-row>
+                            <table class="ma-auto">
+                                <tb>
+                                    <tr>
+                                        <td class="pr-15">프로젝트명</td>
+                                        <td>{{ project.items.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">필요기술</td>
+                                        <td>{{ project.items.skill }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">학위요건</td>
+                                        <td>{{ project.items.degree }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">경력요건</td>
+                                        <td>{{ project.items.career }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15" >기간</td>
+                                        <td>{{ project.items.sterm }} ~ {{ project.items.eterm }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">장소</td>
+                                        <td>{{ project.items.address }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">필요인원수</td>
+                                        <td>{{ project.items.prsnl }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">현황</td>
+                                        <td>{{ project.items.status }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-15">모집마감일</td>
+                                        <td>{{ project.items.limitDate }}</td>
+                                    </tr>
+                                    <br />
+                                    <br />
+                                    <br />
+                                 </tb>
+                            </table>
+                        </v-row>
+                        <v-row>
+                          <v-col>
+                            <div>
+                                 <br />
+                                  <data-table-custom-component
+                                    dense
+                                    :headers="person.dataTable.headers"
+                                    :items="person.dataTable.items"
+                                    :totalRows="person.dataTable.totalRows"
+                                    :loading="person.dataTable.loading"
+                                    :import-hide="true"
+                                    :add-hide="true"
+                                    :remove-hide="true"
+                                    :count-title="{'front': '지원자 수 :', 'end': '명'}"
+                                    @reload="setPersonInfo"
+                                    @click:button="clickInputStatus"
+                                    @input:textField="setActualPay"
+                                    :cell="person.dataTable.cell"
+                                    @click:row="editUserInfo"
+                                    @download="applyDownloadTable()"
+                                 >
+                             </div>
+                           </v-col>
+                        </v-row>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+</div>
+
+<div class="pa-3">
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="project.panels.list"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-content>
+                        <v-row>
+                         <v-col>
+                            <div>
+                                <data-table-custom-component
+                                   dense
+                                   :show-select="true"
+                                   item-key="id"
+                                   :headers="confirmPerson.dataTable.headers"
+                                   :items="confirmPerson.dataTable.items"
+                                   :totalRows="confirmPerson.dataTable.totalRows"
+                                   :loading="confirmPerson.dataTable.loading"
+                                   :import-hide="true"
+                                   :add-hide="true"
+                                   :count-title="{'front': '확정된 지원자 수 :', 'end': '명'}"
+                                   @reload="setConfirmPersonInfo"
+                                   @remove="deleteConfirmPersonInfoList"
+                                   @click:row="editUserInfo"
+                                   @download="confirmDownloadTable()"
+                                >
+                            </div>
+                         </v-col>
+                        </v-row>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+</div>
+
+<div class="pa-3">
+    <v-row>
+        <v-col cols="12">
+            <v-expansion-panels
+                multiple
+                v-model="project.panels.list"
+            >
+                <v-expansion-panel>
+                    <v-expansion-panel-content>
+                        <v-row>
+                         <v-col>
+                            <div>
+                               <data-table-custom-component
+                                   dense
+                                   item-key="id"
+                                   :headers="availablePerson.dataTable.headers"
+                                   :items="availablePerson.dataTable.items"
+                                   :totalRows="availablePerson.dataTable.totalRows"
+                                   :loading="availablePerson.dataTable.loading"
+                                   :import-hide="true"
+                                   :add-hide="true"
+                                   :remove-hide="true"
+                                   :count-title="{'front': '가용인력 수 :', 'end': '명'}"
+                                    @reload="setAvailablePersonInfo"
+                                    @click:button="clickInputStatus"
+                                    @input:textField="setActualPay"
+                                    :cell="availablePerson.dataTable.cell"
+                                    @click:row="editUserInfo"
+                                    @download="availableDownloadTable()"
+                                >
+                            </div>
+                         </v-col>
+                        </v-row>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+</div>
+
+
+
+
+
+</v-container>

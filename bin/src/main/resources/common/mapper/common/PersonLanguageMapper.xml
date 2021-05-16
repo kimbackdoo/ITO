@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.metasoft.ito.api.common.mapper.PersonLanguageMapper">
+
+    <sql id="selectFrom">
+        SELECT
+            `person_language`.`person_id`,
+            `person_language`.`language`,
+            `person_language_person`.`id` AS `person_language_person_id`,
+            `person_language_person`.`name` AS `person_language_person_name`,
+            `person_language_person`.`phone_number` AS `person_language_person_phone_number`,
+            `person_language_person`.`job_type` AS `person_language_person_job_type`,
+            `person_language_person`.`input_status` AS `person_language_person_input_status`,
+            `person_language_person`.`certificate_status` AS `person_language_person_certificate_status`,
+            `person_language_person`.`role` AS `person_language_person_role`,
+            `person_language_person`.`career` AS `person_language_person_career`,
+            `person_language_person`.`min_pay` AS `person_language_person_min_pay`,
+            `person_language_person`.`max_pay` AS `person_language_person_max_pay`,
+            `person_language_person`.`workable_day` AS `person_language_person_workable_day`,
+            `person_language_person`.`postcode` AS `person_language_person_postcode`,
+            `person_language_person`.`address` AS `person_language_person_address`,
+            `person_language_person`.`detail_address` AS `person_language_person_detail_address`,
+            `person_language_person`.`email` AS `person_language_person_email`,
+            `person_language_person`.`website` AS `person_language_person_website`,
+            `person_language_person`.`education` AS `person_language_person_education`,
+            `person_language_person`.`birth_date` AS `person_language_person_birth_date`,
+            `person_language_person`.`status` AS `person_language_person_status`,
+            `person_language_person`.`memo` AS `person_language_person_memo`,
+            `person_language_person`.`created_date` AS `person_language_person_created_date`,
+            `person_language_person`.`last_modified_date` AS `person_language_person_last_modified_date`,
+            `person_language_language`.`id` AS `person_language_language_id`,
+            `person_language_language`.`parent_id` AS `person_language_language_parent_id`,
+            `person_language_language`.`name` AS `person_language_language_name`,
+            `person_language_language`.`value` AS `person_language_language_value`,
+            `person_language_language`.`ranking` AS `person_language_language_ranking`,
+            `person_language_language`.`status` AS `person_language_language_status`,
+            `person_language_language`.`created_date` AS `person_language_language_created_date`,
+            `person_language_language`.`last_modified_date` AS `person_language_language_last_modified_date`
+        FROM
+            `tb_person_language` `person_language`
+        LEFT OUTER JOIN
+            `tb_person` `person_language_person`
+        ON
+            `person_language`.`person_id` = `person_language_person`.`id`
+        LEFT OUTER JOIN
+            `tb_code` `person_language_language`
+        ON
+            `person_language`.`language` = `person_language_language`.`id`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="personLanguageParamDto.personId != null">
+                AND `person_language`.`person_id` = #{personLanguageParamDto.personId}
+            </if>
+            <if test="personLanguageParamDto.language != null">
+                AND `person_language`.`language` = #{personLanguageParamDto.language}
+            </if>
+        </where>
+    </sql>
+
+    <resultMap id="personLanguageResultMap" type="kr.co.metasoft.ito.api.common.entity.PersonLanguageEntity">
+        <result property="personId" column="person_id"/>
+        <result property="language" column="language"/>
+        <association property="person" columnPrefix="person_language_person_">
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="phoneNumber" column="phone_number"/>
+            <result property="jobType" column="job_type"/>
+            <result property="inputStatus" column="input_status"/>
+            <result property="certificateStatus" column="certificate_status"/>
+            <result property="role" column="role"/>
+            <result property="career" column="career"/>
+            <result property="minPay" column="min_pay"/>
+            <result property="maxPay" column="max_pay"/>
+            <result property="workableDay" column="workable_day"/>
+            <result property="postcode" column="postcode"/>
+            <result property="address" column="address"/>
+            <result property="detailAddress" column="detail_address"/>
+            <result property="email" column="email"/>
+            <result property="website" column="website"/>
+            <result property="education" column="education"/>
+            <result property="birthDate" column="birth_date"/>
+            <result property="status" column="status"/>
+            <result property="memo" column="memo"/>
+            <result property="createdDate" column="created_date"/>
+            <result property="lastModifiedDate" column="last_modified_date"/>
+        </association>
+        <association property="code" columnPrefix="person_language_language_">
+            <result property="id" column="id"/>
+            <result property="parentId" column="parent_id"/>
+            <result property="name" column="name"/>
+            <result property="value" column="value"/>
+            <result property="ranking" column="ranking"/>
+            <result property="status" column="status"/>
+            <result property="createdDate" column="created_date"/>
+            <result property="lastModifiedDate" column="last_modified_date"/>
+        </association>
+    </resultMap>
+
+    <select
+        id="selectPersonLanguageList"
+        parameterType="java.util.Map"
+        resultMap="personLanguageResultMap"
+    >
+        <include refid="PageFragment.sortStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.sortEnd"/>
+        <include refid="PageFragment.limitOffset"/>
+    </select>
+
+    <select
+        id="selectPersonLanguageListCount"
+        parameterType="java.util.Map"
+        resultType="java.lang.Integer"
+    >
+        <include refid="PageFragment.countStart"/>
+        <include refid="selectFrom"/>
+        <include refid="where"/>
+        <include refid="PageFragment.countEnd"/>
+    </select>
+
+    <select
+        id="selectPersonLanguage"
+        parameterType="java.util.Map"
+        resultMap="personLanguageResultMap"
+    >
+        <include refid="selectFrom"/>
+        WHERE
+            `person_language`.`person_id` = #{personId}
+            AND `person_language`.`language` = #{language}
+    </select>
+
+</mapper>
