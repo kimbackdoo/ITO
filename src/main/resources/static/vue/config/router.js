@@ -158,15 +158,6 @@ router = new VueRouter({
                     "name": "GroupwareInfo",
                     "path": "/groupware/main",
                     "component": GroupwareMainPage
-                    // "beforeEach": async function (to, from, next) {
-                    //     // store.state.app.
-                    //     if() {
-                    //         next();
-                    //     }else {
-                    //         await ito.alert("권한이 없습니다.");
-                    //         next(to);
-                    //     }
-                    // }
                 },
                 {
                     "name": "GroupwareNotices",
