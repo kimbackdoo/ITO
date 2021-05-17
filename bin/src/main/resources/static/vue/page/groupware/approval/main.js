@@ -67,6 +67,7 @@ GroupwareApprovalPage = Vue.component('groupware-approval-page', async function(
                            });
                            break;
                    }
+
                    await ito.alert("승인되었습니다.");
                }
            },
