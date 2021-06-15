@@ -49,7 +49,7 @@ public class MailSendService {
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("smpark@meta-soft.co.kr", "metasoft1@");
+                return new PasswordAuthentication("이메일주소", "비밀번호");
             }
         });
 
@@ -60,7 +60,7 @@ public class MailSendService {
 
 
         //발신자 셋팅,
-        mimeMessage.setFrom(new InternetAddress("smpark@meta-soft.co.kr"));
+        mimeMessage.setFrom(new InternetAddress("발신자 이메일 주소"));
 
         //수신자 셋팅
         mimeMessage.addRecipients(RecipientType.TO, mailDto.getTo());
